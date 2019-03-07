@@ -59,15 +59,15 @@
 					</p>
 
 					<p>Robot:
-						<input id="robotId" type = "number" name = "robotId" min = "0" style="width: 154.5px;">
+						<input id="robotId" type = "number" name = "robot" min = "0" style="width: 154.5px;">
 					</p>					
 
 					<center><p><u>SANDSTORM</u></p></center>
 
 					<form name = "exitHab">
-						Did not leave HAB? <input type = "radio" value = "didNotLeave"><br>
-						Exit HAB Lvl 1? <input type = "radio" value = "leftFirstOne"><br>
-						Exit HAB Lvl 2? <input type = "radio" value = "leftSecondOne"><br>
+						Did not leave HAB? <input type = "radio" name="leave" value = "didNotLeave"><br>
+						Exit HAB Lvl 1? <input type = "radio" name="leave" value = "leftFirstOne"><br>
+						Exit HAB Lvl 2? <input type = "radio" name="leave" value = "leftSecondOne"><br>
 					</form>
 
 					<p>
@@ -95,98 +95,16 @@
 					<p><u>END GAME</u></p>
 
 					<form name= "returnToHab">
-						Did not return to HAB? <input type = "radio" value = "returnToHab"><br>
-						HAB Lvl 1? <input type = "radio"><br>
-						HAB Lvl 2? <input type = "radio"><br>
-						HAB Lvl 3? <input type = "radio">
+						Did not return to HAB? <input type = "radio" name="return" value = "returnToHab"><br>
+						HAB Lvl 1? <input type = "radio" name="return"><br>
+						HAB Lvl 2? <input type = "radio" name="return"><br>
+						HAB Lvl 3? <input type = "radio" name="return">
 					</form>
 
-					<input type="submit" name = "imsorry">
+					<input type="submit" value="Submit" name = "submitToDatabase">
 				</div>
             </center>
 <?php
-echo "Hello World";
-/*$webmaster_email = "19ka01@cf.k12.mn.us";
-$scout = $_REQUEST["scouters"];
-$whatCompetition = $_REQUEST["competition"];
-$whatMatch = $_REQUEST["match"];
-$whosBowlsAreThese = $_REQUEST["robotId"];
-$letsYeet = $_REQUEST["exitHab"];
-$hatch = $_REQUEST["ssHatchCnt"];
-$cargo = $_REQUEST["ssCargoCnt"];
-$psHatch = $_REQUEST["toHatchCnt"];
-$psCargo = $_REQUEST["toCargoCnt"];
-$defensiveStuff = $_REQUEST["defense"];
-$etComeHome = $_REQUEST["returnToHab"];
-$izzyImGonnaCry = $_REQUEST["imsorry"];
-
-if ($izzyImGonnaCry){
-$hereWeGo =
- $scout
-. $whatCompetition  
-. $whatMatch 
-. $whosBowlsAreThese 
-. $letsYeet 
-. $hatch 
-. $cargo 
-. $psHatch 
-. $psCargo 
-. $defensiveStuff 
-. $etComeHome  ;
-
-
-$database = 'BLUDB';
-$user = 'tdq92908';
-$password = 'pdm95s6scjkj@vxd';
-$options = array('autocommit' => DB2_AUTOCOMMIT_OFF);
-
-$conn = db2_connect($database, $user, $password, $options);
-
-if ($conn) {
-    echo "Connection succeeded.\n";
-    if (db2_autocommit($conn)) {
-         echo "Autocommit is on.\n";
-    }
-    else {
-         echo "Autocommit is off.\n";
-    }
-    db2_close($conn);
-}
-else {
-    echo "Connection failed.";
-}
-
-mail("webmaster_email", "Testing", $hereWeGo);
-}
-else {
-    header (failure);
-}*/
-
-/* DRE - this didn't work
-$database = "BLUDB";
-//$hostname = "dashdb-txn-sbox-yp-dal09-04.services.dal.bluemix.net";
-//$port = 50000;
-//$username = "tdq92908";
-//$password = "ibmdb2";
-
-$hostname = "dashdb-txn-sbox-yp-dal09-03.services.dal.bluemix.net";
-$port = 50000;
-$username = "rlc65450";
-$password = "v2g2pdkwdx81dz+2";
-
-$dsn = "DATABASE=$database;HOSTNAME=$hostname;PORT=$port; PROTOCOL=TCPIP;UID=$username;PWD=$password;";
-$options = array ("autocommit" => DB2_AUTOCOMMIT_OFF);
-//error below this point
-$tc_conn = db2_connect($dsn, "", "", $options);
-if($tc_conn) {
-    echo "Explicit trusted connection succeeded.\n";
-
-    db2_close($tc_conn);
-}
-else {
-    echo "Explicit trusted connection failed.\n";
-}
-*/
 
 echo "Hello World 2";
 if( getenv( "VCAP_SERVICES" ) )
@@ -207,27 +125,53 @@ echo "Hello World 3";
     $conn_string = $driver . $dsn;     # Non-SSL
     $conn_string = $driver . $ssl_dsn; # SSL
 
-echo "Hello World 3B";
-    $conn = db2_connect( $conn_string, "", "" );
-echo "Hello World 3C";
-    if( $conn )
-    {
-echo "Hello World 4";
+	echo "Hello World 3B";
+	
+	$conn = db2_connect( $conn_string, "", "" );
+	echo "Hello World 3C";
+    if( $conn ) {
+		echo "Hello World 4";
         echo "<p>Connection succeeded.</p>";
         db2_close( $conn );
     }
-    else
-    {
-echo "Hello World 5";
+    else {
+		echo "Hello World 5";
         echo "<p>Connection failed.</p>";
     }
 }
-else
-{
-echo "Hello World 6";
+else {
+	echo "Hello World 6";
     echo "<p>No credentials.</p>";
 }
 
+$submit = $POST['submitToDatabase'];
+$scouters = $_POST['scouters'];
+$competition = $_POST['competition'];
+$match = $_POST['match'];
+$robot = $_POST['robot'];
+$exitHab = $_POST['exitHab'];
+$ssHatchCnt = $_POST['ssHatchCnt'];
+$ssCargoCnt = $_POST['ssCargoCnt'];
+$toHatchCnt = $_POST['toHatchCnt'];
+$toCargoCnt = $_POST['toCargoCnt'];
+$defense = $_POST['defense'];
+$returnToHab = $_POST['returnToHab'];
+
+echo $_POST['competition'];
+echo $competition;
+
+//problem here
+$sending = db2_exec($conn, "INSERT INTO ScoutRecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) VALUES ('$match', '$robot', '$scouters', '$exitHab', '$ssHatchCnt', '$ssCargoCnt', '$toHatchCnt', '$toCargoCnt', '$defense', '$returnToHab')");
+//$testing = db2_exec($conn, "INSERT INTO ScoutRecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) values($_POST[match], $_POST[robot], $_POST[scouters], $_POST[exitHab], $_POST[ssHatchCnt], $_POST[ssCargoCnt], $_POST[toHatchCnt], $_POST[toCargoCnt], $_POST[defense], $_POST[returnToHab])");
+
+if($sending) {
+	echo "It is working";
+}
+else {
+	echo db2_stmt_error();
+	echo db2_stmt_errormsg();
+	echo "nope";
+}
 
 echo "Hello World 10";
 ?>
