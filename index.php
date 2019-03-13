@@ -124,16 +124,16 @@
 					<center><p><u>SANDSTORM</u></p></center>
 
 					<form name="exitHab">
-						Did not leave HAB? <input type="radio" name="leave" value="0"><br>
+						Did not leave HAB? <input type="radio" checked="checked" name="leave" value="0"><br>
 						Exit HAB Lvl 1? <input type="radio" name="leave" value="1"><br>
 						Exit HAB Lvl 2? <input type="radio" name="leave" value="2"><br>
 					</form>
 
 					<p>
 						<form id="hatchCargo">
-							Hatch: <input type="number" name ="ssHatchCnt" value="hatches" style="width: 40.5px;">
+							Hatch: <input type="number" name ="ssHatchCnt" value=0 style="width: 40.5px;">
 							<p></p>
-							Cargo: <input type="number" name="ssCargoCnt" value="cargo" style="width: 40px;">
+							Cargo: <input type="number" name="ssCargoCnt" value=0 style="width: 40px;">
 						</form>
 					</p>
 					<p></p>
@@ -141,11 +141,11 @@
 					<p><u>POST-SANDSTORM</u></p>
 
 					Hatch:
-					<input type="number" name="toHatchCnt" min="0" style="width: 40px;">
+					<input type="number" name="toHatchCnt" min="0" value=0 style="width: 40px;">
 					<p></p>
 
 					Cargo:
-					<input type="number" name="toCargoCnt" min="0" style="width: 40px;">
+					<input type="number" name="toCargoCnt" min="0" value=0 style="width: 40px;">
 					<p></p>
 
 					Defense:
@@ -154,7 +154,7 @@
 					<p><u>END GAME</u></p>
 
 					<form name= "returnToHab">
-						Did not return to HAB? <input type="radio" name="return" value="0"><br>
+						Did not return to HAB? <input type="radio" checked="checked" name="return" value="0"><br>
 						HAB Lvl 1? <input type="radio" name="return" value="1"><br>
 						HAB Lvl 2? <input type="radio" name="return" value="2"><br>
 						HAB Lvl 3? <input type="radio" name="return" value="3">
@@ -180,6 +180,8 @@
 
 			echo $_POST['competition'];
 			echo $competition;
+
+			db2_close($conn);
 
 			//problem here
 			//$sending = db2_exec($conn, "INSERT INTO ScoutRecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) VALUES ('$match', '$robot', '$scouters', '$exitHab', '$ssHatchCnt', '$ssCargoCnt', '$toHatchCnt', '$toCargoCnt', '$defense', '$returnToHab')");
