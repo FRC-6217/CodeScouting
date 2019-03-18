@@ -18,12 +18,10 @@ if( getenv( "VCAP_SERVICES" ) )
 				
 				$conn = db2_connect($conn_string, "", "" );
 
-				if($conn) {
-					echo "<p>Connection succeeded.</p>";
-					//db2_close( $conn );
-				}
-				else {
+				if(!$conn) {
 					echo "<p>Connection failed.</p>";
+					//echo "<p>Connection succeeded.</p>";
+					//db2_close( $conn );
 				}
 
 			}
@@ -36,34 +34,42 @@ if( getenv( "VCAP_SERVICES" ) )
 			$competition = $_POST[competition];
 			$match = $_POST[match];
 			$robot = $_POST[robot];
-			$exitHab = $_POST[exitHab];
+			$leaveHab = $_POST[leaveHab];
 			$ssHatchCnt = $_POST[ssHatchCnt];
 			$ssCargoCnt = $_POST[ssCargoCnt];
 			$toHatchCnt = $_POST[toHatchCnt];
 			$toCargoCnt = $_POST[toCargoCnt];
 			$defense = $_POST[defense];
-			$returnToHab = $_POST[returnToHab];
+			$returnHab = $_POST[returnHab];
 
-if(isset($defense)) {
-	$def = "Y";
-}
-else {
-	$def = "N";
-}
-$insertingData = "INSERT into scoutrecord (matchId, robotId, scoutId, leavehab, sshatchcnt, sscargocnt, tohatchcnt, tocargocnt, playedDefense, returnToHab) values ($match, $robot, $scouters, '$exitHab', $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, '$def', '$returnToHab');";
+			if(isset($leaveHab)) {
+				$lev = $leaveHab;
+			}
+			else {
+				$lev = "N";
+			}
 
-//$insertingData = "INSERT into scoutrecord (matchId, robotId, scoutId, leavehab, sshatchcnt, sscargocnt, tohatchcnt, tocargocnt, playedDefense, returnToHab) values (8, 4, 1, 'Y', 5, 2, 10, 0, 'Y', '0');";
+			if(isset($defense)) {
+				$def = $defense;
+			}
+			else {
+				$def = "N";
+			}
+
+			if(isset($returnHab)) {
+				$ret = $returnHab;
+			}
+			else {
+				$ret = "N";
+			}
+
+$insertingData = "INSERT into scoutrecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) values ($match, $robot, $scouters, '$lev', $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, '$def', '$ret');";
+
 $executing = db2_exec($conn, $insertingData);
 
-if($executing) {
-    echo "It is working!";
+if(!$executing) {
+	echo "It is not working!";
 }
 
-else {
-    $errormsg = db2_conn_errormsg($conn);
-    echo $errormsg;
-    echo "It is not working \n";
-    echo $insertingData;
-}
 db2_close( $conn );
 ?>
