@@ -193,14 +193,11 @@
 			$defense = $_POST[defense];
 			$returnHab = $_POST[returnHab];
 
+			//I have no idea what does this do;
 			echo $_POST['competition'];
 			echo $competition;
 
 			db2_close($conn);
-
-			//problem here
-			//$sending = db2_exec($conn, "INSERT INTO ScoutRecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) VALUES ('$match', '$robot', '$scouters', '$exitHab', '$ssHatchCnt', '$ssCargoCnt', '$toHatchCnt', '$toCargoCnt', '$defense', '$returnToHab')");
-			//$testing = db2_exec($conn, "INSERT INTO ScoutRecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) values($_POST[match], $_POST[robot], $_POST[scouters], $_POST[exitHab], $_POST[ssHatchCnt], $_POST[ssCargoCnt], $_POST[toHatchCnt], $_POST[toCargoCnt], $_POST[defense], $_POST[returnToHab])");
 			?>
         </form>
 	</head>
