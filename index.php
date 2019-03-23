@@ -1,37 +1,37 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Scouting App</title>
-<link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-<?php
-			if( getenv( "VCAP_SERVICES" ) )
-			{
-				# Get database details from the VCAP_SERVICES environment variable
-				#
-				# *This can only work if you have used the Bluemix dashboard to 
-				# create a connection from your dashDB service to your PHP App.
-				#
-				$details  = json_decode( getenv( "VCAP_SERVICES" ), true );
-				$dsn      = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "dsn" ];
-				$ssl_dsn  = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "ssldsn" ];
-
-				# Build the connection string
-				#
-				$driver = "DRIVER={IBM DB2 ODBC DRIVER};";
-				$conn_string = $driver . $dsn;     # Non-SSL
-				$conn_string = $driver . $ssl_dsn; # SSL
-				
-				$conn = db2_connect($conn_string, "", "" );
-
-				if(!$conn) {
-					echo "<p>Connection failed.</p>";
-					//db2_close( $conn );
-				}
-
-			}
-			else {
-				echo "<p>No credentials.</p>";
-			}
-?>
 <html>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
+     <?php
+                    if( getenv( "VCAP_SERVICES" ) )
+                    {
+                         # Get database details from the VCAP_SERVICES environment variable
+                         #
+                         # *This can only work if you have used the Bluemix dashboard to 
+                         # create a connection from your dashDB service to your PHP App.
+                         #
+                         $details  = json_decode( getenv( "VCAP_SERVICES" ), true );
+                         $dsn      = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "dsn" ];
+                         $ssl_dsn  = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "ssldsn" ];
+
+                         # Build the connection string
+                         #
+                         $driver = "DRIVER={IBM DB2 ODBC DRIVER};";
+                         $conn_string = $driver . $dsn;     # Non-SSL
+                         $conn_string = $driver . $ssl_dsn; # SSL
+                         
+                         $conn = db2_connect($conn_string, "", "" );
+
+                         if(!$conn) {
+                              echo "<p>Connection failed.</p>";
+                              //db2_close( $conn );
+                         }
+
+                    }
+                    else {
+                         echo "<p>No credentials.</p>";
+                    }
+     ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
@@ -53,8 +53,8 @@
     </head>
 
     <center><h1>BOMB BOTZ SCOUTING APP</h1></center>
-    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left;">
-    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right;">
+    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
+    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>

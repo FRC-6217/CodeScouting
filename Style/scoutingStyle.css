@@ -4,23 +4,6 @@ h1 {
     text-align: center;
 }
 
-/*
-img {
-    max-width: 10%;
-    float: center;
-}
-
-.image1 {
-    max-width: 10%;
-    float: left;
-}
-
-.image2 {
-    max-width: 10%;
-    float: right;
-}
-*/
-
 .clickme {
     background-color: #EEEEEE;
     padding: 5px 5px;
@@ -71,6 +54,7 @@ tr:nth-child(even) {background-color: #b9c0ff;}
 th{
     background-color: rgb(255, 0, 64);
     color: white;
+    text-align: center;
 }
 
 #hatchCargo {
