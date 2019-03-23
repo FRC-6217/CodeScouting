@@ -53,6 +53,7 @@
 			//There is nothing wrong with this chunk of code.
 			$match = "$_GET[match]";
 			echo "<a href=\"matchReport.php?matchId=".$match."\"> Run Match Report </a>";
+			db2_close();
 			?>
 		</p>
 	</center>      

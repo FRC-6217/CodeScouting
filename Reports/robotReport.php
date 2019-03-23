@@ -121,6 +121,7 @@ order by matchTime, matchNumber;";
 </tr>
 <?php
     }
+    db2_close();
 ?>
 </table><center>
 </html>

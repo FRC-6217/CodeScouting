@@ -103,6 +103,7 @@ group by m.type || ' ' || m.number
         </tr>
     <?php
     }
+    db2_close();
     ?>
     </center></table>
 </html>

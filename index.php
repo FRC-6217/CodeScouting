@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scouting App</title>
 <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
@@ -51,13 +52,14 @@
         <meta name="theme-color" content="#ffffff">
     </head>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1>BOMB BOTZ SCOUTING APP</h1>
+    <center><h1>BOMB BOTZ SCOUTING APP</h1></center>
+    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left;">
+    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right;">
     <p></p>
     <h2>
-          <center><a class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
+          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
           <p></p>
-          <center><a class="clickme danger" href="reportMenu.php">Reports</a></center>
+          <center><a id="mainpage" class="clickme danger" href="reportMenu.php">Reports</a></center>
           <p></p>
      </h2>
     <center><h3>
@@ -241,6 +243,7 @@ select case when timestampdiff(4, m.datetime - current timestamp) + 330 < 0 then
         </tr>
     <?php
     }
+    db2_close();
     ?>
     </table></center>
 </html>

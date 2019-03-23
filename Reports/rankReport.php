@@ -147,6 +147,7 @@ order by " . "$_GET[sortorder]" . ";";
         </tr>
         <?php
         }
+        db2_close();
         ?>
     </table>
 </center>

@@ -4,6 +4,23 @@ h1 {
     text-align: center;
 }
 
+/*
+img {
+    max-width: 10%;
+    float: center;
+}
+
+.image1 {
+    max-width: 10%;
+    float: left;
+}
+
+.image2 {
+    max-width: 10%;
+    float: right;
+}
+*/
+
 .clickme {
     background-color: #EEEEEE;
     padding: 5px 5px;
