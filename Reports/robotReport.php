@@ -1,4 +1,5 @@
 <html>
+<link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 <?php
     if( getenv( "VCAP_SERVICES" ) )
 			{
@@ -30,15 +31,23 @@
 			}
 ?>
 <center><h1>Robot Report</h1></center>
-<table>
+<center><table cellspacing="0" cellpadding="5">
     <tr>
-            <th></th>
+            <th>Team</th>
+            <th>Match</th>
+            <th>Time</th>
+            <th>Scout</th>
+            <th>Exit</th>
+            <th>SSHatch</th>
+            <th>SSCargo</th>
+            <th>TotHatch</th>
+            <th>TotCargo</th>
+            <th>Defense</th>
+            <th>Return</th>       
     </tr>
-</table>
-
 
 <?php
-$robot = "$GET_[robotId]";
+$robot = "$_GET[robotId]";
 $sql = "select r.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 1) matchTime
@@ -59,6 +68,7 @@ from Robot r
       inner join Match m
       on m.id = sr.matchId
 where r.id = $robot
+and m.isactive = 'Y'
 group by r.TeamNumber
        , r.id
 union
@@ -84,7 +94,15 @@ from Robot r
       inner join scout s
       on s.id = sr.scoutId
 where r.id = $robot
+and m.isactive = 'Y'
 order by matchTime, matchNumber;";
+
+    $stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
+
+    if(!$stmt) {
+        $error = db2_stmt_error();
+        echo $error;
+    }
 
     while($row = db2_fetch_array($stmt)) {
 ?>
@@ -104,4 +122,5 @@ order by matchTime, matchNumber;";
 <?php
     }
 ?>
+</table><center>
 </html>

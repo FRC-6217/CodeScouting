@@ -1,13 +1,59 @@
 h1 {
     font: 2em arial black;
+    font-weight: bold;
+    text-align: center;
 }
 
-div {
+.clickme {
+    background-color: #EEEEEE;
+    padding: 5px 5px;
+    text-decoration:none;
+    font-weight:bold;
+    border-radius: 5px;
+    color: #10a2ff;
+    cursor:pointer;
+}
+
+.danger {
+    background-color:rgb(255, 0, 64);
+    color: #FFFFFF;
+}
+
+.danger:hover {
+    background-color:#EB003B;
+    color: #FFFFFF;
+}
+
+#mainpage {
+    text-align: center;
+}
+
+#scout {
     text-align: justify;
     width: 300px;
     border: 10px solid black;
     padding: 25px;
     margin: 25px;
+}
+
+#reportsby {
+    display: inline-block;
+    margin: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+table, td, th {
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+tr:nth-child(even) {background-color: #b9c0ff;}
+
+th{
+    background-color: rgb(255, 0, 64);
+    color: white;
 }
 
 #hatchCargo {

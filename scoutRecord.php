@@ -61,7 +61,7 @@
 			}
 			?>
 			<center>				
-				<div class="container">
+				<div class="container" id="scout">
 					<p><u>MATCH SELECTION</u></p>
 
 					<p>Scout:
@@ -104,7 +104,7 @@
 
 					<p>Match:
 						<select style="width: 157px" name="match">
-							<option value=""></option>
+							<option value="<?php echo "$_GET[matchId]"?>"><?php echo "$_GET[matchNumber]"?></option>
 							<?php
 							$sql = "SELECT id, type || ' ' || number FROM match order by case when timestampdiff(4, datetime - current timestamp) + 330 < 0 then 1 else 0 end,  type, number;";
 							$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));

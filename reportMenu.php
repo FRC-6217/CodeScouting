@@ -1,4 +1,5 @@
 <title>Report Menu</title>
+<link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
 			if( getenv( "VCAP_SERVICES" ) )
 			{
@@ -30,26 +31,29 @@
 			}
 ?>
 <html>
-    <p>Match:
-        <select style="width: 157px" name="match">
-            <option value=""></option>
-            <?php
-            $sql = "SELECT id, type || ' ' || number FROM match order by case when timestampdiff(4, datetime - current timestamp) + 330 < 0 then 1 else 0 end,  type, number;";
-            $stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
-            while ($row = db2_fetch_array($stmt)) {	
-            ?>
-            <option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
+	<center>
+		<h5>RUN MATCH REPORTS</h5>
+		<p>Match:
+			<select style="width: 157px" name="match">
+				<option value=""></option>
+				<?php
+				$sql = "SELECT id, type || ' ' || number FROM match order by case when timestampdiff(4, datetime - current timestamp) + 330 < 0 then 1 else 0 end,  type, number;";
+				$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
+				while ($row = db2_fetch_array($stmt)) {	
+				?>
+				<option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
 
-            <?php		
-            }
-            ?>
-		</select>
-		<?php
-		$gettingValue = $_POST[match];
-		
-		//There is nothing wrong with this chunk of code.
-		$match = "$_GET[match]";
-		echo "<a href=\"matchReport.php?matchId=".$match."\"> Run Match Report </a>";
-		?>
-    </p>      
+				<?php		
+				}
+				?>
+			</select>
+			<?php
+			$gettingValue = $_POST[match];
+			
+			//There is nothing wrong with this chunk of code.
+			$match = "$_GET[match]";
+			echo "<a href=\"matchReport.php?matchId=".$match."\"> Run Match Report </a>";
+			?>
+		</p>
+	</center>      
 </html>

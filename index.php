@@ -1,4 +1,5 @@
 <title>Scouting App</title>
+<link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
 			if( getenv( "VCAP_SERVICES" ) )
 			{
@@ -51,13 +52,24 @@
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>BOMB BOTZ SCOUTING APP</center></h1>
+    <h1>BOMB BOTZ SCOUTING APP</h1>
     <p></p>
-    <center><a href="scoutRecord.php">Scout Record</a></center>
-    <p></p>
-    <center><a href="reportMenu.php">Reports</a></center>
+    <h2>
+          <center><a class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
+          <p></p>
+          <center><a class="clickme danger" href="reportMenu.php">Reports</a></center>
+          <p></p>
+     </h2>
+    <center><h3>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankLeaveHab">Rank by Exit </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotHatch">Rank by Hatches </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotCargo">Rank by Cargo </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankPlayedDefense">Rank by Defense </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankReturnToHab">Rank by Return </a></div>
+     </center> </h3>
+    <br>
 
-    <table style="width:100%">
+    <center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
         <th>Red1</th>
@@ -78,7 +90,7 @@
         <th>Blue3</th>
         <th>R</th>
         <th>S</th>
-    </tr>
+     </tr>
     
     <?php
 
@@ -230,5 +242,5 @@ select case when timestampdiff(4, m.datetime - current timestamp) + 330 < 0 then
     <?php
     }
     ?>
-    </table>
+    </table></center>
 </html>

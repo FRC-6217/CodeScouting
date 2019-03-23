@@ -67,9 +67,16 @@ $insertingData = "INSERT into scoutrecord (matchId, robotId, scoutId, leaveHAB, 
 
 $executing = db2_exec($conn, $insertingData);
 
+if($executing) {
+	echo "Submittion Succeeded!";
+}
+
 if(!$executing) {
 	echo "It is not working!";
 }
 
 db2_close( $conn );
 ?>
+<html>
+	<center><a href="scoutRecord.php">Click here to go back to the Scout Record page! </a></center>
+</html>

@@ -30,8 +30,9 @@
 ?>
 
 <html>
+    <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 	<center><h1>Match Report</h1></center>
-	<table>
+	<center><table cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Alliance</th>
 			<th>Robot</th>
@@ -103,5 +104,5 @@ group by m.type || ' ' || m.number
     <?php
     }
     ?>
-    </table>
+    </center></table>
 </html>
