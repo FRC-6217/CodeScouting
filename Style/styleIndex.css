@@ -1,0 +1,91 @@
+h1 {
+    text-align: center;
+    font-family: 'Passion One';
+    font-style: bold;
+    font-size: 36px;
+}
+
+h6 {
+    text-align: auto;
+    font-family: 'Open Sans';
+    font-style: bold;
+    width: 100%;
+    margin: auto;
+    bottom: 0px;
+    position: fixed;
+}
+
+#logo {
+    max-width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#buttons {
+    text-align: center;
+}
+
+#recordbt {
+    background-color: white;
+    width: 270px;
+    height: 50px;
+    border-radius: 100px;
+    text-align: center;
+    font-family: 'Paytone One';
+    font-style: bold;
+    font-size: 24px;
+}
+#reports {
+    background-color: white;
+    width: 270px;
+    height: 50px;
+    border-radius: 100px;
+    text-align: center;
+    font-family: 'Paytone One';
+    font-style: bold;
+    font-size: 24px;
+    margin: 18px;
+}
+
+#rankby {
+    background-color: white;
+    width: 270px;
+    height: 50px;
+    border-radius: 100px;
+    text-align: center;
+    font-family: 'Paytone One';
+    font-style: bold;
+    font-size: 24px;
+}
+
+#matchselection {
+    font-family: 'Paytone One';
+    font-size: 20px;
+    text-align: center;
+    text-decoration: underline;
+}
+
+#scoutName {
+    font-family: 'Paytone One';
+    font-size: 20px;
+    margin-left: 20%;
+}
+
+#scoutInput {
+    font-family: 'Paytone One';
+    border-radius: 50px;
+    box-sizing: border-box;
+}
+
+#competitionName {
+    font-family: 'Paytone One';
+    font-size: 20px;
+    margin-left: 10.3%;
+}
+
+#competition {
+    font-family: 'Paytone One';
+    border-radius: 50px;
+    box-sizing: border-box;
+}

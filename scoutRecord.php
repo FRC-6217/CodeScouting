@@ -29,7 +29,6 @@
 		<link rel="stylesheet" type="text/css" href="scoutingCSS.css">
 		
 		<form action='confirmation.php' method='post'>
-		<!--<form action='confirmform.php' method='post' onsubmit='return checkform(this);'> -->
 		<?php
 			if( getenv( "VCAP_SERVICES" ) )
 			{
@@ -139,11 +138,9 @@
 
 					<center><p><u>SANDSTORM</u></p></center>
 
-					<!--<form name="exitHab"> -->
 						Did not leave HAB? <input type="radio" checked="checked" name="leaveHab" value="0"><br>
 						Exit HAB Lvl 1? <input type="radio" name="leaveHab" value="1"><br>
 						Exit HAB Lvl 2? <input type="radio" name="leaveHab" value="2"><br>
-					<!--</form> -->
 
 					<p>
 						Hatch: <input type="number" name ="ssHatchCnt" value=0 style="width: 40.5px;">
