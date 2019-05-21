@@ -1,0 +1,111 @@
+ID,TEAMNUMBER,TEAMNAME,LOCATION,ISACTIVE
+1,171,Cheese Curd Herd,Platteville, WI,Y
+2,469,Las Guerrillas,Bloomfield Hills, MI,Y
+3,525,Swartdogs,Cedar Falls, IA,Y
+4,648,QC ELITE - Flaming Squirrels,Quad Cities, IA,Y
+5,904,D Cubed,Grand Rapids, MI,Y
+6,930,Mukwonago BEARs,Mukwonago, WI,Y
+7,967,Iron Lions,Marion, IA,Y
+8,1622,Team Spyder,Poway, CA,Y
+9,1625,Winnovation,Winnebago, IL,Y
+10,1732,Hilltoppers,Milwaukee, WI,Y
+11,1985,Robohawks,Florissant, MO,Y
+12,2526,Crimson Robotics,Osseo, MN,Y
+13,2530,Inconceivable,Rochester, MN,Y
+14,2538,The Plaid Pillagers,Morris, MN,Y
+15,2957,Knights,Alden, MN,Y
+16,3206,Royal T-Wrecks,Woodbury , MN,Y
+17,3352,Flaming Monkeys 4-H Robotics Club,Belvidere, IL,Y
+18,3633,Catalyst 3633,Albert Lea, MN,Y
+19,3928,Team Neutrino,Ames, IA,Y
+20,4021,igKnightion,Onalaska, WI,Y
+21,4260,BEAR Bucs,Blue Earth Area, MN,Y
+22,4536,MinuteBots,Saint Paul, MN,Y
+23,5013,Trobots,Kansas City, MO,Y
+24,5041,CyBears,West Branch, IA,Y
+25,5576,Team Terminator,Spirit Lake, IA,Y
+26,5837,Unity4Tech,Waterloo, IA,Y
+27,5906,Titanium Badgers,Bennington, NE,Y
+28,5914,Robotic Warriors,Caledonia, MN,Y
+29,5935,Tech Tigers,Grinnell, IA,Y
+30,6164,Moonshot Slaybots,Dike, IA,Y
+31,6166,Thorobotics,Holmen, WI,Y
+32,6217,Bomb-Botz,Cannon Falls, MN,Y
+33,6317,Disruptive Innovation,Davenport, IA,Y
+34,6379,Terabyte of Ram,Pleasant Hill, IA,Y
+35,6391,Ursuline Bearbotics,Saint Louis, MO,Y
+36,6420,Fire Island Robotics,Muscatine, IA,Y
+37,6424,Stealth Panther Robotics,Knob Noster, MO,Y
+38,6455,The Coded Collective,Waterloo, IA,Y
+39,6630,F.U.N. (Fiercely Uknighted Nation),La Porte City, IA,Y
+40,6732,BHS RoboRaiders,Bruce, WI,Y
+41,6889,DC Current,Bloomfield, IA,Y
+42,7021,TC Robotics,Arcadia, WI,Y
+43,7142,Vulcan Eagles,Des Moines, IA,Y
+44,7309,Green Lightning,Storm Lake, IA,Y
+45,7411,CrossThreaded,Cedar Falls, IA,Y
+46,7531,Servos Strike Back,Dubuque, IA,Y
+47,7541,Maple River Robotics,Mapleton, MN,Y
+48,7646,Cadets,Cresco, IA,Y
+49,93,NEW Apple Corps,Appleton, WI,N
+50,167,Children of the Corn,Iowa City, IA,N
+51,1816,The Green Machine,Edina, MN,N
+52,2264,Wayzata Robotics,Plymouth, MN,N
+53,2503,Warrior Robotics,Brainerd, MN,N
+54,2506,Saber Robotics,Franklin, WI,N
+55,2531,RoboHawks,Chaska, MN,N
+56,2574,RoboHuskie,St. Anthony, MN,N
+57,2977,Sir Lancer Bots,La Crescent, MN,N
+58,3008,Team Magma,Honolulu, HI,N
+59,3102,Tech-No-Tigers,Nevis, MN,N
+60,3134,The Accelerators,Cass Lake, MN,N
+61,3275,The Regulators,Cass Lake, MN,N
+62,3276,TOOLCATS,New London, MN,N
+63,3277,ProDigi,Thief River Falls, MN,N
+64,3291,Au Pirates (AKA Golden Pirates),Brooklyn Park, MN,N
+65,3294,Backwoods Engineers,Pine River, MN,N
+66,3381,Droid Rage,Valders, WI,N
+67,3740,Storm Robotics,Sauk Rapids, MN,N
+68,3750,Gator Robotics,Badger, MN,N
+69,3755,Dragon Robotics,Litchfield, MN,N
+70,4009,Denfeld DNA Robotics,Duluth, MN,N
+71,4166,Robostang,Mora, MN,N
+72,4207,PyroBotics,Victoria, MN,N
+73,4217,Scitobors,Nashwauk, MN,N
+74,4230,TopperBots,Duluth, MN,N
+75,4238,BBE Resistance Robotics,Belgrade, MN,N
+76,4480,UC-Botics,Upsala, MN,N
+77,4511,Power Amplified,Plymouth, MN,N
+78,4539,KAOTIC Robotics,Frazee, MN,N
+79,4674,Robojacks,Bemidji, MN,N
+80,4728,Rocori Rench Reckers,Cold Spring, MN,N
+81,4741,WingNuts,Redwood Falls, MN,N
+82,4845,Lions Pride,Duluth, MN,N
+83,5253,Bigfork Backwoods Bots,Bigfork, MN,N
+84,5290,Mechanical Howl,Forest Lake, MN,N
+85,5299,Winger Tech,Red Wing, MN,N
+86,5348,Charger Robotics,Cokato, MN,N
+87,5464,Bluejacket Robotics,Cambridge, MN,N
+88,5542,RoboHerd,Buffalo, MN,N
+89,5586,Bond Brigade,Kiel, WI,N
+90,5638,LQPV Robotics,Madison, MN,N
+91,5653,Iron Mosquitos,Babbitt, MN,N
+92,5690,SubZero Robotics,Esko, MN,N
+93,5913,Patriotics,Pequot Lakes, MN,N
+94,5991,Chargers,Westbrook, MN,N
+95,5999,Byte Force,Milaca, MN,N
+96,6022,Wrench Warmers,Blooming Prairie, MN,N
+97,6045,Sabre Robotics,Sartell, MN,N
+98,6047,Proctor Frostbyte,Proctor, MN,N
+99,6146,Blackjacks,Dawson, MN,N
+100,6160,Bombatrons,Barnum, MN,N
+101,6318,FE Freedom Engineers,Freedom, WI,N
+102,6453,Bog Bots!,Kelliher, MN,N
+103,6628,KMS BOTKICKERS,Kerkhoven, MN,N
+104,7041,Doomsday Dogs,Carlton, MN,N
+105,7068,Mechanical Masterminds,Saint Francis, MN,N
+106,7235,Red Lake Ogichidaag,Redlake, MN,N
+107,7797,Cloquets RipSaw Robotics,Cloquet, MN,N
+108,7864,North Woods Robotics,Cook, MN,N
+109,7893,Maple Lake High School,Maple Lake, MN,N
+121,4957,Lynx,Montreal, ON,Y
