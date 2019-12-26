@@ -59,14 +59,7 @@
 		<tr>
            <td><?php echo ($row['alliance']);?></td>
            <td><?php echo ($row['alliancePosition']);?></td>
-           <td><?php echo ($row['matchCnt']);?></td>
-           <td><?php echo ($row['leaveHabAvg']);?></td>
-           <td><?php echo ($row['ssHatchCnt']);?></td>
-           <td><?php echo ($row['ssCargoCnt']);?></td>
-           <td><?php echo ($row['totHatchCnt']);?></td>
-           <td><?php echo ($row['totCargoCnt']);?></td>
-           <td><?php echo ($row['playedDefense']);?></td>
-           <td><?php echo )$row['returnToHab']);?></td>
+           <td><?php echo ($row['teamReportUrl']);?></td>
         </tr>
     <?php
     }
