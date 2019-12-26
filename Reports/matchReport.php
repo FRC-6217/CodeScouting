@@ -58,17 +58,17 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         ?>
 		<tr>
-           <td><?php echo "$row['alliance']";?></td>
-           <td><?php echo "$row['alliancePosition']";?></td>
-           <td><?php echo "$row['teamReportUrl']";?></td>
-           <td><?php echo "$row['matchCnt']";?></td>
-           <td><?php echo "$row['leaveHabAvg']";?></td>
-           <td><?php echo "$row['ssHatchCnt']";?></td>
-           <td><?php echo "$row['ssCargoCnt']";?></td>
-           <td><?php echo "$row['totHatchCnt']";?></td>
-           <td><?php echo "$row['totCargoCnt']";?></td>
-           <td><?php echo "$row['playedDefense']";?></td>
-           <td><?php echo "$row['returnToHab']";?></td>
+           <td><?php echo ($row['alliance']);?></td>
+           <td><?php echo ($row['alliancePosition']);?></td>
+           <td><?php echo ($row['teamReportUrl']);?></td>
+           <td><?php echo ($row['matchCnt']);?></td>
+           <td><?php echo ($row['leaveHabAvg']);?></td>
+           <td><?php echo ($row['ssHatchCnt']);?></td>
+           <td><?php echo ($row['ssCargoCnt']);?></td>
+           <td><?php echo ($row['totHatchCnt']);?></td>
+           <td><?php echo ($row['totCargoCnt']);?></td>
+           <td><?php echo ($row['playedDefense']);?></td>
+           <td><?php echo )$row['returnToHab']);?></td>
         </tr>
     <?php
     }
