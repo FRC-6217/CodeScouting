@@ -33,7 +33,6 @@
 
 		<?php
 		$match = "$_GET[matchId]";
-		echo $match;
 		$tsql = "select matchNumber
                       , matchId
 				 	  , teamId
@@ -60,7 +59,6 @@
 		<tr>
            <td><?php echo ($row['alliance']);?></td>
            <td><?php echo ($row['alliancePosition']);?></td>
-           <td><?php echo ($row['teamReportUrl']);?></td>
            <td><?php echo ($row['matchCnt']);?></td>
            <td><?php echo ($row['leaveHabAvg']);?></td>
            <td><?php echo ($row['ssHatchCnt']);?></td>
