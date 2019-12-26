@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<title>Scouting App</title>
-
-<link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <html>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 	<head>
 		<link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
@@ -26,109 +25,71 @@
 		<body>
 			<h1><center>BOMB BOTZ SCOUTING APP</center></h1>
 		</body>
-		<link rel="stylesheet" type="text/css" href="scoutingCSS.css">
 		
 		<form action='confirmation.php' method='post'>
-		<?php
-			if( getenv( "VCAP_SERVICES" ) )
-			{
-				# Get database details from the VCAP_SERVICES environment variable
-				#
-				# *This can only work if you have used the Bluemix dashboard to 
-				# create a connection from your dashDB service to your PHP App.
-				#
-				$details  = json_decode( getenv( "VCAP_SERVICES" ), true );
-				$dsn      = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "dsn" ];
-				$ssl_dsn  = $details [ "dashDB For Transactions" ][0][ "credentials" ][ "ssldsn" ];
-
-				# Build the connection string
-				#
-				$driver = "DRIVER={IBM DB2 ODBC DRIVER};";
-				$conn_string = $driver . $dsn;     # Non-SSL
-				$conn_string = $driver . $ssl_dsn; # SSL
-				
-				$conn = db2_connect($conn_string, "", "" );
-
-				if(!$conn) {
-					echo "<p>Connection failed.</p>";
-					//db2_close( $conn );
-				}
-
-			}
-			else {
-				echo "<p>No credentials.</p>";
-			}
-			?>
+<?php
+    $serverName = "team6217.database.windows.net";
+	$database = "ScoutApp";
+	$userName = "frc6217";
+	$password = "Cfbombers6217";
+    $connectionOptions = array(
+        "Database" => "$database",
+        "Uid" => "$userName",
+        "PWD" => "$password"
+    );
+    //Establishes the connection
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+?>
 			<center>				
 				<div class="container" id="scout">
 					<p><u>MATCH SELECTION</u></p>
-
 					<p>Scout:
-						
-						<select style="width: 161px;" name="scouters">
+						<select style="width: 161px;" name="scouts">
 							<option value=""></option>
 							<?php
-							$sql = "SELECT id, lastname || ', ' || firstname FROM scout order by lastname, firstname;";
-							$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
-							while ($row = db2_fetch_array($stmt)) {	
+							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								echo (sqlsrv_errors());
+							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
-
+							<option value="<?php echo ($row['id']) ;?>"><?php echo ($row['fullName']) ; ?></option>
 							<?php		
 							}
 							?>
-							
 						</select>
 						</p>
-
 					<p></p>
 					
-					<p> Competition:
-						<select style="width: 117.5px" name="competition">
-							<?php
-							$sql = "SELECT id, name from competition order by case when competitiondate - current date + 3 < 0 then 1 else 0 end, competitiondate;";
-							$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
-							while ($row = db2_fetch_array($stmt)) {	
-							?>
-							<option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
-
-							<?php		
-							}
-							?>
-
-						</select>
-					</p>
-
-					<p></p>
-
 					<p>Match:
 						<select style="width: 157px" name="match">
 							<option value="<?php echo "$_GET[matchId]"?>"><?php echo "$_GET[matchNumber]"?></option>
 							<?php
-							$sql = "SELECT id, type || ' ' || number FROM match order by case when timestampdiff(4, datetime - current timestamp) + 330 < 0 then 1 else 0 end,  type, number;";
-							$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
-							while ($row = db2_fetch_array($stmt)) {	
+							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchNumber";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								echo (sqlsrv_errors());
+							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
-
+							<option value="<?php echo ($row['matchId']) ;?>"><?php echo ($row['matchNumber']) ; ?></option>
 							<?php		
 							}
 							?>
 						</select>
 					</p>
-
 					<p></p>
 
 					<p>Robot:
 						<select name="robot" style="width: 154.5px;">
-						<option value = ""></option>
+						<option value="<?php echo "$_GET[TeamId]"?>"><?php echo "$_GET[TeamId]"?></option>
 						<?php
-							$sql = "SELECT id, teamnumber FROM robot order by teamnumber;";
-							$stmt = db2_exec($conn, $sql, array('cursor' => DB2_SCROLLABLE));
-							while ($row = db2_fetch_array($stmt)) {	
+							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								echo (sqlsrv_errors());
+							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo "$row[0]" ;?>"><?php echo "$row[1]" ; ?></option>
-
+							<option value="<?php echo ($row['id']) ;?>"><?php echo ($row['teamNumber']) ; ?></option>
 							<?php		
 							}
 							?>
@@ -178,8 +139,7 @@
 
 			<?php
 			$submit = $POST[submitToDatabase];
-			$scouters = $_POST[scouters];
-			$competition = $_POST[competition];
+			$scouts = $_POST[scouts];
 			$match = $_POST[match];
 			$robot = $_POST[robot];
 			$leaveHab = $_POST[leaveHab];
@@ -190,11 +150,7 @@
 			$defense = $_POST[defense];
 			$returnHab = $_POST[returnHab];
 
-			//I have no idea what does this do;
-			echo $_POST['competition'];
-			echo $competition;
-
-			db2_close($conn);
+			sqlsrv_free_stmt($getResults);
 			?>
         </form>
 	</head>
