@@ -34,25 +34,7 @@
         </tr>
 <?php
 $sortOrder = "$_GET[sortorder]";
-$tsql = "select TeamNumber
-              , TeamName
-              , avgRank
-              , rankLeaveHab
-              , rankReturnToHab
-              , rankSsHatch
-              , rankSsCargo
-              , rankTotHatch
-              , rankTotCargo
-              , rankPlayedDefense
-              , leaveHab
-              , returnToHab
-              , ssHatch
-              , ssCargo
-              , totHatch
-              , totCargo
-              , playedDefense
-           from v_TeamAvgRank
-		order by $sortOrder";
+$tsql = "execute sp_rpt_rankReport '$sortOrder'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
         echo (sqlsrv_errors());
