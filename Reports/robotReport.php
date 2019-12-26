@@ -35,7 +35,7 @@
 $team = "$_GET[TeamId]";
 $tsql = "select TeamNumber
               , matchNumber
-              , matchTime
+              , left(convert(varchar, matchTime, 24), 5) matchTimeOnly
               , scoutName
               , leaveHab
               , ssHatchCnt
@@ -58,7 +58,7 @@ $tsql = "select TeamNumber
 	<tr>
         <td><?php echo ($row['TeamNumber']);?></td>
         <td><?php echo ($row['matchNumber']);?></td>
-        <td><?php echo xyz;?></td>
+        <td><?php echo ($row['matchTimeOnly']);?></td>
         <td><?php echo ($row['scoutName']);?></td>
         <td><?php echo ($row['leaveHab']);?></td>
         <td><?php echo ($row['ssHatchCnt']);?></td>
