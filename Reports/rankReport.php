@@ -33,7 +33,7 @@
             <th>Return</th>
         </tr>
 <?php
-$sort = "$_GET[sortOrder]";
+$sortOrder = "$_GET[sortorder]";
 $tsql = "select TeamNumber
               , TeamName
               , avgRank
@@ -52,7 +52,7 @@ $tsql = "select TeamNumber
               , totCargo
               , playedDefense
            from v_TeamAvgRank
-		order by $sort";
+		order by $sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
         echo (sqlsrv_errors());
