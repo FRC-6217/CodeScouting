@@ -1,4 +1,7 @@
-<title>Scouting App</title>
+<html>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
@@ -12,7 +15,6 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 ?>
-<html>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
@@ -31,58 +33,50 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-		<LINK href="Style/scoutingStyle.css" rel="stylesheet" type="text/css">
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <h1><center>BOMB BOTZ SCOUTING APP</center></h1>
+    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
+    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
-    <center><a href="scoutRecord.php">Scout Record</a></center>
-    <p></p>
-    <center><a href="reportMenu.php">Reports</a></center>
+    <h2>
+          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
+          <p></p>
+          <center><a id="mainpage" class="clickme danger" href="reportMenu.php">Reports</a></center>
+          <p></p>
+     </h2>
+    <center><h3>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankLeaveHab">Rank by Exit </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotHatch">Rank by Hatches </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotCargo">Rank by Cargo </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankPlayedDefense">Rank by Defense </a></div>
+          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankReturnToHab">Rank by Return </a></div>
+     </center> </h3>
+    <br>
 
-	<center>
-    <table style="width:60%">
-    <col width="50">
-    <col width="50">
-    <col width="20">
-    <col width="20">
-    <col width="50">
-    <col width="20">
-    <col width="20">
-    <col width="50">
-    <col width="20">
-    <col width="20">
-    <col width="50">
-    <col width="20">
-    <col width="20">
-    <col width="50">
-    <col width="20">
-    <col width="20">
-    <col width="50">
-    <col width="20">
-    <col width="20">
+    <center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th style="text-align:left">Match </th>
-        <th style="text-align:left">Red1</th>
+        <th>Match </th>
+        <th>Red1</th>
         <th>R</th>
         <th>S</th>
-        <th style="text-align:left">Red2</th>
+        <th>Red2</th>
         <th>R</th>
         <th>S</th>
-        <th style="text-align:left">Red3</th>
+        <th>Red3</th>
         <th>R</th>
         <th>S</th>
-        <th style="text-align:left">Blue1</th>
+        <th>Blue1</th>
         <th>R</th>
         <th>S</th>
-        <th style="text-align:left">Blue2</th>
+        <th>Blue2</th>
         <th>R</th>
         <th>S</th>
-        <th style="text-align:left">Blue3</th>
+        <th>Blue3</th>
         <th>R</th>
         <th>S</th>
-    </tr>
+     </tr>
 
     <?php
     $tsql = "select matchReportUrl, r1TeamNumber, r1TeamReportUrl, r1TeamScoutUrl, r2TeamNumber, r2TeamReportUrl, r2TeamScoutUrl, r3TeamNumber, r3TeamReportUrl, r3TeamScoutUrl, b1TeamNumber, b1TeamReportUrl, b1TeamScoutUrl, b2TeamNumber, b2TeamReportUrl, b2TeamScoutUrl, b3TeamNumber, b3TeamReportUrl, b3TeamScoutUrl, sortOrder, matchNumber, matchId, r1TeamId, r2TeamId, r3TeamId, b1TeamId, b2TeamId, b3TeamId from v_MatchHyperlinks order by sortOrder, matchNumber";
