@@ -928,7 +928,7 @@ select m.type + ' ' + m.number matchNumber
      , r.TeamNumber
      , mr.alliance
      , mr.alliancePosition
-     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' r3TeamReportUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
      , count(*) matchCnt
      , round(avg(sr.leaveHab),1) leaveHabAvg
      , round(avg(sr.ssHatchCnt),1) ssHatchCnt
