@@ -62,6 +62,8 @@
            <td><?php echo ($row['teamReportUrl']);?></td>
            <td><?php echo ($row['matchCnt']);?></td>
            <td><?php echo ($row['leaveHabAvg']);?></td>
+           <td><?php echo ($row['ssHatchCnt']);?></td>
+           <td><?php echo ($row['ssCargoCnt']);?></td>
         </tr>
     <?php
     }
