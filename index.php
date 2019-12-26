@@ -79,7 +79,36 @@
      </tr>
 
     <?php
-    $tsql = "select matchReportUrl, r1TeamNumber, r1TeamReportUrl, r1TeamScoutUrl, r2TeamNumber, r2TeamReportUrl, r2TeamScoutUrl, r3TeamNumber, r3TeamReportUrl, r3TeamScoutUrl, b1TeamNumber, b1TeamReportUrl, b1TeamScoutUrl, b2TeamNumber, b2TeamReportUrl, b2TeamScoutUrl, b3TeamNumber, b3TeamReportUrl, b3TeamScoutUrl, sortOrder, matchNumber, matchId, r1TeamId, r2TeamId, r3TeamId, b1TeamId, b2TeamId, b3TeamId from v_MatchHyperlinks order by sortOrder, matchNumber";
+    $tsql = "select matchReportUrl
+	              , r1TeamNumber
+				  , r1TeamReportUrl
+				  , r1TeamScoutUrl
+				  , r2TeamNumber
+				  , r2TeamReportUrl
+				  , r2TeamScoutUrl
+				  , r3TeamNumber
+				  , r3TeamReportUrl
+				  , r3TeamScoutUrl
+				  , b1TeamNumber
+				  , b1TeamReportUrl
+				  , b1TeamScoutUrl
+				  , b2TeamNumber
+				  , b2TeamReportUrl
+				  , b2TeamScoutUrl
+				  , b3TeamNumber
+				  , b3TeamReportUrl
+				  , b3TeamScoutUrl
+				  , sortOrder
+				  , matchNumber
+				  , matchId
+				  , r1TeamId
+				  , r2TeamId
+				  , r3TeamId
+				  , b1TeamId
+				  , b2TeamId
+				  , b3TeamId
+			   from v_MatchHyperlinks
+			  order by sortOrder, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
         echo (sqlsrv_errors());
