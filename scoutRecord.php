@@ -43,8 +43,8 @@
     // Get Query String Parameters
 	$matchId = "$_GET[matchId]";
 	$matchNumber = "$_GET[matchNumber]";
-	$teamId = "$_GET[TeamId]";
-	$teamNumber = "$_GET[TeamNumber]";
+	$teamId = "$_GET[teamId]";
+	$teamNumber = "$_GET[teamNumber]";
 ?>
 			<center>				
 				<div class="container" id="scout">
@@ -87,7 +87,7 @@
 
 					<p>Robot:
 						<select name="robot" style="width: 154.5px;">
-						<option value="<?php echo ($teamId);?>" selected><?php echo ($teamId);?></option>
+						<option value="<?php echo ($teamId);?>" selected><?php echo ($teamNumber);?></option>
 						<?php
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
