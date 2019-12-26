@@ -1,7 +1,7 @@
 <html>
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
-     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
+     <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 <?php
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
@@ -60,6 +60,15 @@
 		<tr>
            <td><?php echo ($row['alliance']);?></td>
            <td><?php echo ($row['alliancePosition']);?></td>
+           <td><?php echo ($row['teamReportUrl']);?></td>
+           <td><?php echo ($row['matchCnt']);?></td>
+           <td><?php echo ($row['leaveHabAvg']);?></td>
+           <td><?php echo ($row['ssHatchCnt']);?></td>
+           <td><?php echo ($row['ssCargoCnt']);?></td>
+           <td><?php echo ($row['totHatchCnt']);?></td>
+           <td><?php echo ($row['totCargoCnt']);?></td>
+           <td><?php echo ($row['playedDefense']);?></td>
+           <td><?php echo )$row['returnToHab']);?></td>
         </tr>
     <?php
     }
