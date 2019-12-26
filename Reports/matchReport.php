@@ -66,6 +66,8 @@
            <td><?php echo ($row['ssCargoCnt']);?></td>
            <td><?php echo ($row['totHatchCnt']);?></td>
            <td><?php echo ($row['totCargoCnt']);?></td>
+           <td><?php echo ($row['playedDefense']);?></td>
+           <td><?php echo ($row['returnToHab']);?></td>
         </tr>
     <?php
     }
