@@ -64,6 +64,8 @@
            <td><?php echo ($row['leaveHabAvg']);?></td>
            <td><?php echo ($row['ssHatchCnt']);?></td>
            <td><?php echo ($row['ssCargoCnt']);?></td>
+           <td><?php echo ($row['totHatchCnt']);?></td>
+           <td><?php echo ($row['totCargoCnt']);?></td>
         </tr>
     <?php
     }
