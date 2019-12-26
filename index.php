@@ -43,8 +43,6 @@
     <h2>
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
           <p></p>
-          <center><a id="mainpage" class="clickme danger" href="reportMenu.php">Reports</a></center>
-          <p></p>
      </h2>
     <center><h3>
           <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankLeaveHab">Rank by Exit </a></div>
