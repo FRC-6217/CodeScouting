@@ -34,10 +34,29 @@
 		<?php
 		$match = "$_GET[matchId]";
 		echo $match;
-		?>
-    <?php
+		$tsql = "select matchNumber
+                      , matchId
+				 	  , teamId
+				 	  , TeamNumber
+					  , alliance
+					  , alliancePosition
+					  , teamReportUrl
+					  , matchCnt
+					  , leaveHabAvg
+					  , ssHatchCnt
+					  , ssCargoCnt
+					  , totHatchCnt
+					  , totCargoCnt
+					  , playedDefense
+					  , returnToHab
+                   from v_MatchReport
+				  where matchId = $match
+				 order by alliance desc, alliancePosition";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+        echo (sqlsrv_errors());
     sqlsrv_free_stmt($getResults);
     ?>
     </center>
-	</table>
+    </table>
 </html>
