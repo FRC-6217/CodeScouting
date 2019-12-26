@@ -31,7 +31,7 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-		<LINK href="Style/scoutingCSS.css" rel="stylesheet" type="text/css">
+		<LINK href="Style/scoutingStyle.css" rel="stylesheet" type="text/css">
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
