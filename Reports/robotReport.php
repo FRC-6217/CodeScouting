@@ -58,7 +58,7 @@ $tsql = "select TeamNumber
 	<tr>
         <td><?php echo ($row['TeamNumber']);?></td>
         <td><?php echo ($row['matchNumber']);?></td>
-        <td><?php echo ($row['matchTime']);?></td>
+        <td><?php echo xyz;?></td>
         <td><?php echo ($row['scoutName']);?></td>
         <td><?php echo ($row['leaveHab']);?></td>
         <td><?php echo ($row['ssHatchCnt']);?></td>
