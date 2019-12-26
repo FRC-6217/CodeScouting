@@ -21,7 +21,6 @@ drop table Team;
 drop table GameEvent;
 drop table Game;
 drop table Event;
-*/
 
 create table Event(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -686,28 +685,29 @@ update scoutObjectiveRecord
    set integerValue = cast(round(1.0 * integerValue / power(10, len(convert(varchar, integervalue))) * 3, 0) as integer)
  where objectiveId in (select id from Objective where name in ('returnToHAB'));
 go
+*/
  
 -- View for Match Teams
 create view v_MatchHyperlinks as
-select '<a href=\"Reports\matchReport.php?matchId=' + convert(varchar, subquery.matchId) + '\"> ' + subquery.matchNumber + '</a>' matchReportUrl
+select '<a href="Reports\matchReport.php?matchId=' + convert(varchar, subquery.matchId) + '"> ' + subquery.matchNumber + '</a>' matchReportUrl
      , subquery.r1TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r1TeamId) + '\"> R </a>' r1TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r1TeamId) + '\"> S </a>' r1TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r1TeamId) + '"> R </a>' r1TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r1TeamId) + '"> S </a>' r1TeamScoutUrl
      , subquery.r2TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r2TeamId) + '\"> R </a>' r2TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r2TeamId) + '\"> S </a>' r2TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r2TeamId) + '"> R </a>' r2TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r2TeamId) + '"> S </a>' r2TeamScoutUrl
      , subquery.r3TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r3TeamId) + '\"> R </a>' r3TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r3TeamId) + '\"> S </a>' r3TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.r3TeamId) + '"> R </a>' r3TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.r3TeamId) + '"> S </a>' r3TeamScoutUrl
      , subquery.b1TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b1TeamId) + '\"> R </a>' b1TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b1TeamId) + '\"> S </a>' b1TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b1TeamId) + '"> R </a>' b1TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b1TeamId) + '"> S </a>' b1TeamScoutUrl
      , subquery.b2TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b2TeamId) + '\"> R </a>' b2TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b2TeamId) + '\"> S </a>' b2TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b2TeamId) + '"> R </a>' b2TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b2TeamId) + '"> S </a>' b2TeamScoutUrl
      , subquery.b3TeamNumber
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b3TeamId) + '\"> R </a>' b3TeamReportUrl
-     , '<a href=\"scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b3TeamId) + '\"> S </a>' b3TeamScoutUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, subquery.b3TeamId) + '"> R </a>' b3TeamReportUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + ';matchNumber=' + subquery.matchNumber + ';TeamId=' + convert(varchar, subquery.b3TeamId) + '"> S </a>' b3TeamScoutUrl
      , subquery.sortOrder
      , subquery.matchNumber
      , subquery.matchId
@@ -928,7 +928,7 @@ select m.type + ' ' + m.number matchNumber
      , r.TeamNumber
      , mr.alliance
      , mr.alliancePosition
-     , '<a href=\"Reports\TeamReport.php?TeamId=' + convert(varchar, mr.teamId) + '\"> ' + convert(varchar, r.teamNumber) + '</a> ' r3TeamReportUrl
+     , '<a href="Reports\TeamReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' r3TeamReportUrl
      , count(*) matchCnt
      , round(avg(sr.leaveHab),1) leaveHabAvg
      , round(avg(sr.ssHatchCnt),1) ssHatchCnt
