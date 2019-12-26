@@ -33,46 +33,11 @@
 
 		<?php
 		$match = "$_GET[matchId]";
-		//echo $match;
-		$tsql = "select matchNumber
-                      , matchId
-				 	  , teamId
-				 	  , TeamNumber
-					  , alliance
-					  , alliancePosition
-					  , teamReportUrl
-					  , matchCnt
-					  , leaveHabAvg
-					  , ssHatchCnt
-					  , ssCargoCnt
-					  , totHatchCnt
-					  , totCargoCnt
-					  , playedDefense
-					  , returnToHab
-                   from v_MatchReport
-				  where matchId = $match
-				 order by alliance desc, alliancePosition";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-        echo (sqlsrv_errors());
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-        ?>
-		<tr>
-           <td><?php echo ($row['alliance']);?></td>
-           <td><?php echo ($row['alliancePosition']);?></td>
-           <td><?php echo ($row['teamReportUrl']);?></td>
-           <td><?php echo ($row['matchCnt']);?></td>
-           <td><?php echo ($row['leaveHabAvg']);?></td>
-           <td><?php echo ($row['ssHatchCnt']);?></td>
-           <td><?php echo ($row['ssCargoCnt']);?></td>
-           <td><?php echo ($row['totHatchCnt']);?></td>
-           <td><?php echo ($row['totCargoCnt']);?></td>
-           <td><?php echo ($row['playedDefense']);?></td>
-           <td><?php echo )$row['returnToHab']);?></td>
-        </tr>
+		echo $match;
+		?>
     <?php
-    }
     sqlsrv_free_stmt($getResults);
     ?>
-    </center></table>
+    </center>
+	</table>
 </html>
