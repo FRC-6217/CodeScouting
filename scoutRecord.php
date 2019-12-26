@@ -53,7 +53,7 @@
 								echo (sqlsrv_errors());
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo ($row['id']) ;?>"><?php echo ($row['fullName']) ; ?></option>
+							<option value="<?php echo ($row['id']);?>"><?php echo ($row['fullName']);?></option>
 							<?php		
 							}
 							?>
@@ -63,7 +63,7 @@
 					
 					<p>Match:
 						<select style="width: 157px" name="match">
-							<option value="<?php echo "$_GET[matchId]"?>"><?php echo "$_GET[matchNumber]"?></option>
+							<option value="<?php echo ($_GET[matchId]);?>" selected><?php echo ($_GET[matchNumber]);?></option>
 							<?php
 							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
@@ -71,7 +71,7 @@
 								echo (sqlsrv_errors());
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo ($row['matchId']) ;?>"><?php echo ($row['matchNumber']) ; ?></option>
+							<option value="<?php echo ($row['matchId']);?>"><?php echo ($row['matchNumber']);?></option>
 							<?php		
 							}
 							?>
@@ -81,7 +81,7 @@
 
 					<p>Robot:
 						<select name="robot" style="width: 154.5px;">
-						<option value="<?php echo "$_GET[TeamId]"?>"><?php echo "$_GET[TeamId]"?></option>
+						<option value="<?php echo ($_GET[TeamId]);?>" selected><?php echo ($_GET[TeamId]);?></option>
 						<?php
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
@@ -89,7 +89,7 @@
 								echo (sqlsrv_errors());
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
-							<option value="<?php echo ($row['id']) ;?>"><?php echo ($row['teamNumber']) ; ?></option>
+							<option value="<?php echo ($row['id']);?>"><?php echo ($row['teamNumber']);?></option>
 							<?php		
 							}
 							?>
