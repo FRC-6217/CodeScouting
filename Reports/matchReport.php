@@ -55,6 +55,14 @@
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
         echo (sqlsrv_errors());
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+        ?>
+		<tr>
+           <td><?php echo ($row['alliance']);?></td>
+           <td><?php echo ($row['alliancePosition']);?></td>
+        </tr>
+    <?php
+    }
     sqlsrv_free_stmt($getResults);
     ?>
     </center>
