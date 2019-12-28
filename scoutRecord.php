@@ -57,7 +57,13 @@
 							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
-								echo (sqlsrv_errors());
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
 							<option value="<?php echo ($row['id']);?>"><?php echo ($row['fullName']);?></option>
@@ -75,7 +81,13 @@
 							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
-								echo (sqlsrv_errors());
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
 							<option value="<?php echo ($row['matchId']);?>"><?php echo ($row['matchNumber']);?></option>
@@ -93,7 +105,13 @@
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
-								echo (sqlsrv_errors());
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
 							<option value="<?php echo ($row['id']);?>"><?php echo ($row['teamNumber']);?></option>
