@@ -1,7 +1,6 @@
 /*
 drop trigger tr_SOR_CalcScoreValue;
 drop function calcScoreValue;
-drop view v_TeamAvgRank;
 drop view v_AvgTeamRecord;
 drop view v_AvgScoutRecord;
 drop view v_MatchReport;
@@ -275,17 +274,18 @@ create table Objective(
 	scoringTypeId integer not null,
 	lowRangeValue integer null,
 	highRangeValue integer null,
-	scoreMultiplier integer null);
+	scoreMultiplier integer null,
+	sortOrder integer not null);
 create unique index idx_Objective on Objective(gameId, name);
 alter table Objective add constraint fk_Objective_Game foreign key (gameId) references Game (id);
 alter table Objective add constraint fk_Objective_ScoringType foreign key (scoringTypeId) references ScoringType (id);
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'leaveHAB', 'Leave HAB Level', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'ssHatchCnt', 'Sandstorm Hatches', st.id, 0, 2, 2 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'ssCargoCnt', 'Sandstorm Cargo', st.id, 0, 2, 3 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'toHatchCnt', 'TeleOp Hatches', st.id, 0, 10, 2 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'toCargoCnt', 'TeleOp Cargo', st.id, 0, 10, 3 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'playedDefense', 'Performed on Defense', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier) select g.id, 'returnToHAB', 'Return HAB Level', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 1) select g.id, 'leaveHAB', 'Leave HAB Level', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 2) select g.id, 'ssHatchCnt', 'Sandstorm Hatches', st.id, 0, 2, 2 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 3) select g.id, 'ssCargoCnt', 'Sandstorm Cargo', st.id, 0, 2, 3 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 4) select g.id, 'toHatchCnt', 'TeleOp Hatches', st.id, 0, 10, 2 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 5) select g.id, 'toCargoCnt', 'TeleOp Cargo', st.id, 0, 10, 3 from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 6) select g.id, 'playedDefense', 'Performed on Defense', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, 7) select g.id, 'returnToHAB', 'Return HAB Level', st.id, null, null, null from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
 
 create table ObjectiveValue(
 	id int primary key IDENTITY(1, 1) NOT NULL,
