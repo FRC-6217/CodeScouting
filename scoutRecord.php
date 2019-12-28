@@ -50,7 +50,7 @@
 				<div class="container" id="scout">
 					<p><u>MATCH SELECTION</u></p>
 					<p>Scout:
-						<select style="width: 161px;" name="scouts">
+						<select style="width: 161px;" name="scout">
 							<option value=""></option>
 							<?php
 							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
@@ -85,8 +85,8 @@
 					</p>
 					<p></p>
 
-					<p>Robot:
-						<select name="robot" style="width: 154.5px;">
+					<p>Team:
+						<select name="team" style="width: 154.5px;">
 						<option value="<?php echo ($teamId);?>" selected><?php echo ($teamNumber);?></option>
 						<?php
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
@@ -104,11 +104,9 @@
 					<p></p>
 
 					<center><p><u>SANDSTORM</u></p></center>
-
 						Did not leave HAB? <input type="radio" checked="checked" name="leaveHab" value="0"><br>
 						Exit HAB Lvl 1? <input type="radio" name="leaveHab" value="1"><br>
 						Exit HAB Lvl 2? <input type="radio" name="leaveHab" value="2"><br>
-
 					<p>
 						Hatch: <input type="number" name ="ssHatchCnt" value=0 style="width: 40.5px;">
 						<p></p>
@@ -117,15 +115,12 @@
 					<p></p>
 
 					<p><u>POST-SANDSTORM</u></p>
-
 					Hatch:
 					<input type="number" name="toHatchCnt" min="0" value=0 style="width: 40px;">
 					<p></p>
-
 					Cargo:
 					<input type="number" name="toCargoCnt" min="0" value=0 style="width: 40px;">
 					<p></p>
-
 					Defense:<br>
 					No Defense? <input type="radio" checked="checked" name="defense" value="0"><br>
 					Poor Defense? <input type="radio" name="defense" value="1"><br>
@@ -133,7 +128,6 @@
 					Best Defense? <input type="radio" name="defense" value="3">
 
 					<p><u>END GAME</u></p>
-
 					Did not return to HAB? <input type="radio" checked="checked" name="returnHab" value="0"><br>
 					HAB Lvl 1? <input type="radio" name="returnHab" value="1"><br>
 					HAB Lvl 2? <input type="radio" name="returnHab" value="2"><br>
@@ -145,9 +139,9 @@
 
 			<?php
 			$submit = $POST[submitToDatabase];
-			$scouts = $_POST[scouts];
+			$scout = $_POST[scout];
 			$match = $_POST[match];
-			$robot = $_POST[robot];
+			$team = $_POST[team];
 			$leaveHab = $_POST[leaveHab];
 			$ssHatchCnt = $_POST[ssHatchCnt];
 			$ssCargoCnt = $_POST[ssCargoCnt];
