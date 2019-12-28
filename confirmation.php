@@ -28,6 +28,18 @@
 	$defense = $_POST[defense];
 	$returnHab = $_POST[returnHab];
 
+	echo $submit;
+	echo $scout;
+	echo $match;
+	echo $team;
+	echo $leaveHab;
+	echo $ssHatchCnt;
+	echo $ssCargoCnt;
+	echo $toHatchCnt;
+	echo $toCargoCnt;
+	echo $defense;
+	echo $returnHab;
+
     $insertingData = "INSERT into scoutrecord (matchId, robotId, scoutId, leaveHAB, ssHatchCnt, ssCargoCnt, toHatchCnt, toCargoCnt, playedDefense, returnToHAB) values ($match, $robot, $scouts, '$lev', $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, '$def', '$ret');";
 
     $tsql = "execute sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
