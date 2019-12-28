@@ -38,10 +38,17 @@ $sortOrder = "$_GET[sortorder]";
 $tsql = "execute sp_rpt_rankReport '$sortOrder'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
-        echo (sqlsrv_errors());
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 ?>
         <tr>
+            <td><a href="..\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
             <td><?php echo ($row['TeamNumber']);?></td>
             <td><?php echo ($row['avgRank']);?></td>
             <td><?php echo ($row['rankLeaveHab']);?></td>
