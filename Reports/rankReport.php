@@ -16,7 +16,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 ?>
 <center><h1>Rank Report</h1></center>
-<center><a href="index.php">Home</a></center>
+<center><a href="..\index.php">Home</a></center>
 <center>
     <table cellspacing="0" cellpadding="5">
         <tr>
@@ -42,7 +42,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 ?>
         <tr>
-            <td><?php echo ($row['TeamNumber']);?></td>
+            <td><a href="Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
             <td><?php echo ($row['avgRank']);?></td>
             <td><?php echo ($row['rankLeaveHab']);?></td>
             <td><?php echo ($row['rankTotHatch']);?></td>

@@ -2,7 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a href="index.php">Home</a></center>
+	 <center><a href="..\index.php">Home</a></center>
 <?php
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
@@ -57,7 +57,7 @@ $tsql = "select TeamNumber
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 ?>
 	<tr>
-        <td><?php echo ($row['TeamNumber']);?></td>
+        <td><a href="Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
         <td><?php echo ($row['matchNumber']);?></td>
         <td><?php echo ($row['matchTimeOnly']);?></td>
         <td><?php echo ($row['scoutName']);?></td>
