@@ -56,23 +56,17 @@
     <center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
-        <th>Red1</th>
-        <th>R</th>
+        <th>Red 1</th>
         <th>S</th>
-        <th>Red2</th>
-        <th>R</th>
+        <th>Red 2</th>
         <th>S</th>
-        <th>Red3</th>
-        <th>R</th>
+        <th>Red 3</th>
         <th>S</th>
-        <th>Blue1</th>
-        <th>R</th>
+        <th>Blue 1</th>
         <th>S</th>
-        <th>Blue2</th>
-        <th>R</th>
+        <th>Blue 2</th>
         <th>S</th>
-        <th>Blue3</th>
-        <th>R</th>
+        <th>Blue 3</th>
         <th>S</th>
      </tr>
 
@@ -114,22 +108,16 @@
         ?>
        <tr>
            <td><?php echo ($row['matchReportUrl']);?></td>
-           <td><?php echo ($row['r1TeamNumber']);?></td>
            <td><?php echo ($row['r1TeamReportUrl']);?></td>
            <td><?php echo ($row['r1TeamScoutUrl']);?></td>
-           <td><?php echo ($row['r2TeamNumber']);?></td>
            <td><?php echo ($row['r2TeamReportUrl']);?></td>
            <td><?php echo ($row['r2TeamScoutUrl']);?></td>
-           <td><?php echo ($row['r3TeamNumber']);?></td>
            <td><?php echo ($row['r3TeamReportUrl']);?></td>
            <td><?php echo ($row['r3TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b1TeamNumber']);?></td>
            <td><?php echo ($row['b1TeamReportUrl']);?></td>
            <td><?php echo ($row['b1TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b2TeamNumber']);?></td>
            <td><?php echo ($row['b2TeamReportUrl']);?></td>
            <td><?php echo ($row['b2TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b3TeamNumber']);?></td>
            <td><?php echo ($row['b3TeamReportUrl']);?></td>
            <td><?php echo ($row['b3TeamScoutUrl']);?></td>
         </tr>
