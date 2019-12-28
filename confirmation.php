@@ -19,7 +19,7 @@
 	$submit = $POST[submitToDatabase];
 	$scout = $_POST[scout];
 	$match = $_POST[match];
-	$robot = $_POST[robot];
+	$team = $_POST[team];
 	$leaveHab = $_POST[leaveHab];
 	$ssHatchCnt = $_POST[ssHatchCnt];
 	$ssCargoCnt = $_POST[ssCargoCnt];
