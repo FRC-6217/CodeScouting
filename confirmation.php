@@ -28,27 +28,18 @@
 	$defense = $_POST[defense];
 	$returnHab = $_POST[returnHab];
 
-	echo $scout;
-	echo $match;
-	echo $team;
-	echo $leaveHab;
-	echo $ssHatchCnt;
-	echo $ssCargoCnt;
-	echo $toHatchCnt;
-	echo $toCargoCnt;
-	echo $defense;
-	echo $returnHab;
-
-    $tsql = "sp_ins_scoutRecord {$scout}, {$match}, {$team}, {$leaveHab}, {$ssHatchCnt}, {$ssCargoCnt}, {$toHatchCnt}, {$toCargoCnt}, {$defense}, {$returnHab}";
+    $tsql = "sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
 	$results = sqlsrv_query($conn, $tsql);
-	if($executing) {
+	if($results) 
 		echo "Submittion Succeeded!";
-	}
-	if(!$executing) {
+	
+	if(!$results) 
 		echo "It is not working!";
-	}
+	
 
     sqlsrv_free_stmt($getResults);
 ?>
-	<center><a href="scoutRecord.php">Click here to go back to the Scout Record page! </a></center>
+	<center><a href="scoutRecord.php">Another Scout Record</a></center>
+	<p></p>
+	<center><a href="index.php">Home</a></center>
 </html>
