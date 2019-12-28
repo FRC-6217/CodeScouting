@@ -2,6 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
+	 <center><a href="index.php">Home</a></center>
 <?php
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
