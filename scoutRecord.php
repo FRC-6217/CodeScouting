@@ -25,6 +25,7 @@
 		<body>
 			<h1><center>BOMB BOTZ SCOUTING APP</center></h1>
 		</body>
+		<center><a href="index.php">Home</a></center>
 		
 		<form action='confirmation.php' method='post'>
 <?php

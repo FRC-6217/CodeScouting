@@ -2,6 +2,9 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
+	 <center><a href="scoutRecord.php">Another Scout Record</a></center>
+	 <p></p>
+	 <center><a href="index.php">Home</a></center>
 <?php
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
@@ -31,15 +34,20 @@
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
-		echo "Submittion Succeeded!";
+		echo "Submission Succeeded!";
 	
 	if(!$results) 
-		echo "It is not working!";
-	
+	{
+		echo "It is not working!<br />";
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	}		
 
     sqlsrv_free_stmt($getResults);
 ?>
-	<center><a href="scoutRecord.php">Another Scout Record</a></center>
-	<p></p>
-	<center><a href="index.php">Home</a></center>
 </html>
