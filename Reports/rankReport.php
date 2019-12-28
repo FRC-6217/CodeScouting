@@ -49,7 +49,6 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
 ?>
         <tr>
             <td><a href="..\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
-            <td><?php echo ($row['TeamNumber']);?></td>
             <td><?php echo ($row['avgRank']);?></td>
             <td><?php echo ($row['rankLeaveHab']);?></td>
             <td><?php echo ($row['rankTotHatch']);?></td>
