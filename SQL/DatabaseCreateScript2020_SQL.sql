@@ -930,7 +930,7 @@ select m.type + ' ' + m.number matchNumber
      , r.TeamNumber
      , mr.alliance
      , mr.alliancePosition
-     , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
+     , '<a href="..\Reports\robotReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
      , count(*) matchCnt
      , round(avg(sr.leaveHab),1) leaveHabAvg
      , round(avg(sr.ssHatchCnt),1) ssHatchCnt
@@ -1049,24 +1049,24 @@ BEGIN
 	SELECT * from v_AvgTeamRecord;
 
 	select t.TeamNumber
-			, t.TeamName
-			, avg(rank) avgRank
-			, sum(case when measureType = 'leaveHab' then rank else 0 end) rankLeaveHab
-			, sum(case when measureType = 'returnToHab' then rank else 0 end) rankReturnToHab
-			, sum(case when measureType = 'ssHatchCnt' then rank else 0 end) rankSsHatch
-			, sum(case when measureType = 'ssCargoCnt' then rank else 0 end) rankSsCargo
-			, sum(case when measureType = 'totHatchCnt' then rank else 0 end) rankTotHatch
-			, sum(case when measureType = 'totCargoCnt' then rank else 0 end) rankTotCargo
-			, sum(case when measureType = 'playedDefense' then rank else 0 end) rankPlayedDefense
-			, sum(case when measureType = 'leaveHab' then val else 0 end) leaveHab
-			, sum(case when measureType = 'returnToHab' then val else 0 end) returnToHab
-			, sum(case when measureType = 'ssHatchCnt' then val else 0 end) ssHatch
-			, sum(case when measureType = 'ssCargoCnt' then val else 0 end) ssCargo
-			, sum(case when measureType = 'totHatchCnt' then val else 0 end) totHatch
-			, sum(case when measureType = 'totCargoCnt' then val else 0 end) totCargo
-			, sum(case when measureType = 'playedDefense' then val else 0 end) playedDefense
-			, subquery.TeamId
-		from (
+		 , t.TeamName
+		 , avg(rank) avgRank
+		 , sum(case when measureType = 'leaveHab' then rank else 0 end) rankLeaveHab
+		 , sum(case when measureType = 'returnToHab' then rank else 0 end) rankReturnToHab
+		 , sum(case when measureType = 'ssHatchCnt' then rank else 0 end) rankSsHatch
+		 , sum(case when measureType = 'ssCargoCnt' then rank else 0 end) rankSsCargo
+		 , sum(case when measureType = 'totHatchCnt' then rank else 0 end) rankTotHatch
+		 , sum(case when measureType = 'totCargoCnt' then rank else 0 end) rankTotCargo
+		 , sum(case when measureType = 'playedDefense' then rank else 0 end) rankPlayedDefense
+		 , sum(case when measureType = 'leaveHab' then val else 0 end) leaveHab
+		 , sum(case when measureType = 'returnToHab' then val else 0 end) returnToHab
+		 , sum(case when measureType = 'ssHatchCnt' then val else 0 end) ssHatch
+		 , sum(case when measureType = 'ssCargoCnt' then val else 0 end) ssCargo
+		 , sum(case when measureType = 'totHatchCnt' then val else 0 end) totHatch
+		 , sum(case when measureType = 'totCargoCnt' then val else 0 end) totCargo
+		 , sum(case when measureType = 'playedDefense' then val else 0 end) playedDefense
+		 , subquery.TeamId
+	  from (
 	select arr.TeamId
 			, 'leaveHab' measureType
 			, round(arr.leaveHab, 2) val
@@ -1127,7 +1127,8 @@ BEGIN
 			on t.id = subquery.TeamId
 		where t.isActive = 'Y'
 	group by t.TeamNumber
-			, t.TeamName
+		   , t.TeamName
+		   , subquery.TeamId
 	order by case when @pv_SortOrder = 'rankLeaveHab' then sum(case when measureType = 'leaveHab' then rank else 0 end)
 	              when @pv_SortOrder = 'rankReturnToHab' then sum(case when measureType = 'returnToHab' then rank else 0 end)
 	              when @pv_SortOrder = 'rankTotHatch' then sum(case when measureType = 'totHatchCnt' then rank else 0 end)
