@@ -14,7 +14,7 @@
 -- 11 Control Panel Position Time
 -- 12 Defense - No Defense (0), Poor Defense (-1), Good Defense (1), Excellent Defense (2)
 -- End Game
--- 12 Final Position - Hang Unassisted (25), Hang Assist 1 (40), Hang Assist 2 (55), Hang Assisted (10), Park (5), None (0)
+-- 13 Final Position - Hang Unassisted (25), Hang Assist 1 (40), Hang Assist 2 (55), Hang Assisted (10), Park (5), None (0)
 --
 -- Team Attributes
 -- 1 Where do you prefer to start match? Inline with Target, Right of Target, Left of Target, Out of the way.
@@ -24,7 +24,8 @@
 -- 5 What does your robot weigh?
 
 -- Clear any previous setup
-Delete From Objective where gameid = (select g.id from game g where g.name = 'infinite recharge')
+Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
+Delete From ObjectiveValue where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
 
 -- Autonomous 
 insert into Objective select g.id, 'aPcLower', 'Auto PC Lower Count', st.id, 0, 8, 2, 1 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
@@ -37,3 +38,15 @@ insert into Objective select g.id, 'toPcLower', 'TeleOp PC Lower Count', st.id, 
 insert into Objective select g.id, 'toPcOuter', 'TeleOp PC Outer Count', st.id, 0, 50, 2, 6 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
 insert into Objective select g.id, 'toPcInner', 'TeleOp PC Inner Count', st.id, 0, 50, 3, 7 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
 insert into Objective select g.id, 'toCpRotation', 'TeleOp Ctrl Pnl Rotation', st.id, null, null, null, 8 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpRotationTime', 'TeleOp Ctrl Pnl Rotation Time', st.id, 0, 60, null, 9 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpPosition', 'TeleOp Ctrl Pnl Position', st.id, null, null, null, 10 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpPositionTime', 'TeleOp Ctrl Pnl Position Time', st.id, 0, 60, null, 11 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
+insert into Objective select g.id, 'toDefense', 'TeleOp Defense', st.id, null, null, null, 12 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+
+-- End Game
+insert into Objective select g.id, 'toFinalPosition', 'TeleOp Final Position', st.id, null, null, null, 13 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+
+-- Objective Values
+insert into ObjectiveValue select o.id, 'Yes', 1, 1, 5 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'No', 0, 2, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
+
