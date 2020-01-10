@@ -14,7 +14,7 @@
 -- 11 Control Panel Position Time
 -- 12 Defense - No Defense (0), Poor Defense (-1), Good Defense (1), Excellent Defense (2)
 -- End Game
--- 13 Final Position - Hang Unassisted (25), Hang Assist 1 (40), Hang Assist 2 (55), Hang Assisted (10), Park (5), None (0)
+-- 13 Final Position - None (0), Park (5), Hang Unassisted (25), Hang Assisted (10), Hang Assist 1 (40), Hang Assist 2 (55)
 --
 -- Team Attributes
 -- 1 Where do you prefer to start match? Inline with Target, Right of Target, Left of Target, Out of the way.
@@ -24,8 +24,8 @@
 -- 5 What does your robot weigh?
 
 -- Clear any previous setup
-Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
 Delete From ObjectiveValue where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
+Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
 
 -- Autonomous 
 insert into Objective select g.id, 'aPcLower', 'Auto PC Lower Count', st.id, 0, 8, 2, 1 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
@@ -47,6 +47,58 @@ insert into Objective select g.id, 'toDefense', 'TeleOp Defense', st.id, null, n
 insert into Objective select g.id, 'toFinalPosition', 'TeleOp Final Position', st.id, null, null, null, 13 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- Objective Values
-insert into ObjectiveValue select o.id, 'Yes', 1, 1, 5 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
-insert into ObjectiveValue select o.id, 'No', 0, 2, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 5 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
+
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toCpRotation'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 10 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toCpRotation'
+
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toCpPosition'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 20 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toCpPosition'
+
+insert into ObjectiveValue select o.id, 'No Defense', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, 'Poor Defense', -1, 2, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, 'Good Defense', 1, 3, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, 'Excellent Defense', 2, 4, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toDefense'
+
+insert into ObjectiveValue select o.id, 'None', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+insert into ObjectiveValue select o.id, 'Park', 1, 2, 5 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+insert into ObjectiveValue select o.id, 'Hang Unassisted', 2, 3, 25 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+insert into ObjectiveValue select o.id, 'Hang Assisted', 1, 4, 10 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+insert into ObjectiveValue select o.id, 'Hang Assist 1', 3, 5, 40 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+insert into ObjectiveValue select o.id, 'Hang Assist 2', 4, 6, 55 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
+
+update GameEvent set isActive = 'N' where isActive = 'Y'
+update GameEvent set isActive = 'Y' where eventId = (select id from Event where name = 'Lake Superior Regional') and gameId = (select id from game where name = 'Infinite Recharge')
+
+insert into Match select ge.id, '01', '02-29-2020 03:34', 'T', 'Y' from GameEvent ge inner join Event e on e.id = ge.eventId
+inner join Game g on g.id = ge.gameId where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
+insert into Match select ge.id, '02', '02-29-2020 03:47', 'T', 'Y' from GameEvent ge inner join Event e on e.id = ge.eventId
+inner join Game g on g.id = ge.gameId where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
+
+insert into TeamMatch select m.id, t.id, 'R', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5653
+ insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5690
+ insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5991
+ insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5999
+  insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 6022
+ insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 6045
+
+ insert into TeamMatch select m.id, t.id, 'R', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6047
+  insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6146
+ insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6160
+  insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6217
+   insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6318
+  insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+ where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6453
 
