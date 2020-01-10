@@ -71,34 +71,47 @@ insert into ObjectiveValue select o.id, 'Hang Assist 2', 4, 6, 55 from game g in
 update GameEvent set isActive = 'N' where isActive = 'Y'
 update GameEvent set isActive = 'Y' where eventId = (select id from Event where name = 'Lake Superior Regional') and gameId = (select id from game where name = 'Infinite Recharge')
 
-insert into Match select ge.id, '01', '02-29-2020 03:34', 'T', 'Y' from GameEvent ge inner join Event e on e.id = ge.eventId
-inner join Game g on g.id = ge.gameId where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
-insert into Match select ge.id, '02', '02-29-2020 03:47', 'T', 'Y' from GameEvent ge inner join Event e on e.id = ge.eventId
-inner join Game g on g.id = ge.gameId where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
+-- Add matches and teams to the matches for a test event
+Delete From TeamMatch where matchId in
+      (select m.id from match m inner join gameEvent ge on ge.id = m.gameEventId
+                        inner join game g on g.id = ge.gameId inner join Event e on e.id = ge.eventId
+        where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional')
+Delete From Match where gameEventId in
+      (select ge.id from gameEvent ge
+                        inner join game g on g.id = ge.gameId inner join Event e on e.id = ge.eventId
+        where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional')
+
+insert into Match
+select ge.id, '01', '02-29-2020 03:34', 'T', 'Y'
+  from GameEvent ge inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
+insert into Match
+select ge.id, '02', '02-29-2020 03:47', 'T', 'Y'
+from GameEvent ge inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional'
 
 insert into TeamMatch select m.id, t.id, 'R', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5653
- insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5690
- insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5991
- insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 5999
-  insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 6022
- insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '01' and t.teamNumber = 6045
 
- insert into TeamMatch select m.id, t.id, 'R', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'R', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6047
-  insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'R', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6146
- insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'R', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6160
-  insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 1 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6217
-   insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 2 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6318
-  insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
+insert into TeamMatch select m.id, t.id, 'B', 3 from Team t, Match m inner join gameEvent ge on ge.id = m.gameEventId inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId
  where g.name = 'Infinite Recharge' and e.name = 'Lake Superior Regional' and m.number = '02' and t.teamNumber = 6453
-
