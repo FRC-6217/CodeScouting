@@ -309,6 +309,92 @@ insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, 
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Level 2', 2, 3, 6 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'returnToHAB';
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Level 3', 3, 4, 12 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'returnToHAB';
 
+create table ObjectiveGroup(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	name varchar(64) not null,
+	sortOrder integer null);
+create unique index idx_ObjectiveGroup on ObjectiveGroup(name);
+insert into ObjectiveGroup (name, sortOrder) values ('Sandstorm', 1);
+insert into ObjectiveGroup (name, sortOrder) values ('Autonomous', 1);
+insert into ObjectiveGroup (name, sortOrder) values ('Tele Op', 2);
+insert into ObjectiveGroup (name, sortOrder) values ('End Game', 3);
+
+create table ObjectiveGroupObjective(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	objectiveGroupId integer not null,
+	objectiveId integer not null);
+create unique index idx_ObjectiveGroupObjective on ObjectiveGroupObjective(objectiveGroupId, objectiveId);
+alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_ObjectiveGroup foreign key (objectiveGroupId) references ObjectiveGroup (id);
+alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_Objective foreign key (objectiveId) references Objective (id);
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'leaveHAB';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'ssHatchCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'ssCargoCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toHatchCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCargoCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'playedDefense';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'returnToHAB';
+
+create table Rank(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	name varchar(64) not null,
+	type varchar(1) not null, -- V = Value, S = Score
+	sortOrder integer null);
+create unique index idx_Rank on Rank(name);
+insert into Rank (name, type, sortOrder) values ('Exit', 'V', 1);
+insert into Rank (name, type, sortOrder) values ('Hatches', 'V', 2);
+insert into Rank (name, type, sortOrder) values ('Cargo', 'V', 3);
+insert into Rank (name, type, sortOrder) values ('Defense', 'V', 4);
+insert into Rank (name, type, sortOrder) values ('Return', 'V', 5);
+
+create table RankObjective(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	rankId integer not null,
+	objectiveId integer not null);
+create unique index idx_RankObjective on RankObjective(rankId, objectiveId);
+alter table RankObjective add constraint fk_RankObjective_Rank foreign key (rankId) references Rank (id);
+alter table RankObjective add constraint fk_RankObjective_Objective foreign key (objectiveId) references Objective (id);
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Exit' and o.name = 'leaveHAB';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Hatches' and o.name = 'ssHatchCnt';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Hatches' and o.name = 'toHatchCnt';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Cargo' and o.name = 'ssCargoCnt';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Cargo' and o.name = 'toCargoCnt';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Defense' and o.name = 'playedDefense';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Return' and o.name = 'returnToHAB';
+
+create table Attribute(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	gameId integer not null,
+	name varchar(64) not null,
+	label varchar(64) not null,
+	scoringTypeId integer not null,
+	lowRangeValue integer null,
+	highRangeValue integer null,
+	sortOrder integer not null);
+create unique index idx_Attribute on Attribute(gameId, name);
+alter table Attribute add constraint fk_Attribute_Game foreign key (gameId) references Game (id);
+alter table Attribute add constraint fk_Attribute_ScoringType foreign key (scoringTypeId) references ScoringType (id);
+
+create table AttributeValue(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	attributeId integer not null,
+	displayValue varchar(64) not null,
+	integerValue integer null,
+	sortOrder integer null);
+create unique index idx_AttributeValue on AttributeValue(attributeId, displayValue);
+alter table AttributeValue add constraint fk_AttributeValue_Attribute foreign key (attributeId) references Attribute (id);
+
+create table TeamAttribute (
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	teamId integer not null,
+	attributeId integer not null,
+	integerValue integer null,
+	decimalValue integer null,
+	textValue numeric(10,3) null);
+create unique index idx_TeamAttribute on TeamAttribute(teamId, attributeId);
+alter table TeamAttribute add constraint fk_TeamAttribute_Team foreign key (teamId) references Team (id);
+alter table TeamAttribute add constraint fk_TeamAttribute_Attribute foreign key (attributeId) references Attribute (id);
+go
+
 create table Match(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	gameEventId integer not null,

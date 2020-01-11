@@ -68,6 +68,58 @@ insert into ObjectiveValue select o.id, 'Hang Assisted', 1, 4, 10 from game g in
 insert into ObjectiveValue select o.id, 'Hang Assist 1', 3, 5, 40 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
 insert into ObjectiveValue select o.id, 'Hang Assist 2', 4, 6, 55 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
 
+-- Objective Groupings
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aMove';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpRotation';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpRotationTime';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpPosition';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpPositionTime';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toDefense';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'toFinalPosition';
+
+-- Rank Setup
+insert into Rank (name, type, sortOrder) values ('Auto', 'S', 1);
+insert into Rank (name, type, sortOrder) values ('Power Cell', 'S', 2);
+insert into Rank (name, type, sortOrder) values ('Ctrl Pnl', 'S', 3);
+--insert into Rank (name, type, sortOrder) values ('Defense', 'V', 4);
+insert into Rank (name, type, sortOrder) values ('Final', 'S', 5);
+
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aMove';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcLower';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcOuter';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcInner';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcLower';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcOuter';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcInner';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcLower';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcOuter';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcInner';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpRotation';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpPosition';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Defense' and o.name = 'toDefense';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Final' and o.name = 'toFinalPosition';
+
+-- Attribute Setup
+insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'weight', 'What does the robot weigh (include battery and bumpers)?', st.id, 100, 150, 1 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Integer';
+insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'preferredStart', 'What is preferred start location?', st.id, null, null, 2 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Radio Button';
+insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'flexibleStart', 'Does your autonomous allow for flexible start location?', st.id, null, null, 3 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Radio Button';
+insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'movementDelay', 'Does your autonomous allow for delaying movement start?', st.id, null, null, 4 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Radio Button';
+insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'movementDescription', 'Describe autonomous movement?', st.id, null, null, 5 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Free Form';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'Out of way, non-shooting', -2, 2 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'preferredStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'In Front of Target', 0, 2 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'preferredStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'Right of Target', 1, 3 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'preferredStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'Left of Target', -1, 4 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'preferredStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'No', 0, 1 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'flexibleStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'Yes', 1, 2 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'flexibleStart';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'No', 0, 1 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'movementDelay';
+insert into AttributeValue (attributeId, displayValue, integerValue, sortOrder) select a.id, 'Yes', 1, 2 from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Infinite Recharge' and a.name = 'movementDelay';
+
 update GameEvent set isActive = 'N' where isActive = 'Y'
 update GameEvent set isActive = 'Y' where eventId = (select id from Event where name = 'Lake Superior Regional') and gameId = (select id from game where name = 'Infinite Recharge')
 
