@@ -46,11 +46,25 @@
           <p></p>
      </h2>
     <center><h3>
-          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankLeaveHab">Rank by Exit </a></div>
-          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotHatch">Rank by Hatches </a></div>
-          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankTotCargo">Rank by Cargo </a></div>
-          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankPlayedDefense">Rank by Defense </a></div>
-          <div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=rankReturnToHab">Rank by Return </a></div>
+    <?php
+    $tsql = "select buttonHtml
+	              , sortOrder
+			   from v_RankButtons
+			  order by sortOrder";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		echo ($row['buttonHtml']);
+    }
+    sqlsrv_free_stmt($getResults);
+    ?>
      </center> </h3>
     <br>
 
