@@ -122,35 +122,33 @@
 					</p>					
 					<p></p>
 
-					<center><p><u>Sandstorm</u></p></center>
-						Did not leave HAB? <input type="radio" checked="checked" name="leaveHab" value="0"><br>
-						Exit HAB Lvl 1? <input type="radio" name="leaveHab" value="1"><br>
-						Exit HAB Lvl 2? <input type="radio" name="leaveHab" value="2"><br>
-					<p>
-						Hatch: <input type="number" name ="ssHatchCnt" value=0 style="width: 40.5px;">
-						<p></p>
-						Cargo: <input type="number" name="ssCargoCnt" value=0 style="width: 40px;">
-					</p>
-					<p></p>
-
-					<p><u>Tele Op</u></p>
-					Hatch:
-					<input type="number" name="toHatchCnt" min="0" value=0 style="width: 40px;">
-					<p></p>
-					Cargo:
-					<input type="number" name="toCargoCnt" min="0" value=0 style="width: 40px;">
-					<p></p>
-					Defense:<br>
-					No Defense? <input type="radio" checked="checked" name="defense" value="0"><br>
-					Poor Defense? <input type="radio" name="defense" value="1"><br>
-					Good Defense? <input type="radio" name="defense" value="2"><br>
-					Best Defense? <input type="radio" name="defense" value="3">
-
-					<p><u>End Game</u></p>
-					Did not return to HAB? <input type="radio" checked="checked" name="returnHab" value="0"><br>
-					HAB Lvl 1? <input type="radio" name="returnHab" value="1"><br>
-					HAB Lvl 2? <input type="radio" name="returnHab" value="2"><br>
-					HAB Lvl 3? <input type="radio" name="returnHab" value="3">
+<p><u>Autonomous</u></p>
+PC Lower Cnt: <input type="number" name ="aPcLower" value=0 style="width: 40px;">
+PC Outer Cnt: <input type="number" name ="aPcOuter" value=0 style="width: 40px;">
+PC Inner Cnt: <input type="number" name ="aPcInner" value=0 style="width: 40px;">
+Move Off Line:<br>No<input type="radio" checked="checked" name ="aMove" value=0"><br>
+Yes<input type="radio" name ="aMove" value=1"><br>
+<p><u>Tele Op</u></p>
+PC Lower Cnt: <input type="number" name ="toPcLower" value=0 style="width: 40px;">
+PC Outer Cnt: <input type="number" name ="toPcOuter" value=0 style="width: 40px;">
+PC Inner Cnt: <input type="number" name ="toPcInner" value=0 style="width: 40px;">
+Ctrl Pnl Rotation:<br>No<input type="radio" checked="checked" name ="toCpRotation" value=0"><br>
+Yes<input type="radio" name ="toCpRotation" value=1"><br>
+Rotation Time: <input type="number" name ="toCpRotationTime" value=0 style="width: 40px;">
+Ctrl Pnl Position:<br>No<input type="radio" checked="checked" name ="toCpPosition" value=0"><br>
+Yes<input type="radio" name ="toCpPosition" value=1"><br>
+Position Time: <input type="number" name ="toCpPositionTime" value=0 style="width: 40px;">
+Defense:<br>No Defense<input type="radio" checked="checked" name ="toDefense" value=0"><br>
+Poor Defense<input type="radio" name ="toDefense" value=-1"><br>
+Good Defense<input type="radio" name ="toDefense" value=1"><br>
+Excellent Defense<input type="radio" name ="toDefense" value=2"><br>
+<p><u>End Game</u></p>
+Final Position:<br>None<input type="radio" checked="checked" name ="toFinalPosition" value=0"><br>
+Park<input type="radio" name ="toFinalPosition" value=1"><br>
+Hang Unassisted<input type="radio" name ="toFinalPosition" value=2"><br>
+Hang Assisted<input type="radio" name ="toFinalPosition" value=1"><br>
+Hang Assist 1<input type="radio" name ="toFinalPosition" value=3"><br>
+Hang Assist 2<input type="radio" name ="toFinalPosition" value=4"><br>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
