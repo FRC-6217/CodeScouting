@@ -1,6 +1,11 @@
 h1 {
-    font: 2em arial black;
+    font: 1.5em arial black;
     font-weight: bold;
+    text-align: center;
+}
+
+h2 {
+    font: 1em arial black;
     text-align: center;
 }
 
