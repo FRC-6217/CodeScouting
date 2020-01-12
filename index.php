@@ -36,8 +36,8 @@
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>BOMB BOTZ SCOUTING APP</center></h1>
-	    <h1><center>INFINITE RECHARGE</center></h1>
+    <h1><center>Bomb Botz Scouting App</center></h1>
+	    <h1><center>Infinite Recharge</center></h1>
     <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>

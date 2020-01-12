@@ -23,7 +23,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<body>
-			<h1><center>BOMB BOTZ SCOUTING APP</center></h1>
+			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
 		<center><a href="index.php">Home</a></center>
 		
@@ -49,7 +49,7 @@
 ?>
 			<center>				
 				<div class="container" id="scout">
-					<p><u>MATCH SELECTION</u></p>
+					<p><u>Match Selection</u></p>
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
 							<option value=""></option>
@@ -122,7 +122,7 @@
 					</p>					
 					<p></p>
 
-					<center><p><u>SANDSTORM</u></p></center>
+					<center><p><u>Sandstorm</u></p></center>
 						Did not leave HAB? <input type="radio" checked="checked" name="leaveHab" value="0"><br>
 						Exit HAB Lvl 1? <input type="radio" name="leaveHab" value="1"><br>
 						Exit HAB Lvl 2? <input type="radio" name="leaveHab" value="2"><br>
@@ -133,7 +133,7 @@
 					</p>
 					<p></p>
 
-					<p><u>POST-SANDSTORM</u></p>
+					<p><u>Tele Op</u></p>
 					Hatch:
 					<input type="number" name="toHatchCnt" min="0" value=0 style="width: 40px;">
 					<p></p>
@@ -146,7 +146,7 @@
 					Good Defense? <input type="radio" name="defense" value="2"><br>
 					Best Defense? <input type="radio" name="defense" value="3">
 
-					<p><u>END GAME</u></p>
+					<p><u>End Game</u></p>
 					Did not return to HAB? <input type="radio" checked="checked" name="returnHab" value="0"><br>
 					HAB Lvl 1? <input type="radio" name="returnHab" value="1"><br>
 					HAB Lvl 2? <input type="radio" name="returnHab" value="2"><br>
