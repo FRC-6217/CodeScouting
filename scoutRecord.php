@@ -122,33 +122,33 @@
 					</p>					
 					<p></p>
 
-<u>Autonomous</u><br>
+<br><u>Autonomous</u><br>
 PC Lower Cnt: <input type="number" name ="aPcLower" value=0 style="width: 40px;"><br>
 PC Outer Cnt: <input type="number" name ="aPcOuter" value=0 style="width: 40px;"><br>
 PC Inner Cnt: <input type="number" name ="aPcInner" value=0 style="width: 40px;"><br>
-Move Off Line:<br>No<input type="radio" checked="checked" name ="aMove" value=0"><br>
-Yes<input type="radio" name ="aMove" value=1"><br>
-<u>Tele Op</u><br>
+Move Off Line:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="aMove" value=0"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="aMove" value=1"><br>
+<br><u>Tele Op</u><br>
 PC Lower Cnt: <input type="number" name ="toPcLower" value=0 style="width: 40px;"><br>
 PC Outer Cnt: <input type="number" name ="toPcOuter" value=0 style="width: 40px;"><br>
 PC Inner Cnt: <input type="number" name ="toPcInner" value=0 style="width: 40px;"><br>
-Ctrl Pnl Rotation:<br>No<input type="radio" checked="checked" name ="toCpRotation" value=0"><br>
-Yes<input type="radio" name ="toCpRotation" value=1"><br>
+Ctrl Pnl Rotation:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="toCpRotation" value=0"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="toCpRotation" value=1"><br>
 Rotation Time: <input type="number" name ="toCpRotationTime" value=0 style="width: 40px;"><br>
-Ctrl Pnl Position:<br>No<input type="radio" checked="checked" name ="toCpPosition" value=0"><br>
-Yes<input type="radio" name ="toCpPosition" value=1"><br>
+Ctrl Pnl Position:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="toCpPosition" value=0"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="toCpPosition" value=1"><br>
 Position Time: <input type="number" name ="toCpPositionTime" value=0 style="width: 40px;"><br>
-Defense:<br>No Defense<input type="radio" checked="checked" name ="toDefense" value=0"><br>
-Poor Defense<input type="radio" name ="toDefense" value=-1"><br>
-Good Defense<input type="radio" name ="toDefense" value=1"><br>
-Excellent Defense<input type="radio" name ="toDefense" value=2"><br>
-<u>End Game</u><br>
-Final Position:<br>None<input type="radio" checked="checked" name ="toFinalPosition" value=0"><br>
-Park<input type="radio" name ="toFinalPosition" value=1"><br>
-Hang Unassisted<input type="radio" name ="toFinalPosition" value=2"><br>
-Hang Assisted<input type="radio" name ="toFinalPosition" value=1"><br>
-Hang Assist 1<input type="radio" name ="toFinalPosition" value=3"><br>
-Hang Assist 2<input type="radio" name ="toFinalPosition" value=4"><br>
+Defense:<br>&nbsp;&nbsp;&nbsp;&nbsp;No Defense<input type="radio" checked="checked" name ="toDefense" value=0"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Poor Defense<input type="radio" name ="toDefense" value=-1"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Good Defense<input type="radio" name ="toDefense" value=1"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Excellent Defense<input type="radio" name ="toDefense" value=2"><br>
+<br><u>End Game</u><br>
+Final Position:<br>&nbsp;&nbsp;&nbsp;&nbsp;None<input type="radio" checked="checked" name ="toFinalPosition" value=0"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Park<input type="radio" name ="toFinalPosition" value=1"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hang Unassisted<input type="radio" name ="toFinalPosition" value=2"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hang Assisted<input type="radio" name ="toFinalPosition" value=1"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hang Assist 1<input type="radio" name ="toFinalPosition" value=3"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Hang Assist 2<input type="radio" name ="toFinalPosition" value=4"><br>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
