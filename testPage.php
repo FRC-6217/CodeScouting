@@ -68,12 +68,13 @@
 <br>
 <?php
 	echo "Test Writing";
-    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("timeout"=>1), $info);
+    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("timeout"=>1,"X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
+	echo($response);
 	print_r($info);
 	print_r($response);
 	echo($info);
-	echo($response);
 	var_dump(json_decode($info));
 	var_dump(json_decode($info, true));
 ?>
+,"X-TBA-Auth-Key"="N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"?>
 </html> 
