@@ -36,7 +36,7 @@
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>Bomb Botz Scouting App2</center></h1>
+    <h1><center>Bomb Botz Scouting App</center></h1>
 		<center><a href="index.php">Home</a></center>
     <p></p>
     <center><h3>
@@ -67,11 +67,12 @@
 ?>
 <br>
 <?php
-	echo "Test Writing";
+	echo "Test Writing 1";
     $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
 	                   , array('headers' =>
 					           array('X-TBA-Auth-Key' => 'N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M'
 							        ,'Accept' => 'application/json')), $info);
+	echo "Test Writing 2";
 	print_r($response);
 	print_r($info);
 	echo($info);
