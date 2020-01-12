@@ -37,13 +37,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <h1><center>Bomb Botz Scouting App</center></h1>
-	    <h2><center>Infinite Recharge, Lake Superior Regional</center></h2>
-    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
-    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
+		<center><a href="index.php">Home</a></center>
     <p></p>
     <?php
     $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
 	print_r($info);
+	print_r($response);
 	var_dump(json_decode($info));
 	var_dump(json_decode($info, true));
     ?>
