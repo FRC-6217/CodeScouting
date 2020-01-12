@@ -44,5 +44,7 @@
     <?php
     $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
 	print_r($info);
+	var_dump(json_decode($info));
+	var_dump(json_decode($info, true));
     ?>
 </html> 
