@@ -53,4 +53,26 @@
 	var_dump(json_decode($json));
 	var_dump(json_decode($json, true));
 ?>
+    <center><h3>
+    <?php
+    $tsql = "select buttonHtml
+	              , sortOrder
+			   from v_RankButtons
+			  order by sortOrder";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		echo ($row['buttonHtml']);
+    }
+    sqlsrv_free_stmt($getResults);
+    ?>
+    </center> </h3>
+    <br>
 </html> 
