@@ -68,6 +68,8 @@
 <br>
 <?php
 	echo ini_get('display_errors');
+	echo ini_set('display_errors','1');
+	echo ini_get('display_errors');
 	echo ini_get('extension_loaded');
 	
 	echo "Test Writing 1";
