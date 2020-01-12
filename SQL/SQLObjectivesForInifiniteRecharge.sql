@@ -24,27 +24,29 @@
 -- 5 What does your robot weigh?
 
 -- Clear any previous setup
+Delete from RankObjective where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
+Delete from ObjectiveGroupObjective where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
 Delete From ObjectiveValue where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
 Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
 
 -- Autonomous 
-insert into Objective select g.id, 'aPcLower', 'Auto PC Lower Count', st.id, 0, 8, 2, 1 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aPcOuter', 'Auto PC Outer Count', st.id, 0, 8, 4, 2 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aPcInner', 'Auto PC Inner Count', st.id, 0, 8, 6, 3 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aMove', 'Auto Move Off Line', st.id, null, null, null, 4 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'aPcLower', 'PC Lower Cnt: ', st.id, 0, 8, 2, 1 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'aPcOuter', 'PC Outer Cnt: ', st.id, 0, 8, 4, 2 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'aPcInner', 'PC Inner Cnt: ', st.id, 0, 8, 6, 3 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'aMove', 'Move Off Line:', st.id, null, null, null, 4 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- TeleOp
-insert into Objective select g.id, 'toPcLower', 'TeleOp PC Lower Count', st.id, 0, 50, 1, 5 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toPcOuter', 'TeleOp PC Outer Count', st.id, 0, 50, 2, 6 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toPcInner', 'TeleOp PC Inner Count', st.id, 0, 50, 3, 7 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpRotation', 'TeleOp Ctrl Pnl Rotation', st.id, null, null, null, 8 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpRotationTime', 'TeleOp Ctrl Pnl Rotation Time', st.id, 0, 60, null, 9 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpPosition', 'TeleOp Ctrl Pnl Position', st.id, null, null, null, 10 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpPositionTime', 'TeleOp Ctrl Pnl Position Time', st.id, 0, 60, null, 11 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
-insert into Objective select g.id, 'toDefense', 'TeleOp Defense', st.id, null, null, null, 12 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toPcLower', 'PC Lower Cnt: ', st.id, 0, 50, 1, 5 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toPcOuter', 'PC Outer Cnt: ', st.id, 0, 50, 2, 6 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toPcInner', 'PC Inner Cnt: ', st.id, 0, 50, 3, 7 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpRotation', 'Ctrl Pnl Rotation:', st.id, null, null, null, 8 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpRotationTime', 'Rotation Time: ', st.id, 0, 60, null, 9 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpPosition', 'Ctrl Pnl Position:', st.id, null, null, null, 10 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toCpPositionTime', 'Position Time: ', st.id, 0, 60, null, 11 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
+insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 12 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- End Game
-insert into Objective select g.id, 'toFinalPosition', 'TeleOp Final Position', st.id, null, null, null, 13 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective select g.id, 'toFinalPosition', 'Final Position:', st.id, null, null, null, 13 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- Objective Values
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
@@ -84,11 +86,11 @@ insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id
 insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'toFinalPosition';
 
 -- Rank Setup
-insert into Rank (name, type, sortOrder) values ('Auto', 'S', 1);
-insert into Rank (name, type, sortOrder) values ('Power Cell', 'S', 2);
-insert into Rank (name, type, sortOrder) values ('Ctrl Pnl', 'S', 3);
---insert into Rank (name, type, sortOrder) values ('Defense', 'V', 4);
-insert into Rank (name, type, sortOrder) values ('Final', 'S', 5);
+insert into Rank (name, queryString, type, sortOrder) values ('Auto', 'rankAuto', 'S', 1);
+insert into Rank (name, queryString, type, sortOrder) values ('Power Cell', 'rankPC', 'S', 2);
+insert into Rank (name, queryString, type, sortOrder) values ('Ctrl Pnl', 'rankCP', 'S', 3);
+--insert into Rank (name, queryString, type, sortOrder) values ('Defense', 'rankPlayedDefense', 'V', 4);
+insert into Rank (name, queryString, type, sortOrder) values ('Final', 'rankFinal', 'S', 5);
 
 insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aMove';
 insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcLower';
