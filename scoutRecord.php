@@ -49,7 +49,7 @@
 ?>
 			<center>				
 				<div class="container" id="scout">
-					<p><u>Match Selection</u></p>
+					<p><u><b>Match Selection</b></u></p>
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
 							<option value=""></option>
@@ -121,14 +121,13 @@
 						</select>
 					</p>					
 					<p></p>
-
-<br><u>Autonomous</u>
+<br><b><u>Autonomous</u></b>
 <br>PC Lower Cnt: <input type="number" name ="aPcLower" value=0 style="width: 40px;"><br>
 <br>PC Outer Cnt: <input type="number" name ="aPcOuter" value=0 style="width: 40px;"><br>
 <br>PC Inner Cnt: <input type="number" name ="aPcInner" value=0 style="width: 40px;"><br>
 <br>Move Off Line:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="aMove" value=0"><br>
 &nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="aMove" value=1"><br>
-<br><u>Tele Op</u>
+<br><b><u>Tele Op</u></b>
 <br>PC Lower Cnt: <input type="number" name ="toPcLower" value=0 style="width: 40px;"><br>
 <br>PC Outer Cnt: <input type="number" name ="toPcOuter" value=0 style="width: 40px;"><br>
 <br>PC Inner Cnt: <input type="number" name ="toPcInner" value=0 style="width: 40px;"><br>
@@ -142,7 +141,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;Poor Defense<input type="radio" name ="toDefense" value=-1"><br>
 &nbsp;&nbsp;&nbsp;&nbsp;Good Defense<input type="radio" name ="toDefense" value=1"><br>
 &nbsp;&nbsp;&nbsp;&nbsp;Excellent Defense<input type="radio" name ="toDefense" value=2"><br>
-<br><u>End Game</u>
+<br><b><u>End Game</u></b>
 <br>Final Position:<br>&nbsp;&nbsp;&nbsp;&nbsp;None<input type="radio" checked="checked" name ="toFinalPosition" value=0"><br>
 &nbsp;&nbsp;&nbsp;&nbsp;Park<input type="radio" name ="toFinalPosition" value=1"><br>
 &nbsp;&nbsp;&nbsp;&nbsp;Hang Unassisted<input type="radio" name ="toFinalPosition" value=2"><br>
