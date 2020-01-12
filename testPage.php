@@ -39,22 +39,8 @@
     <h1><center>Bomb Botz Scouting App2</center></h1>
 		<center><a href="index.php">Home</a></center>
     <p></p>
-<?php
-    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
-	print_r($info);
-	print_r($response);
-	echo($info);
-	echo($response);
-	var_dump(json_decode($info));
-	var_dump(json_decode($info, true));
-	echo "Test Writing";
-
-	$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-	var_dump(json_decode($json));
-	var_dump(json_decode($json, true));
-?>
     <center><h3>
-    <?php
+<?php
     $tsql = "select buttonHtml
 	              , sortOrder
 			   from v_RankButtons
@@ -72,7 +58,21 @@
 		echo ($row['buttonHtml']);
     }
     sqlsrv_free_stmt($getResults);
-    ?>
+?>
     </center> </h3>
     <br>
+<?php
+    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
+	print_r($info);
+	print_r($response);
+	echo($info);
+	echo($response);
+	var_dump(json_decode($info));
+	var_dump(json_decode($info, true));
+	echo "Test Writing";
+
+	$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+	var_dump(json_decode($json));
+	var_dump(json_decode($json, true));
+?>
 </html> 
