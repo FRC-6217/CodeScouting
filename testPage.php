@@ -66,14 +66,15 @@
 	var_dump(json_decode($json));
 	var_dump(json_decode($json, true));
 ?>
+<br>
 <?php
-    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("X-TBA-Auth-Key"=>"N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M"), $info);
+	echo "Test Writing";
+    $response = http_get("https://www.thebluealliance.com/api/v3/event/2020mndu/teams", array("timeout"=>1), $info);
 	print_r($info);
 	print_r($response);
 	echo($info);
 	echo($response);
 	var_dump(json_decode($info));
 	var_dump(json_decode($info, true));
-	echo "Test Writing";
 ?>
 </html> 
