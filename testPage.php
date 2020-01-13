@@ -2,19 +2,6 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-<?php
-    $serverName = getenv("ScoutAppDatabaseServerName");
-	$database = getenv("Database");
-	$userName = getenv("DatabaseUserName");
-	$password = getenv("DatabasePassword");
-    $connectionOptions = array(
-        "Database" => "$database",
-        "Uid" => "$userName",
-        "PWD" => "$password"
-    );
-    //Establishes the connection
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
@@ -40,26 +27,6 @@
 		<center><a href="index.php">Home</a></center>
     <p></p>
     <center><h3>
-<?php
-
-    $tsql = "select buttonHtml
-	              , sortOrder
-			   from v_RankButtons
-			  order by sortOrder";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		echo ($row['buttonHtml']);
-    }
-    sqlsrv_free_stmt($getResults);
-?>
     </center> </h3>
     <br>
 <?php
