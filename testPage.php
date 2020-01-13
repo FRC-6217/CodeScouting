@@ -46,16 +46,16 @@ usort($matchesArray, function($a, $b) { //Sort the array using a user defined fu
 });
 // Display Match Info
 foreach($matchesArray as $key => $value) {
-	echo $value["comp_level"] . $value["match_number"] .
-	     ", Time:" . $value["time"] .
+	echo strtoupper($value["comp_level"]) . $value["match_number"] .
+	     ", Time:" . gmdate("Y-m-d\TH:i:s\Z", $value["time"]) .
 	     ", Blue:" . $value["alliances"]["blue"]["score"] .
          ", Red:" . $value["alliances"]["red"]["score"] .
-         ", B1:" . $value["alliances"]["blue"]["team_keys"][0] .
-         ", B2:" . $value["alliances"]["blue"]["team_keys"][1] .
-         ", B3:" . $value["alliances"]["blue"]["team_keys"][2] .
-         ", R1:" . $value["alliances"]["red"]["team_keys"][0] .
-         ", R2:" . $value["alliances"]["red"]["team_keys"][1] .
-         ", R3:" . $value["alliances"]["red"]["team_keys"][2] .
+         ", B1:" . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+         ", B2:" . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+         ", B3:" . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+         ", R1:" . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+         ", R2:" . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+         ", R3:" . substr($value["alliances"]["red"]["team_keys"][2], 3) .
          "<br>";
 }
 
