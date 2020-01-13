@@ -31,7 +31,6 @@
     <br>
 <?php
 	echo ini_set('display_errors', '1');
-	echo ini_get('display_errors');
 
 $sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
 
@@ -44,15 +43,8 @@ $contents = file_get_contents($sURL, false, $context);
 
 echo $contents;
 
-    $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
-	                   , array('headers' =>
-					           array('X-TBA-Auth-Key' => 'N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M'
-							        ,'Accept' => 'application/json')), $info);
-	print_r($response);
-	print_r($info);
-	echo($info);
-	echo($response);
-	var_dump(json_decode($info));
-	var_dump(json_decode($info, true));
+	print_r($contents);
+	var_dump(json_decode($contents));
+	var_dump(json_decode($contents, true));
 ?>
 </html> 
