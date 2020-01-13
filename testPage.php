@@ -47,15 +47,19 @@ usort($matchesArray, function($a, $b) { //Sort the array using a user defined fu
 // Display Match Info
 foreach($matchesArray as $key => $value) {
 	echo strtoupper($value["comp_level"]) . $value["match_number"] .
-	     ", Time:" . gmdate("Y-m-d\TH:i:s\Z", $value["time"]) .
+	     ", Time:" . gmdate("m/d/Y H:i", $value["time"]) .
 	     ", Blue:" . $value["alliances"]["blue"]["score"] .
-         ", Red:" . $value["alliances"]["red"]["score"] .
-         ", B1:" . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+         ", Red:" . $value["alliances"]["red"]["score"]
+    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "<strong>"
+    echo ", B1:" . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
          ", B2:" . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-         ", B3:" . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-         ", R1:" . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+         ", B3:" . substr($value["alliances"]["blue"]["team_keys"][2], 3)
+    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "</strong>"
+    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "<strong>"
+    echo ", R1:" . substr($value["alliances"]["red"]["team_keys"][0], 3) .
          ", R2:" . substr($value["alliances"]["red"]["team_keys"][1], 3) .
          ", R3:" . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "</strong>"
          "<br>";
 }
 
