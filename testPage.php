@@ -48,15 +48,13 @@ echo $teamsArray[2]["nickname"] . "<br>";
 echo $teamsArray[3]["nickname"] . "<br>";
 echo $teamsArray[4]["nickname"] . "<br>";
 echo $teamsArray[0]["team_number"] . "<br>";
-/*
 foreach($teamsArray as $key => $value) {
 	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . "<br>";
 }
-*/
 
 //echo $contents;
 //print_r($contents);
 //var_dump(json_decode($contents));
-	var_dump(json_decode($teamsJSON, true));
+//	var_dump(json_decode($teamsJSON, true));
 ?>
 </html> 
