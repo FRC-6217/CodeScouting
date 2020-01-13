@@ -40,12 +40,13 @@ $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 $teamsJSON = file_get_contents($sURL, false, $context);
 
+/*
 // Display Team Number, Name and Location
 $teamsArray = json_decode($teamsJSON, true);
 foreach($teamsArray as $key => $value) {
 	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . <br>;
 }
-
+*/
 
 //echo $contents;
 //print_r($contents);
