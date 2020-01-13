@@ -6,7 +6,7 @@
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
-	$password = getenv("DatabaseUserPassword");
+	$password = getenv("DatabasePassword");
     $connectionOptions = array(
         "Database" => "$database",
         "Uid" => "$userName",
