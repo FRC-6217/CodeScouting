@@ -32,6 +32,32 @@
 <?php
 ini_set('display_errors', '1');
 
+// Get Event Matches from Blue Alliance
+$sURL = "https://www.thebluealliance.com/api/v3/event/2019mndu/matches/simple"; // The POST URL
+$aHTTP['http']['method']  = 'GET';
+$aHTTP['http']['header']  = "X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M\r\n";
+$aHTTP['http']['header'] .= "Accept: application/json\r\n";
+$context = stream_context_create($aHTTP);
+$matchesJSON = file_get_contents($sURL, false, $context);
+// Sort by Time
+$matchesArray = json_decode($matchesJSON, true);
+usort($matchesArray, function($a, $b) { //Sort the array using a user defined function
+    return $a["time"] < $b["time"] ? -1 : 1; //Compare the time of match
+});
+// Display Match Info
+foreach($timeArray as $key => $value) {
+	echo $value["comp_level"] . $value["match_number"] . ", Time:" . $value["time"] .
+	     ", Blue:" . $value["alliances"]["blue"]["score"] .
+         ", Red:" . $value["alliances"]["red"]["score"] .
+         ", B1:" . $value["alliances"]["blue"]["team_keys"][0] .
+         ", B2:" . $value["alliances"]["blue"]["team_keys"][1] .
+         ", B3:" . $value["alliances"]["blue"]["team_keys"][2] .
+         ", R1:" . $value["alliances"]["red"]["team_keys"][0] .
+         ", R2:" . $value["alliances"]["red"]["team_keys"][1] .
+         ", R3:" . $value["alliances"]["red"]["team_keys"][2] .
+         "<br>";
+}
+
 // Get Event Teams from Blue Alliance
 $sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
 $aHTTP['http']['method']  = 'GET';
@@ -39,13 +65,11 @@ $aHTTP['http']['header']  = "X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZy
 $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 $teamsJSON = file_get_contents($sURL, false, $context);
-
 // Sort by Team Number
 $teamsArray = json_decode($teamsJSON, true);
 usort($teamsArray, function($a, $b) { //Sort the array using a user defined function
     return $a["team_number"] < $b["team_number"] ? -1 : 1; //Compare the team numbers
 });
-
 // Display Team Number, Name and Location
 foreach($teamsArray as $key => $value) {
 	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . "<br>";
