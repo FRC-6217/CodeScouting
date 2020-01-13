@@ -31,15 +31,20 @@
     <br>
 <?php
 	ini_set('display_errors', '1');
-
+// Get Event Teams from Blue Alliance
 $sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
-
 $aHTTP['http']['method']  = 'GET';
 $aHTTP['http']['header']  = "X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M\r\n";
 $aHTTP['http']['header'] .= "Accept: application/json\r\n";
-
 $context = stream_context_create($aHTTP);
-$contents = file_get_contents($sURL, false, $context);
+$teamsJSON = file_get_contents($sURL, false, $context);
+
+// Display Team Number, Name and Location
+$teamsArray = json_decode($teamsJSON, true);
+foreach($teamsArray as $key => $value) {
+	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . <br>
+}
+
 
 //echo $contents;
 //print_r($contents);
