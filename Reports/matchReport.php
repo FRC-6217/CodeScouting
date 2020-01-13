@@ -16,7 +16,7 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 ?>
-	<center><h1>Match Report</h1></center>
+	<center><h1>Pre-Match Report (Team Objective Averages)</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Alliance</th>
