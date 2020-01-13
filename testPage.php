@@ -63,6 +63,7 @@
     </center> </h3>
     <br>
 <?php
+ phpinfo();
 	echo ini_set('display_errors', '1');
 	echo ini_get('display_errors');
     $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
