@@ -63,22 +63,12 @@
     </center> </h3>
     <br>
 <?php
-	$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-    print_r($json);
-?>
-<br>
-<?php
-	echo ini_get('display_errors');
-	echo ini_get('extension_loaded');
-	
-	echo "Test Writing 1";
 	echo ini_set('display_errors', '1');
 	echo ini_get('display_errors');
     $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
 	                   , array('headers' =>
 					           array('X-TBA-Auth-Key' => 'N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M'
 							        ,'Accept' => 'application/json')), $info);
-	echo "Test Writing 2";
 	print_r($response);
 	print_r($info);
 	echo($info);
