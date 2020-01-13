@@ -4,9 +4,6 @@
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
 
-$container = $app->getContainer();
-echo $container->get('ScoutAppDatabaseServerName');
-
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
 	$userName = "frc6217";
@@ -45,6 +42,8 @@ echo $container->get('ScoutAppDatabaseServerName');
     <p></p>
     <center><h3>
 <?php
+echo getenv('ScoutAppDatabaseServerName');
+
     $tsql = "select buttonHtml
 	              , sortOrder
 			   from v_RankButtons
