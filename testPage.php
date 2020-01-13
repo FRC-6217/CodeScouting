@@ -49,18 +49,18 @@ foreach($matchesArray as $key => $value) {
 	echo strtoupper($value["comp_level"]) . $value["match_number"] .
 	     ", Time:" . gmdate("m/d/Y H:i", $value["time"]) .
 	     ", Blue:" . $value["alliances"]["blue"]["score"] .
-         ", Red:" . $value["alliances"]["red"]["score"]
-    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "<strong>"
+         ", Red:" . $value["alliances"]["red"]["score"];
+    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "<strong>";
     echo ", B1:" . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
          ", B2:" . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-         ", B3:" . substr($value["alliances"]["blue"]["team_keys"][2], 3)
-    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "</strong>"
-    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "<strong>"
+         ", B3:" . substr($value["alliances"]["blue"]["team_keys"][2], 3);
+    if ($value["alliances"]["blue"]["score"] > $value["alliances"]["red"]["score"]) echo "</strong>";
+    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "<strong>";
     echo ", R1:" . substr($value["alliances"]["red"]["team_keys"][0], 3) .
          ", R2:" . substr($value["alliances"]["red"]["team_keys"][1], 3) .
-         ", R3:" . substr($value["alliances"]["red"]["team_keys"][2], 3) .
-    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "</strong>"
-         "<br>";
+         ", R3:" . substr($value["alliances"]["red"]["team_keys"][2], 3);
+    if ($value["alliances"]["blue"]["score"] < $value["alliances"]["red"]["score"]) echo "</strong>";
+    echo "<br>";
 }
 
 // Get Event Teams from Blue Alliance
