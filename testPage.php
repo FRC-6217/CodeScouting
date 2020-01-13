@@ -30,7 +30,8 @@
     </center> </h3>
     <br>
 <?php
-	ini_set('display_errors', '1');
+	echo ini_set('display_errors', '1');
+
 // Get Event Teams from Blue Alliance
 $sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
 $aHTTP['http']['method']  = 'GET';
@@ -42,13 +43,13 @@ $teamsJSON = file_get_contents($sURL, false, $context);
 // Display Team Number, Name and Location
 $teamsArray = json_decode($teamsJSON, true);
 foreach($teamsArray as $key => $value) {
-	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . <br>
+	echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . <br>;
 }
 
 
 //echo $contents;
 //print_r($contents);
 //var_dump(json_decode($contents));
-	var_dump(json_decode($contents, true));
+	var_dump(json_decode($teamsJSON, true));
 ?>
 </html> 
