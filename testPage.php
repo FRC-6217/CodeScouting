@@ -39,8 +39,8 @@ $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 $contents = file_get_contents($sURL, false, $context);
 
-var_dump(json_decode($contents));
-//print_r($contents);
+//var_dump(json_decode($contents));
+print_r($contents);
 //echo $contents;
 ?>
 </html> 
