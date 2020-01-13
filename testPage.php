@@ -42,7 +42,6 @@
     <p></p>
     <center><h3>
 <?php
-echo getenv('ScoutAppDatabaseServerName');
 
     $tsql = "select buttonHtml
 	              , sortOrder
@@ -61,6 +60,7 @@ echo getenv('ScoutAppDatabaseServerName');
 		echo ($row['buttonHtml']);
     }
     sqlsrv_free_stmt($getResults);
+echo getenv("ScoutAppDatabaseServerName");
 ?>
     </center> </h3>
     <br>
