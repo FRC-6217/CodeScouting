@@ -35,8 +35,8 @@ ini_set('display_errors', '1');
 // Setup Blue Alliance API calls
 $TBAAuthKey = getenv("TheBlueAllianceAuthKey");
 $aHTTP['http']['method']  = 'GET';
-$aHTTP['http']['header']  = 'X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M\r\n';
-$aHTTP['http']['header'] .= 'Accept: application/json\r\n';
+$aHTTP['http']['header']  = "X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M\r\n";
+$aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 
 // Get Event Matches from Blue Alliance
