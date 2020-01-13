@@ -40,7 +40,7 @@ $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 
 // Get Event Matches from Blue Alliance
-$sURL = "https://www.thebluealliance.com/api/v3/event/2019mndu/matches/simple";
+$sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/matches/simple";
 $matchesJSON = file_get_contents($sURL, false, $context);
 // Sort by Time
 $matchesArray = json_decode($matchesJSON, true);
