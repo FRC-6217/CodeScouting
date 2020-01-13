@@ -30,17 +30,29 @@
     </center> </h3>
     <br>
 <?php
-	ini_set('display_errors', '1')
+	echo ini_set('display_errors', '1');
+	echo ini_get('display_errors');
 
-$sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
+$sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams"; // The POST URL
+
 $aHTTP['http']['method']  = 'GET';
 $aHTTP['http']['header']  = "X-TBA-Auth-Key: N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M\r\n";
 $aHTTP['http']['header'] .= "Accept: application/json\r\n";
+
 $context = stream_context_create($aHTTP);
 $contents = file_get_contents($sURL, false, $context);
 
-//var_dump(json_decode($contents));
-//print_r($contents);
 echo $contents;
+
+    $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
+	                   , array('headers' =>
+					           array('X-TBA-Auth-Key' => 'N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M'
+							        ,'Accept' => 'application/json')), $info);
+	print_r($response);
+	print_r($info);
+	echo($info);
+	echo($response);
+	var_dump(json_decode($info));
+	var_dump(json_decode($info, true));
 ?>
 </html> 
