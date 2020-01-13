@@ -3,11 +3,10 @@
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
-
-    $serverName = "team6217.database.windows.net";
-	$database = "ScoutApp";
-	$userName = "frc6217";
-	$password = "Cfbombers6217";
+    $serverName = getenv("ScoutAppDatabaseServerName");
+	$database = getenv("Database");
+	$userName = getenv("DatabaseUserName");
+	$password = getenv("DatabaseUserPassword");
     $connectionOptions = array(
         "Database" => "$database",
         "Uid" => "$userName",
@@ -60,7 +59,6 @@
 		echo ($row['buttonHtml']);
     }
     sqlsrv_free_stmt($getResults);
-echo getenv("ScoutAppDatabaseServerName");
 ?>
     </center> </h3>
     <br>
