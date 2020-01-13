@@ -3,7 +3,10 @@
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
-echo ini_get('ScoutAppDatabaseServerName');
+
+$container = $app->getContainer();
+echo $container->get('ScoutAppDatabaseServerName');
+
     $serverName = "team6217.database.windows.net";
 	$database = "ScoutApp";
 	$userName = "frc6217";
