@@ -45,8 +45,9 @@ usort($matchesArray, function($a, $b) { //Sort the array using a user defined fu
     return $a["time"] < $b["time"] ? -1 : 1; //Compare the time of match
 });
 // Display Match Info
-foreach($timeArray as $key => $value) {
-	echo $value["comp_level"] . $value["match_number"] . ", Time:" . $value["time"] .
+foreach($matchesArray as $key => $value) {
+	echo $value["comp_level"] . $value["match_number"] .
+	     ", Time:" . $value["time"] .
 	     ", Blue:" . $value["alliances"]["blue"]["score"] .
          ", Red:" . $value["alliances"]["red"]["score"] .
          ", B1:" . $value["alliances"]["blue"]["team_keys"][0] .
