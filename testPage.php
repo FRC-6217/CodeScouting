@@ -30,7 +30,7 @@
     </center> </h3>
     <br>
 <?php
-	echo ini_set('display_errors', '1');
+	ini_set('display_errors', '1');
 
 $sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple"; // The POST URL
 
@@ -41,10 +41,9 @@ $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 $contents = file_get_contents($sURL, false, $context);
 
-echo $contents;
-
-	print_r($contents);
-	var_dump(json_decode($contents));
+//echo $contents;
+//print_r($contents);
+//var_dump(json_decode($contents));
 	var_dump(json_decode($contents, true));
 ?>
 </html> 
