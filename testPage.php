@@ -71,6 +71,8 @@
 	echo ini_get('extension_loaded');
 	
 	echo "Test Writing 1";
+	echo ini_set('display_errors', '1');
+	echo ini_get('display_errors');
     $response = http_get('https://www.thebluealliance.com/api/v3/event/2020mndu/teams'
 	                   , array('headers' =>
 					           array('X-TBA-Auth-Key' => 'N4Z1bSR1oaDFECjDNV3wp1zAqUY0LCI4OZyL1nVCg2K5yfsV3JAy9OBuJgEKYQ7M'
