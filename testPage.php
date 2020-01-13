@@ -40,7 +40,7 @@ $context = stream_context_create($aHTTP);
 $contents = file_get_contents($sURL, false, $context);
 
 //var_dump(json_decode($contents));
-print_r($contents);
-//echo $contents;
+//print_r($contents);
+echo $contents;
 ?>
 </html> 
