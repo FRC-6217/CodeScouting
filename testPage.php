@@ -43,7 +43,7 @@ $teamsJSON = file_get_contents($sURL, false, $context);
 // Sort by Team Number
 $teamsArray = json_decode($teamsJSON, true);
 usort($teamsArray, function($a, $b) { //Sort the array using a user defined function
-    return $a->nickname < $b->nickname ? -1 : 1; //Compare the team names
+    return $a->team_number > $b->team_number ? -1 : 1; //Compare the team numbers
 });
 
 // Display Team Number, Name and Location
