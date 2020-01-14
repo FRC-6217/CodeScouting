@@ -21,6 +21,7 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
 		
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
@@ -66,12 +67,10 @@
 									}
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-							?>
-							<?php if ($row['isActive'] = "Y")
-							         echo '<option value="$row['id']" selected>$row['name']</option>';
-								  else
-							         echo '<option value="$row['id']">$row['name']</option>';
-							<?php		
+								if ($row['isActive'] = "Y")
+									echo '<option value="$row['id']" selected>$row['name']</option>';
+								else
+							        echo '<option value="$row['id']">$row['name']</option>';
 							}
 							?>
 						</select>
