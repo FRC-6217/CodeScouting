@@ -100,7 +100,7 @@
 					</p>
 					<p></p>
 					<p>Change?
-						<select style="width: 161px;" name="game">
+						<select style="width: 161px;" name="option">
 							<option value="M" selected>Update Match Schedule</option>';
 							<option value="A">Activate Game Event</option>';
 							<option value="T">Update Team List</option>';
@@ -110,6 +110,14 @@
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
             </center>
+			<?php
+			$submit = $POST[submitToDatabase];
+			$game = $_POST[game];
+			$event = $_POST[event];
+			$option = $_POST[option];
+			sqlsrv_free_stmt($getResults);
+			sqlsrv_close($conn);
+			?>
         </form>
     </head>
 </html> 

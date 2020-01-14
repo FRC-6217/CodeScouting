@@ -166,6 +166,7 @@
 			$returnHab = $_POST[returnHab];
 
 			sqlsrv_free_stmt($getResults);
+			sqlsrv_close($conn);
 			?>
         </form>
 	</head>
