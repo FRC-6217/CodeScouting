@@ -66,7 +66,7 @@
 									}
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($row["isActive"] = 'Y')
+								if ($row["isActive"] == "Y")
 									echo '<option value="' . $row["id"] . '" selected>' . $row["name"] . '</option>';
 								else
 									echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
