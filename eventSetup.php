@@ -26,7 +26,7 @@
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
 		<center><a href="index.php">Home</a></center>
-		<form action='confirmation.php' method='post'>
+		<form action='eventModify.php' method='post'>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -66,8 +66,10 @@
 									}
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($row["isActive"] == "Y")
+								if ($row["isActive"] == "Y") {
 									echo '<option value="' . $row["id"] . '" selected>' . $row["name"] . '</option>';
+									$gameYear = $row["gameYear"];
+								}
 								else
 									echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
 							}
@@ -78,22 +80,20 @@
 					
 					<p>Event:
 						<select style="width: 157px" name="event">
-							<option value="<?php echo ($matchId);?>" selected><?php echo ($matchNumber);?></option>
+							<option value="" selected></option>
 							<?php
-							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchNumber";
-							$getResults = sqlsrv_query($conn, $tsql);
-							if ($getResults == FALSE)
-								if( ($errors = sqlsrv_errors() ) != null) {
-									foreach( $errors as $error ) {
-										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-										echo "code: ".$error[ 'code']."<br />";
-										echo "message: ".$error[ 'message']."<br />";
-									}
-								}
-							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-							?>
-							<option value="<?php echo ($row['matchId']);?>"><?php echo ($row['matchNumber']);?></option>
-							<?php		
+
+							// Events from Blue Alliance
+							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
+							$eventsJSON = file_get_contents($sURL, false, $context);
+							// Sort by State (MN/IA first), then by name
+							$eventsArray = json_decode($eventsJSON, true);
+							usort($eventsArray, function($a, $b) { //Sort the array using a user defined function
+								return $a["state_prov"] == "IA" || $a["state_prov"] == "MN" || $a["name"] < $b["name"] ? -1 : 1;
+							});
+							// Add Event Info to the select list
+							foreach($matchesArray as $key => $value) {
+								echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
 							}
 							?>
 						</select>
