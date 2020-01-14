@@ -92,15 +92,12 @@
 								return $a["state_prov"] == "IA" || $a["state_prov"] == "MN" || $a["name"] < $b["name"] ? -1 : 1;
 							});
 							// Add Event Info to the select list
-							foreach($matchesArray as $key => $value) {
+							foreach($eventsArray as $key => $value) {
 								echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
 							}
 							?>
 						</select>
 					</p>
-							<?php
-							echo $sURL;
-							?>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
