@@ -89,11 +89,7 @@
 							// Sort by State (MN/IA first), then by name
 							$eventsArray = json_decode($eventsJSON, true);
 							usort($eventsArray, function($a, $b) { //Sort the array using a user defined function
-								return ($a["state_prov"] == "IA" && $b["state_prov"] != "IA")
-								    || ($a["state_prov"] == "IA" && $b["state_prov"] != "MN")
-								    || ($a["state_prov"] == "MN" && $b["state_prov"] != "IA") 
-									|| ($a["state_prov"] == "MN" && $b["state_prov"] != "MN") 
-									|| $a["name"] < $b["name"] ? -1 : 1;
+								return $a["name"] < $b["name"] ? -1 : 1;
 							});
 							// Add Event Info to the select list
 							foreach($eventsArray as $key => $value) {
