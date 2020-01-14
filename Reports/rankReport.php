@@ -63,7 +63,8 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
         </tr>
         <?php
         }
-        db2_close();
+		sqlsrv_free_stmt($getResults);
+		sqlsrv_close($conn);
         ?>
     </table>
 </center>

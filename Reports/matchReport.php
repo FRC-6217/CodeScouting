@@ -79,6 +79,7 @@
     <?php
     }
     sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
     ?>
     </center>
     </table>
