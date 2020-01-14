@@ -45,7 +45,7 @@
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
           <p></p>
      </h2>
-    <center><h3>
+    <center><h2>
     <?php
     $tsql = "select buttonHtml
 	              , sortOrder
@@ -65,7 +65,11 @@
     }
     sqlsrv_free_stmt($getResults);
     ?>
-     </center> </h3>
+     </center> </h2>
+    <h2>
+          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
+          <p></p>
+     </h2>
     <br>
 
     <center><table cellspacing="0" cellpadding="5">
