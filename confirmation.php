@@ -23,6 +23,7 @@
 	$scout = $_POST[scout];
 	$match = $_POST[match];
 	$team = $_POST[team];
+	/*
 	$leaveHab = $_POST[leaveHab];
 	$ssHatchCnt = $_POST[ssHatchCnt];
 	$ssCargoCnt = $_POST[ssCargoCnt];
@@ -30,6 +31,14 @@
 	$toCargoCnt = $_POST[toCargoCnt];
 	$defense = $_POST[defense];
 	$returnHab = $_POST[returnHab];
+	*/
+	$leaveHab = 0;
+	$ssHatchCnt = 0;
+	$ssCargoCnt = 0;
+	$toHatchCnt = 0;
+	$toCargoCnt = 0;
+	$defense = 0;
+	$returnHab = 0;
 
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
 	$results = sqlsrv_query($conn, $tsql);
