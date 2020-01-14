@@ -21,12 +21,12 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
 		
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
 		<center><a href="index.php">Home</a></center>
+		<form action='confirmation.php' method='post'>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -99,6 +99,9 @@
 						</select>
 					</p>
 					<p></p>
+					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
             </center>
+        </form>
+    </head>
 </html> 
