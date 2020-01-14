@@ -52,6 +52,30 @@
 			<center>				
 				<div class="container" id="event">
 					<p><u><b>Event Selection</b></u></p>
+					<p>Game:
+						<select style="width: 161px;" name="game">
+							<?php
+							$tsql = "select id, name, gameYear, isActive from game order by gameYear desc";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
+							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+								if ($row['isActive'] = "Y")
+									echo '<option value="' . $row["id"] . '" selected>' . $row["name"] . '</option>';
+								else
+									echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
+							}
+							?>
+						</select>
+						</p>
+					<p></p>
+					
 					<p>Event:
 						<select style="width: 157px" name="event">
 							<option value="<?php echo ($matchId);?>" selected><?php echo ($matchNumber);?></option>
