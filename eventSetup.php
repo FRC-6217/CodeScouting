@@ -51,7 +51,7 @@
 ?>
 			<center>				
 				<div class="container" id="event">
-					<p><u><b>Event Selection</b></u></p>
+					<p><u><b>Event Setup / Configuration</b></u></p>
 					<p>Game:
 						<select style="width: 161px;" name="game">
 							<?php
@@ -96,6 +96,14 @@
 								echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
 							}
 							?>
+						</select>
+					</p>
+					<p></p>
+					<p>Change?
+						<select style="width: 161px;" name="game">
+							<option value="M" selected>Update Match Schedule</option>';
+							<option value="A" selected>Activate Game Event</option>';
+							<option value="T" selected>Update Team List</option>';
 						</select>
 					</p>
 					<p></p>
