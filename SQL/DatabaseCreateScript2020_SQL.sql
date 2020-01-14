@@ -27,12 +27,14 @@ create table Event(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(128) not null,
 	location varchar(128) not null,
-	isActive char(1) not null);
+	isActive char(1) not null,
+	eventCode varchar(16) null);
 create unique index idx_Event on Event(name);
-insert into Event (name, location, isActive) values ('Lake Superior Regional', 'Duluth, MN', 'N');
-insert into Event (name, location, isActive) values ('Iowa Regional', 'Cedar Falls, IA', 'N');
-insert into Event (name, location, isActive) values ('EMCC Off-Season', 'Woodbury, MN', 'Y');
-insert into Event (name, location, isActive) values ('Test Data Event', 'Cannon Falls, MN', 'N');
+create unique index idx_Event on Event(eventCode);
+insert into Event (name, location, isActive, eventCode) values ('Lake Superior Regional', 'Duluth, MN', 'N', 'mndu');
+insert into Event (name, location, isActive, eventCode) values ('Iowa Regional', 'Cedar Falls, IA', 'N', 'iacf');
+insert into Event (name, location, isActive, eventCode) values ('EMCC Off-Season', 'Woodbury, MN', 'Y', 'emcc');
+insert into Event (name, location, isActive, eventCode) values ('Test Data Event', 'Cannon Falls, MN', 'N', null);
 
 create table Game(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -337,14 +339,15 @@ insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id
 create table Rank(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(64) not null,
+	queryString varchar(64) not null,
 	type varchar(1) not null, -- V = Value, S = Score
 	sortOrder integer null);
 create unique index idx_Rank on Rank(name);
-insert into Rank (name, type, sortOrder) values ('Exit', 'V', 1);
-insert into Rank (name, type, sortOrder) values ('Hatches', 'V', 2);
-insert into Rank (name, type, sortOrder) values ('Cargo', 'V', 3);
-insert into Rank (name, type, sortOrder) values ('Defense', 'V', 4);
-insert into Rank (name, type, sortOrder) values ('Return', 'V', 5);
+insert into Rank (name, queryString, type, sortOrder) values ('Exit', 'rankLeaveHab', 'V', 1);
+insert into Rank (name, queryString, type, sortOrder) values ('Hatches', 'rankTotHatch', 'V', 2);
+insert into Rank (name, queryString, type, sortOrder) values ('Cargo', 'rankTotCargo', 'V', 3);
+insert into Rank (name, queryString, type, sortOrder) values ('Defense', 'rankPlayedDefense', 'V', 4);
+insert into Rank (name, queryString, type, sortOrder) values ('Return', 'rankReturnToHab', 'V', 5);
 
 create table RankObjective(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -400,43 +403,45 @@ create table Match(
 	gameEventId integer not null,
 	number varchar(8) not null,
 	dateTime datetime not null,
-	type char(1) not null,
-	isActive char(1) not null);
+	type varchar(8) not null,
+	isActive char(1) not null,
+	redScore integer null,
+	blueScore integer null);
 create unique index idx_Match on Match(gameEventId, dateTime);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '02', '09/21/2019 08:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '03', '09/21/2019 09:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '04', '09/21/2019 09:15:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '05', '09/21/2019 09:25:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '06', '09/21/2019 09:35:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '07', '09/21/2019 09:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '08', '09/21/2019 09:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '09', '09/21/2019 10:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '10', '09/21/2019 10:15:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '11', '09/21/2019 10:25:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '12', '09/21/2019 10:35:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '13', '09/21/2019 10:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '14', '09/21/2019 10:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '15', '09/21/2019 11:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '16', '09/21/2019 11:15:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '17', '09/21/2019 11:25:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '18', '09/21/2019 11:35:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '19', '09/21/2019 11:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '20', '09/21/2019 11:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '21', '09/21/2019 13:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '22', '09/21/2019 13:15:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '23', '09/21/2019 13:25:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '24', '09/21/2019 13:35:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '25', '09/21/2019 13:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '26', '09/21/2019 13:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '27', '09/21/2019 14:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '28', '09/21/2019 14:15:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '29', '09/21/2019 14:25:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '30', '09/21/2019 14:35:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '31', '09/21/2019 14:45:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '32', '09/21/2019 14:55:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '33', '09/21/2019 15:05:00', 'Q', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '02', '09/21/2019 08:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '03', '09/21/2019 09:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '04', '09/21/2019 09:15:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '05', '09/21/2019 09:25:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '06', '09/21/2019 09:35:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '07', '09/21/2019 09:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '08', '09/21/2019 09:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '09', '09/21/2019 10:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '10', '09/21/2019 10:15:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '11', '09/21/2019 10:25:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '12', '09/21/2019 10:35:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '13', '09/21/2019 10:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '14', '09/21/2019 10:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '15', '09/21/2019 11:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '16', '09/21/2019 11:15:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '17', '09/21/2019 11:25:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '18', '09/21/2019 11:35:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '19', '09/21/2019 11:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '20', '09/21/2019 11:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '21', '09/21/2019 13:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '22', '09/21/2019 13:15:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '23', '09/21/2019 13:25:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '24', '09/21/2019 13:35:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '25', '09/21/2019 13:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '26', '09/21/2019 13:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '27', '09/21/2019 14:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '28', '09/21/2019 14:15:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '29', '09/21/2019 14:25:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '30', '09/21/2019 14:35:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '31', '09/21/2019 14:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '32', '09/21/2019 14:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '33', '09/21/2019 15:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
 
 create table TeamMatch(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -899,7 +904,81 @@ select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end
  where ge.isActive = 'Y'
    and m.isActive = 'Y') subquery;
 go
- 
+
+create view v_RankButtons as
+select distinct
+       '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=' + r.queryString + '">Rank by ' + r.name + ' </a></div>' buttonHtml
+	 , r.name
+	 , r.queryString
+     , r.sortOrder
+  from Rank r
+       inner join RankObjective ro
+	   on ro.rankId = r.id
+	   inner join Objective o
+	   on o.id = ro.objectiveId
+	   inner join Game g
+	   on g.id = o.gameId
+	   inner join GameEvent ge
+	   on ge.gameId = g.id
+ where ge.isActive = 'Y'
+go
+
+-- View to get HTML for entry of Scout Record
+create view v_EnterScoutRecordHTML as
+select distinct
+       og.name groupName
+     , null objectiveName      
+	 , null objectiveLabel
+	 , null displayValue
+	 , null integerValue
+     , og.sortOrder groupSort
+	 , null objectiveSort
+	 , null objectiveValueSort
+	 , '<br><b><u>' + og.name + '</u></b>' scoutRecordHtml
+  from objectiveGroup og
+       inner join objectiveGroupObjective ogo
+	   on ogo.objectiveGroupId = og.id
+       inner join objective o
+	   on o.id = ogo.objectiveId
+ where o.gameId in
+       (select g.id
+	      from game g
+		       inner join gameEvent ge
+			   on ge.gameId = g.id
+		 where ge.isActive = 'Y')
+union
+select distinct
+       og.name groupName
+     , o.name objectiveName
+	 , o.label objectiveLabel
+	 , ov.displayValue
+	 , ov.integerValue
+     , og.sortOrder groupSort
+	 , o.sortOrder objectiveSort
+	 , ov.sortOrder objectiveValueSort
+	 , case when st.hasValueList = 'N'
+	        then '<br>' + o.label + '<input type="number" name ="' + o.name + '" value=0 style="width: 40px;"><br>'
+			when ov.sortOrder = 1
+	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '"><br>'
+			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '"><br>' end scoutRecordHtml
+  from objectiveGroup og
+       inner join objectiveGroupObjective ogo
+	   on ogo.objectiveGroupId = og.id
+       inner join objective o
+	   on o.id = ogo.objectiveId
+	   inner join scoringType st
+	   on st.id = o.scoringTypeId
+	   left outer join objectiveValue ov
+	   on ov.objectiveId = o.id
+ where o.gameId in
+       (select g.id
+	      from game g
+		       inner join gameEvent ge
+			   on ge.gameId = g.id
+		 where ge.isActive = 'Y')
+--order by groupSort, objectiveSort, objectiveValueSort
+go
+
 -- View for Scout Record
 create view v_ScoutRecord as
 select sr.matchId
