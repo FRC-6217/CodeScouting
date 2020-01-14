@@ -28,7 +28,8 @@ create table Event(
 	name varchar(128) not null,
 	location varchar(128) not null,
 	isActive char(1) not null,
-	eventCode varchar(16) null);
+	eventCode varchar(16) null,
+	lastUpdated datetime null);
 create unique index idx_Event on Event(name);
 create unique index idx_Event on Event(eventCode);
 insert into Event (name, location, isActive, eventCode) values ('Lake Superior Regional', 'Duluth, MN', 'N', 'mndu');
@@ -40,7 +41,8 @@ create table Game(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(128) not null,
 	gameYear integer not null,
-	isActive char(1) not null);
+	isActive char(1) not null,
+	lastUpdated datetime null);
 create unique index idx_Game on Game(name);
 insert into Game (name, gameYear, isActive) values ('Deep Space', 2019, 'Y');
 
@@ -49,7 +51,8 @@ create table GameEvent(
 	eventId integer not null,
 	gameId integer not null,
 	eventDate date not null,
-	isActive char(1) not null);
+	isActive char(1) not null,
+	lastUpdated datetime null);
 create unique index idx_GameEvent on GameEvent(eventId, eventDate);
 alter table GameEvent add constraint fk_GameEvent_Team foreign key (eventId) references Event (id);
 alter table GameEvent add constraint fk_GameEvent_Game foreign key (gameId) references Game (id);
@@ -63,7 +66,8 @@ create table Team(
 	teamNumber integer not null,
 	teamName varchar(128) not null,
 	location varchar(128) null,
-	isActive char(1) not null);
+	isActive char(1) not null,
+	lastUpdated datetime null);
 create unique index idx_Team on Team(teamNumber);
 insert into Team (teamNumber, teamName, location, isActive) values (93, 'NEW Apple Corps', 'Appleton, WI', 'Y');
 insert into Team (teamNumber, teamName, location, isActive) values (167, 'Children of the Corn', 'Iowa City, IA', 'Y');
@@ -198,7 +202,8 @@ insert into Team (teamNumber, teamName, location, isActive) values (9992, 'EMCC 
 create table TeamGameEvent(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	teamId integer not null,
-	gameEventId integer not null);
+	gameEventId integer not null,
+	lastUpdated datetime null);
 create unique index idx_TeamGameEvent on TeamGameEvent(teamId, gameEventId);
 alter table TeamGameEvent add constraint fk_TeamGameEvent_Team foreign key (teamId) references Team (id);
 alter table TeamGameEvent add constraint fk_TeamGameEvent_GameEvent foreign key (gameEventId) references GameEvent (id);
@@ -236,7 +241,8 @@ create table Scout(
 	lastName varchar(128) not null,
 	firstName varchar(128) not null,
 	teamId integer not null,
-	isActive char(1) not null);
+	isActive char(1) not null,
+	lastUpdated datetime null);
 create unique index idx_scout on Scout(lastName, firstName);
 alter table Scout add constraint fk_Scout_Team foreign key (TeamId) references Team (id);
 insert into Scout (lastName, firstName, teamId, isActive) select 'Allen', 'Kristy', id, 'Y' from Team where teamNumber = 6217;
@@ -262,7 +268,8 @@ insert into Scout (lastName, firstName, teamId, isActive) select 'Wildenberg', '
 create table ScoringType(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(64) not null,
-	hasValueList char(1) not null);
+	hasValueList char(1) not null,
+	lastUpdated datetime null);
 create unique index idx_ScoringType on ScoringType(name);
 insert into ScoringType (name, hasValueList) values ('Drop Down', 'Y');
 insert into ScoringType (name, hasValueList) values ('Radio Button', 'Y');
@@ -279,7 +286,8 @@ create table Objective(
 	lowRangeValue integer null,
 	highRangeValue integer null,
 	scoreMultiplier integer null,
-	sortOrder integer not null);
+	sortOrder integer not null,
+	lastUpdated datetime null);
 create unique index idx_Objective on Objective(gameId, name);
 alter table Objective add constraint fk_Objective_Game foreign key (gameId) references Game (id);
 alter table Objective add constraint fk_Objective_ScoringType foreign key (scoringTypeId) references ScoringType (id);
@@ -297,7 +305,8 @@ create table ObjectiveValue(
 	displayValue varchar(64) not null,
 	integerValue integer null,
 	sortOrder integer null,
-	scoreValue integer null);
+	scoreValue integer null,
+	lastUpdated datetime null);
 create unique index idx_ObjectiveValue on ObjectiveValue(objectiveId, displayValue);
 alter table ObjectiveValue add constraint fk_ObjectiveValue_Objective foreign key (objectiveId) references Objective (id);
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Did Not Leave', 0, 1, 0 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'leaveHAB';
@@ -314,7 +323,8 @@ insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, 
 create table ObjectiveGroup(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(64) not null,
-	sortOrder integer null);
+	sortOrder integer null,
+	lastUpdated datetime null);
 create unique index idx_ObjectiveGroup on ObjectiveGroup(name);
 insert into ObjectiveGroup (name, sortOrder) values ('Sandstorm', 1);
 insert into ObjectiveGroup (name, sortOrder) values ('Autonomous', 1);
@@ -324,7 +334,8 @@ insert into ObjectiveGroup (name, sortOrder) values ('End Game', 3);
 create table ObjectiveGroupObjective(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	objectiveGroupId integer not null,
-	objectiveId integer not null);
+	objectiveId integer not null,
+	lastUpdated datetime null);
 create unique index idx_ObjectiveGroupObjective on ObjectiveGroupObjective(objectiveGroupId, objectiveId);
 alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_ObjectiveGroup foreign key (objectiveGroupId) references ObjectiveGroup (id);
 alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_Objective foreign key (objectiveId) references Objective (id);
@@ -341,7 +352,8 @@ create table Rank(
 	name varchar(64) not null,
 	queryString varchar(64) not null,
 	type varchar(1) not null, -- V = Value, S = Score
-	sortOrder integer null);
+	sortOrder integer null,
+	lastUpdated datetime null);
 create unique index idx_Rank on Rank(name);
 insert into Rank (name, queryString, type, sortOrder) values ('Exit', 'rankLeaveHab', 'V', 1);
 insert into Rank (name, queryString, type, sortOrder) values ('Hatches', 'rankTotHatch', 'V', 2);
@@ -352,7 +364,8 @@ insert into Rank (name, queryString, type, sortOrder) values ('Return', 'rankRet
 create table RankObjective(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	rankId integer not null,
-	objectiveId integer not null);
+	objectiveId integer not null,
+	lastUpdated datetime null);
 create unique index idx_RankObjective on RankObjective(rankId, objectiveId);
 alter table RankObjective add constraint fk_RankObjective_Rank foreign key (rankId) references Rank (id);
 alter table RankObjective add constraint fk_RankObjective_Objective foreign key (objectiveId) references Objective (id);
@@ -372,7 +385,8 @@ create table Attribute(
 	scoringTypeId integer not null,
 	lowRangeValue integer null,
 	highRangeValue integer null,
-	sortOrder integer not null);
+	sortOrder integer not null,
+	lastUpdated datetime null);
 create unique index idx_Attribute on Attribute(gameId, name);
 alter table Attribute add constraint fk_Attribute_Game foreign key (gameId) references Game (id);
 alter table Attribute add constraint fk_Attribute_ScoringType foreign key (scoringTypeId) references ScoringType (id);
@@ -382,7 +396,8 @@ create table AttributeValue(
 	attributeId integer not null,
 	displayValue varchar(64) not null,
 	integerValue integer null,
-	sortOrder integer null);
+	sortOrder integer null,
+	lastUpdated datetime null);
 create unique index idx_AttributeValue on AttributeValue(attributeId, displayValue);
 alter table AttributeValue add constraint fk_AttributeValue_Attribute foreign key (attributeId) references Attribute (id);
 
@@ -392,7 +407,8 @@ create table TeamAttribute (
 	attributeId integer not null,
 	integerValue integer null,
 	decimalValue integer null,
-	textValue numeric(10,3) null);
+	textValue numeric(10,3) null,
+	lastUpdated datetime null);
 create unique index idx_TeamAttribute on TeamAttribute(teamId, attributeId);
 alter table TeamAttribute add constraint fk_TeamAttribute_Team foreign key (teamId) references Team (id);
 alter table TeamAttribute add constraint fk_TeamAttribute_Attribute foreign key (attributeId) references Attribute (id);
@@ -406,7 +422,8 @@ create table Match(
 	type varchar(8) not null,
 	isActive char(1) not null,
 	redScore integer null,
-	blueScore integer null);
+	blueScore integer null,
+	lastUpdated datetime null);
 create unique index idx_Match on Match(gameEventId, dateTime);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
@@ -448,7 +465,8 @@ create table TeamMatch(
 	matchId integer not null,
 	teamId integer not null,
 	alliance char(1) not null,
-	alliancePosition integer not null);
+	alliancePosition integer not null,
+	lastUpdated datetime null);
 create unique index idx_TeamMatch on TeamMatch(matchId, teamId);
 alter table TeamMatch add constraint fk_TeamMatch_Match foreign key (matchId) references Match (id);
 alter table TeamMatch add constraint fk_TeamMatch_Team foreign key (teamId) references Team (id);
@@ -655,7 +673,8 @@ create table ScoutRecord (
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	scoutId integer not null,
 	matchId integer not null,
-	teamId integer not null);
+	teamId integer not null,
+	lastUpdated datetime null);
 create unique index idx_ScoutRecord on ScoutRecord(scoutId, matchId, teamId);
 alter table ScoutRecord add constraint fk_ScoutRecord_Scout foreign key (scoutId) references Scout (id);
 alter table ScoutRecord add constraint fk_ScoutRecord_Match foreign key (matchId) references Match (id);
@@ -668,7 +687,8 @@ create table ScoutObjectiveRecord (
 	integerValue integer null,
 	decimalValue integer null,
 	textValue numeric(10,3) null,
-	scoreValue varchar(256) null);
+	scoreValue varchar(256) null,
+	lastUpdated datetime null);
 create unique index idx_ScoutObjectiveRecord on ScoutObjectiveRecord(scoutRecordId, objectiveId);
 alter table ScoutObjectiveRecord add constraint fk_ScoutObjectiveRecord_ScoutRecord foreign key (scoutRecordId) references ScoutRecord (id);
 alter table ScoutObjectiveRecord add constraint fk_ScoutObjectiveRecord_Objective foreign key (objectiveId) references Objective (id);
@@ -705,6 +725,147 @@ begin
 	 where ScoutObjectiveRecord.id in (select i.id from inserted i);
 end;
 go
+
+-- Trigger to maintain last updated value of Attribute
+create trigger tr_a_LastUpdated on Attribute after insert, update
+as
+begin
+    update Attribute set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of AttributeValue
+create trigger tr_av_LastUpdated on AttributeValue after insert, update
+as
+begin
+    update AttributeValue set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Event
+create trigger tr_e_LastUpdated on Event after insert, update
+as
+begin
+    update Event set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Game
+create trigger tr_g_LastUpdated on Game after insert, update
+as
+begin
+    update Game set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of GameEvent
+create trigger tr_ge_LastUpdated on GameEvent after insert, update
+as
+begin
+    update GameEvent set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Match
+create trigger tr_m_LastUpdated on Match after insert, update
+as
+begin
+    update Match set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Objective
+create trigger tr_o_LastUpdated on Objective after insert, update
+as
+begin
+    update Objective set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of ObjectiveGroup
+create trigger tr_og_LastUpdated on ObjectiveGroup after insert, update
+as
+begin
+    update ObjectiveGroup set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of ObjectiveGroupObjective
+create trigger tr_ogo_LastUpdated on ObjectiveGroupObjective after insert, update
+as
+begin
+    update ObjectiveGroupObjective set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of ObjectiveValue
+create trigger tr_ov_LastUpdated on ObjectiveValue after insert, update
+as
+begin
+    update ObjectiveValue set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Rank
+create trigger tr_r_LastUpdated on Rank after insert, update
+as
+begin
+    update Rank set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of RankObjective
+create trigger tr_ro_LastUpdated on RankObjective after insert, update
+as
+begin
+    update RankObjective set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of ScoringType
+create trigger tr_st_LastUpdated on ScoringType after insert, update
+as
+begin
+    update ScoringType set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Scout
+create trigger tr_s_LastUpdated on Scout after insert, update
+as
+begin
+    update Scout set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of ScoutObjectiveRecord
+create trigger tr_SOR_LastUpdated on ScoutObjectiveRecord after insert, update
+as
+begin
+    update ScoutObjectiveRecord set lastUpdated = getdate() where id in (select i.id from inserted i);
+end;
+GO
+-- Trigger to maintain last updated value of ScoutRecord
+create trigger tr_sr_LastUpdated on ScoutRecord after insert, update
+as
+begin
+    update ScoutRecord set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of Team
+create trigger tr_t_LastUpdated on Team after insert, update
+as
+begin
+    update Team set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of TeamAttribute
+create trigger tr_ta_LastUpdated on TeamAttribute after insert, update
+as
+begin
+    update TeamAttribute set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of TeamGameEvent
+create trigger tr_tge_LastUpdated on TeamGameEvent after insert, update
+as
+begin
+    update TeamGameEvent set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
+-- Trigger to maintain last updated value of TeamMatch
+create trigger tr_tm_LastUpdated on TeamMatch after insert, update
+as
+begin
+    update TeamMatch set lastUpdated = getdate() where id in (select i.id from inserted i);
+end
+GO
 
 -- Insert some random data
 insert into ScoutRecord (scoutId, matchId, TeamId)
@@ -1200,7 +1361,7 @@ go
 CREATE PROCEDURE sp_rpt_rankReport (@pv_SortOrder varchar(32))
 AS
 BEGIN
-	CREATE TABLE #AvgTeamRecord(TeamId int
+	create table #AvgTeamRecord(TeamId int
 	                          , cntMatches int
 	                          , leaveHab numeric(38, 6)
 	                          , ssHatchCnt numeric(38, 6)
