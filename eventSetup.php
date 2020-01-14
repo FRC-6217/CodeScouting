@@ -67,11 +67,11 @@
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if ($row["isActive"] == "Y") {
-									echo '<option value="' . $row["id"] . '" selected>' . $row["name"] . '</option>';
+									echo '<option value="' . $row["gameYear"] . '" selected>' . $row["name"] . '</option>';
 									$gameYear = $row["gameYear"];
 								}
 								else
-									echo '<option value="' . $row["id"] . '">' . $row["name"] . '</option>';
+									echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
 							}
 							?>
 						</select>
