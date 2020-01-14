@@ -98,6 +98,9 @@
 							?>
 						</select>
 					</p>
+							<?php
+							echo $sURL;
+							?>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
