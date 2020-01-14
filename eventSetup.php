@@ -102,8 +102,8 @@
 					<p>Change?
 						<select style="width: 161px;" name="game">
 							<option value="M" selected>Update Match Schedule</option>';
-							<option value="A" selected>Activate Game Event</option>';
-							<option value="T" selected>Update Team List</option>';
+							<option value="A">Activate Game Event</option>';
+							<option value="T">Update Team List</option>';
 						</select>
 					</p>
 					<p></p>
