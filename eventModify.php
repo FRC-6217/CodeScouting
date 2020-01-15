@@ -44,7 +44,7 @@
 	echo $event . "<br>";
 	
 	// Add Event Info to the select list
-	if (not empty($event)) {
+	if (!empty($event)) {
 		$tsql = "merge Event as target " . 
 		        "using select ('" . $event["name"] . "', '" . $event["city"] . ", " . $event["state_prov"] . "', '" . $event["event_code"] . "') " .
                 "as source (name, location, eventCode) " .
