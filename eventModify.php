@@ -26,10 +26,10 @@
 	$context = stream_context_create($aHTTP);
 
     // Get posted variables
-	$submit = $POST[submitToDatabase];
-	$game = $_POST[game];
-	$event = $_POST[event];
-	$option = $_POST[option];
+	$submit = $POST['submitToDatabase'];
+	$game = $_POST['game'];
+	$event = $_POST['event'];
+	$option = $_POST['option'];
 
 	echo "Game: " . $game . "<br>";
 	echo "Event: " . $event . "<br>";
@@ -40,6 +40,9 @@
 	$sURL = "https://www.thebluealliance.com/api/v3/event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
 	$eventArray = json_decode($eventJSON, true);
+	echo $sURL . "<br>";
+	echo $eventArray . "<br>";
+	
 	// Add Event Info to the select list
 	foreach($eventArray as $key => $value) {
 		$tsql = "merge Event as target " . 
