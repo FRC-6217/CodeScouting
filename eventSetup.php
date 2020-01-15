@@ -82,8 +82,23 @@
 					
 					<p>Event:
 						<select style="width: 157px" name="event">
-							<option value="" selected></option>
 							<?php
+							$tsql = "select e.event_code from event e inner join gameEvent ge on ge.event_id = e.id where ge.isActive = 'Y' ";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
+							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC));
+							if (empty($row))
+								echo '<option value="" selected></option>';
+							else
+								$eventCode = $row['event_code'];
+
 							// Events from Blue Alliance
 							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
 							$eventsJSON = file_get_contents($sURL, false, $context);
@@ -94,7 +109,7 @@
 							});
 							// Add Event Info to the select list
 							foreach($eventsArray as $key => $value) {
-								if ($value["event_code"] == 'mndu')
+								if ($value["event_code"] == $eventCode)
 									echo '<option value="' . $value["event_code"] . '" selected>' . $value["name"] . '</option>';
 								else
 									echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
