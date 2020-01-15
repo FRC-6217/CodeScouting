@@ -40,7 +40,7 @@
 	// Add/Update Event Info to the database
 	if (!empty($event)) {
 		$tsql = "merge Event as target " . 
-		        "using (select '" . str_replace("'", "''", $event["name"]) . "', '" . str_replace("'", "''", $event["city"]) . ", " . str_replace("'", "''", $event["state_prov"]) . "', '" . $event["event_code"] . "') " .
+		        "using (select '" . str_replace("'", "", $event["name"]) . "', '" . str_replace("'", "", $event["city"]) . ", " . str_replace("'", "", $event["state_prov"]) . "', '" . $event["event_code"] . "') " .
                 "as source (name, location, eventCode) " .
 				"on (target.eventCode = source.eventCode) " .
 				"WHEN matched THEN " .
