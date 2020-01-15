@@ -98,7 +98,7 @@
 							if (empty($row))
 								echo '<option value="" selected></option>';
 							else
-								$eventCode = $row["event_code"];
+								$eventCode = $row["eventCode"];
 							sqlsrv_free_stmt($getResults);
 
 							// Events from Blue Alliance
