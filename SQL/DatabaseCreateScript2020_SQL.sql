@@ -722,6 +722,7 @@ begin
 	   set scoreValue = (select dbo.calcScoreValue(i.objectiveId, i.integerValue, i.decimalValue)
 	                       from inserted i
 						  where i.id = ScoutObjectiveRecord.id)
+		 , lastUpdated = getDate()
 	 where ScoutObjectiveRecord.id in (select i.id from inserted i);
 end;
 go
@@ -823,13 +824,6 @@ as
 begin
     update Scout set lastUpdated = getdate() where id in (select i.id from inserted i);
 end
-GO
--- Trigger to maintain last updated value of ScoutObjectiveRecord
-create trigger tr_SOR_LastUpdated on ScoutObjectiveRecord after insert, update
-as
-begin
-    update ScoutObjectiveRecord set lastUpdated = getdate() where id in (select i.id from inserted i);
-end;
 GO
 -- Trigger to maintain last updated value of ScoutRecord
 create trigger tr_sr_LastUpdated on ScoutRecord after insert, update
