@@ -75,6 +75,7 @@
 								else
 									echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
 							}
+							sqlsrv_free_stmt($getResults);
 							?>
 						</select>
 						</p>
@@ -94,7 +95,11 @@
 									}
 								}
 							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC));
+							if (empty($row))
+								echo '<option value="" selected></option>';
+							else
 								$eventCode = $row["event_code"];
+							sqlsrv_free_stmt($getResults);
 
 							// Events from Blue Alliance
 							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
@@ -127,7 +132,6 @@
 				</div>
             </center>
 			<?php
-			sqlsrv_free_stmt($getResults);
 			sqlsrv_close($conn);
 			?>
         </form>
