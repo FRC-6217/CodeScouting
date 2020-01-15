@@ -65,12 +65,12 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
-							$first == TRUE;
+							$first = TRUE;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if ($first) {
 									echo '<option value="' . $row["gameYear"] . '" selected>' . $row["name"] . '</option>';
 									$gameYear = $row["gameYear"];
-									$first == FALSE;
+									$first = FALSE;
 								}
 								else
 									echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
@@ -100,10 +100,6 @@
 							?>
 						</select>
 					</p>
-					<?php
-					echo $sURL . "<br>";
-					echo $eventsArray . "<br>";
-					?>
 					<p></p>
 					<p>Change?
 						<select style="width: 161px;" name="option">
