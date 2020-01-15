@@ -94,7 +94,10 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
-							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC));
+							if (empty($row))
+								echo '<option value="" selected></option>';
+							else
+								$eventCode = $row["event_code"];
 							sqlsrv_free_stmt($getResults);
 
 							// Events from Blue Alliance
