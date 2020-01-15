@@ -83,7 +83,7 @@
 					
 					<p>Event:
 							<?php
-							$tsql = "select e.event_code from event e inner join gameEvent ge on ge.event_id = e.id where ge.isActive = 'Y' ";
+							$tsql = "select e.eventCode from event e inner join gameEvent ge on ge.eventId = e.id where ge.isActive = 'Y' ";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
