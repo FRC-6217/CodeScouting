@@ -119,10 +119,6 @@
 							?>
 						</select>
 					</p>
-					<?php
-					echo $row . "<br>";
-					echo $eventCode . "<br>";
-					?>
 					<p></p>
 					<p>Change?
 						<select style="width: 161px;" name="option">
