@@ -82,7 +82,6 @@
 					<p></p>
 					
 					<p>Event:
-						<select style="width: 157px" name="event">
 							<?php
 							$tsql = "select e.event_code from event e inner join gameEvent ge on ge.event_id = e.id where ge.isActive = 'Y' ";
 							$getResults = sqlsrv_query($conn, $tsql);
@@ -94,6 +93,7 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
+							echo '<select style="width: 157px" name="event">'
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if (empty($row))
 									echo '<option value="" selected></option>';
