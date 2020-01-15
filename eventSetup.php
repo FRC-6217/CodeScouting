@@ -93,11 +93,6 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
-							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC));
-							if (empty($row))
-								echo '<option value="" selected></option>';
-							else
-								$eventCode = $row['event_code'];
 
 							// Events from Blue Alliance
 							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
