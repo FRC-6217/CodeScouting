@@ -39,14 +39,14 @@
 	// First step is always to get TBA Event information and insert/update Event in the database
 	$sURL = "https://www.thebluealliance.com/api/v3/event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
-	$eventArray = json_decode($eventJSON, true);
+	$event = json_decode($eventJSON, true);
 	echo $sURL . "<br>";
-	echo $eventArray . "<br>";
+	echo $event . "<br>";
 	
 	// Add Event Info to the select list
-	foreach($eventArray as $key => $value) {
+	if (not empty($event)) {
 		$tsql = "merge Event as target " . 
-		        "using select ('" . $value["name"] . "', '" . $value["city"] . ", " . $value["state_prov"] . "', '" . $value["event_code"] . "') " .
+		        "using select ('" . $event["name"] . "', '" . $event["city"] . ", " . $event["state_prov"] . "', '" . $event["event_code"] . "') " .
                 "as source (name, location, eventCode) " .
 				"on (target.eventCode = source.eventCode) " .
 				"WHEN matched THEN " .
