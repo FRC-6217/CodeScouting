@@ -93,7 +93,7 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
-							echo '<select style="width: 157px" name="event">'
+							echo '<select style="width: 157px" name="event">';
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if (empty($row))
 									echo '<option value="" selected></option>';
