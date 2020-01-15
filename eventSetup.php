@@ -84,18 +84,20 @@
 						<select style="width: 157px" name="event">
 							<option value="" selected></option>
 							<?php
-
 							// Events from Blue Alliance
 							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
 							$eventsJSON = file_get_contents($sURL, false, $context);
-							// Sort by State (MN/IA first), then by name
+							// Sort by name
 							$eventsArray = json_decode($eventsJSON, true);
 							usort($eventsArray, function($a, $b) { //Sort the array using a user defined function
 								return $a["name"] < $b["name"] ? -1 : 1;
 							});
 							// Add Event Info to the select list
 							foreach($eventsArray as $key => $value) {
-								echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
+								if ($value["event_code"] == 'mndu')
+									echo '<option value="' . $value["event_code"] . '" selected>' . $value["name"] . '</option>';
+								else
+									echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
 							}
 							?>
 						</select>
