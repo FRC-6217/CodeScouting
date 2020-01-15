@@ -100,6 +100,10 @@
 							?>
 						</select>
 					</p>
+					<?php
+					echo $sURL . "<br>";
+					echo $eventsArray . "<br>";
+					?>
 					<p></p>
 					<p>Change?
 						<select style="width: 161px;" name="option">
