@@ -46,12 +46,9 @@
 				"WHEN matched THEN " .
 				"UPDATE set name = source.name, location = source.location " .
 				"WHEN not matched THEN " .
-				"INSERT (name, location, isActive, eventCode) " .
-				"VALUES (source.name, source.location, 'N', source.eventCode);";
+				"INSERT (name, location, eventCode) " .
+				"VALUES (source.name, source.location, source.eventCode);";
 		$results = sqlsrv_query($conn, $tsql);
-		if($results) 
-			echo "Submission Succeeded!";
-	
 		if(!$results) 
 		{
 			echo "It is not working!<br />";
@@ -63,8 +60,9 @@
 				}
 			}
 		}		
+		if($results) 
+			echo "Event Update Succeeded!";
 	}
-
     sqlsrv_free_stmt($results);
 	sqlsrv_close($conn);
 ?>

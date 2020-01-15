@@ -55,7 +55,7 @@
 					<p>Game:
 						<select style="width: 161px;" name="game">
 							<?php
-							$tsql = "select id, name, gameYear, isActive from game order by gameYear desc";
+							$tsql = "select id, name, gameYear from game order by gameYear desc";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
@@ -65,10 +65,12 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
+							$first == TRUE;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($row["isActive"] == "Y") {
+								if ($first) {
 									echo '<option value="' . $row["gameYear"] . '" selected>' . $row["name"] . '</option>';
 									$gameYear = $row["gameYear"];
+									$first == FALSE;
 								}
 								else
 									echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
