@@ -31,29 +31,23 @@
 	$event = $_POST['event'];
 	$option = $_POST['option'];
 
-	echo "Game: " . $game . "<br>";
-	echo "Event: " . $event . "<br>";
-	echo "Option: " . $option . "<br>";
-	
 	// Options - M = Update Match Schedule, A = Activate Game Event, T = Update Team List
 	// First step is always to get TBA Event information and insert/update Event in the database
 	$sURL = "https://www.thebluealliance.com/api/v3/event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
 	$event = json_decode($eventJSON, true);
-	echo $sURL . "<br>";
-	echo $event . "<br>";
 	
-	// Add Event Info to the select list
+	// Add/Update Event Info to the database
 	if (!empty($event)) {
 		$tsql = "merge Event as target " . 
-		        "using select ('" . $event["name"] . "', '" . $event["city"] . ", " . $event["state_prov"] . "', '" . $event["event_code"] . "') " .
+		        "using (select '" . $event["name"] . "', '" . $event["city"] . ", " . $event["state_prov"] . "', '" . $event["event_code"] . "') " .
                 "as source (name, location, eventCode) " .
 				"on (target.eventCode = source.eventCode) " .
 				"WHEN matched THEN " .
 				"UPDATE set name = source.name, location = source.location " .
-				"WHEN not matced THEN " .
+				"WHEN not matched THEN " .
 				"INSERT (name, location, isActive, eventCode) " .
-				"VALUES (source.name, source.location, 'N', source.eventCode) ";
+				"VALUES (source.name, source.location, 'N', source.eventCode);";
 		$results = sqlsrv_query($conn, $tsql);
 		if($results) 
 			echo "Submission Succeeded!";
@@ -71,7 +65,7 @@
 		}		
 	}
 
-    sqlsrv_free_stmt($getResults);
+    sqlsrv_free_stmt($results);
 	sqlsrv_close($conn);
 ?>
 </html>
