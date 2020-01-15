@@ -93,6 +93,9 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
+							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC));
+							if (empty($row))
+								echo '<option value="" selected></option>';
 
 							// Events from Blue Alliance
 							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
@@ -125,12 +128,6 @@
 				</div>
             </center>
 			<?php
-			/*
-			$submit = $POST[submitToDatabase];
-			$game = $_POST[game];
-			$event = $_POST[event];
-			$option = $_POST[option];
-			*/
 			sqlsrv_free_stmt($getResults);
 			sqlsrv_close($conn);
 			?>
