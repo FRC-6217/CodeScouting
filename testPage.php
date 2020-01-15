@@ -34,13 +34,14 @@ ini_set('display_errors', '1');
 
 // Setup Blue Alliance API calls
 $TBAAuthKey = getenv("TheBlueAllianceAuthKey");
+$TBAURL = getenv("TheBlueAllianceAPIURL");
 $aHTTP['http']['method']  = "GET";
 $aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
 $aHTTP['http']['header'] .= "Accept: application/json\r\n";
 $context = stream_context_create($aHTTP);
 
 // Get Event Matches from Blue Alliance
-$sURL = "https://www.thebluealliance.com/api/v3/event/2019mndu/matches/simple";
+$sURL = $TBAURL . "event/2019mndu/matches/simple";
 $matchesJSON = file_get_contents($sURL, false, $context);
 // Sort by Time
 $matchesArray = json_decode($matchesJSON, true);
@@ -67,7 +68,7 @@ foreach($matchesArray as $key => $value) {
 }
 
 // Get Event Teams from Blue Alliance
-$sURL = "https://www.thebluealliance.com/api/v3/event/2020mndu/teams/simple";
+$sURL = $TBAURL . "event/2020mndu/teams/simple";
 $teamsJSON = file_get_contents($sURL, false, $context);
 // Sort by Team Number
 $teamsArray = json_decode($teamsJSON, true);

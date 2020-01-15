@@ -20,6 +20,7 @@
 
 	// Setup Blue Alliance API calls
 	$TBAAuthKey = getenv("TheBlueAllianceAuthKey");
+	$TBAURL = getenv("TheBlueAllianceAPIURL");
 	$aHTTP['http']['method']  = "GET";
 	$aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
 	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
@@ -31,9 +32,15 @@
 	$event = $_POST['event'];
 	$option = $_POST['option'];
 
-	// Options - M = Update Match Schedule, A = Activate Game Event, T = Update Team List
+	// Options
+	// M = Update Match Schedule
+	// P = Create Practice Matches
+	// Q = Activate Qualifying Matches
+	// L = Activate Playoff Matches
+	// A = Activate Game Event
+	// T = Update Team List
 	// First step is always to get TBA Event information and insert/update Event in the database
-	$sURL = "https://www.thebluealliance.com/api/v3/event/" . $game . $event . "/simple";
+	$sURL = $TBAURL. "event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
 	$event = json_decode($eventJSON, true);
 	

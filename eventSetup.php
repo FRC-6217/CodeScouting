@@ -44,6 +44,7 @@
 
 	// Setup Blue Alliance API calls
 	$TBAAuthKey = getenv("TheBlueAllianceAuthKey");
+	$TBAURL = getenv("TheBlueAllianceAPIURL");
 	$aHTTP['http']['method']  = "GET";
 	$aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
 	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
@@ -102,7 +103,7 @@
 							sqlsrv_free_stmt($getResults);
 
 							// Events from Blue Alliance
-							$sURL = "https://www.thebluealliance.com/api/v3/events/" . $gameYear . "/simple";
+							$sURL = $TBAURL . "events/" . $gameYear . "/simple";
 							$eventsJSON = file_get_contents($sURL, false, $context);
 							// Sort by name
 							$eventsArray = json_decode($eventsJSON, true);
@@ -123,6 +124,9 @@
 					<p>Change?
 						<select style="width: 161px;" name="option">
 							<option value="M" selected>Update Match Schedule</option>';
+							<option value="P">Create Practice Matches</option>';
+							<option value="Q">Activate Qualifying Matches</option>';
+							<option value="L">Activate Playoff Matches</option>';
 							<option value="A">Activate Game Event</option>';
 							<option value="T">Update Team List</option>';
 						</select>
