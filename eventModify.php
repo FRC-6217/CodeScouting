@@ -39,11 +39,11 @@
 	// L = Activate Playoff Matches
 	// A = Activate Game Event
 	// T = Update Team List
+
 	// First step is always to get TBA Event information and insert/update Event in the database
 	$sURL = $TBAURL. "event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
 	$event = json_decode($eventJSON, true);
-	
 	// Add/Update Event Info to the database
 	if (!empty($event)) {
 		$tsql = "merge Event as target " . 
@@ -58,7 +58,7 @@
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
-			echo "It is not working!<br />";
+			echo "Update of Event failed!<br />";
 			if( ($errors = sqlsrv_errors() ) != null) {
 				foreach( $errors as $error ) {
 					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -68,9 +68,45 @@
 			}
 		}		
 		if($results) 
-			echo "Event Update Succeeded!";
+			echo "<center>Event Update Succeeded!</center><br>";
 	}
     sqlsrv_free_stmt($results);
+	
+	// Update teams from this event and link teams to the event
+	if ($option == "T") {
+		$sURL = $TBAURL. "event/" . $game . $event . "/teams/simple";
+		$teamsJSON = file_get_contents($sURL, false, $context);
+		$teamsArray = json_decode($teamsJSON, true);
+		// Add/update team information and assign to event
+		foreach($teamsArray as $key => $value) {
+			echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . "<br>";
+			$tsql = "merge Team as target " . 
+					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . ") " .
+					"as source (teamNumber, teamName, location) " .
+					"on (target.teamNumber = source.teamNumber) " .
+					"WHEN matched THEN " .
+					"UPDATE set teamName = source.teamName, location = source.location, isActive = 'Y' " .
+					"WHEN not matched THEN " .
+					"INSERT (teamNumber, teamName, location, isActive) " .
+					"VALUES (source.teamNumber, source.teamName, source.location, 'Y');";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Update of Team " . $value["team_number"] . " failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			}		
+			if($results) 
+				echo "<center>Team " . $value["team_number"] . " Update Succeeded!</center><br>";
+		}
+		sqlsrv_free_stmt($results);
+	}	
+	
 	sqlsrv_close($conn);
 ?>
 </html>
