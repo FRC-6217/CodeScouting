@@ -137,6 +137,7 @@
 				}
 				break;
 			}
+/*
 			// Create Team/Event Cross-Reference
 			$tsql = "insert into TeamGameEvent (teamId, gameEventId) " . 
 					"select t.id, ge.id " .
@@ -159,6 +160,7 @@
 				}
 				break;
 			}
+*/
 			else $cnt += 1;
 		}
 		if ($results)
