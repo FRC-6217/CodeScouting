@@ -54,7 +54,7 @@
 				<div class="container" id="event">
 					<p><u><b>Event Setup / Configuration</b></u></p>
 					<p>Game:
-						<select style="width: 161px;" name="game">
+						<select style="width: 161px;" name="gameYear">
 							<?php
 							$tsql = "select id, name, gameYear from game order by gameYear desc";
 							$getResults = sqlsrv_query($conn, $tsql);
@@ -94,7 +94,7 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
-							echo '<select style="width: 157px" name="event">';
+							echo '<select style="width: 157px" name="eventCode">';
 							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 							if (empty($row))
 								echo '<option value="" selected></option>';

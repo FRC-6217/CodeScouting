@@ -3,6 +3,8 @@
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 	 <center><a href="index.php">Home</a></center>
+     <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
+     <center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -28,8 +30,8 @@
 
     // Get posted variables
 	$submit = $POST['submitToDatabase'];
-	$game = $_POST['game'];
-	$event = $_POST['event'];
+	$gameYear = $_POST['gameYear'];
+	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];
 
 	// Options
@@ -41,7 +43,7 @@
 	// T = Update Team List
 
 	// First step is always to get TBA Event information and insert/update Event in the database
-	$sURL = $TBAURL. "event/" . $game . $event . "/simple";
+	$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
 	$eventValue = json_decode($eventJSON, true);
 	// Add/Update Event Info to the database
@@ -74,7 +76,7 @@
 	
 	// Update teams from this event and link teams to the event
 	if ($option == "T") {
-		$sURL = $TBAURL. "event/" . $game . $event . "/teams/simple";
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
@@ -105,7 +107,7 @@
 			else $cnt += 1;
 		}
 		if ($results)
-			echo "<center>Updated " . $cnt . " Teams Successful!</center><br>";
+			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 		sqlsrv_free_stmt($results);
 	}	
 	
