@@ -58,9 +58,12 @@
 				<div class="container" id="event">
 					<p><u><b>Event Setup / Configuration</b></u></p>
 					<p>Game:
-						<select style="width: 161px;" name="gameYear">
 							<?php
-							$tsql = "select id, name, gameYear from game order by gameYear desc";
+							$tsql = "select g.id, g.name, g.gameYear, max(ge.isActive) isActive " .
+							        "  from game g " .
+									"       inner join gameEvent ge on ge.gameId = g.id " .
+									"group by g.id, g.name, g.gameYear " .
+									"order by max(ge.isActive) desc, g.gameYear desc";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
@@ -70,6 +73,7 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
+						    echo '<select style="width: 161px;" name="gameYear">';
 							$first = TRUE;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if ($first) {
