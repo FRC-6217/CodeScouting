@@ -25,7 +25,11 @@
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
-		<center><a href="index.php">Home</a></center>
+		<p></p>
+		<h2>
+          <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
+          <p></p>
+		</h2>
 		<form action='eventModify.php' method='post'>
 <?php
 	// Initial setup of Database Connection

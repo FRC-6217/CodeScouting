@@ -2,9 +2,16 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-	 <center><a href="index.php">Home</a></center>
-     <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
-     <center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
+	<body>
+		<h1><center>Bomb Botz Scouting App</center></h1>
+	</body>
+	<p></p>
+	<h2>
+		<center><a id="home" class="clickme danger" href="index.php">Home</a></center>
+		<p></p>
+		<center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
+		<p></p>
+	</h2>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
