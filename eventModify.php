@@ -106,7 +106,64 @@
 	}
     sqlsrv_free_stmt($results);
 	
-	// Update teams from this event and link teams to the event
+	// Set Game Event active and inactivate all others
+	if ($option == "A") {
+		// Inactivate all game events
+		$tsql = "update GameEvent " .
+		        "   set isActive = 'N' " .
+		        " where isActive = 'Y' " .
+				"   and id not in " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Inactivate of Game Events failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+		
+		// Inactivate all game events
+		$tsql = "update GameEvent " .
+		        "   set isActive = 'Y' " .
+		        " where isActive = 'N' " .
+				"   and id in " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Inactivate of Game Events failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		if ($results)
+			echo "<center>Activation of Game Event Successful!</center><br>";
+		sqlsrv_free_stmt($results);
+	}	
+
+	// Add/update teams on this event and link teams to the event
 	if ($option == "T") {
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
