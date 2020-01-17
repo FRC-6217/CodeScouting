@@ -144,7 +144,8 @@
 					"       GameEvent ge " .
 				    "       inner join Game g on g.id = ge.gameId " .
 				    "       inner join Event e on e.id = ge.eventId " .
-				    " where g.gameYear = " . $gameYear .
+				    " where t.teamNumber = " . $value["team_number"] .
+					"   and g.gameYear = " . $gameYear .
 				    "   and e.eventCode = '" . $eventCode . "';";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
