@@ -147,6 +147,7 @@
 				    " where t.teamNumber = " . $value["team_number"] .
 					"   and g.gameYear = " . $gameYear .
 				    "   and e.eventCode = '" . $eventCode . "';";
+			echo $tsql + "<br>";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
