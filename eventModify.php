@@ -79,9 +79,8 @@
 		$teamsArray = json_decode($teamsJSON, true);
 		// Add/update team information and assign to event
 		foreach($teamsArray as $key => $value) {
-			echo $value["team_number"] . ", Name: " . $value["nickname"] . ", Location: " . $value["city"] . ", " . $value["state_prov"] . "<br>";
 			$tsql = "merge Team as target " . 
-					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . ") " .
+					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . "') " .
 					"as source (teamNumber, teamName, location) " .
 					"on (target.teamNumber = source.teamNumber) " .
 					"WHEN matched THEN " .
