@@ -86,9 +86,35 @@
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
+		// Remove all team assignments for the event
+		$tsql = "delete from TeamGameEvent " .
+		        " where gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = " . $eventCode . ");";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Delete of Team Game Events failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+			break;
+		}
+		sqlsrv_free_stmt($results);
+		
 		$cnt = 0;
 		// Add/update team information and assign to event
 		foreach($teamsArray as $key => $value) {
+			// Update/insert Team
 			$tsql = "merge Team as target " . 
 					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . "') " .
 					"as source (teamNumber, teamName, location) " .
@@ -102,6 +128,28 @@
 			if(!$results) 
 			{
 				echo "Update of Team " . $value["team_number"] . " failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+				break;
+			}
+			// Create Team/Event Cross-Reference
+			$tsql = "insert into TeamGameEvent (teamId, gameEventId) " . 
+					"select t.id, ge.id " .
+					"  from Team t, " .
+					"       GameEvent ge " .
+				    "       inner join Game g on g.id = ge.gameId " .
+				    "       inner join Event e on e.id = ge.eventId " .
+				    " where g.gameYear = " . $gameYear .
+				    "   and e.eventCode = " . $eventCode . ";";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Insert of Team Game Event for Team " . $value["team_number"] . " failed!<br />";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
 						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
