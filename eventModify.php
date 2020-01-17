@@ -77,6 +77,7 @@
 		$sURL = $TBAURL. "event/" . $game . $event . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
+		$cnt = 0;
 		// Add/update team information and assign to event
 		foreach($teamsArray as $key => $value) {
 			$tsql = "merge Team as target " . 
@@ -99,10 +100,12 @@
 						echo "message: ".$error[ 'message']."<br />";
 					}
 				}
-			}		
-			if($results) 
-				echo "<center>Team " . $value["team_number"] . " Update Succeeded!</center><br>";
+				break;
+			}
+			else $cnt += 1;
 		}
+		if ($results)
+			echo "<center>Updated " . $cnt . " Teams Successful!</center><br>";
 		sqlsrv_free_stmt($results);
 	}	
 	
