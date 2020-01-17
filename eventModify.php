@@ -86,6 +86,7 @@
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
+/*
 		// Remove all team assignments for the event
 		$tsql = "delete from TeamGameEvent " .
 		        " where gameEventId = " .
@@ -110,6 +111,7 @@
 			break;
 		}
 		sqlsrv_free_stmt($results);
+*/
 		
 		$cnt = 0;
 		// Add/update team information and assign to event
