@@ -43,11 +43,11 @@
 	// First step is always to get TBA Event information and insert/update Event in the database
 	$sURL = $TBAURL. "event/" . $game . $event . "/simple";
 	$eventJSON = file_get_contents($sURL, false, $context);
-	$event = json_decode($eventJSON, true);
+	$eventValue = json_decode($eventJSON, true);
 	// Add/Update Event Info to the database
-	if (!empty($event)) {
+	if (!empty($eventValue)) {
 		$tsql = "merge Event as target " . 
-		        "using (select '" . str_replace("'", "", $event["name"]) . "', '" . str_replace("'", "", $event["city"]) . ", " . str_replace("'", "", $event["state_prov"]) . "', '" . $event["event_code"] . "') " .
+		        "using (select '" . str_replace("'", "", $eventValue["name"]) . "', '" . str_replace("'", "", $eventValue["city"]) . ", " . str_replace("'", "", $eventValue["state_prov"]) . "', '" . $eventValue["event_code"] . "') " .
                 "as source (name, location, eventCode) " .
 				"on (target.eventCode = source.eventCode) " .
 				"WHEN matched THEN " .
