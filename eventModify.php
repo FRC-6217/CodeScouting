@@ -94,7 +94,7 @@
 				"               inner join Game g on g.id = ge.gameId " .
 				"               inner join Event e on e.id = ge.eventId " .
 				"         where g.gameYear = " . $gameYear .
-				"           and e.eventCode = " . $eventCode . ");";
+				"           and e.eventCode = '" . $eventCode . "');";
 		$results = sqlsrv_query($conn, $tsql);
 		// Check for errors
 		if(!$results) 
@@ -136,7 +136,7 @@
 				}
 				break;
 			}
-/*
+
 			// Create Team/Event Cross-Reference
 			$tsql = "insert into TeamGameEvent (teamId, gameEventId) " . 
 					"select t.id, ge.id " .
@@ -145,7 +145,7 @@
 				    "       inner join Game g on g.id = ge.gameId " .
 				    "       inner join Event e on e.id = ge.eventId " .
 				    " where g.gameYear = " . $gameYear .
-				    "   and e.eventCode = " . $eventCode . ";";
+				    "   and e.eventCode = '" . $eventCode . "';";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
@@ -159,7 +159,6 @@
 				}
 				break;
 			}
-*/
 			else $cnt += 1;
 		}
 		if ($results)
