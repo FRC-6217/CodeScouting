@@ -76,8 +76,33 @@
 				}
 			}
 		}		
-		if($results) 
-			echo "<center>Event Update Succeeded!</center><br>";
+		if($results) {
+			$tsql = "insert into GameEvent (eventId, gameId, eventDate, isActive) " . 
+					"select e.id, g.id, '" . $eventValue["start_date"] . "', 'N' " .
+					"  from Event e, Game g " .
+					" where e.eventCode = '" . $eventCode . "' " .
+					"   and g.gameYear = " . $gameYear .
+					"   and not exists (select 1 " .
+					"                     from GameEvent ge " .
+					"                          inner join Event e on e.id = ge.eventId " .
+					"                          inner join Game g on g.id = ge.gameId " .
+					"                    where e.eventCode = '" . $eventCode . "' " .
+					"                      and g.gameYear = " . $gameYear . ");";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Insert of Game Event failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			}		
+			if($results)
+				echo "<center>Event Update Succeeded!</center><br>";
+		}
 	}
     sqlsrv_free_stmt($results);
 	
