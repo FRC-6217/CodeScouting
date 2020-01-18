@@ -255,8 +255,6 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
-
 		if ($results)
 			echo "<center>Activating Game Event Qualifying Matches Successful!</center><br>";
 		sqlsrv_free_stmt($results);
