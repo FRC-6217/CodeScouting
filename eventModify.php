@@ -181,6 +181,66 @@
 					"   and not exists (select 1 " .
 					"                     from TeamMatch tm " .
 					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id) " .
+					"union " .
+					"select m.id, t.id, 'R', 2 " .
+					"  from Team t, " .
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id) " .
+					"union " .
+					"select m.id, t.id, 'R', 3 " .
+					"  from Team t, " .
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id) " .
+					"union " .
+					"select m.id, t.id, 'B', 1 " .
+					"  from Team t, " .
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id) " .
+					"union " .
+					"select m.id, t.id, 'B', 2 " .
+					"  from Team t, " .
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id) " .
+					"union " .
+					"select m.id, t.id, 'B', 3 " .
+					"  from Team t, " .
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
 					"                      and tm.teamId = t.id);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
