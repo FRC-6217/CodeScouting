@@ -73,8 +73,10 @@
           <p></p>
      </h2>
     <br>
-
-    <center><table cellspacing="0" cellpadding="5">
+	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	<br>
+  
+	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
         <th>Time</th>
