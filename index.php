@@ -139,30 +139,38 @@
         ?>
        <tr>
 			<?php
+			if ($row['redScore'] > $row['blueScore']) {
+				$redTdTag = "<td><b>";
+				$redTdTagEnd = "</b></td>";
+			}
+			else {
+				$redTdTag = "<td>";
+				$redTdTagEnd = "</td>";
+			}
+			if ($row['blueScore'] > $row['blueScore']) {
+				$blueTdTag = "<td><b>";
+				$blueTdTagEnd = "</b></td>";
+			}
+			else {
+				$blueTdTag = "<td>";
+				$blueTdTagEnd = "</td>";
+			}
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
-			if ($row['redScore'] > $row['blueScore']) echo "<b>";
-            echo "<td><b>" . ($row['r1TeamReportUrl']) . "</b></td>";
-            echo "<td><b>" . ($row['r1TeamScoutUrl']) . "</b></td>";
-            echo "<td><b>" . ($row['r2TeamReportUrl']) . "</b></td>";
-            echo "<td>" . ($row['r2TeamScoutUrl']) . "</td>";
-            echo "<td>" . ($row['r3TeamReportUrl']) . "</td>";
-            echo "<td>" . ($row['r3TeamScoutUrl']) . "</td>";
-			if ($row['redScore'] > $row['blueScore']) echo "</b>";
-			if ($row['blueScore'] > $row['redScore']) echo "<b>";
-            echo "<td>" . ($row['b1TeamReportUrl']) . "</td>";
-            echo "<td>" . ($row['b1TeamScoutUrl']) . "</td>";
-            echo "<td>" . ($row['b2TeamReportUrl']) . "</td>";
-            echo "<td>" . ($row['b2TeamScoutUrl']) . "</td>";
-            echo "<td>" . ($row['b3TeamReportUrl']) . "</td>";
-            echo "<td>" . ($row['b3TeamScoutUrl']) . "</td>";
-			if ($row['blueScore'] > $row['redScore']) echo "</b>";
-			if ($row['redScore'] > $row['blueScore']) echo "<b>";
-            echo "<td><center>" . ($row['redScore']) . "</center></td>";
-			if ($row['redScore'] > $row['blueScore']) echo "</b>";
-			if ($row['blueScore'] > $row['redScore']) echo "<b>";
-            echo "<td><center>" . ($row['blueScore']) . "</center></td>";
-			if ($row['blueScore'] > $row['redScore']) echo "</b>";
+            echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
+            echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTag . ($row['r2TeamScoutUrl']) . $redTdTagEnd;
+            echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTag . ($row['r3TeamScoutUrl']) . $redTdTagEnd;
+            echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTag . ($row['b1TeamScoutUrl']) . $blueTdTagEnd;
+            echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTag . ($row['b2TeamScoutUrl']) . $blueTdTagEnd;
+            echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
+            echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
+            echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
 		   ?>
         </tr>
     <?php
