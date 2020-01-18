@@ -74,7 +74,8 @@
 
     <center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th>Match </th>
+        <th>Match</th>
+        <th>Time</th>
         <th>Red 1</th>
         <th>S</th>
         <th>Red 2</th>
@@ -87,6 +88,8 @@
         <th>S</th>
         <th>Blue 3</th>
         <th>S</th>
+        <th>Red Score</th>
+        <th>Blue Score</th>
      </tr>
 
     <?php
@@ -112,6 +115,9 @@
 				  , sortOrder
 				  , matchNumber
 				  , matchId
+				  , datetime
+				  , redScore
+				  , blueScore
 				  , r1TeamId
 				  , r2TeamId
 				  , r3TeamId
@@ -119,7 +125,7 @@
 				  , b2TeamId
 				  , b3TeamId
 			   from v_MatchHyperlinks
-			  order by sortOrder, matchNumber";
+			  order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -133,6 +139,7 @@
         ?>
        <tr>
            <td><?php echo ($row['matchReportUrl']);?></td>
+           <td><?php echo ($row['datetime']);?></td>
            <td><?php echo ($row['r1TeamReportUrl']);?></td>
            <td><?php echo ($row['r1TeamScoutUrl']);?></td>
            <td><?php echo ($row['r2TeamReportUrl']);?></td>
@@ -145,6 +152,8 @@
            <td><?php echo ($row['b2TeamScoutUrl']);?></td>
            <td><?php echo ($row['b3TeamReportUrl']);?></td>
            <td><?php echo ($row['b3TeamScoutUrl']);?></td>
+           <td><?php echo ($row['redScore']);?></td>
+           <td><?php echo ($row['blueScore']);?></td>
         </tr>
     <?php
     }
