@@ -716,146 +716,185 @@ create trigger tr_SOR_CalcScoreValue on ScoutObjectiveRecord
 after insert, update
 as
 begin
+	set nocount on
     update ScoutObjectiveRecord
 	   set scoreValue = (select dbo.calcScoreValue(i.objectiveId, i.integerValue, i.decimalValue)
 	                       from inserted i
 						  where i.id = ScoutObjectiveRecord.id)
-		 , lastUpdated = getDate()
+		 , lastUpdated = getDate() at time zone 'UTC' at time zone 'Central Standard Time'
 	 where ScoutObjectiveRecord.id in (select i.id from inserted i);
+	set nocount off
 end;
 go
-
 -- Trigger to maintain last updated value of Attribute
 create trigger tr_a_LastUpdated on Attribute after insert, update
 as
 begin
-    update Attribute set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Attribute set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of AttributeValue
 create trigger tr_av_LastUpdated on AttributeValue after insert, update
 as
 begin
-    update AttributeValue set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update AttributeValue set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Event
 create trigger tr_e_LastUpdated on Event after insert, update
 as
 begin
-    update Event set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Event set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Game
 create trigger tr_g_LastUpdated on Game after insert, update
 as
 begin
-    update Game set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Game set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of GameEvent
 create trigger tr_ge_LastUpdated on GameEvent after insert, update
 as
 begin
-    update GameEvent set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update GameEvent set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Match
 create trigger tr_m_LastUpdated on Match after insert, update
 as
 begin
-    update Match set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Match set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Objective
 create trigger tr_o_LastUpdated on Objective after insert, update
 as
 begin
-    update Objective set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Objective set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of ObjectiveGroup
 create trigger tr_og_LastUpdated on ObjectiveGroup after insert, update
 as
 begin
-    update ObjectiveGroup set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update ObjectiveGroup set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of ObjectiveGroupObjective
 create trigger tr_ogo_LastUpdated on ObjectiveGroupObjective after insert, update
 as
 begin
-    update ObjectiveGroupObjective set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update ObjectiveGroupObjective set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of ObjectiveValue
 create trigger tr_ov_LastUpdated on ObjectiveValue after insert, update
 as
 begin
-    update ObjectiveValue set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update ObjectiveValue set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Rank
 create trigger tr_r_LastUpdated on Rank after insert, update
 as
 begin
-    update Rank set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Rank set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of RankObjective
 create trigger tr_ro_LastUpdated on RankObjective after insert, update
 as
 begin
-    update RankObjective set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update RankObjective set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of ScoringType
 create trigger tr_st_LastUpdated on ScoringType after insert, update
 as
 begin
-    update ScoringType set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update ScoringType set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Scout
 create trigger tr_s_LastUpdated on Scout after insert, update
 as
 begin
-    update Scout set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Scout set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of ScoutRecord
 create trigger tr_sr_LastUpdated on ScoutRecord after insert, update
 as
 begin
-    update ScoutRecord set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update ScoutRecord set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of Team
 create trigger tr_t_LastUpdated on Team after insert, update
 as
 begin
-    update Team set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update Team set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of TeamAttribute
 create trigger tr_ta_LastUpdated on TeamAttribute after insert, update
 as
 begin
-    update TeamAttribute set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update TeamAttribute set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of TeamGameEvent
 create trigger tr_tge_LastUpdated on TeamGameEvent after insert, update
 as
 begin
-    update TeamGameEvent set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update TeamGameEvent set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 -- Trigger to maintain last updated value of TeamMatch
 create trigger tr_tm_LastUpdated on TeamMatch after insert, update
 as
 begin
-    update TeamMatch set lastUpdated = getdate() where id in (select i.id from inserted i);
+	set nocount on
+    update TeamMatch set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
 end
 GO
 
