@@ -127,7 +127,7 @@
 			}
 		}
 	}
-    sqlsrv_free_stmt($results);
+	if($results) sqlsrv_free_stmt($results);
 	
 	// Add/update matches on this event and teams in each match
 	if ($option == "M") {
@@ -258,10 +258,10 @@
 			}
 			else $cnt += 1;
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
-		sqlsrv_free_stmt($results);
-	}	
+			sqlsrv_free_stmt($results);
+	}	}
 
 	// Create 40 empty practice matches and activate these matches
 	if ($option == "P") {
@@ -290,7 +290,7 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
+		if($results) sqlsrv_free_stmt($results);
 		
 		// Activate all practice matches for the game event
 		$tsql = "update Match " .
@@ -317,8 +317,8 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
-
+		if($results) sqlsrv_free_stmt($results);
+		
 		// Create any missing practice matches for the game event
 		$tsql = "insert into Match (gameEventId, number, datetime, type, isActive) " .
 		        // Starting at noon on 2nd day of event with 10 minute interval
@@ -353,9 +353,10 @@
 				}
 			}
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Adding Game Event Practice Matches Successful!</center><br>";
-		sqlsrv_free_stmt($results);
+			sqlsrv_free_stmt($results);
+		}
 	}	
 
 	// Activate qualifying matches
@@ -385,7 +386,7 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
+		if($results) sqlsrv_free_stmt($results);
 		
 		// Activate all qualifying matches for the game event
 		$tsql = "update Match " .
@@ -412,9 +413,10 @@
 				}
 			}
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Activating Game Event Qualifying Matches Successful!</center><br>";
-		sqlsrv_free_stmt($results);
+			sqlsrv_free_stmt($results);
+		}
 	}	
 
 	// Activate playoff matches
@@ -444,7 +446,7 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
+		if($results) sqlsrv_free_stmt($results);
 		
 		// Activate all playoff matches for the game event
 		$tsql = "update Match " .
@@ -471,9 +473,10 @@
 				}
 			}
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Activating Game Event Playoff Matches Successful!</center><br>";
-		sqlsrv_free_stmt($results);
+			sqlsrv_free_stmt($results);
+		}
 	}	
 
 	// Set Game Event active and inactivate all others
@@ -502,7 +505,7 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
+		if($results) sqlsrv_free_stmt($results);
 		
 		// Inactivate all game events
 		$tsql = "update GameEvent " .
@@ -528,9 +531,10 @@
 				}
 			}
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Activation of Game Event Successful!</center><br>";
-		sqlsrv_free_stmt($results);
+			sqlsrv_free_stmt($results);
+		}
 	}	
 
 	// Add/update teams on this event and link teams to the event
@@ -560,7 +564,7 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
+		if($results) sqlsrv_free_stmt($results);
 		
 		$cnt = 0;
 		// Add/update team information and assign to event
@@ -614,9 +618,10 @@
 			}
 			else $cnt += 1;
 		}
-		if ($results)
+		if ($results) {
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
-		sqlsrv_free_stmt($results);
+			sqlsrv_free_stmt($results);
+		}
 	}	
 	
 	sqlsrv_close($conn);
