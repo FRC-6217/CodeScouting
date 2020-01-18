@@ -177,7 +177,11 @@
 				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
 					"   and m.gameEventId = " . $gameEventId .
 				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
-					"   and m.number = '" . $matchNumber . "';";
+					"   and m.number = '" . $matchNumber . "' " .
+					"   and not exists (select 1 " .
+					"                     from TeamMatch tm " .
+					"                    where tm.matchId = m.id " .
+					"                      and tm.teamId = t.id);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
