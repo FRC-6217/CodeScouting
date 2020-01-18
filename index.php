@@ -141,28 +141,28 @@
 			<?php
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
-			if ($row['redScore'] > $row['blueScore'] echo "<b>";
+			if ($row['redScore'] > $row['blueScore']) echo "<b>";
             echo "<td>" . ($row['r1TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['r1TeamScoutUrl']) . "</td>";
             echo "<td>" . ($row['r2TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['r2TeamScoutUrl']) . "</td>";
             echo "<td>" . ($row['r3TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['r3TeamScoutUrl']) . "</td>";
-			if ($row['redScore'] > $row['blueScore'] echo "</b>";
-			if ($row['blueScore'] > $row['redScore'] echo "<b>";
+			if ($row['redScore'] > $row['blueScore']) echo "</b>";
+			if ($row['blueScore'] > $row['redScore']) echo "<b>";
             echo "<td>" . ($row['b1TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['b1TeamScoutUrl']) . "</td>";
             echo "<td>" . ($row['b2TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['b2TeamScoutUrl']) . "</td>";
             echo "<td>" . ($row['b3TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['b3TeamScoutUrl']) . "</td>";
-			if ($row['blueScore'] > $row['redScore'] echo "</b>";
-			if ($row['redScore'] > $row['blueScore'] echo "<b>";
+			if ($row['blueScore'] > $row['redScore']) echo "</b>";
+			if ($row['redScore'] > $row['blueScore']) echo "<b>";
             echo "<td><center>" . ($row['redScore']) . "</center></td>";
-			if ($row['redScore'] > $row['blueScore'] echo "</b>";
-			if ($row['blueScore'] > $row['redScore'] echo "<b>";
+			if ($row['redScore'] > $row['blueScore']) echo "</b>";
+			if ($row['blueScore'] > $row['redScore']) echo "<b>";
             echo "<td><center>" . ($row['blueScore']) . "</center></td>";
-			if ($row['blueScore'] > $row['redScore'] echo "</b>";
+			if ($row['blueScore'] > $row['redScore']) echo "</b>";
 		   ?>
         </tr>
     <?php
