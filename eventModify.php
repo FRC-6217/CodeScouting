@@ -169,21 +169,20 @@
 				break;
 			}
 
-/*
 			// Create Match/Team Cross-Reference
-			$tsql = "insert into TeamGameEvent (teamId, gameEventId) " . 
-					"select t.id, ge.id " .
+			$tsql = "insert into TeamMatch (matchId, teamId, alliance, alliancePosition) " . 
+					"select m.id, t.id, 'R', 1 " .
 					"  from Team t, " .
-					"       GameEvent ge " .
-				    "       inner join Game g on g.id = ge.gameId " .
-				    "       inner join Event e on e.id = ge.eventId " .
-				    " where t.teamNumber = " . $value["team_number"] .
-					"   and g.gameYear = " . $gameYear .
-				    "   and e.eventCode = '" . $eventCode . "';";
+					"       Match m " .
+				    " where t.teamNumber = " . substr($value["alliances"].["red"]["team_keys"][0], 3) .
+					"   and m.gameEventId = " . $gameEventId .
+				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"   and m.number = '" . $matchNumber . "';";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
-				echo "Insert of Match for Team " . $value["team_number"] . " failed!<br />";
+				echo "Insert of Match for Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+				echo "SQL " . $tsql . "<br>";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
 						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -193,7 +192,6 @@
 				}
 				break;
 			}
-*/
 			else $cnt += 1;
 		}
 		if ($results)
