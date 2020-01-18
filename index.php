@@ -147,7 +147,7 @@
 				$redTdTag = "<td>";
 				$redTdTagEnd = "</td>";
 			}
-			if ($row['blueScore'] > $row['blueScore']) {
+			if ($row['blueScore'] > $row['redScore']) {
 				$blueTdTag = "<td><b>";
 				$blueTdTagEnd = "</b></td>";
 			}
