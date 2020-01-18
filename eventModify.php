@@ -144,7 +144,7 @@
 			$datetime = $dt->format('Y-m-d H:i:s');
 			// Update/insert Match
 			$tsql = "merge Match as target " . 
-		"using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . ", '" . $value["comp_level"] . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
+		            "using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . "', '" . $value["comp_level"] . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched THEN " .
