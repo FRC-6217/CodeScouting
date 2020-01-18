@@ -131,7 +131,7 @@
 	
 	// Add/update matches on this event and teams in each match
 	if ($option == "M") {
-		$timezone = "UTC";
+		$timezone = "America/Chicago";
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches/simple";
@@ -144,7 +144,7 @@
 			$datetime = $dt->format('Y-m-d H:i:s');
 			// Update/insert Match
 			$tsql = "merge Match as target " . 
-		            "using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . "', '" . $value["comp_level"] . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
+		            "using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched THEN " .
