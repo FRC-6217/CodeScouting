@@ -103,9 +103,101 @@
 			if($results)
 				echo "<center>Event Update Succeeded!</center><br>";
 		}
+		// Get Game Event Id
+		$tsql = "select ge.id " . 
+		        "  from GameEvent ge " .
+				"       inner join Event e on e.id = ge.eventId " .
+				"       inner join Game g on g.id = ge.gameId " .
+				" where e.eventCode = '" . $eventCode . "' " .
+				"   and g.gameYear = " . $gameYear . ";";
+		$results = sqlsrv_query($conn, $tsql);
+		if(!$results) {
+			echo "Query of Game Event failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		else {
+			while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
+				$gameEventId = $row['id'];
+			}
+		}
 	}
     sqlsrv_free_stmt($results);
 	
+	// Add/update matches on this event and teams in each match
+	if ($option == "M") {
+		$timezone = "UTC";
+		$dt = new DateTime();
+		$dt->setTimezone(new DateTimeZone($timezone));
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches/simple";
+		$matchesJSON = file_get_contents($sURL, false, $context);
+		$matchesArray = json_decode($matchesJSON, true);
+		$cnt = 0;
+		// Add/update match information and assign to teams to the match
+		foreach($matchesArray as $key => $value) {
+			$dt->setTimestamp($value["time"]);
+			$datetime = $dt->format('Y-m-d H:i:s');
+			// Update/insert Match
+			$tsql = "merge Match as target " . 
+		"using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . ", '" . $value["comp_level"] . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
+					"as source (gameEventId, number, dateTime, type, redScore, blueScore) " .
+					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
+					"WHEN matched THEN " .
+					"UPDATE set number = source.number, dateTime = source.dateTime, redScore = source.redScore, blueScore = source.blueScore " .
+					"WHEN not matched THEN " .
+					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore) " .
+					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore);";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Update of Match " . $value["comp_level"] . $value["match_number"] . " failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+				break;
+			}
+
+/*
+			// Create Match/Team Cross-Reference
+			$tsql = "insert into TeamGameEvent (teamId, gameEventId) " . 
+					"select t.id, ge.id " .
+					"  from Team t, " .
+					"       GameEvent ge " .
+				    "       inner join Game g on g.id = ge.gameId " .
+				    "       inner join Event e on e.id = ge.eventId " .
+				    " where t.teamNumber = " . $value["team_number"] .
+					"   and g.gameYear = " . $gameYear .
+				    "   and e.eventCode = '" . $eventCode . "';";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Insert of Match for Team " . $value["team_number"] . " failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+				break;
+			}
+*/
+			else $cnt += 1;
+		}
+		if ($results)
+			echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
+		sqlsrv_free_stmt($results);
+	}	
+
 	// Create 40 empty practice matches and activate these matches
 	if ($option == "P") {
 		// Inactivate all matches for the game event
