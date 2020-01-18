@@ -153,18 +153,6 @@
             </center>
 
 			<?php
-			$submit = $POST[submitToDatabase];
-			$scout = $_POST[scout];
-			$match = $_POST[match];
-			$team = $_POST[team];
-			$leaveHab = $_POST[leaveHab];
-			$ssHatchCnt = $_POST[ssHatchCnt];
-			$ssCargoCnt = $_POST[ssCargoCnt];
-			$toHatchCnt = $_POST[toHatchCnt];
-			$toCargoCnt = $_POST[toCargoCnt];
-			$defense = $_POST[defense];
-			$returnHab = $_POST[returnHab];
-
 			sqlsrv_free_stmt($getResults);
 			sqlsrv_close($conn);
 			?>
