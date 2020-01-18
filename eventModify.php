@@ -166,14 +166,14 @@
 		$tsql = "insert into Match (gameEventId, number, datetime, type, isActive) " .
 		        // Starting at noon on 2nd day of event with 10 minute interval
 		        "select ge.id, t.number, dateadd(mi, 2160 + (10 * (t.number - 1)), convert(datetime, ge.eventDate)), 'PR', 'Y' " . 
-				"  from (select  1 number union select  2 number union select  3 number union select  4 number union select  5 number) " .
-				"         union  6 number union select  7 number union select  8 number union select  9 number union select 10 number) " .
-				"         union 11 number union select 12 number union select 13 number union select 14 number union select 15 number) " .
-				"         union 16 number union select 17 number union select 18 number union select 19 number union select 20 number) " .
-				"         union 21 number union select 22 number union select 23 number union select 24 number union select 25 number) " .
-				"         union 26 number union select 27 number union select 28 number union select 29 number union select 30 number) " .
-				"         union 31 number union select 32 number union select 33 number union select 34 number union select 35 number) " .
-				"         union 36 number union select 37 number union select 38 number union select 39 number union select 40 number) t, " .
+				"  from (select  1 number union select  2 number union select  3 number union select  4 number union select  5 number " .
+				"  union select 6 number union select  7 number union select  8 number union select  9 number union select 10 number " .
+				"  union select 11 number union select 12 number union select 13 number union select 14 number union select 15 number " .
+				"  union select 16 number union select 17 number union select 18 number union select 19 number union select 20 number " .
+				"  union select 21 number union select 22 number union select 23 number union select 24 number union select 25 number " .
+				"  union select 26 number union select 27 number union select 28 number union select 29 number union select 30 number " .
+				"  union select 31 number union select 32 number union select 33 number union select 34 number union select 35 number " .
+				"  union select 36 number union select 37 number union select 38 number union select 39 number union select 40 number) t, " .
 				"        GameEvent ge " .
 				"       inner join Game g on g.id = ge.gameId " .
 				"       inner join Event e on e.id = ge.eventId " .
