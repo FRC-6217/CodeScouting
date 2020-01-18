@@ -140,9 +140,9 @@
        <tr>
 			<td></td>
 			<?php
-/*
 			echo "<td>" . $row['matchReportUrl'] . "</td>";
 			echo "<td>" . $row['datetime'])->format('m/d H:i') . "</td>";
+/*
             echo "<td>" . $row['r1TeamReportUrl']) . "</td>";
             echo "<td>" . $row['r1TeamScoutUrl']) . "</td>";
             echo "<td>" . $row['r2TeamReportUrl']) . "</td>";
