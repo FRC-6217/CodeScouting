@@ -27,24 +27,22 @@ create table Event(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(128) not null,
 	location varchar(128) not null,
-	isActive char(1) not null,
 	eventCode varchar(16) null,
 	lastUpdated datetime null);
 create unique index idx_Event on Event(name);
 create unique index idx_Event on Event(eventCode);
-insert into Event (name, location, isActive, eventCode) values ('Lake Superior Regional', 'Duluth, MN', 'N', 'mndu');
-insert into Event (name, location, isActive, eventCode) values ('Iowa Regional', 'Cedar Falls, IA', 'N', 'iacf');
-insert into Event (name, location, isActive, eventCode) values ('EMCC Off-Season', 'Woodbury, MN', 'Y', 'emcc');
-insert into Event (name, location, isActive, eventCode) values ('Test Data Event', 'Cannon Falls, MN', 'N', null);
+insert into Event (name, location, eventCode) values ('Lake Superior Regional', 'Duluth, MN', 'mndu');
+insert into Event (name, location, eventCode) values ('Iowa Regional', 'Cedar Falls, IA', 'iacf');
+insert into Event (name, location, eventCode) values ('EMCC Off-Season', 'Woodbury, MN', 'emcc');
+insert into Event (name, location, eventCode) values ('Test Data Event', 'Cannon Falls, MN', null);
 
 create table Game(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(128) not null,
 	gameYear integer not null,
-	isActive char(1) not null,
 	lastUpdated datetime null);
 create unique index idx_Game on Game(name);
-insert into Game (name, gameYear, isActive) values ('Deep Space', 2019, 'Y');
+insert into Game (name, gameYear) values ('Deep Space', 2019);
 
 create table GameEvent(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -959,6 +957,9 @@ select '<a href="Reports\matchReport.php?matchId=' + convert(varchar, subquery.m
      , subquery.sortOrder
      , subquery.matchNumber
      , subquery.matchId
+	 , subquery.datetime
+	 , subquery.redScore
+	 , subquery.blueScore
      , subquery.r1TeamId
      , subquery.r2TeamId
      , subquery.r3TeamId
@@ -969,6 +970,9 @@ select '<a href="Reports\matchReport.php?matchId=' + convert(varchar, subquery.m
 select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
      , m.id matchId
+	 , m.datetime
+	 , m.redScore
+	 , m.blueScore
      , (select r.teamNumber
           from TeamMatch mr
                inner join Team r
