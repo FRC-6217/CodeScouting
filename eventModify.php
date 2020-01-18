@@ -142,9 +142,12 @@
 		foreach($matchesArray as $key => $value) {
 			$dt->setTimestamp($value["time"]);
 			$datetime = $dt->format('Y-m-d H:i:s');
+			$matchNumber = $value["match_number"];
+			if ($value["comp_level"] != 'qm')
+				$matchNumber = $value["set_number"] . "-" . $matchNumber;
 			// Update/insert Match
 			$tsql = "merge Match as target " . 
-		            "using (select " . $gameEventId . ", '" . $value["match_number"] . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
+		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " . $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched THEN " .
@@ -155,7 +158,7 @@
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
-				echo "Update of Match " . $value["comp_level"] . $value["match_number"] . " failed!<br />";
+				echo "Update of Match " . $value["comp_level"] . $matchNumber . " failed!<br />";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
 						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
