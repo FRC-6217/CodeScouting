@@ -106,6 +106,101 @@
 	}
     sqlsrv_free_stmt($results);
 	
+	// Create 40 empty practice matches and activate these matches
+	if ($option == "P") {
+		// Inactivate all matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'N' " .
+		        " where isActive = 'Y' " .
+				"   and type <> 'PR' " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Inactivate of Game Event Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+		
+		// Activate all practice matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'Y' " .
+		        " where isActive = 'N' " .
+				"   and type = 'PR' " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Activate of Game Event Practice Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+
+		// Create any missing practice matches for the game event
+		$tsql = "insert into Match (gameEventId, number, datetime, type, isActive) " .
+		        // Starting at noon on 2nd day of event with 10 minute interval
+		        "select ge.id, t.number, dateadd(mi, 2160 + (10 * (t.number - 1)), convert(datetime, ge.eventDate)), 'PR', 'Y' " . 
+				"  from (select  1 number union select  2 number union select  3 number union select  4 number union select  5 number) " .
+				"         union  6 number union select  7 number union select  8 number union select  9 number union select 10 number) " .
+				"         union 11 number union select 12 number union select 13 number union select 14 number union select 15 number) " .
+				"         union 16 number union select 17 number union select 18 number union select 19 number union select 20 number) " .
+				"         union 21 number union select 22 number union select 23 number union select 24 number union select 25 number) " .
+				"         union 26 number union select 27 number union select 28 number union select 29 number union select 30 number) " .
+				"         union 31 number union select 32 number union select 33 number union select 34 number union select 35 number) " .
+				"         union 36 number union select 37 number union select 38 number union select 39 number union select 40 number) t, " .
+				"        GameEvent ge " .
+				"       inner join Game g on g.id = ge.gameId " .
+				"       inner join Event e on e.id = ge.eventId " .
+				" where g.gameYear = " . $gameYear .
+				"   and e.eventCode = '" . $eventCode . "' " .
+				"   and not exists (select 1 " .
+				"                     from Match m " .
+				"                    where m.gameEventId = ge.id " .
+				"                      and m.datetime = dateadd(mi, 2160 + (10 * (t.number - 1)), convert(datetime, ge.eventDate)))";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Adding Game Event Practice Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		if ($results)
+			echo "<center>Adding Game Event Practice Matches Successful!</center><br>";
+		sqlsrv_free_stmt($results);
+	}	
+
 	// Set Game Event active and inactivate all others
 	if ($option == "A") {
 		// Inactivate all game events
