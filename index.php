@@ -139,7 +139,7 @@
         ?>
        <tr>
            <td><?php echo ($row['matchReportUrl']);?></td>
-           <td><?php echo ($row['datetime']);?></td>
+           <td><?php echo ($row['datetime'])->format('m/d H:i');?></td>
            <td><?php echo ($row['r1TeamReportUrl']);?></td>
            <td><?php echo ($row['r1TeamScoutUrl']);?></td>
            <td><?php echo ($row['r2TeamReportUrl']);?></td>
