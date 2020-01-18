@@ -422,8 +422,7 @@ create table Match(
 	redScore integer null,
 	blueScore integer null,
 	lastUpdated datetime null);
-create unique index idx_Match on Match(gameEventId, dateTime);
-create unique index idx_Match_2 on Match(gameEventId, type, number);
+create unique index idx_Match on Match(gameEventId, type, number);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '02', '09/21/2019 08:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
