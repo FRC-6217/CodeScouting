@@ -142,9 +142,9 @@
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
 			if ($row['redScore'] > $row['blueScore']) echo "<b>";
-            echo "<td>" . ($row['r1TeamReportUrl']) . "</td>";
-            echo "<td>" . ($row['r1TeamScoutUrl']) . "</td>";
-            echo "<td>" . ($row['r2TeamReportUrl']) . "</td>";
+            echo "<td><b>" . ($row['r1TeamReportUrl']) . "</b></td>";
+            echo "<td><b>" . ($row['r1TeamScoutUrl']) . "</b></td>";
+            echo "<td><b>" . ($row['r2TeamReportUrl']) . "</b></td>";
             echo "<td>" . ($row['r2TeamScoutUrl']) . "</td>";
             echo "<td>" . ($row['r3TeamReportUrl']) . "</td>";
             echo "<td>" . ($row['r3TeamScoutUrl']) . "</td>";
