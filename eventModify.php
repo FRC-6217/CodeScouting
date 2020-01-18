@@ -174,7 +174,7 @@
 					"select m.id, t.id, 'R', 1 " .
 					"  from Team t, " .
 					"       Match m " .
-				    " where t.teamNumber = " . substr($value["alliances"].["red"]["team_keys"][0], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
 					"   and m.gameEventId = " . $gameEventId .
 				    "   and m.type = '" . strtoupper($value["comp_level"]) . "' " .
 					"   and m.number = '" . $matchNumber . "';";
