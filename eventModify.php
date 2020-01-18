@@ -314,8 +314,6 @@
 				}
 			}
 		}
-		sqlsrv_free_stmt($results);
-
 		if ($results)
 			echo "<center>Activating Game Event Playoff Matches Successful!</center><br>";
 		sqlsrv_free_stmt($results);
