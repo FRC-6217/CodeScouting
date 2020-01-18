@@ -74,7 +74,7 @@
 
     <center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th>Match</th>
+        <th>Match </th>
         <th>Time</th>
         <th>Red 1</th>
         <th>S</th>
@@ -82,14 +82,14 @@
         <th>S</th>
         <th>Red 3</th>
         <th>S</th>
-        <th>Blue 1</th>
+        <th>Blu 1</th>
         <th>S</th>
-        <th>Blue 2</th>
+        <th>Blu 2</th>
         <th>S</th>
-        <th>Blue 3</th>
+        <th>Blu 3</th>
         <th>S</th>
-        <th>Red Score</th>
-        <th>Blue Score</th>
+        <th>Red Sc</th>
+        <th>Blu Sc</th>
      </tr>
 
     <?php
@@ -152,8 +152,8 @@
            <td><?php echo ($row['b2TeamScoutUrl']);?></td>
            <td><?php echo ($row['b3TeamReportUrl']);?></td>
            <td><?php echo ($row['b3TeamScoutUrl']);?></td>
-           <td><?php echo ($row['redScore']);?></td>
-           <td><?php echo ($row['blueScore']);?></td>
+           <td><center><?php echo ($row['redScore']);?></center></td>
+           <td><center><?php echo ($row['blueScore']);?></center></td>
         </tr>
     <?php
     }
