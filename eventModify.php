@@ -201,6 +201,128 @@
 		sqlsrv_free_stmt($results);
 	}	
 
+	// Activate qualifying matches
+	if ($option == "Q") {
+		// Inactivate all matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'N' " .
+		        " where isActive = 'Y' " .
+				"   and type <> 'QM' " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Inactivate of Game Event Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+		
+		// Activate all qualifying matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'Y' " .
+		        " where isActive = 'N' " .
+				"   and type = 'QM' " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Activate of Game Event Qualifying Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+
+		if ($results)
+			echo "<center>Activating Game Event Qualifying Matches Successful!</center><br>";
+		sqlsrv_free_stmt($results);
+	}	
+
+	// Activate playoff matches
+	if ($option == "L") {
+		// Inactivate all matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'N' " .
+		        " where isActive = 'Y' " .
+				"   and type in ('QM', 'PR') " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Inactivate of Game Event Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+		
+		// Activate all playoff matches for the game event
+		$tsql = "update Match " .
+		        "   set isActive = 'Y' " .
+		        " where isActive = 'N' " .
+				"   and type not in ('QM', 'PR') " .
+				"   and gameEventId = " .
+				"       (select ge.id " .
+				"          from GameEvent ge " .
+				"               inner join Game g on g.id = ge.gameId " .
+				"               inner join Event e on e.id = ge.eventId " .
+				"         where g.gameYear = " . $gameYear .
+				"           and e.eventCode = '" . $eventCode . "');";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Activate of Game Event Playoff Matches failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		sqlsrv_free_stmt($results);
+
+		if ($results)
+			echo "<center>Activating Game Event Playoff Matches Successful!</center><br>";
+		sqlsrv_free_stmt($results);
+	}	
+
 	// Set Game Event active and inactivate all others
 	if ($option == "A") {
 		// Inactivate all game events
