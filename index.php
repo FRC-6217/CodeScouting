@@ -138,22 +138,24 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         ?>
        <tr>
-           <td><?php echo ($row['matchReportUrl']);?></td>
-           <td><?php echo ($row['datetime'])->format('m/d H:i');?></td>
-           <td><?php echo ($row['r1TeamReportUrl']);?></td>
-           <td><?php echo ($row['r1TeamScoutUrl']);?></td>
-           <td><?php echo ($row['r2TeamReportUrl']);?></td>
-           <td><?php echo ($row['r2TeamScoutUrl']);?></td>
-           <td><?php echo ($row['r3TeamReportUrl']);?></td>
-           <td><?php echo ($row['r3TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b1TeamReportUrl']);?></td>
-           <td><?php echo ($row['b1TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b2TeamReportUrl']);?></td>
-           <td><?php echo ($row['b2TeamScoutUrl']);?></td>
-           <td><?php echo ($row['b3TeamReportUrl']);?></td>
-           <td><?php echo ($row['b3TeamScoutUrl']);?></td>
-           <td><center><?php echo ($row['redScore']);?></center></td>
-           <td><center><?php echo ($row['blueScore']);?></center></td>
+			<?php
+			echo "<td>" . $row['matchReportUrl'] . "</td>";
+			echo "<td>" . $row['datetime'])->format('m/d H:i') . "</td>";
+            echo "<td>" . $row['r1TeamReportUrl']) . "</td>";
+            echo "<td>" . $row['r1TeamScoutUrl']) . "</td>";
+            echo "<td>" . $row['r2TeamReportUrl']) . "</td>";
+            echo "<td>" . $row['r2TeamScoutUrl']); . "</td>";
+            echo "<td>" . $row['r3TeamReportUrl']); . "</td>";
+            echo "<td>" . $row['r3TeamScoutUrl']); . "</td>";
+            echo "<td>" . $row['b1TeamReportUrl']); . "</td>";
+            echo "<td>" . $row['b1TeamScoutUrl']); . "</td>";
+            echo "<td>" . $row['b2TeamReportUrl']) . "</td>";
+            echo "<td>" . $row['b2TeamScoutUrl']) . "</td>";
+            echo "<td>" . $row['b3TeamReportUrl']) . "</td>";
+            echo "<td>" . $row['b3TeamScoutUrl']) . "</td>";
+            echo "<td><center>" . $row['redScore']) . "</center></td>";
+            echo "<td><center>" . $row['blueScore']) . "</center></td>";
+		   ?>
         </tr>
     <?php
     }
