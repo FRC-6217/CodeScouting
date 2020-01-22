@@ -258,10 +258,11 @@
 			}
 			else $cnt += 1;
 		}
-		if ($results) {
-			echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
+		echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
+		if ($cnt > 0) {
 			sqlsrv_free_stmt($results);
-	}	}
+		}
+	}
 
 	// Create 40 empty practice matches and activate these matches
 	if ($option == "P") {

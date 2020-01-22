@@ -73,7 +73,7 @@
           <p></p>
      </h2>
     <br>
-	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
   
 	<center><table cellspacing="0" cellpadding="5">
