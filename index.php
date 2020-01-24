@@ -15,9 +15,6 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-
-	// Get authenticated Google User
-	$userId = getallheaders()['X-Goog-Authenticated-User-Id'] ?? null;
 ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
@@ -79,7 +76,9 @@
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
 	<?php
-		echo $userId . "<br>";
+		// Get authenticated Google User
+		$userId = getallheaders()['X-Goog-Authenticated-User-Id'] ?? null;
+		echo "<center>User: " . $userId . "</center><br>";
 	?>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
