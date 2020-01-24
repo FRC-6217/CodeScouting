@@ -1,12 +1,8 @@
 <html>
-	<head>
-		<meta charset="ISO-8859-1">
-		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca"></meta>
-		<title>Scouting App</title>
-		<script src="https://apis.google.com/js/platform.js" async defer></script>
-		 <meta name="viewport" content="width=device-width, initial-scale=1">
-		 <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-	</head>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <script src="https://apis.google.com/js/platform.js" async defer></script>
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -78,8 +74,6 @@
      </h2>
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
-	<br>Access token<br>
-	<center><textarea id="token" rows="" cols=""></textarea></center>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
@@ -189,49 +183,4 @@
     ?>
     </table>
 	</center>
-	 <script src="https://apis.google.com/js/platform.js" async defer></script>
-	 
-	 <script type="text/javascript">
-	 
-	 /*
-	 * Google sign in callback
-	 * after loginin to google this function will automatically call
-	 * no neet call this function manually
-	 */
-	 function onSignIn(googleUser) {
-	 var profile = googleUser.getBasicProfile();
-	 
-	 var id_token = googleUser.getAuthResponse().id_token;// this token we will send to server to verify
-	 
-	 console.log('ID: ' + profile.getId());
-	 console.log('Name: ' + profile.getName());
-	 console.log('Image URL: ' + profile.getImageUrl());
-	 console.log('Email: ' + profile.getEmail());
-	 
-	 console.log('Token: ' + id_token);
-	 
-	 $("#token").text(id_token);
-	 }
-	 
-	 function signOut() {
-	 
-	 var auth2 = gapi.auth2.getAuthInstance();
-	 auth2.signOut().then(function() {
-	 console.log('User signed out.');
-	 });
-	 }
-	 
-	 $("#verify_in_server").click(function(){
-	 
-	 $.ajax({
-	 type: "POST",
-	 url: "testVerify.php", 
-	 data: { token: $("#token").text()},
-	 success: function(result){
-				$("#verify_in_server_result").html(result);
-		}
-	 });
-	 });
- 
-	</script>
 </html> 
