@@ -131,7 +131,7 @@
 								  , objectiveValueSort
 								  , scoutRecordHtml
 							   from v_EnterScoutRecordHTML
-							 order by groupSort, objectiveSort";
+							 order by groupSort, objectiveSort, objectiveValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)
 						if( ($errors = sqlsrv_errors() ) != null) {

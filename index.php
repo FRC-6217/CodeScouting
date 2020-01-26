@@ -39,7 +39,34 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <h1><center>Bomb Botz Scouting App</center></h1>
-	    <h2><center>Infinite Recharge, Lake Superior Regional</center></h2>
+	    <h2><center>
+		<?php
+		$tsql = "select g.name game_name
+                      , e.name event_name
+	                  , ge.eventDate
+                   from GameEvent ge
+                        inner join Game g
+	                    on g.id = ge.gameId
+	                    inner join Event e
+	                    on e.id = ge.eventId
+                  where ge.isActive = 'Y'
+                 order by e.eventDate";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+			echo $row['game_name'] . ", " . $row['event_name'];
+		}
+		sqlsrv_free_stmt($getResults);
+		?>
+		</center></h2>
+
     <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
