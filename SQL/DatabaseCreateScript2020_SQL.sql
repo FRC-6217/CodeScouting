@@ -1157,8 +1157,8 @@ select distinct
 	 , case when st.hasValueList = 'N'
 	        then '<br>' + o.label + '<input type="number" name ="' + o.name + '" value=0 style="width: 40px;"><br>'
 			when ov.sortOrder = 1
-	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '"><br>'
-			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '"><br>' end scoutRecordHtml
+	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '><br>'
+			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '><br>' end scoutRecordHtml
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
@@ -1524,221 +1524,442 @@ declare @lv_Id integer;
 
 BEGIN
 	SET NOCOUNT ON
+	-- Lookup Scout Header Record
+	SELECT @lv_id = max(id)
+	  FROM ScoutRecord
+	 WHERE scoutId = @pv_ScoutId
+	   AND matchId = @pv_MatchId
+	   AND teamId = @pv_TeamId;
+	   
 	-- Add Scout Header Record
-	INSERT INTO ScoutRecord (scoutId, matchId, teamId)
-	VALUES (@pv_ScoutId, @pv_MatchId, @pv_TeamId);
-	SET @lv_Id = @@IDENTITY;
+	IF @lv_Id is null
+	BEGIN
+		INSERT INTO ScoutRecord (scoutId, matchId, teamId)
+		SELECT @pv_ScoutId, @pv_MatchId, @pv_TeamId;
+		SET @lv_Id = @@IDENTITY;
 
-    -- Add Objective Values
-	if @pv_IntegerValue01 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue01
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 1;
+		-- Add Objective Values
+		if @pv_IntegerValue01 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue01
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 1;
 
-    -- Add Objective Values
-	if @pv_IntegerValue02 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue02
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 2;
+		-- Add Objective Values
+		if @pv_IntegerValue02 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue02
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 2;
 
-    -- Add Objective Values
-	if @pv_IntegerValue03 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue03
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 3;
+		-- Add Objective Values
+		if @pv_IntegerValue03 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue03
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 3;
 
-    -- Add Objective Values
-	if @pv_IntegerValue04 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue04
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 4;
+		-- Add Objective Values
+		if @pv_IntegerValue04 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue04
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 4;
 
-    -- Add Objective Values
-	if @pv_IntegerValue05 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue05
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 5;
+		-- Add Objective Values
+		if @pv_IntegerValue05 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue05
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 5;
 
-    -- Add Objective Values
-	if @pv_IntegerValue06 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue06
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 6;
+		-- Add Objective Values
+		if @pv_IntegerValue06 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue06
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 6;
 
-    -- Add Objective Values
-	if @pv_IntegerValue07 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue07
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 7;
+		-- Add Objective Values
+		if @pv_IntegerValue07 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue07
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 7;
 
-    -- Add Objective Values
-	if @pv_IntegerValue08 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue08
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 8;
+		-- Add Objective Values
+		if @pv_IntegerValue08 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue08
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 8;
 
-    -- Add Objective Values
-	if @pv_IntegerValue09 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue09
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 9;
+		-- Add Objective Values
+		if @pv_IntegerValue09 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue09
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 9;
 
-    -- Add Objective Values
-	if @pv_IntegerValue10 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue10
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 10;
+		-- Add Objective Values
+		if @pv_IntegerValue10 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue10
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 10;
 
-    -- Add Objective Values
-	if @pv_IntegerValue11 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue11
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 11;
+		-- Add Objective Values
+		if @pv_IntegerValue11 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue11
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 11;
 
-    -- Add Objective Values
-	if @pv_IntegerValue12 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue12
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 12;
+		-- Add Objective Values
+		if @pv_IntegerValue12 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue12
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 12;
 
-    -- Add Objective Values
-	if @pv_IntegerValue13 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue13
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 13;
+		-- Add Objective Values
+		if @pv_IntegerValue13 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue13
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 13;
 
-    -- Add Objective Values
-	if @pv_IntegerValue14 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue14
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 14;
+		-- Add Objective Values
+		if @pv_IntegerValue14 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue14
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 14;
 
-    -- Add Objective Values
-	if @pv_IntegerValue15 is not null
-		INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
-		SELECT @lv_Id
-		     , o.id
-			 , @pv_IntegerValue15
-		  FROM Match m
-		       INNER JOIN GameEvent ge
-			   ON ge.id = m.gameEventId
-			   INNER JOIN Objective o
-			   ON o.gameId = ge.gameId
-		 WHERE m.id = @pv_MatchId
-		   AND o.sortOrder = 15;
+		-- Add Objective Values
+		if @pv_IntegerValue15 is not null
+			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+			SELECT @lv_Id
+				 , o.id
+				 , @pv_IntegerValue15
+			  FROM Match m
+				   INNER JOIN GameEvent ge
+				   ON ge.id = m.gameEventId
+				   INNER JOIN Objective o
+				   ON o.gameId = ge.gameId
+			 WHERE m.id = @pv_MatchId
+			   AND o.sortOrder = 15;
+	END
+	ELSE
+	BEGIN
+		-- Update Objective Values
+		if @pv_IntegerValue01 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue01
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 1);
 
+		-- Update Objective Values
+		if @pv_IntegerValue02 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue02
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 2);
+
+		-- Update Objective Values
+		if @pv_IntegerValue03 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue03
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 3);
+
+		-- Update Objective Values
+		if @pv_IntegerValue04 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue04
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 4);
+
+		-- Update Objective Values
+		if @pv_IntegerValue05 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue05
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 5);
+
+		-- Update Objective Values
+		if @pv_IntegerValue06 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue06
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 6);
+
+		-- Update Objective Values
+		if @pv_IntegerValue07 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue07
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 7);
+
+		-- Update Objective Values
+		if @pv_IntegerValue08 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue08
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 8);
+
+		-- Update Objective Values
+		if @pv_IntegerValue09 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue09
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 9);
+
+		-- Update Objective Values
+		if @pv_IntegerValue10 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue10
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 10);
+
+		-- Update Objective Values
+		if @pv_IntegerValue11 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue11
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 11);
+
+		-- Update Objective Values
+		if @pv_IntegerValue12 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue12
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 12);
+
+		-- Update Objective Values
+		if @pv_IntegerValue13 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue13
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 13);
+
+		-- Update Objective Values
+		if @pv_IntegerValue14 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue14
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 14);
+
+		-- Update Objective Values
+		if @pv_IntegerValue15 is not null
+			UPDATE ScoutObjectiveRecord
+               SET integerValue = @pv_IntegerValue15
+             WHERE scoutRecordId = @lv_Id
+               AND objectiveId = (SELECT o.id
+                                    FROM Match m
+  				                         INNER JOIN GameEvent ge
+				                         ON ge.id = m.gameEventId
+				                         INNER JOIN Objective o
+				                         ON o.gameId = ge.gameId
+			                       WHERE m.id = @pv_MatchId
+			                         AND o.sortOrder = 15);
+	END
 END
 GO
 
