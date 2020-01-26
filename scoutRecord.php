@@ -119,43 +119,38 @@
 							}
 							?>
 						</select>
-					</p>					
-						<br><b><u>Autonomous</u></b>
-						<br>PC Lower Cnt: <input type="number" name ="aPcLower" value=0 style="width: 40px;"><br>
-						<br>PC Outer Cnt: <input type="number" name ="aPcOuter" value=0 style="width: 40px;"><br>
-						<br>PC Inner Cnt: <input type="number" name ="aPcInner" value=0 style="width: 40px;"><br>
-						<br>Move Off Line:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="aMove" value=0"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="aMove" value=1"><br>
-						<br><b><u>Tele Op</u></b>
-						<br>PC Lower Cnt: <input type="number" name ="toPcLower" value=0 style="width: 40px;"><br>
-						<br>PC Outer Cnt: <input type="number" name ="toPcOuter" value=0 style="width: 40px;"><br>
-						<br>PC Inner Cnt: <input type="number" name ="toPcInner" value=0 style="width: 40px;"><br>
-						<br>Ctrl Pnl Rotation:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="toCpRotation" value=0"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="toCpRotation" value=1"><br>
-						<br>Rotation Time: <input type="number" name ="toCpRotationTime" value=0 style="width: 40px;"><br>
-						<br>Ctrl Pnl Position:<br>&nbsp;&nbsp;&nbsp;&nbsp;No<input type="radio" checked="checked" name ="toCpPosition" value=0"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Yes<input type="radio" name ="toCpPosition" value=1"><br>
-						<br>Position Time: <input type="number" name ="toCpPositionTime" value=0 style="width: 40px;"><br>
-						<br>Defense:<br>&nbsp;&nbsp;&nbsp;&nbsp;No Defense<input type="radio" checked="checked" name ="toDefense" value=0"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Poor Defense<input type="radio" name ="toDefense" value=-1"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Good Defense<input type="radio" name ="toDefense" value=1"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Excellent Defense<input type="radio" name ="toDefense" value=2"><br>
-						<br><b><u>End Game</u></b>
-						<br>Final Position:<br>&nbsp;&nbsp;&nbsp;&nbsp;None<input type="radio" checked="checked" name ="toFinalPosition" value=0"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Park<input type="radio" name ="toFinalPosition" value=1"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Hang Unassisted<input type="radio" name ="toFinalPosition" value=2"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Hang Assisted<input type="radio" name ="toFinalPosition" value=1"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Hang Assist 1<input type="radio" name ="toFinalPosition" value=3"><br>
-						&nbsp;&nbsp;&nbsp;&nbsp;Hang Assist 2<input type="radio" name ="toFinalPosition" value=4"><br>
+					</p>
+					<?php
+					$tsql = "select groupName
+								  , objectiveName
+								  , objectiveLabel
+								  , displayValue
+								  , integerValue
+								  , groupSort
+								  , objectiveSort
+								  , objectiveValueSort
+								  , scoutRecordHtml
+							   from v_EnterScoutRecordHTML
+							 order by groupSort, objectiveSort";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						echo $row['scoutRecordHtml'];
+					}
+					sqlsrv_free_stmt($getResults);
+					sqlsrv_close($conn);
+					?>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
             </center>
-
-			<?php
-			sqlsrv_free_stmt($getResults);
-			sqlsrv_close($conn);
-			?>
         </form>
 	</head>
 </html>
