@@ -32,7 +32,6 @@
 	$returnHab = $_POST[returnToHAB];
 
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
-	echo $tsql;
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "Submission Succeeded!";
