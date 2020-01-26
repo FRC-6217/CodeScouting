@@ -50,7 +50,7 @@
 	                    inner join Event e
 	                    on e.id = ge.eventId
                   where ge.isActive = 'Y'
-                 order by e.eventDate";
+                 order by ge.eventDate";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
