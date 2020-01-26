@@ -23,13 +23,13 @@
 	$scout = $_POST[scout];
 	$match = $_POST[match];
 	$team = $_POST[team];
-	$leaveHab = $_POST[leaveHab];
+	$leaveHab = $_POST[leaveHAB];
 	$ssHatchCnt = $_POST[ssHatchCnt];
 	$ssCargoCnt = $_POST[ssCargoCnt];
 	$toHatchCnt = $_POST[toHatchCnt];
 	$toCargoCnt = $_POST[toCargoCnt];
-	$defense = $_POST[defense];
-	$returnHab = $_POST[returnHab];
+	$defense = $_POST[playedDefense];
+	$returnHab = $_POST[returnToHAB];
 
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $leaveHab, $ssHatchCnt, $ssCargoCnt, $toHatchCnt, $toCargoCnt, $defense, $returnHab";
 	echo $tsql;
