@@ -63,7 +63,7 @@ $tsql = "select TeamNumber
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 ?>
 	<tr>
-        <td><a href="Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
+        <td><a href="\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
         <td><?php echo ($row['matchNumber']);?></td>
         <td><?php echo ($row['matchTimeOnly']);?></td>
         <td><?php echo ($row['scoutName']);?></td>
