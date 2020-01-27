@@ -52,7 +52,6 @@
 					<p><u><b>Match Selection</b></u></p>
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
-							<option value=""></option>
 							<?php
 							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
 							$getResults = sqlsrv_query($conn, $tsql);
@@ -64,6 +63,7 @@
 										echo "message: ".$error[ 'message']."<br />";
 									}
 								}
+							$cnt = 0;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							?>
 							<option value="<?php echo ($row['id']);?>"><?php echo ($row['fullName']);?></option>
