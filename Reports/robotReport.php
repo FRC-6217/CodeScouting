@@ -23,15 +23,29 @@
             <th>Match</th>
             <th>Time</th>
             <th>Scout</th>
-            <th>Exit</th>
-            <th>SSHatch</th>
-            <th>SSCargo</th>
-            <th>TotHatch</th>
-            <th>TotCargo</th>
-            <th>Defense</th>
-            <th>Return</th>       
+			<?php
+			$tsql = "select o.tableHeader
+					   from objective o
+							inner join gameEvent ge
+							on ge.gameId = o.gameId
+					  where ge.isActive = 'Y'
+					 order by o.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['tableHeader'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			sqlsrv_close($conn);
+			?>
     </tr>
-
 <?php
 $team = "$_GET[TeamId]";
 $tsql = "select TeamNumber
