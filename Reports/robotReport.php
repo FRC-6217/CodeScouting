@@ -16,7 +16,6 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
-	echo $team;
 ?>
 <center><h1>Robot Report</h1></center>
 <center><table cellspacing="0" cellpadding="5">
@@ -45,7 +44,6 @@
 				echo "<th>" . $row['tableHeader'] . "</th>";
 			}
 			sqlsrv_free_stmt($getResults);
-			sqlsrv_close($conn);
 			?>
     </tr>
 <?php
