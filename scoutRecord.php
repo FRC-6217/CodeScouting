@@ -78,7 +78,7 @@
 						<select style="width: 157px" name="match">
 							<option value="<?php echo ($matchId);?>" selected><?php echo ($matchNumber);?></option>
 							<?php
-							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchNumber";
+							$tsql = "select m.matchId, m.matchNumber from v_MatchHyperlinks m order by m.sortOrder, m.matchSort, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
