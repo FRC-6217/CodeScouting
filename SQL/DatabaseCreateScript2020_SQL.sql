@@ -1005,10 +1005,14 @@ select '<a href="Reports\matchReport.php?matchId=' + convert(varchar, subquery.m
      , subquery.b1TeamId
      , subquery.b2TeamId
      , subquery.b3TeamId
+	 , case when isnumeric(subquery.number) = 1
+	        then convert(numeric, subquery.number)
+			else 1000 end matchSort
   from (
 select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
      , m.id matchId
+	 , m.number
 	 , m.datetime
 	 , m.redScore
 	 , m.blueScore
@@ -1155,10 +1159,10 @@ select distinct
 	 , o.sortOrder objectiveSort
 	 , ov.sortOrder objectiveValueSort
 	 , case when st.hasValueList = 'N'
-	        then '<br>' + o.label + '<input type="number" name ="' + o.name + '" value=0 style="width: 40px;"><br>'
+	        then '<br>' + o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;"><br>'
 			when ov.sortOrder = 1
-	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '><br>'
-			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="' + o.name + '" value=' + convert(varchar, ov.integerValue) + '><br>' end scoutRecordHtml
+	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '><br>'
+			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '><br>' end scoutRecordHtml
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
