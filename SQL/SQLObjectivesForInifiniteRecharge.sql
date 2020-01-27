@@ -30,23 +30,23 @@ Delete From ObjectiveValue where objectiveId in (select o.id from objective o in
 Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
 
 -- Autonomous 
-insert into Objective select g.id, 'aPcLower', 'PC Lower Cnt: ', st.id, 0, 8, 2, 1 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aPcOuter', 'PC Outer Cnt: ', st.id, 0, 8, 4, 2 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aPcInner', 'PC Inner Cnt: ', st.id, 0, 8, 6, 3 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'aMove', 'Move Off Line:', st.id, null, null, null, 4 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'aPcLower', 'PC Lower Cnt: ', st.id, 0, 8, 2, 1, 'aLower' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'aPcOuter', 'PC Outer Cnt: ', st.id, 0, 8, 4, 2, 'aOuter' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'aPcInner', 'PC Inner Cnt: ', st.id, 0, 8, 6, 3, 'aInner' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'aMove', 'Move Off Line:', st.id, null, null, null, 4, 'aMove' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- TeleOp
-insert into Objective select g.id, 'toPcLower', 'PC Lower Cnt: ', st.id, 0, 50, 1, 5 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toPcOuter', 'PC Outer Cnt: ', st.id, 0, 50, 2, 6 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toPcInner', 'PC Inner Cnt: ', st.id, 0, 50, 3, 7 from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpRotation', 'Ctrl Pnl Rotation:', st.id, null, null, null, 8 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpRotationTime', 'Rotation Time: ', st.id, 0, 60, null, 9 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpPosition', 'Ctrl Pnl Position:', st.id, null, null, null, 10 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective select g.id, 'toCpPositionTime', 'Position Time: ', st.id, 0, 60, null, 11 from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
-insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 12 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toPcLower', 'PC Lower Cnt: ', st.id, 0, 50, 1, 5, 'toLower' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toPcOuter', 'PC Outer Cnt: ', st.id, 0, 50, 2, 6, 'toOuter' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toPcInner', 'PC Inner Cnt: ', st.id, 0, 50, 3, 7, 'toInner' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toCpRotation', 'Ctrl Pnl Rotation:', st.id, null, null, null, 8, 'cpRot' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toCpRotationTime', 'Rotation Time: ', st.id, 0, 60, null, 9, 'cpRotTime' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toCpPosition', 'Ctrl Pnl Position:', st.id, null, null, null, 10, 'cpPos' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toCpPositionTime', 'Position Time: ', st.id, 0, 60, null, 11, 'cpPosTime' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 12, 'Defense' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- End Game
-insert into Objective select g.id, 'toFinalPosition', 'Final Position:', st.id, null, null, null, 13 from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toFinalPosition', 'Final Position:', st.id, null, null, null, 13, 'Finish' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- Objective Values
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'aMove'
