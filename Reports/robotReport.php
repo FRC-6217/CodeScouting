@@ -46,54 +46,6 @@
 			sqlsrv_close($conn);
 			?>
     </tr>
-<?php
-$team = "$_GET[TeamId]";
-$tsql = "select TeamNumber
-              , matchNumber
-              , left(convert(varchar, matchTime, 24), 5) matchTimeOnly
-              , scoutName
-              , leaveHab
-              , ssHatchCnt
-              , ssCargoCnt
-              , totHatchCnt
-              , totCargoCnt
-              , playedDefense
-              , returnToHab
-              , TeamId
-              , matchId
-              , scoutId
-		   from v_TeamReport
-          where TeamId = $team
-		order by matchTime, matchNumber";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-?>
-	<tr>
-        <td><a href="\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
-        <td><?php echo ($row['matchNumber']);?></td>
-        <td><?php echo ($row['matchTimeOnly']);?></td>
-        <td><?php echo ($row['scoutName']);?></td>
-        <td><?php echo ($row['leaveHab']);?></td>
-        <td><?php echo ($row['ssHatchCnt']);?></td>
-        <td><?php echo ($row['ssCargoCnt']);?></td>
-        <td><?php echo ($row['totHatchCnt']);?></td>
-        <td><?php echo ($row['totCargoCnt']);?></td>
-        <td><?php echo ($row['playedDefense']);?></td>
-        <td><?php echo ($row['returnToHab']);?></td>
-	</tr>
-    <?php
-    }
-    sqlsrv_free_stmt($getResults);
-	sqlsrv_close($conn);
-    ?>
     </center>
     </table>
 </html>
