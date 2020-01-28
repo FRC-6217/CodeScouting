@@ -51,13 +51,21 @@ $tsql = "select TeamNumber
               , matchNumber
               , left(convert(varchar, matchTime, 24), 5) matchTimeOnly
               , scoutName
-              , leaveHab
-              , ssHatchCnt
-              , ssCargoCnt
-              , totHatchCnt
-              , totCargoCnt
-              , playedDefense
-              , returnToHab
+              , value1
+              , value2
+              , value3
+              , value4
+              , value5
+              , value6
+              , value7
+              , value8
+              , value9
+              , value10
+              , value11
+              , value12
+              , value13
+              , value14
+              , value15
               , TeamId
               , matchId
               , scoutId
@@ -77,16 +85,26 @@ $tsql = "select TeamNumber
 ?>
 	<tr>
         <td><a href="\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
-        <td><?php echo ($row['matchNumber']);?></td>
-        <td><?php echo ($row['matchTimeOnly']);?></td>
-        <td><?php echo ($row['scoutName']);?></td>
-        <td><?php echo ($row['leaveHab']);?></td>
-        <td><?php echo ($row['ssHatchCnt']);?></td>
-        <td><?php echo ($row['ssCargoCnt']);?></td>
-        <td><?php echo ($row['totHatchCnt']);?></td>
-        <td><?php echo ($row['totCargoCnt']);?></td>
-        <td><?php echo ($row['playedDefense']);?></td>
-        <td><?php echo ($row['returnToHab']);?></td>
+        <?php
+		echo "<td>" . $row['matchNumber'] . "</td>";
+		echo "<td>" . $row['matchTimeOnly'] . "</td>";
+		echo "<td>" . $row['scoutName'] . "</td>";
+		if isset($row['value1']) echo "<td>" . $row['value1'] . "</td>";
+		if isset($row['value2']) echo "<td>" . $row['value2'] . "</td>";
+		if isset($row['value3']) echo "<td>" . $row['value3'] . "</td>";
+		if isset($row['value4']) echo "<td>" . $row['value4'] . "</td>";
+		if isset($row['value5']) echo "<td>" . $row['value5'] . "</td>";
+		if isset($row['value6']) echo "<td>" . $row['value6'] . "</td>";
+		if isset($row['value7']) echo "<td>" . $row['value7'] . "</td>";
+		if isset($row['value8']) echo "<td>" . $row['value8'] . "</td>";
+		if isset($row['value9']) echo "<td>" . $row['value9'] . "</td>";
+		if isset($row['value10']) echo "<td>" . $row['value10'] . "</td>";
+		if isset($row['value11']) echo "<td>" . $row['value11'] . "</td>";
+		if isset($row['value12']) echo "<td>" . $row['value12'] . "</td>";
+		if isset($row['value13']) echo "<td>" . $row['value13'] . "</td>";
+		if isset($row['value14']) echo "<td>" . $row['value14'] . "</td>";
+		if isset($row['value15']) echo "<td>" . $row['value15'] . "</td>";
+		?>
 	</tr>
     <?php
     }
