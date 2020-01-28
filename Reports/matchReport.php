@@ -30,7 +30,6 @@
 							on ge.gameId = o.gameId
 					  where ge.isActive = 'Y'
 					 order by o.sortOrder";
-			echo $tsql;
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
@@ -75,8 +74,7 @@
                    from v_MatchReport
 				  where matchId = $match
 				 order by alliance desc, alliancePosition";
-	echo $tsql;
-    $getResults = sqlsrv_query($conn, $tsql);
+	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
