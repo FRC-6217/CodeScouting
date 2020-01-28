@@ -286,17 +286,18 @@ create table Objective(
 	scoreMultiplier integer null,
 	sortOrder integer not null,
 	lastUpdated datetime null,
-	tableHeader varchar(64) not null);
+	tableHeader varchar(64) not null,
+	reportDisplay varchar(1) not null);
 create unique index idx_Objective on Objective(gameId, name);
 alter table Objective add constraint fk_Objective_Game foreign key (gameId) references Game (id);
 alter table Objective add constraint fk_Objective_ScoringType foreign key (scoringTypeId) references ScoringType (id);
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'leaveHAB', 'Leave HAB Level', st.id, null, null, null, 1, 'Exit' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'ssHatchCnt', 'Sandstorm Hatches', st.id, 0, 2, 2, 2, 'SSHatch' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'ssCargoCnt', 'Sandstorm Cargo', st.id, 0, 2, 3, 3, 'SSCargo' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toHatchCnt', 'TeleOp Hatches', st.id, 0, 10, 2, 4, 'TOHatch' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'toCargoCnt', 'TeleOp Cargo', st.id, 0, 10, 3, 5, 'TOCargo' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'playedDefense', 'Performed on Defense', st.id, null, null, null, 6, 'Defense' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader) select g.id, 'returnToHAB', 'Return HAB Level', st.id, null, null, null, 7, 'Return' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'leaveHAB', 'Leave HAB Level', st.id, null, null, null, 1, 'Exit', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'ssHatchCnt', 'Sandstorm Hatches', st.id, 0, 2, 2, 2, 'SSHatch', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'ssCargoCnt', 'Sandstorm Cargo', st.id, 0, 2, 3, 3, 'SSCargo', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'toHatchCnt', 'TeleOp Hatches', st.id, 0, 10, 2, 4, 'TOHatch', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'toCargoCnt', 'TeleOp Cargo', st.id, 0, 10, 3, 5, 'TOCargo', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Integer';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'playedDefense', 'Performed on Defense', st.id, null, null, null, 6, 'Defense', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'returnToHAB', 'Return HAB Level', st.id, null, null, null, 7, 'Return', 'I' from game g, scoringType st where g.name = 'Deep Space' and st.name = 'Radio Button';
 
 create table ObjectiveValue(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -686,7 +687,7 @@ create table ScoutObjectiveRecord (
 	integerValue integer null,
 	decimalValue integer null,
 	textValue numeric(10,3) null,
-	scoreValue varchar(256) null,
+	scoreValue integer null,
 	lastUpdated datetime null);
 create unique index idx_ScoutObjectiveRecord on ScoutObjectiveRecord(scoutRecordId, objectiveId);
 alter table ScoutObjectiveRecord add constraint fk_ScoutObjectiveRecord_ScoutRecord foreign key (scoutRecordId) references ScoutRecord (id);
@@ -1187,7 +1188,13 @@ create view v_ScoutRecord as
 select sr.matchId
      , sr.teamId
 	 , sr.scoutId
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1197,7 +1204,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value1
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1207,7 +1220,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value2
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1217,7 +1236,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value3
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1227,7 +1252,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value4
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1237,7 +1268,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value5
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1247,7 +1284,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value6
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1257,7 +1300,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value7
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1267,7 +1316,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value8
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1277,7 +1332,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value9
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1287,7 +1348,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value10
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1297,7 +1364,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value11
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1307,7 +1380,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value12
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1317,7 +1396,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value13
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
@@ -1327,7 +1412,13 @@ select sr.matchId
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
 		   and sr2.scoutId = sr.scoutId) value14
-     , (select sor.integerValue
+     , (select case when o.reportDisplay = 'S'
+	                then coalesce(sor.scoreValue, sor.integerValue)
+					when o.reportDisplay = 'I'
+					then sor.integerValue
+					when o.reportDisplay = 'D'
+					then sor.decimalValue
+					else sor.integerValue end
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
