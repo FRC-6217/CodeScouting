@@ -23,13 +23,27 @@
 			<th>Robot</th>
 			<th>Team</th>
 			<th>Matches</th>
-			<th>Exit</th>
-			<th>SSHatch</th>
-			<th>SSCargo</th>
-			<th>TotHatch</th>
-			<th>TotCargo</th>
-			<th>Defense</th>
-			<th>Return</th>
+			<?php
+			$tsql = "select o.tableHeader
+					   from objective o
+							inner join gameEvent ge
+							on ge.gameId = o.gameId
+					  where ge.isActive = 'Y'
+					 order by o.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['tableHeader'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
 		</tr>
 
 		<?php
@@ -42,13 +56,21 @@
 					  , alliancePosition
 					  , teamReportUrl
 					  , matchCnt
-					  , leaveHabAvg
-					  , ssHatchCnt
-					  , ssCargoCnt
-					  , totHatchCnt
-					  , totCargoCnt
-					  , playedDefense
-					  , returnToHab
+					  , value1
+					  , value2
+					  , value3
+					  , value4
+					  , value5
+					  , value6
+					  , value7
+					  , value8
+					  , value9
+					  , value10
+					  , value11
+					  , value12
+					  , value13
+					  , value14
+					  , value15
                    from v_MatchReport
 				  where matchId = $match
 				 order by alliance desc, alliancePosition";
@@ -64,17 +86,27 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         ?>
 		<tr>
-           <td><?php echo ($row['alliance']);?></td>
-           <td><?php echo ($row['alliancePosition']);?></td>
-           <td><?php echo ($row['teamReportUrl']);?></td>
-           <td><?php echo ($row['matchCnt']);?></td>
-           <td><?php echo ($row['leaveHabAvg']);?></td>
-           <td><?php echo ($row['ssHatchCnt']);?></td>
-           <td><?php echo ($row['ssCargoCnt']);?></td>
-           <td><?php echo ($row['totHatchCnt']);?></td>
-           <td><?php echo ($row['totCargoCnt']);?></td>
-           <td><?php echo ($row['playedDefense']);?></td>
-           <td><?php echo ($row['returnToHab']);?></td>
+        <?php
+			echo "<td>" . $row['alliance'] . "</td>";
+			echo "<td>" . $row['alliancePosition'] . "</td>";
+			echo "<td>" . $row['teamReportUrl'] . "</td>";
+			echo "<td>" . $row['matchCnt'] . "</td>";
+			if (isset($row['value1'])) echo "<td>" . $row['value1'] . "</td>";
+			if (isset($row['value2'])) echo "<td>" . $row['value2'] . "</td>";
+			if (isset($row['value3'])) echo "<td>" . $row['value3'] . "</td>";
+			if (isset($row['value4'])) echo "<td>" . $row['value4'] . "</td>";
+			if (isset($row['value5'])) echo "<td>" . $row['value5'] . "</td>";
+			if (isset($row['value6'])) echo "<td>" . $row['value6'] . "</td>";
+			if (isset($row['value7'])) echo "<td>" . $row['value7'] . "</td>";
+			if (isset($row['value8'])) echo "<td>" . $row['value8'] . "</td>";
+			if (isset($row['value9'])) echo "<td>" . $row['value9'] . "</td>";
+			if (isset($row['value10'])) echo "<td>" . $row['value10'] . "</td>";
+			if (isset($row['value11'])) echo "<td>" . $row['value11'] . "</td>";
+			if (isset($row['value12'])) echo "<td>" . $row['value12'] . "</td>";
+			if (isset($row['value13'])) echo "<td>" . $row['value13'] . "</td>";
+			if (isset($row['value14'])) echo "<td>" . $row['value14'] . "</td>";
+			if (isset($row['value15'])) echo "<td>" . $row['value15'] . "</td>";
+		?>
         </tr>
     <?php
     }
