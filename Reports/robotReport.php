@@ -89,6 +89,7 @@ $tsql = "select TeamNumber
 		echo "<td>" . $row['matchNumber'] . "</td>";
 		echo "<td>" . $row['matchTimeOnly'] . "</td>";
 		echo "<td>" . $row['scoutName'] . "</td>";
+/*
 		if isset($row['value1']) echo "<td>" . $row['value1'] . "</td>";
 		if isset($row['value2']) echo "<td>" . $row['value2'] . "</td>";
 		if isset($row['value3']) echo "<td>" . $row['value3'] . "</td>";
@@ -104,6 +105,7 @@ $tsql = "select TeamNumber
 		if isset($row['value13']) echo "<td>" . $row['value13'] . "</td>";
 		if isset($row['value14']) echo "<td>" . $row['value14'] . "</td>";
 		if isset($row['value15']) echo "<td>" . $row['value15'] . "</td>";
+*/
 		?>
 	</tr>
     <?php
