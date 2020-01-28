@@ -1187,83 +1187,156 @@ create view v_ScoutRecord as
 select sr.matchId
      , sr.teamId
 	 , sr.scoutId
-     , coalesce(
-	   (select sor.integerValue
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'leaveHAB'
+	           and o.sortOrder = 1
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) leaveHAB
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value1
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'ssHatchCnt'
+	           and o.sortOrder = 2
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) ssHatchCnt
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value2
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'ssCargoCnt'
+	           and o.sortOrder = 3
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) ssCargoCnt
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value3
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'toHatchCnt'
+	           and o.sortOrder = 4
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) toHatchCnt
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value4
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'toCargoCnt'
+	           and o.sortOrder = 5
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) toCargoCnt
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value5
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'playedDefense'
+	           and o.sortOrder = 6
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) playedDefense
-     , coalesce(
-	   (select sor.integerValue
+		   and sr2.scoutId = sr.scoutId) value6
+     , (select sor.integerValue
 	      from scoutRecord sr2
 		       inner join scoutObjectiveRecord sor
 			   on sor.scoutRecordId = sr2.id
 		       inner join Objective o
 			   on o.id = sor.objectiveId
-	           and o.name = 'returnToHAB'
+	           and o.sortOrder = 7
 		 where sr2.matchId = sr.matchId
 		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId), 0) returnToHAB
+		   and sr2.scoutId = sr.scoutId) value7
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 8
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value8
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 9
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value9
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 10
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value10
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 11
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value11
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 12
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value12
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 13
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value13
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 14
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value14
+     , (select sor.integerValue
+	      from scoutRecord sr2
+		       inner join scoutObjectiveRecord sor
+			   on sor.scoutRecordId = sr2.id
+		       inner join Objective o
+			   on o.id = sor.objectiveId
+	           and o.sortOrder = 15
+		 where sr2.matchId = sr.matchId
+		   and sr2.teamId = sr.teamId
+		   and sr2.scoutId = sr.scoutId) value15
   from scoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -1278,13 +1351,21 @@ create view v_AvgScoutRecord as
 select sr.matchId
      , sr.teamId
      , count(*) cnt
-     , avg(convert(numeric, leaveHAB)) leaveHAB
-     , avg(convert(numeric, ssHatchCnt)) ssHatchCnt
-     , avg(convert(numeric, ssCargoCnt)) ssCargoCnt
-     , avg(convert(numeric, toHatchCnt)) toHatchCnt
-     , avg(convert(numeric, toCargoCnt)) toCargoCnt 
-     , avg(convert(numeric, playedDefense)) playedDefense
-     , avg(convert(numeric, returnToHAB)) returnToHAB
+     , avg(convert(numeric, value1)) value1
+     , avg(convert(numeric, value2)) value2
+     , avg(convert(numeric, value3)) value3
+     , avg(convert(numeric, value4)) value4
+     , avg(convert(numeric, value5)) value5 
+     , avg(convert(numeric, value6)) value6
+     , avg(convert(numeric, value7)) value7
+     , avg(convert(numeric, value8)) value8
+     , avg(convert(numeric, value9)) value9
+     , avg(convert(numeric, value10)) value10
+     , avg(convert(numeric, value11)) value11
+     , avg(convert(numeric, value12)) value12
+     , avg(convert(numeric, value13)) value13
+     , avg(convert(numeric, value14)) value14
+     , avg(convert(numeric, value15)) value15 
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId;
@@ -1300,13 +1381,13 @@ select m.type + ' ' + m.number matchNumber
      , mr.alliancePosition
      , '<a href="..\Reports\robotReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
      , count(*) matchCnt
-     , round(avg(sr.leaveHab),1) leaveHabAvg
-     , round(avg(sr.ssHatchCnt),1) ssHatchCnt
-     , round(avg(sr.ssCargoCnt),1) ssCargoCnt
-     , round(avg(sr.toHatchCnt + sr.ssHatchCnt),1) totHatchCnt
-     , round(avg(sr.toCargoCnt + sr.ssCargoCnt),1) totCargoCnt
-     , round(avg(sr.playedDefense),1) playedDefense
-     , round(avg(sr.returnToHab),1) returnToHab
+     , round(avg(sr.value1),1) leaveHabAvg
+     , round(avg(sr.value2),1) ssHatchCnt
+     , round(avg(sr.value3),1) ssCargoCnt
+     , round(avg(sr.value4 + sr.value2),1) totHatchCnt
+     , round(avg(sr.value5 + sr.value3),1) totCargoCnt
+     , round(avg(sr.value6),1) playedDefense
+     , round(avg(sr.value7),1) returnToHab
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1336,13 +1417,21 @@ select t.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 1) matchTime
      , 'Average Score' scoutName
-     , round(avg(sr.leaveHab),1) leaveHab
-     , round(avg(sr.ssHatchCnt),1) ssHatchCnt
-     , round(avg(sr.ssCargoCnt),1) ssCargoCnt
-     , round(avg(sr.toHatchCnt + sr.ssHatchCnt),1) totHatchCnt
-     , round(avg(sr.toCargoCnt + sr.ssCargoCnt),1) totCargoCnt
-     , round(avg(sr.playedDefense),1) playedDefense
-     , round(avg(sr.returnToHab),1) returnToHab
+     , round(avg(sr.value1),1) value1
+     , round(avg(sr.value2),1) value2
+     , round(avg(sr.value3),1) value3
+     , round(avg(sr.value4),1) value4
+     , round(avg(sr.value5),1) value5
+     , round(avg(sr.value6),1) value6
+     , round(avg(sr.value7),1) value7
+     , round(avg(sr.value8),1) value8
+     , round(avg(sr.value9),1) value9
+     , round(avg(sr.value10),1) value10
+     , round(avg(sr.value11),1) value11
+     , round(avg(sr.value12),1) value12
+     , round(avg(sr.value13),1) value13
+     , round(avg(sr.value14),1) value14
+     , round(avg(sr.value15),1) value15
      , t.id TeamId
      , null matchId
      , null scoutId
@@ -1360,13 +1449,21 @@ select t.TeamNumber
      , m.type + ' ' + m.number matchNumber
      , m.datetime matchTime
      , s.lastName + ', ' + firstName scoutName
-     , sr.leaveHab
-     , sr.ssHatchCnt
-     , sr.ssCargoCnt
-     , sr.toHatchCnt + sr.ssHatchCnt totHatchCnt
-     , sr.toCargoCnt + sr.ssCargoCnt totCargoCnt
-     , sr.playedDefense
-     , sr.returnToHab
+     , sr.value1
+     , sr.value2
+     , sr.value3
+     , sr.value4
+     , sr.value5
+     , sr.value6
+     , sr.value7
+     , sr.value8
+     , sr.value9
+     , sr.value10
+     , sr.value11
+     , sr.value12
+     , sr.value13
+     , sr.value14
+     , sr.value15
      , sr.TeamId
      , sr.matchId
      , sr.scoutId
@@ -1384,13 +1481,13 @@ go
 create view v_AvgTeamRecord as
 select asr.TeamId
      , count(*) cntMatches
-     , avg(asr.leaveHab) leaveHab
-     , avg(asr.ssHatchCnt) ssHatchCnt
-     , avg(asr.ssCargoCnt) ssCargoCnt
-     , avg(asr.toHatchCnt) toHatchCnt
-     , avg(asr.toCargoCnt) toCargoCnt
-     , avg(asr.playedDefense) playedDefense
-     , avg(asr.returnToHab) returnToHab
+     , avg(asr.value1) leaveHab
+     , avg(asr.value2) ssHatchCnt
+     , avg(asr.value3) ssCargoCnt
+     , avg(asr.value4) toHatchCnt
+     , avg(asr.value5) toCargoCnt
+     , avg(asr.value6) playedDefense
+     , avg(asr.value7) returnToHab
   from v_AvgScoutRecord asr
        inner join Match m
 	   on m.id = asr.matchId
