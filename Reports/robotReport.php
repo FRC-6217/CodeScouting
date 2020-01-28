@@ -89,8 +89,8 @@ $tsql = "select TeamNumber
 		echo "<td>" . $row['matchNumber'] . "</td>";
 		echo "<td>" . $row['matchTimeOnly'] . "</td>";
 		echo "<td>" . $row['scoutName'] . "</td>";
-/*
 		if isset($row['value1']) echo "<td>" . $row['value1'] . "</td>";
+/*
 		if isset($row['value2']) echo "<td>" . $row['value2'] . "</td>";
 		if isset($row['value3']) echo "<td>" . $row['value3'] . "</td>";
 		if isset($row['value4']) echo "<td>" . $row['value4'] . "</td>";
