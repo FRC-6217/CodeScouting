@@ -1472,13 +1472,21 @@ select m.type + ' ' + m.number matchNumber
      , mr.alliancePosition
      , '<a href="..\Reports\robotReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
      , count(*) matchCnt
-     , round(avg(sr.value1),1) leaveHabAvg
-     , round(avg(sr.value2),1) ssHatchCnt
-     , round(avg(sr.value3),1) ssCargoCnt
-     , round(avg(sr.value4 + sr.value2),1) totHatchCnt
-     , round(avg(sr.value5 + sr.value3),1) totCargoCnt
-     , round(avg(sr.value6),1) playedDefense
-     , round(avg(sr.value7),1) returnToHab
+     , round(avg(sr.value1),1) value1
+     , round(avg(sr.value2),1) value2
+     , round(avg(sr.value3),1) value3
+     , round(avg(sr.value4),1) value4
+     , round(avg(sr.value5),1) value5
+     , round(avg(sr.value6),1) value6
+     , round(avg(sr.value7),1) value7
+     , round(avg(sr.value8),1) value8
+     , round(avg(sr.value9),1) value9
+     , round(avg(sr.value10),1) value10
+     , round(avg(sr.value11),1) value11
+     , round(avg(sr.value12),1) value12
+     , round(avg(sr.value13),1) value13
+     , round(avg(sr.value14),1) value14
+     , round(avg(sr.value15),1) value15
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
