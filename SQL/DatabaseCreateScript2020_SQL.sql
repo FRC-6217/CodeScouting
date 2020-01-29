@@ -1184,259 +1184,6 @@ select distinct
 go
 
 -- View for Scout Record
-create view v_ScoutRecord as
-select sr.matchId
-     , sr.teamId
-	 , sr.scoutId
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 1
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value1
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 2
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value2
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 3
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value3
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 4
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value4
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 5
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value5
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 6
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value6
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 7
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value7
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 8
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value8
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 9
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value9
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 10
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value10
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 11
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value11
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 12
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value12
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 13
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value13
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 14
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value14
-     , (select case when o.reportDisplay = 'S'
-	                then coalesce(sor.scoreValue, sor.integerValue)
-					when o.reportDisplay = 'I'
-					then sor.integerValue
-					when o.reportDisplay = 'D'
-					then sor.decimalValue
-					else sor.integerValue end
-	      from scoutRecord sr2
-		       inner join scoutObjectiveRecord sor
-			   on sor.scoutRecordId = sr2.id
-		       inner join Objective o
-			   on o.id = sor.objectiveId
-	           and o.sortOrder = 15
-		 where sr2.matchId = sr.matchId
-		   and sr2.teamId = sr.teamId
-		   and sr2.scoutId = sr.scoutId) value15
-  from scoutRecord sr
-       inner join Match m
-	   on m.id = sr.matchId
-	   inner join GameEvent ge
-	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
-   and m.isActive = 'Y';
-go
-
 -- View for average Team report on a match
 create view v_AvgScoutRecord as
 select sr.matchId
@@ -1457,6 +1204,53 @@ select sr.matchId
      , avg(convert(numeric, value13)) value13
      , avg(convert(numeric, value14)) value14
      , avg(convert(numeric, value15)) value15 
+     , avg(convert(numeric, integerValue1)) integerValue1
+     , avg(convert(numeric, integerValue2)) integerValue2
+     , avg(convert(numeric, integerValue3)) integerValue3
+     , avg(convert(numeric, integerValue4)) integerValue4
+     , avg(convert(numeric, integerValue5)) integerValue5 
+     , avg(convert(numeric, integerValue6)) integerValue6
+     , avg(convert(numeric, integerValue7)) integerValue7
+     , avg(convert(numeric, integerValue8)) integerValue8
+     , avg(convert(numeric, integerValue9)) integerValue9
+     , avg(convert(numeric, integerValue10)) integerValue10
+     , avg(convert(numeric, integerValue11)) integerValue11
+     , avg(convert(numeric, integerValue12)) integerValue12
+     , avg(convert(numeric, integerValue13)) integerValue13
+     , avg(convert(numeric, integerValue14)) integerValue14
+     , avg(convert(numeric, integerValue15)) integerValue15 
+/*
+     , avg(convert(numeric, decimalValue1)) decimalValue1
+     , avg(convert(numeric, decimalValue2)) decimalValue2
+     , avg(convert(numeric, decimalValue3)) decimalValue3
+     , avg(convert(numeric, decimalValue4)) decimalValue4
+     , avg(convert(numeric, decimalValue5)) decimalValue5 
+     , avg(convert(numeric, decimalValue6)) decimalValue6
+     , avg(convert(numeric, decimalValue7)) decimalValue7
+     , avg(convert(numeric, decimalValue8)) decimalValue8
+     , avg(convert(numeric, decimalValue9)) decimalValue9
+     , avg(convert(numeric, decimalValue10)) decimalValue10
+     , avg(convert(numeric, decimalValue11)) decimalValue11
+     , avg(convert(numeric, decimalValue12)) decimalValue12
+     , avg(convert(numeric, decimalValue13)) decimalValue13
+     , avg(convert(numeric, decimalValue14)) decimalValue14
+     , avg(convert(numeric, decimalValue15)) decimalValue15 
+*/
+     , avg(convert(numeric, scoreValue1)) scoreValue1
+     , avg(convert(numeric, scoreValue2)) scoreValue2
+     , avg(convert(numeric, scoreValue3)) scoreValue3
+     , avg(convert(numeric, scoreValue4)) scoreValue4
+     , avg(convert(numeric, scoreValue5)) scoreValue5 
+     , avg(convert(numeric, scoreValue6)) scoreValue6
+     , avg(convert(numeric, scoreValue7)) scoreValue7
+     , avg(convert(numeric, scoreValue8)) scoreValue8
+     , avg(convert(numeric, scoreValue9)) scoreValue9
+     , avg(convert(numeric, scoreValue10)) scoreValue10
+     , avg(convert(numeric, scoreValue11)) scoreValue11
+     , avg(convert(numeric, scoreValue12)) scoreValue12
+     , avg(convert(numeric, scoreValue13)) scoreValue13
+     , avg(convert(numeric, scoreValue14)) scoreValue14
+     , avg(convert(numeric, scoreValue15)) scoreValue15 
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId;
@@ -1580,13 +1374,21 @@ go
 create view v_AvgTeamRecord as
 select asr.TeamId
      , count(*) cntMatches
-     , avg(asr.value1) leaveHab
-     , avg(asr.value2) ssHatchCnt
-     , avg(asr.value3) ssCargoCnt
-     , avg(asr.value4) toHatchCnt
-     , avg(asr.value5) toCargoCnt
-     , avg(asr.value6) playedDefense
-     , avg(asr.value7) returnToHab
+     , avg(asr.value1) value1
+     , avg(asr.value2) value2
+     , avg(asr.value3) value3
+     , avg(asr.value4) value4
+     , avg(asr.value5) value5
+     , avg(asr.value6) value6
+     , avg(asr.value7) value7
+     , avg(asr.value8) value8
+     , avg(asr.value9) value9
+     , avg(asr.value10) value10
+     , avg(asr.value11) value11
+     , avg(asr.value12) value12
+     , avg(asr.value13) value13
+     , avg(asr.value14) value14
+     , avg(asr.value15) value15
   from v_AvgScoutRecord asr
        inner join Match m
 	   on m.id = asr.matchId
@@ -1601,13 +1403,21 @@ AS
 BEGIN
 	create table #AvgTeamRecord(TeamId int
 	                          , cntMatches int
-	                          , leaveHab numeric(38, 6)
-	                          , ssHatchCnt numeric(38, 6)
-	                          , ssCargoCnt numeric(38, 6)
-	                          , toHatchCnt numeric(38, 6)
-	                          , toCargoCnt numeric(38, 6)
-	                          , playedDefense numeric(38, 6)
-	                          , returnToHab numeric(38, 6));
+	                          , value1 numeric(38, 6)
+	                          , value2 numeric(38, 6)
+	                          , value3 numeric(38, 6)
+	                          , value4 numeric(38, 6)
+	                          , value5 numeric(38, 6)
+	                          , value6 numeric(38, 6)
+	                          , value7 numeric(38, 6)
+	                          , value8 numeric(38, 6)
+	                          , value9 numeric(38, 6)
+	                          , value10 numeric(38, 6)
+	                          , value11 numeric(38, 6)
+	                          , value12 numeric(38, 6)
+	                          , value13 numeric(38, 6)
+	                          , value14 numeric(38, 6)
+	                          , value15 numeric(38, 6));
 	SET NOCOUNT ON
 	INSERT INTO #AvgTeamRecord
 	SELECT * from v_AvgTeamRecord;
@@ -1615,89 +1425,169 @@ BEGIN
 	select t.TeamNumber
 		 , t.TeamName
 		 , avg(rank) avgRank
-		 , sum(case when measureType = 'leaveHab' then rank else 0 end) rankLeaveHab
-		 , sum(case when measureType = 'returnToHab' then rank else 0 end) rankReturnToHab
-		 , sum(case when measureType = 'ssHatchCnt' then rank else 0 end) rankSsHatch
-		 , sum(case when measureType = 'ssCargoCnt' then rank else 0 end) rankSsCargo
-		 , sum(case when measureType = 'totHatchCnt' then rank else 0 end) rankTotHatch
-		 , sum(case when measureType = 'totCargoCnt' then rank else 0 end) rankTotCargo
-		 , sum(case when measureType = 'playedDefense' then rank else 0 end) rankPlayedDefense
-		 , sum(case when measureType = 'leaveHab' then val else 0 end) leaveHab
-		 , sum(case when measureType = 'returnToHab' then val else 0 end) returnToHab
-		 , sum(case when measureType = 'ssHatchCnt' then val else 0 end) ssHatch
-		 , sum(case when measureType = 'ssCargoCnt' then val else 0 end) ssCargo
-		 , sum(case when measureType = 'totHatchCnt' then val else 0 end) totHatch
-		 , sum(case when measureType = 'totCargoCnt' then val else 0 end) totCargo
-		 , sum(case when measureType = 'playedDefense' then val else 0 end) playedDefense
+		 , sum(case when measureType = 'value1' then rank else 0 end) rankValue1
+		 , sum(case when measureType = 'value2' then rank else 0 end) rankValue2
+		 , sum(case when measureType = 'value3' then rank else 0 end) rankValue3
+		 , sum(case when measureType = 'value4' then rank else 0 end) rankValue4
+		 , sum(case when measureType = 'value5' then rank else 0 end) rankValue5
+		 , sum(case when measureType = 'value6' then rank else 0 end) rankValue6
+		 , sum(case when measureType = 'value7' then rank else 0 end) rankValue7
+		 , sum(case when measureType = 'value8' then rank else 0 end) rankValue8
+		 , sum(case when measureType = 'value9' then rank else 0 end) rankValue9
+		 , sum(case when measureType = 'value10' then rank else 0 end) rankValue10
+		 , sum(case when measureType = 'value11' then rank else 0 end) rankValue11
+		 , sum(case when measureType = 'value12' then rank else 0 end) rankValue12
+		 , sum(case when measureType = 'value13' then rank else 0 end) rankValue13
+		 , sum(case when measureType = 'value14' then rank else 0 end) rankValue14
+		 , sum(case when measureType = 'value15' then rank else 0 end) rankValue15
+		 , sum(case when measureType = 'value1' then val else 0 end) value1
+		 , sum(case when measureType = 'value2' then val else 0 end) value2
+		 , sum(case when measureType = 'value3' then val else 0 end) value3
+		 , sum(case when measureType = 'value4' then val else 0 end) value4
+		 , sum(case when measureType = 'value5' then val else 0 end) value5
+		 , sum(case when measureType = 'value6' then val else 0 end) value6
+		 , sum(case when measureType = 'value7' then val else 0 end) value7
+		 , sum(case when measureType = 'value8' then val else 0 end) value8
+		 , sum(case when measureType = 'value9' then val else 0 end) value9
+		 , sum(case when measureType = 'value10' then val else 0 end) value10
+		 , sum(case when measureType = 'value11' then val else 0 end) value11
+		 , sum(case when measureType = 'value12' then val else 0 end) value12
+		 , sum(case when measureType = 'value13' then val else 0 end) value13
+		 , sum(case when measureType = 'value14' then val else 0 end) value14
+		 , sum(case when measureType = 'value15' then val else 0 end) value15
 		 , subquery.TeamId
 	  from (
 	select arr.TeamId
-			, 'leaveHab' measureType
-			, round(arr.leaveHab, 2) val
+			, 'value1' measureType
+			, round(arr.value1, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.leaveHab > arr.leaveHab) + 1 rank
+				where arr2.value1 > arr.value1) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'ssHatchCnt' measureType
-			, round(arr.ssHatchCnt, 2) val
+			, 'value2' measureType
+			, round(arr.value2, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.ssHatchCnt > arr.ssHatchCnt ) + 1 rank
+				where arr2.value2 > arr.value2 ) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'ssCargoCnt' measureType
-			, round(arr.ssCargoCnt, 2) val
+			, 'value3' measureType
+			, round(arr.value3, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.ssCargoCnt > arr.ssCargoCnt ) + 1 rank
+				where arr2.value3 > arr.value3 ) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'totHatchCnt' measureType
-			, round(arr.ssHatchCnt + arr.toHatchCnt, 2) val
+			, 'value4' measureType
+			, round(arr.value4, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.ssHatchCnt + arr2.toHatchCnt > arr.ssHatchCnt + arr.toHatchCnt) + 1 rank
+				where arr2.value4 > arr.value4 ) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'totCargoCnt' measureType
-			, round(arr.ssCargoCnt + arr.toCargoCnt, 2) val
+			, 'value5' measureType
+			, round(arr.value5, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.ssCargoCnt + arr2.toCargoCnt > arr.ssCargoCnt + arr.toCargoCnt) + 1 rank
+				where arr2.value5 > arr.value5 ) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'playedDefense' measureType
-			, round(arr.playedDefense, 2) val
+			, 'value6' measureType
+			, round(arr.value6, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.playedDefense > arr.playedDefense) + 1 rank
+				where arr2.value6 > arr.value6 ) + 1 rank
 		from #AvgTeamRecord arr
 	union
 	select arr.TeamId
-			, 'returnToHab' measureType
-			, round(arr.returnToHab, 2) val
+			, 'value7' measureType
+			, round(arr.value7, 2) val
 			, (select count(*)
 				from #AvgTeamRecord arr2
-				where arr2.returnToHab > arr.returnToHab) + 1 rank
+				where arr2.value7 > arr.value7 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value8' measureType
+			, round(arr.value8, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value8 > arr.value8 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value9' measureType
+			, round(arr.value9, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value9 > arr.value9 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value10' measureType
+			, round(arr.value10, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value10 > arr.value10 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value11' measureType
+			, round(arr.value11, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value11 > arr.value11 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value12' measureType
+			, round(arr.value12, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value12 > arr.value12 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value13' measureType
+			, round(arr.value13, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value13 > arr.value13 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value14' measureType
+			, round(arr.value14, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value14 > arr.value14 ) + 1 rank
+		from #AvgTeamRecord arr
+	union
+	select arr.TeamId
+			, 'value15' measureType
+			, round(arr.value15, 2) val
+			, (select count(*)
+				from #AvgTeamRecord arr2
+				where arr2.value15 > arr.value15 ) + 1 rank
 		from #AvgTeamRecord arr
 	) subquery
 			inner join Team t
 			on t.id = subquery.TeamId
-		where t.isActive = 'Y'
+	 where t.isActive = 'Y'
 	group by t.TeamNumber
 		   , t.TeamName
 		   , subquery.TeamId
-	order by case when @pv_SortOrder = 'rankLeaveHab' then sum(case when measureType = 'leaveHab' then rank else 0 end)
-	              when @pv_SortOrder = 'rankReturnToHab' then sum(case when measureType = 'returnToHab' then rank else 0 end)
-	              when @pv_SortOrder = 'rankTotHatch' then sum(case when measureType = 'totHatchCnt' then rank else 0 end)
-	              when @pv_SortOrder = 'rankTotCargo' then sum(case when measureType = 'totCargoCnt' then rank else 0 end)
-	              when @pv_SortOrder = 'rankPlayedDefense' then sum(case when measureType = 'playedDefense' then rank else 0 end)
+	order by case when @pv_SortOrder = 'rankLeaveHab' then sum(case when measureType = 'value1' then rank else 0 end)
+	              when @pv_SortOrder = 'rankReturnToHab' then sum(case when measureType = 'value2' then rank else 0 end)
+	              when @pv_SortOrder = 'rankTotHatch' then sum(case when measureType = 'value3' then rank else 0 end)
+	              when @pv_SortOrder = 'rankTotCargo' then sum(case when measureType = 'value4' then rank else 0 end)
+	              when @pv_SortOrder = 'rankPlayedDefense' then sum(case when measureType = 'value5' then rank else 0 end)
 	              else avg(rank) end;
 END
 go
