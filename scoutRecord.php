@@ -25,7 +25,7 @@
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
-		<center><a href="index.php">Home</a></center>
+		<center><a class="clickme danger" href="index.php">Home</a></center>
 		
 		<form action='confirmation.php' method='post'>
 <?php
