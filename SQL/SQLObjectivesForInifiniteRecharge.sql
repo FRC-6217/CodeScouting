@@ -86,26 +86,26 @@ insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id
 insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'toFinalPosition';
 
 -- Rank Setup
-insert into Rank (name, queryString, type, sortOrder) values ('Auto', 'rankAuto', 'S', 1);
-insert into Rank (name, queryString, type, sortOrder) values ('Power Cell', 'rankPC', 'S', 2);
-insert into Rank (name, queryString, type, sortOrder) values ('Ctrl Pnl', 'rankCP', 'S', 3);
---insert into Rank (name, queryString, type, sortOrder) values ('Defense', 'rankPlayedDefense', 'V', 4);
-insert into Rank (name, queryString, type, sortOrder) values ('Finish', 'rankFinish', 'S', 5);
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Auto', 'rankAuto', 'S', 1 from game g where g.name = 'Infinite Recharge';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Power Cell', 'rankPC', 'S', 2 from game g where g.name = 'Infinite Recharge';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Ctrl Pnl', 'rankCP', 'S', 3 from game g where g.name = 'Infinite Recharge';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Defense', 'rankPlayedDefense', 'V', 4 from game g where g.name = 'Infinite Recharge';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Finish', 'rankFinish', 'S', 5 from game g where g.name = 'Infinite Recharge';
 
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aMove';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcLower';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcOuter';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Auto' and o.name = 'aPcInner';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcLower';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcOuter';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'aPcInner';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcLower';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcOuter';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Power Cell' and o.name = 'toPcInner';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpRotation';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpPosition';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Defense' and o.name = 'toDefense';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Finish' and o.name = 'toFinalPosition';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Auto' and o.name = 'aMove' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Auto' and o.name = 'aPcLower' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Auto' and o.name = 'aPcOuter' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Auto' and o.name = 'aPcInner' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'aPcLower' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'aPcOuter' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'aPcInner' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'toPcLower' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'toPcOuter' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Power Cell' and o.name = 'toPcInner' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpRotation' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Ctrl Pnl' and o.name = 'toCpPosition' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Defense' and o.name = 'toDefense' and g.name = 'Infinite Recharge';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Finish' and o.name = 'toFinalPosition' and g.name = 'Infinite Recharge';
 
 -- Attribute Setup
 insert into Attribute (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, sortOrder) select g.id, 'weight', 'What does the robot weigh (include battery and bumpers)?', st.id, 100, 150, 1 from game g, scoringType st where g.name = 'Infinite Recharge' and st.name = 'Integer';

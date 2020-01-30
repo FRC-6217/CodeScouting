@@ -353,13 +353,15 @@ create table Rank(
 	queryString varchar(64) not null,
 	type varchar(1) not null, -- V = Value, S = Score
 	sortOrder integer null,
-	lastUpdated datetime null);
-create unique index idx_Rank on Rank(name);
-insert into Rank (name, queryString, type, sortOrder) values ('Exit', 'rankLeaveHab', 'V', 1);
-insert into Rank (name, queryString, type, sortOrder) values ('Hatches', 'rankTotHatch', 'V', 2);
-insert into Rank (name, queryString, type, sortOrder) values ('Cargo', 'rankTotCargo', 'V', 3);
-insert into Rank (name, queryString, type, sortOrder) values ('Defense', 'rankPlayedDefense', 'V', 4);
-insert into Rank (name, queryString, type, sortOrder) values ('Return', 'rankReturnToHab', 'V', 5);
+	lastUpdated datetime null,
+	gameId integer not null);
+create unique index idx_Rank on Rank(gameId, name);
+alter table Rank add constraint fk_Rank_Game foreign key (gameId) references Game (id);
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Exit', 'rankLeaveHab', 'V', 1 from game g where g.name = 'Deep Space';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Hatches', 'rankTotCargo', 'V', 2 from game g where g.name = 'Deep Space';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Cargo', 'rankPlayedDefense', 'V', 3 from game g where g.name = 'Deep Space';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Defense', 'rankPlayedDefense', 'V', 4 from game g where g.name = 'Deep Space';
+insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Return', 'rankReturnToHab', 'V', 5 from game g where g.name = 'Deep Space';
 
 create table RankObjective(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -369,13 +371,13 @@ create table RankObjective(
 create unique index idx_RankObjective on RankObjective(rankId, objectiveId);
 alter table RankObjective add constraint fk_RankObjective_Rank foreign key (rankId) references Rank (id);
 alter table RankObjective add constraint fk_RankObjective_Objective foreign key (objectiveId) references Objective (id);
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Exit' and o.name = 'leaveHAB';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Hatches' and o.name = 'ssHatchCnt';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Hatches' and o.name = 'toHatchCnt';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Cargo' and o.name = 'ssCargoCnt';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Cargo' and o.name = 'toCargoCnt';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Defense' and o.name = 'playedDefense';
-insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r, Objective o where r.name = 'Return' and o.name = 'returnToHAB';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Exit' and o.name = 'leaveHAB' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Hatches' and o.name = 'ssHatchCnt' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Hatches' and o.name = 'toHatchCnt' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Cargo' and o.name = 'ssCargoCnt' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Cargo' and o.name = 'toCargoCnt' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Defense' and o.name = 'playedDefense' and g.name = 'Deep Space';
+insert into RankObjective (rankId, objectiveId) select r.id, o.id from Rank r inner join Game g on g.id = r.gameId, Objective o where r.name = 'Return' and o.name = 'returnToHAB' and g.name = 'Deep Space';
 
 create table Attribute(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -1389,6 +1391,53 @@ select asr.TeamId
      , avg(asr.value13) value13
      , avg(asr.value14) value14
      , avg(asr.value15) value15
+     , avg(asr.integerValue1) integerValue1
+     , avg(asr.integerValue2) integerValue2
+     , avg(asr.integerValue3) integerValue3
+     , avg(asr.integerValue4) integerValue4
+     , avg(asr.integerValue5) integerValue5
+     , avg(asr.integerValue6) integerValue6
+     , avg(asr.integerValue7) integerValue7
+     , avg(asr.integerValue8) integerValue8
+     , avg(asr.integerValue9) integerValue9
+     , avg(asr.integerValue10) integerValue10
+     , avg(asr.integerValue11) integerValue11
+     , avg(asr.integerValue12) integerValue12
+     , avg(asr.integerValue13) integerValue13
+     , avg(asr.integerValue14) integerValue14
+     , avg(asr.integerValue15) integerValue15
+/*
+     , avg(asr.decimalValue1) decimalValue1
+     , avg(asr.decimalValue2) decimalValue2
+     , avg(asr.decimalValue3) decimalValue3
+     , avg(asr.decimalValue4) decimalValue4
+     , avg(asr.decimalValue5) decimalValue5
+     , avg(asr.decimalValue6) decimalValue6
+     , avg(asr.decimalValue7) decimalValue7
+     , avg(asr.decimalValue8) decimalValue8
+     , avg(asr.decimalValue9) decimalValue9
+     , avg(asr.decimalValue10) decimalValue10
+     , avg(asr.decimalValue11) decimalValue11
+     , avg(asr.decimalValue12) decimalValue12
+     , avg(asr.decimalValue13) decimalValue13
+     , avg(asr.decimalValue14) decimalValue14
+     , avg(asr.decimalValue15) decimalValue15
+*/
+     , avg(asr.scoreValue1) scoreValue1
+     , avg(asr.scoreValue2) scoreValue2
+     , avg(asr.scoreValue3) scoreValue3
+     , avg(asr.scoreValue4) scoreValue4
+     , avg(asr.scoreValue5) scoreValue5
+     , avg(asr.scoreValue6) scoreValue6
+     , avg(asr.scoreValue7) scoreValue7
+     , avg(asr.scoreValue8) scoreValue8
+     , avg(asr.scoreValue9) scoreValue9
+     , avg(asr.scoreValue10) scoreValue10
+     , avg(asr.scoreValue11) scoreValue11
+     , avg(asr.scoreValue12) scoreValue12
+     , avg(asr.scoreValue13) scoreValue13
+     , avg(asr.scoreValue14) scoreValue14
+     , avg(asr.scoreValue15) scoreValue15
   from v_AvgScoutRecord asr
        inner join Match m
 	   on m.id = asr.matchId
@@ -1398,197 +1447,128 @@ go
 
 /*
 -- Rank Query (as a stored procedure to improve query performance
-CREATE PROCEDURE sp_rpt_rankReport (@pv_SortOrder varchar(32))
+CREATE PROCEDURE sp_rpt_rankReport (@pv_QueryString varchar(64))
 AS
+DECLARE @lv_SortOrder int;
 BEGIN
-	create table #AvgTeamRecord(TeamId int
-	                          , cntMatches int
-	                          , value1 numeric(38, 6)
-	                          , value2 numeric(38, 6)
-	                          , value3 numeric(38, 6)
-	                          , value4 numeric(38, 6)
-	                          , value5 numeric(38, 6)
-	                          , value6 numeric(38, 6)
-	                          , value7 numeric(38, 6)
-	                          , value8 numeric(38, 6)
-	                          , value9 numeric(38, 6)
-	                          , value10 numeric(38, 6)
-	                          , value11 numeric(38, 6)
-	                          , value12 numeric(38, 6)
-	                          , value13 numeric(38, 6)
-	                          , value14 numeric(38, 6)
-	                          , value15 numeric(38, 6));
+	create table #AvgTeamRecord(teamId int
+	                          , gameId int
+	                          , rankName varchar(64)
+	                          , sortOrder int
+							  , cntMatches int
+	                          , value numeric(38, 6));
 	SET NOCOUNT ON
-	INSERT INTO #AvgTeamRecord
-	SELECT * from v_AvgTeamRecord;
+	-- Get Sort Order
+	SELECT @lv_SortOrder = coalesce(max(sortOrder), 1)
+	  FROM Rank r
+	       inner join GameEvent ge
+		   on ge.gameId = r.gameId
+	 WHERE ge.isActive = 'Y'
+	   AND r.queryString = @pv_QueryString;
 
-	select t.TeamNumber
+	-- Populate local temporary table of team average scores.  This improves overall query performance
+	INSERT INTO #AvgTeamRecord
+	select atr.teamId
+		 , r.gameId
+		 , r.name rankName
+		 , r.sortOrder
+		 , atr.cntMatches
+		 , sum(case when r.type = 'V' then case when o.sortOrder = 1 then atr.integerValue1
+						                        when o.sortOrder = 2 then atr.integerValue2
+												when o.sortOrder = 3 then atr.integerValue3
+												when o.sortOrder = 4 then atr.integerValue4
+												when o.sortOrder = 5 then atr.integerValue5
+												when o.sortOrder = 6 then atr.integerValue6
+												when o.sortOrder = 7 then atr.integerValue7
+												when o.sortOrder = 8 then atr.integerValue8
+												when o.sortOrder = 9 then atr.integerValue9
+												when o.sortOrder = 10 then atr.integerValue10
+												when o.sortOrder = 11 then atr.integerValue11
+						                        when o.sortOrder = 12 then atr.integerValue12
+												when o.sortOrder = 13 then atr.integerValue13
+												when o.sortOrder = 14 then atr.integerValue14
+												when o.sortOrder = 15 then atr.integerValue15
+ 						                        else null end
+				    when r.type = 'S' then case when o.sortOrder = 1 then atr.scoreValue1
+					                            when o.sortOrder = 2 then atr.scoreValue2
+					                            when o.sortOrder = 3 then atr.scoreValue3
+					                            when o.sortOrder = 4 then atr.scoreValue4
+					                            when o.sortOrder = 5 then atr.scoreValue5
+					                            when o.sortOrder = 6 then atr.scoreValue6
+					                            when o.sortOrder = 7 then atr.scoreValue7
+					                            when o.sortOrder = 8 then atr.scoreValue8
+					                            when o.sortOrder = 9 then atr.scoreValue9
+					                            when o.sortOrder = 10 then atr.scoreValue10
+												when o.sortOrder = 11 then atr.scoreValue11
+					                            when o.sortOrder = 12 then atr.scoreValue12
+					                            when o.sortOrder = 13 then atr.scoreValue13
+					                            when o.sortOrder = 14 then atr.scoreValue14
+					                            when o.sortOrder = 15 then atr.scoreValue15
+ 						                        else null end
+					else null end) value
+	  from rank r
+		   inner join RankObjective ro
+		   on ro.rankId = r.id
+		   inner join Objective o
+		   on o.id = ro.objectiveId
+		   inner join GameEvent ge
+		   on ge.gameId = o.gameId
+		 , v_AvgTeamRecord atr
+	 where ge.isActive = 'Y'
+	group by atr.teamId
+		   , r.gameId
+		   , r.name
+		   , r.sortOrder
+		   , atr.cntMatches;
+
+    -- Use temporary table to return rankings and average values
+	select subquery.teamId
+	     , t.TeamNumber
 		 , t.TeamName
-		 , avg(rank) avgRank
-		 , sum(case when measureType = 'value1' then rank else 0 end) rankValue1
-		 , sum(case when measureType = 'value2' then rank else 0 end) rankValue2
-		 , sum(case when measureType = 'value3' then rank else 0 end) rankValue3
-		 , sum(case when measureType = 'value4' then rank else 0 end) rankValue4
-		 , sum(case when measureType = 'value5' then rank else 0 end) rankValue5
-		 , sum(case when measureType = 'value6' then rank else 0 end) rankValue6
-		 , sum(case when measureType = 'value7' then rank else 0 end) rankValue7
-		 , sum(case when measureType = 'value8' then rank else 0 end) rankValue8
-		 , sum(case when measureType = 'value9' then rank else 0 end) rankValue9
-		 , sum(case when measureType = 'value10' then rank else 0 end) rankValue10
-		 , sum(case when measureType = 'value11' then rank else 0 end) rankValue11
-		 , sum(case when measureType = 'value12' then rank else 0 end) rankValue12
-		 , sum(case when measureType = 'value13' then rank else 0 end) rankValue13
-		 , sum(case when measureType = 'value14' then rank else 0 end) rankValue14
-		 , sum(case when measureType = 'value15' then rank else 0 end) rankValue15
-		 , sum(case when measureType = 'value1' then val else 0 end) value1
-		 , sum(case when measureType = 'value2' then val else 0 end) value2
-		 , sum(case when measureType = 'value3' then val else 0 end) value3
-		 , sum(case when measureType = 'value4' then val else 0 end) value4
-		 , sum(case when measureType = 'value5' then val else 0 end) value5
-		 , sum(case when measureType = 'value6' then val else 0 end) value6
-		 , sum(case when measureType = 'value7' then val else 0 end) value7
-		 , sum(case when measureType = 'value8' then val else 0 end) value8
-		 , sum(case when measureType = 'value9' then val else 0 end) value9
-		 , sum(case when measureType = 'value10' then val else 0 end) value10
-		 , sum(case when measureType = 'value11' then val else 0 end) value11
-		 , sum(case when measureType = 'value12' then val else 0 end) value12
-		 , sum(case when measureType = 'value13' then val else 0 end) value13
-		 , sum(case when measureType = 'value14' then val else 0 end) value14
-		 , sum(case when measureType = 'value15' then val else 0 end) value15
-		 , subquery.TeamId
+		 , avg(subquery.rank) avgRank
+		 , sum(case when subquery.sortOrder = 1 then subquery.rank else null end) rankValue1
+		 , sum(case when subquery.sortOrder = 2 then subquery.rank else null end) rankValue2
+		 , sum(case when subquery.sortOrder = 3 then subquery.rank else null end) rankValue3
+		 , sum(case when subquery.sortOrder = 4 then subquery.rank else null end) rankValue4
+		 , sum(case when subquery.sortOrder = 5 then subquery.rank else null end) rankValue5
+		 , sum(case when subquery.sortOrder = 6 then subquery.rank else null end) rankValue6
+		 , sum(case when subquery.sortOrder = 7 then subquery.rank else null end) rankValue7
+		 , sum(case when subquery.sortOrder = 8 then subquery.rank else null end) rankValue8
+		 , sum(case when subquery.sortOrder = 9 then subquery.rank else null end) rankValue9
+		 , sum(case when subquery.sortOrder = 10 then subquery.rank else null end) rankValue10
+		 , sum(case when subquery.sortOrder = 1 then subquery.value else null end) value1
+		 , sum(case when subquery.sortOrder = 2 then subquery.value else null end) value2
+		 , sum(case when subquery.sortOrder = 3 then subquery.value else null end) value3
+		 , sum(case when subquery.sortOrder = 4 then subquery.value else null end) value4
+		 , sum(case when subquery.sortOrder = 5 then subquery.value else null end) value5
+		 , sum(case when subquery.sortOrder = 6 then subquery.value else null end) value6
+		 , sum(case when subquery.sortOrder = 7 then subquery.value else null end) value7
+		 , sum(case when subquery.sortOrder = 8 then subquery.value else null end) value8
+		 , sum(case when subquery.sortOrder = 9 then subquery.value else null end) value9
+		 , sum(case when subquery.sortOrder = 10 then subquery.value else null end) value10
 	  from (
-	select arr.TeamId
-			, 'value1' measureType
-			, round(arr.value1, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value1 > arr.value1) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value2' measureType
-			, round(arr.value2, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value2 > arr.value2 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value3' measureType
-			, round(arr.value3, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value3 > arr.value3 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value4' measureType
-			, round(arr.value4, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value4 > arr.value4 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value5' measureType
-			, round(arr.value5, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value5 > arr.value5 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value6' measureType
-			, round(arr.value6, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value6 > arr.value6 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value7' measureType
-			, round(arr.value7, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value7 > arr.value7 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value8' measureType
-			, round(arr.value8, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value8 > arr.value8 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value9' measureType
-			, round(arr.value9, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value9 > arr.value9 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value10' measureType
-			, round(arr.value10, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value10 > arr.value10 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value11' measureType
-			, round(arr.value11, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value11 > arr.value11 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value12' measureType
-			, round(arr.value12, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value12 > arr.value12 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value13' measureType
-			, round(arr.value13, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value13 > arr.value13 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value14' measureType
-			, round(arr.value14, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value14 > arr.value14 ) + 1 rank
-		from #AvgTeamRecord arr
-	union
-	select arr.TeamId
-			, 'value15' measureType
-			, round(arr.value15, 2) val
-			, (select count(*)
-				from #AvgTeamRecord arr2
-				where arr2.value15 > arr.value15 ) + 1 rank
-		from #AvgTeamRecord arr
-	) subquery
-			inner join Team t
-			on t.id = subquery.TeamId
+	select atr.teamId
+		 , atr.gameId
+		 , atr.rankName
+		 , atr.sortOrder
+		 , atr.cntMatches
+		 , atr.value
+		 , (select count(*)
+		      from #AvgTeamRecord atr2
+			 where atr2.gameId = atr.gameId
+			   and atr2.rankName = atr.rankName
+			   and atr2.sortOrder = atr.sortOrder
+			   and atr2.value > atr.value) + 1 rank
+      from #AvgTeamRecord atr) subquery
+	       inner join Team t
+		   on t.id = subquery.teamId
 	 where t.isActive = 'Y'
-	group by t.TeamNumber
+	group by subquery.teamId
+	       , t.TeamNumber
 		   , t.TeamName
 		   , subquery.TeamId
-	order by case when @pv_SortOrder = 'rankLeaveHab' then sum(case when measureType = 'value1' then rank else 0 end)
-	              when @pv_SortOrder = 'rankReturnToHab' then sum(case when measureType = 'value2' then rank else 0 end)
-	              when @pv_SortOrder = 'rankTotHatch' then sum(case when measureType = 'value3' then rank else 0 end)
-	              when @pv_SortOrder = 'rankTotCargo' then sum(case when measureType = 'value4' then rank else 0 end)
-	              when @pv_SortOrder = 'rankPlayedDefense' then sum(case when measureType = 'value5' then rank else 0 end)
-	              else avg(rank) end;
+	order by sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end);
+
 END
 go
 
