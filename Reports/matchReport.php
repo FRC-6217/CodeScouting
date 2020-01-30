@@ -2,7 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
+	 <center><a href="..\index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -84,10 +84,8 @@
 			}
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-        ?>
-		<tr>
-        <?php
-			echo "<td>" . $row['alliance'] . "</td>";
+        echo "<tr>";
+        	echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['alliancePosition'] . "</td>";
 			echo "<td>" . $row['teamReportUrl'] . "</td>";
 			echo "<td>" . $row['matchCnt'] . "</td>";
@@ -106,9 +104,7 @@
 			if (isset($row['value13'])) echo "<td>" . $row['value13'] . "</td>";
 			if (isset($row['value14'])) echo "<td>" . $row['value14'] . "</td>";
 			if (isset($row['value15'])) echo "<td>" . $row['value15'] . "</td>";
-		?>
-        </tr>
-    <?php
+        echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);

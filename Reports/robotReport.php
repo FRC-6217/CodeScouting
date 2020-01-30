@@ -2,7 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
+	 <center><a href="..\index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -82,31 +82,27 @@ $tsql = "select TeamNumber
 			}
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-?>
-	<tr>
-        <td><a href="\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
-        <?php
-		echo "<td>" . $row['matchNumber'] . "</td>";
-		echo "<td>" . $row['matchTimeOnly'] . "</td>";
-		echo "<td>" . $row['scoutName'] . "</td>";
-		if (isset($row['value1'])) echo "<td>" . $row['value1'] . "</td>";
-		if (isset($row['value2'])) echo "<td>" . $row['value2'] . "</td>";
-		if (isset($row['value3'])) echo "<td>" . $row['value3'] . "</td>";
-		if (isset($row['value4'])) echo "<td>" . $row['value4'] . "</td>";
-		if (isset($row['value5'])) echo "<td>" . $row['value5'] . "</td>";
-		if (isset($row['value6'])) echo "<td>" . $row['value6'] . "</td>";
-		if (isset($row['value7'])) echo "<td>" . $row['value7'] . "</td>";
-		if (isset($row['value8'])) echo "<td>" . $row['value8'] . "</td>";
-		if (isset($row['value9'])) echo "<td>" . $row['value9'] . "</td>";
-		if (isset($row['value10'])) echo "<td>" . $row['value10'] . "</td>";
-		if (isset($row['value11'])) echo "<td>" . $row['value11'] . "</td>";
-		if (isset($row['value12'])) echo "<td>" . $row['value12'] . "</td>";
-		if (isset($row['value13'])) echo "<td>" . $row['value13'] . "</td>";
-		if (isset($row['value14'])) echo "<td>" . $row['value14'] . "</td>";
-		if (isset($row['value15'])) echo "<td>" . $row['value15'] . "</td>";
-		?>
-	</tr>
-    <?php
+		echo "<tr>";
+			echo "<td><a href='\Reports\robotReport.php?TeamId=" . $row['TeamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td>" . $row['matchNumber'] . "</td>";
+			echo "<td>" . $row['matchTimeOnly'] . "</td>";
+			echo "<td>" . $row['scoutName'] . "</td>";
+			if (isset($row['value1'])) echo "<td>" . $row['value1'] . "</td>";
+			if (isset($row['value2'])) echo "<td>" . $row['value2'] . "</td>";
+			if (isset($row['value3'])) echo "<td>" . $row['value3'] . "</td>";
+			if (isset($row['value4'])) echo "<td>" . $row['value4'] . "</td>";
+			if (isset($row['value5'])) echo "<td>" . $row['value5'] . "</td>";
+			if (isset($row['value6'])) echo "<td>" . $row['value6'] . "</td>";
+			if (isset($row['value7'])) echo "<td>" . $row['value7'] . "</td>";
+			if (isset($row['value8'])) echo "<td>" . $row['value8'] . "</td>";
+			if (isset($row['value9'])) echo "<td>" . $row['value9'] . "</td>";
+			if (isset($row['value10'])) echo "<td>" . $row['value10'] . "</td>";
+			if (isset($row['value11'])) echo "<td>" . $row['value11'] . "</td>";
+			if (isset($row['value12'])) echo "<td>" . $row['value12'] . "</td>";
+			if (isset($row['value13'])) echo "<td>" . $row['value13'] . "</td>";
+			if (isset($row['value14'])) echo "<td>" . $row['value14'] . "</td>";
+			if (isset($row['value15'])) echo "<td>" . $row['value15'] . "</td>";
+		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);

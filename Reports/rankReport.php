@@ -22,16 +22,41 @@
         <tr>
             <th>Team</th>
             <th>AVG</th>
-            <th>Exit</th>
-            <th>Hatches</th>
-            <th>Cargo</th>
-            <th>Defense</th>
-            <th>Return</th>
-            <th>Exit</th>
-            <th>Hatches</th>
-            <th>Cargo</th>
-            <th>Defense</th>
-            <th>Return</th>
+			<?php
+			// Display table headers for the ranks
+			$tsql = "select r.name
+					   from Rank r
+							inner join gameEvent ge
+							on ge.gameId = r.gameId
+					  where ge.isActive = 'Y'
+					 order by r.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['name'] . "</th>";
+			}
+			// Display table headers a second time for the values
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['name'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
         </tr>
 <?php
 $sortOrder = "$_GET[sortorder]";
@@ -46,26 +71,34 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
 			}
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-?>
-        <tr>
-            <td><a href="..\Reports\robotReport.php?TeamId=<?php echo ($row['TeamId']);?>"><?php echo ($row['TeamNumber']);?></a></td>
-            <td><?php echo ($row['avgRank']);?></td>
-            <td><?php echo ($row['rankLeaveHab']);?></td>
-            <td><?php echo ($row['rankTotHatch']);?></td>
-            <td><?php echo ($row['rankTotCargo']);?></td>
-            <td><?php echo ($row['rankPlayedDefense']);?></td>
-            <td><?php echo ($row['rankReturnToHab']);?></td>
-            <td><?php echo ($row['leaveHab']);?></td>
-            <td><?php echo ($row['totHatch']);?></td>
-            <td><?php echo ($row['totCargo']);?></td>
-            <td><?php echo ($row['playedDefense']);?></td>
-            <td><?php echo ($row['returnToHab']);?></td>
-        </tr>
-        <?php
-        }
-		sqlsrv_free_stmt($getResults);
-		sqlsrv_close($conn);
-        ?>
+		echo "<tr>";
+			echo "<td><a href='..\Reports\robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td>" . $row['avgRank'] . "</td>";
+			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>";
+			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>";
+			if (isset($row['rankValue3'])) echo "<td>" . $row['rankValue3'] . "</td>";
+			if (isset($row['rankValue4'])) echo "<td>" . $row['rankValue4'] . "</td>";
+			if (isset($row['rankValue5'])) echo "<td>" . $row['rankValue5'] . "</td>";
+			if (isset($row['rankValue6'])) echo "<td>" . $row['rankValue6'] . "</td>";
+			if (isset($row['rankValue7'])) echo "<td>" . $row['rankValue7'] . "</td>";
+			if (isset($row['rankValue8'])) echo "<td>" . $row['rankValue8'] . "</td>";
+			if (isset($row['rankValue9'])) echo "<td>" . $row['rankValue9'] . "</td>";
+			if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>";
+			if (isset($row['value1'])) echo "<td>" . $row['value1'] . "</td>";
+			if (isset($row['value2'])) echo "<td>" . $row['value2'] . "</td>";
+			if (isset($row['value3'])) echo "<td>" . $row['value3'] . "</td>";
+			if (isset($row['value4'])) echo "<td>" . $row['value4'] . "</td>";
+			if (isset($row['value5'])) echo "<td>" . $row['value5'] . "</td>";
+			if (isset($row['value6'])) echo "<td>" . $row['value6'] . "</td>";
+			if (isset($row['value7'])) echo "<td>" . $row['value7'] . "</td>";
+			if (isset($row['value8'])) echo "<td>" . $row['value8'] . "</td>";
+			if (isset($row['value9'])) echo "<td>" . $row['value9'] . "</td>";
+			if (isset($row['value10'])) echo "<td>" . $row['value10'] . "</td>";
+		echo "</tr>";
+	}
+	sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
+	?>
     </table>
 </center>
 </html>
