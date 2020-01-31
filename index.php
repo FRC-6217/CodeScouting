@@ -74,6 +74,12 @@
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
           <p></p>
      </h2>
+	 
+	    <h2>
+          <center><a id="mainpage" class="clickme danger" href="robotattributes.php">Robot Attr</a></center>
+          <p></p>
+     </h2>
+	 
     <center><h2>
     <?php
     $tsql = "select buttonHtml
