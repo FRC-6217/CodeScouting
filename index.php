@@ -76,7 +76,7 @@
      </h2>
 	 
 	    <h2>
-          <center><a id="mainpage" class="clickme danger" href="robotattrlist.php">Robot Attr</a></center>
+          <right><a id="mainpage" class="clickme danger" href="robotattrlist.php">Robot Attr</a></right>
           <p></p>
      </h2>
 	 
