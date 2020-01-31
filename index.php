@@ -71,7 +71,7 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
+          <left><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></left>
           <p></p>
      </h2>
 	 
