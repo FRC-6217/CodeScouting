@@ -71,12 +71,12 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <left><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></left>
+          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Record</a></center>
           <p></p>
      </h2>
 	 
 	    <h2>
-          <right><a id="mainpage" class="clickme danger" href="robotattrlist.php">Robot Attr</a></right>
+          <center><a id="mainpage" class="clickme danger" href="robotattrlist.php">Robot Attr</a></center>
           <p></p>
      </h2>
 	 
