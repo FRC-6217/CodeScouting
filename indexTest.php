@@ -104,8 +104,8 @@
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
-	<button id="verify_in_server">verify in server</button>
-	<div id="verify_in_server_result"></div>
+	<center><button id="verify_in_server">verify in server</button>
+	<div id="verify_in_server_result"></div></center>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
