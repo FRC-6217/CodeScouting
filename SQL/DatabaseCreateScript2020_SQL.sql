@@ -388,7 +388,8 @@ create table Attribute(
 	lowRangeValue integer null,
 	highRangeValue integer null,
 	sortOrder integer not null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	tableHeader varchar(64));
 create unique index idx_Attribute on Attribute(gameId, name);
 alter table Attribute add constraint fk_Attribute_Game foreign key (gameId) references Game (id);
 alter table Attribute add constraint fk_Attribute_ScoringType foreign key (scoringTypeId) references ScoringType (id);
