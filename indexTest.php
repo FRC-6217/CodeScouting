@@ -106,8 +106,8 @@
 	<br>
 	<center><button id="verify_in_server">verify in server</button>
 	<div id="verify_in_server_result"></div></center>
-	<a id ="signout" href="#" onclick="signOut();">Sign out</a>
 	<br>
+	<center><a id ="signout" href="#" onclick="signOut();">Sign out</a></center>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
