@@ -1,9 +1,5 @@
 <html>
      <meta name="viewport" content="width=device-width, initial-scale=1">
-	 <meta charset="ISO-8859-1">
-	 <meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca"></meta>
-	 <script src="https://apis.google.com/js/platform.js" async defer></script>
-	 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
@@ -37,6 +33,10 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
+		<meta charset="ISO-8859-1">
+		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca"></meta>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -106,6 +106,7 @@
 	<br>
 	<center><button id="verify_in_server">verify in server</button>
 	<div id="verify_in_server_result"></div></center>
+	<a id ="signout" href="#" onclick="signOut();">Sign out</a>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
