@@ -240,7 +240,8 @@ create table Scout(
 	firstName varchar(128) not null,
 	teamId integer not null,
 	isActive char(1) not null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	scoutGUID uniqueidentifier not null default newid());
 create unique index idx_scout on Scout(lastName, firstName);
 alter table Scout add constraint fk_Scout_Team foreign key (TeamId) references Team (id);
 insert into Scout (lastName, firstName, teamId, isActive) select 'Allen', 'Kristy', id, 'Y' from Team where teamNumber = 6217;
