@@ -16,7 +16,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 ?>
 <center><h1>Rank Report</h1></center>
-<center><a href="..\index.php">Home</a></center>
+<center><a class="clickme danger" href="..\index.php">Home</a></center>
 <center>
     <table cellspacing="0" cellpadding="5">
         <tr>
