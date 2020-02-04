@@ -104,10 +104,11 @@
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
-	<center><button id="verify_in_server">verify in server</button>
-	<div id="verify_in_server_result"></div></center>
-	<br>
-	<center><a id ="signout" href="#" onclick="signOut();">Sign out</a></center>
+	<center>
+		 <br>Email Address<br>
+		 <textarea id="email" rows="" cols=""></textarea>
+		 <br>
+	</center>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
@@ -224,18 +225,8 @@
  * no neet call this function manually
  */
  function onSignIn(googleUser) {
- var profile = googleUser.getBasicProfile();
- 
- var id_token = googleUser.getAuthResponse().id_token;// this token we will send to server to verify
- 
- console.log('ID: ' + profile.getId());
- console.log('Name: ' + profile.getName());
- console.log('Image URL: ' + profile.getImageUrl());
- console.log('Email: ' + profile.getEmail());
- 
- console.log('Token: ' + id_token);
- 
- $("#token").text(id_token);
+ var profile = googleUser.getBasicProfile(); 
+ $("#email").text(profile.getEmail());
  }
  
  function signOut() {
