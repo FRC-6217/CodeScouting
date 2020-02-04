@@ -14,7 +14,9 @@
  
  <br>Access token<br>
  <textarea id="token" rows="" cols=""></textarea>
- 
+ <br>
+ <br>Email Address<br>
+ <textarea id="email" rows="" cols=""></textarea>
  <br>
  <button id="verify_in_server">verify in server</button>
  <div id="verify_in_server_result"></div>
@@ -43,6 +45,7 @@
  console.log('Token: ' + id_token);
  
  $("#token").text(id_token);
+ $("#email").text(profile.getEmail());
  }
  
  function signOut() {
