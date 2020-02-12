@@ -46,6 +46,7 @@
 	$matchNumber = "$_GET[matchNumber]";
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
+	$alliancePosition = "$_GET[alliancePosition]";
 ?>
 			<center>				
 				<div class="container" id="scout">
@@ -100,8 +101,11 @@
 
 					<p>Team:
 						<select name="team" style="width: 154.5px;">
-						<option value="<?php echo ($teamId);?>" selected><?php echo ($teamNumber);?></option>
 						<?php
+							if ($teamId = 'NA')
+								echo "<option value=''></option>";
+							else
+								echo "<option value=" . $teamId . " selected>" . $teamNumber . "</option>";
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
