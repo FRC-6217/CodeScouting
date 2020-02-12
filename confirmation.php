@@ -55,7 +55,6 @@
 					    and m2.dateTime > m.dateTime
 					    and m.id = $match
 			         order by m2.dateTime)";
-	echo $tsql;
 	$getResults = sqlsrv_query($conn, $tsql);
 	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -67,11 +66,10 @@
 		}
 	$cnt = 0;
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		echo "<option value=" . $row['id'] . ">" . $row['teamNumber'] . "</option>";
-		echo "<center><a class='clickme danger' href='scoutRecord.php?matchId=" . $row['matchId'] . "&matchNumber=" . $row['matchNumber'] . "&teamId=" . $row['teamId'] . "&teamNumber=" . $row['teamNumber'] .  "&alliancePosition=" . $alliancePosition . "&scoutId=" . $scoutId . "'>Another Scout Record</a></center>";
+		echo "<center><a class='clickme danger' href='scoutRecord.php?matchId=" . $row['matchId'] . "&matchNumber=" . $row['matchNumber'] . "&teamId=" . $row['teamId'] . "&teamNumber=" . $row['teamNumber'] .  "&alliancePosition=" . $alliancePosition . "&scoutId=" . $scout . "'>Another Scout Record</a></center>";
 		$cnt += 1;
 	}
-	if ($cnt = 0)
+	if ($cnt == 0)
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
 ?>
 	 <p></p>
