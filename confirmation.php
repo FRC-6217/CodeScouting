@@ -37,7 +37,7 @@
 	$value14 = $_POST[value14];
 	$value15 = $_POST[value15];
 	$alliance = substr($alliancePosition, 0, 1);
-	$position = substr($$alliancePosition, 1, 1);
+	$position = substr($alliancePosition, 1, 1);
 
 	$tsql = "select m.id matchId
 				  , m.type + ' ' + m.number matchNumber
@@ -59,7 +59,6 @@
 					    and m2.dateTime > m.dateTime
 					    and m.id = $match
 			         order by m2.dateTime)";
-echo $tsql;
 	$getResults = sqlsrv_query($conn, $tsql);
 	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
