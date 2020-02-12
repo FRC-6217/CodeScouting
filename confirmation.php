@@ -2,9 +2,6 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="scoutRecord.php">Another Scout Record</a></center>
-	 <p></p>
-	 <center><a class="clickme danger" href="index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -40,6 +37,11 @@
 	$value14 = $_POST[value14];
 	$value15 = $_POST[value15];
 
+	echo '<center><a class="clickme danger" href="scoutRecord.php?matchId=' . $matchId + 1 . '&matchNumber=PR 5&teamId=NA&teamNumber=NA&alliancePosition=' . $alliancePosition . '">Another Scout Record</a></center>';
+?>
+	 <p></p>
+	 <center><a class="clickme danger" href="index.php">Home</a></center>
+<?php
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, $value1";
 	if (isset($value2))
 		$tsql .= ", $value2";
@@ -72,7 +74,7 @@
 	$results = sqlsrv_query($conn, $tsql);
 	echo $tql;
 	if($results) 
-		echo "Submission Succeeded!";
+		echo "<center>Submission Succeeded!</center>";
 	
 	if(!$results) 
 	{
