@@ -42,12 +42,13 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get Query String Parameters
-	$scoutId = "$_GET[scoutId]";
 	$matchId = "$_GET[matchId]";
 	$matchNumber = "$_GET[matchNumber]";
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
 	$alliancePosition = "$_GET[alliancePosition]";
+	$scoutId = "$_GET[scoutId]";
+    echo $scoutId;
 	
 ?>
 			<center>				
