@@ -48,7 +48,6 @@
 	$teamNumber = "$_GET[teamNumber]";
 	$alliancePosition = "$_GET[alliancePosition]";
 	$scoutId = "$_GET[scoutId]";
-    echo $scoutId;
 	
 ?>
 			<center>				
@@ -69,7 +68,7 @@
 								}
 							$cnt = 0;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($row['id'] == @scoutId)
+								if ($row['id'] == $scoutId)
 									echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
 								else
 									echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
