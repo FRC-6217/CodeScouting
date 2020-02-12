@@ -36,6 +36,8 @@
 	$value13 = $_POST[value13];
 	$value14 = $_POST[value14];
 	$value15 = $_POST[value15];
+	$alliance = substr($alliancePosition, 1, 1);
+	$position = substr($$alliancePosition, 2, 1);
 
 	$tsql = "select m.id matchId
 				  , m.type + ' ' + m.number matchNumber
@@ -44,8 +46,8 @@
 			   from Match m
 				    left outer join TeamMatch tm
 				    on tm.matchId = m.id 
-					and tm.alliance = substring($alliancePosition, 1, 1)
-                    and tm.alliancePosition = convert(int, substring($alliancePosition, 2, 1))
+					and tm.alliance = '$alliance'
+                    and tm.alliancePosition = $position
 				    left outer join Team t
 				    on t.id = tm.teamId
 			  where m.id =
@@ -57,6 +59,7 @@
 					    and m2.dateTime > m.dateTime
 					    and m.id = $match
 			         order by m2.dateTime)";
+echo $tsql;
 	$getResults = sqlsrv_query($conn, $tsql);
 	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
