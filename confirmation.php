@@ -53,7 +53,7 @@
 						    on m2.gameEventId = m.gameEventId
 					  where m2.isActive = 'Y'
 					    and m2.dateTime > m.dateTime
-					    and m.id = $matchId
+					    and m.id = $match
 			         order by m2.dateTime)";
 	echo $tsql;
 	$getResults = sqlsrv_query($conn, $tsql);
