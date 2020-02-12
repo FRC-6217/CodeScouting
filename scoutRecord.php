@@ -102,10 +102,12 @@
 					<p>Team:
 						<select name="team" style="width: 154.5px;">
 						<?php
-							if ($teamId = 'NA')
+							if ($teamId == "NA") {
 								echo "<option value=''></option>";
-							else
+							}
+							else {
 								echo "<option value=" . $teamId . " selected>" . $teamNumber . "</option>";
+							}
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
