@@ -27,14 +27,15 @@ create table Event(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(128) not null,
 	location varchar(128) not null,
-	eventCode varchar(16) null,
+	eventCode varchar(16) not null,
 	lastUpdated datetime null);
 create unique index idx_Event on Event(name);
-create unique index idx_Event on Event(eventCode);
+create unique index idx_Event_2 on Event(eventCode);
 insert into Event (name, location, eventCode) values ('Lake Superior Regional', 'Duluth, MN', 'mndu');
 insert into Event (name, location, eventCode) values ('Iowa Regional', 'Cedar Falls, IA', 'iacf');
 insert into Event (name, location, eventCode) values ('EMCC Off-Season', 'Woodbury, MN', 'emcc');
 insert into Event (name, location, eventCode) values ('Test Data Event', 'Cannon Falls, MN', null);
+insert into Event (name, location, eventcode) values ('Week Zero - Eagan', 'Eagan, MN', null)
 
 create table Game(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -58,6 +59,7 @@ insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, 
 insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '03/21/2019', 'N' from event e, game g where e.Name = 'Iowa Regional' and g.name = 'Deep Space';
 insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '09/21/2019', 'Y' from event e, game g where e.Name = 'EMCC Off-Season' and g.name = 'Deep Space';
 insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '12/31/2099', 'N' from event e, game g where e.Name = 'Test Data Event' and g.name = 'Deep Space';
+insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '02/15/2020', 'Y' from event e, game g where e.Name = 'Week Zero - Eagan' and g.name = 'Infinite Recharge';
 
 create table Team(
 	id int primary key IDENTITY(1, 1) NOT NULL,

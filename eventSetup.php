@@ -110,6 +110,25 @@
 								$eventCode = $row["eventCode"];
 							sqlsrv_free_stmt($getResults);
 
+							// Add Event from database to the select list
+							$tsql = "select e.name, e.eventCode from event e order by e.name ";
+							$getResults = sqlsrv_query($conn, $tsql);
+							if ($getResults == FALSE)
+								if( ($errors = sqlsrv_errors() ) != null) {
+									foreach( $errors as $error ) {
+										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+										echo "code: ".$error[ 'code']."<br />";
+										echo "message: ".$error[ 'message']."<br />";
+									}
+								}
+							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+								if ($row["eventCode"] == $eventCode)
+									echo '<option value="' . $value["eventCode"] . '" selected>' . $value["name"] . '</option>';
+								else
+									echo '<option value="' . $value["eventCode"] . '">' . $value["name"] . '</option>';
+							}
+							sqlsrv_free_stmt($getResults);
+
 							// Events from Blue Alliance
 							$sURL = $TBAURL . "events/" . $gameYear . "/simple";
 							$eventsJSON = file_get_contents($sURL, false, $context);
