@@ -83,7 +83,7 @@ $tsql = "select TeamNumber
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='\Reports\robotReport.php?TeamId=" . $row['TeamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td><a href='/Reports/robotReport.php?TeamId=" . $row['TeamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			echo "<td>" . $row['matchNumber'] . "</td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
