@@ -36,8 +36,8 @@
 	$value13 = $_POST[value13];
 	$value14 = $_POST[value14];
 	$value15 = $_POST[value15];
-	$alliance = substr($alliancePosition, 1, 1);
-	$position = substr($$alliancePosition, 2, 1);
+	$alliance = substr($alliancePosition, 0, 1);
+	$position = substr($$alliancePosition, 1, 1);
 
 	$tsql = "select m.id matchId
 				  , m.type + ' ' + m.number matchNumber
