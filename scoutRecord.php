@@ -73,8 +73,6 @@
 							?>
 						</select>
 						</p>
-					<p></p>
-					
 					<p>Match:
 						<select style="width: 157px" name="match">
 							<option value="<?php echo ($matchId);?>" selected><?php echo ($matchNumber);?></option>
@@ -97,17 +95,13 @@
 							?>
 						</select>
 					</p>
-					<p></p>
-
 					<p>Team:
 						<select name="team" style="width: 154.5px;">
 						<?php
-							if ($teamId == "NA") {
+							if ($teamId == "NA")
 								echo "<option value=''></option>";
-							}
-							else {
+							else
 								echo "<option value=" . $teamId . " selected>" . $teamNumber . "</option>";
-							}
 							$tsql = "select t.id, t.teamNumber from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
@@ -124,6 +118,36 @@
 							<?php		
 							}
 							?>
+						</select>
+					</p>
+					<p>Alliance Position:
+						<select name="alliancePosition" style="width: 154.5px;">
+						<?php
+						    if ($alliancePosition == "B1")
+								echo "<option value='B1'>Blue 1</option>";
+							else
+								echo "<option value='B1' selected>Blue 1</option>";
+						    if ($alliancePosition == "B2")
+								echo "<option value='B2'>Blue 2</option>";
+							else
+								echo "<option value='B2' selected>Blue 2</option>";
+						    if ($alliancePosition == "B3")
+								echo "<option value='B3'>Blue 3</option>";
+							else
+								echo "<option value='B3' selected>Blue 3</option>";
+						    if ($alliancePosition == "R1")
+								echo "<option value='R1'>Red 1</option>";
+							else
+								echo "<option value='R1' selected>Red 1</option>";
+						    if ($alliancePosition == "R2")
+								echo "<option value='R2'>Red 2</option>";
+							else
+								echo "<option value='R2' selected>Red 2</option>";
+						    if ($alliancePosition == "R3")
+								echo "<option value='R3'>Red 3</option>";
+							else
+								echo "<option value='R3' selected>Red 3</option>";
+						?>
 						</select>
 					</p>
 					<?php
