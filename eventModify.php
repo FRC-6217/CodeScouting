@@ -49,49 +49,38 @@
 	// A = Activate Game Event
 	// T = Update Team List
 
-	// First step is always to get TBA Event information and insert/update Event in the database
-	$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
-	$eventJSON = file_get_contents($sURL, false, $context);
-	$eventValue = json_decode($eventJSON, true);
-	// Add/Update Event Info to the database
-	if (!empty($eventValue)) {
-		$tsql = "merge Event as target " . 
-		        "using (select '" . str_replace("'", "", $eventValue["name"]) . "', '" . str_replace("'", "", $eventValue["city"]) . ", " . str_replace("'", "", $eventValue["state_prov"]) . "', '" . $eventValue["event_code"] . "') " .
-                "as source (name, location, eventCode) " .
-				"on (target.eventCode = source.eventCode) " .
-				"WHEN matched THEN " .
-				"UPDATE set name = source.name, location = source.location " .
-				"WHEN not matched THEN " .
-				"INSERT (name, location, eventCode) " .
-				"VALUES (source.name, source.location, source.eventCode);";
-		$results = sqlsrv_query($conn, $tsql);
-		if(!$results) 
-		{
-			echo "Update of Event failed!<br />";
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
-			}
-		}		
-		if($results) {
-			$tsql = "insert into GameEvent (eventId, gameId, eventDate, isActive) " . 
-					"select e.id, g.id, '" . $eventValue["start_date"] . "', 'N' " .
-					"  from Event e, Game g " .
-					" where e.eventCode = '" . $eventCode . "' " .
-					"   and g.gameYear = " . $gameYear .
-					"   and not exists (select 1 " .
-					"                     from GameEvent ge " .
-					"                          inner join Event e on e.id = ge.eventId " .
-					"                          inner join Game g on g.id = ge.gameId " .
-					"                    where e.eventCode = '" . $eventCode . "' " .
-					"                      and g.gameYear = " . $gameYear . ");";
+    // Determine if event exists in TBA
+	$sURL = $TBAURL. "events/" . $gameYear . "/simple";
+	$eventsJSON = file_get_contents($sURL, false, $context);
+	$eventsArray = json_decode($eventsJSON, true);
+	$eventTBAExists = false;
+	foreach($eventsArray as $key => $value) {
+		if ($value["event_code"] == $eventCode) {
+			$eventTBAExists = true;
+			break;
+		}
+	}
+	
+	// Get TBA Event information and insert/update Event in the database
+	if ($eventTBAExists) {
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
+		$eventJSON = file_get_contents($sURL, false, $context);
+		$eventValue = json_decode($eventJSON, true);
+		// Add/Update Event Info to the database
+		if (!empty($eventValue)) {
+			$tsql = "merge Event as target " . 
+					"using (select '" . str_replace("'", "", $eventValue["name"]) . "', '" . str_replace("'", "", $eventValue["city"]) . ", " . str_replace("'", "", $eventValue["state_prov"]) . "', '" . $eventValue["event_code"] . "') " .
+					"as source (name, location, eventCode) " .
+					"on (target.eventCode = source.eventCode) " .
+					"WHEN matched THEN " .
+					"UPDATE set name = source.name, location = source.location " .
+					"WHEN not matched THEN " .
+					"INSERT (name, location, eventCode) " .
+					"VALUES (source.name, source.location, source.eventCode);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
-				echo "Insert of Game Event failed!<br />";
+				echo "Update of Event failed!<br />";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
 						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -100,37 +89,62 @@
 					}
 				}
 			}		
-			if($results)
-				echo "<center>Event Update Succeeded!</center><br>";
-		}
-		// Get Game Event Id
-		$tsql = "select ge.id " . 
-		        "  from GameEvent ge " .
-				"       inner join Event e on e.id = ge.eventId " .
-				"       inner join Game g on g.id = ge.gameId " .
-				" where e.eventCode = '" . $eventCode . "' " .
-				"   and g.gameYear = " . $gameYear . ";";
-		$results = sqlsrv_query($conn, $tsql);
-		if(!$results) {
-			echo "Query of Game Event failed!<br />";
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
+			if($results) {
+				$tsql = "insert into GameEvent (eventId, gameId, eventDate, isActive) " . 
+						"select e.id, g.id, '" . $eventValue["start_date"] . "', 'N' " .
+						"  from Event e, Game g " .
+						" where e.eventCode = '" . $eventCode . "' " .
+						"   and g.gameYear = " . $gameYear .
+						"   and not exists (select 1 " .
+						"                     from GameEvent ge " .
+						"                          inner join Event e on e.id = ge.eventId " .
+						"                          inner join Game g on g.id = ge.gameId " .
+						"                    where e.eventCode = '" . $eventCode . "' " .
+						"                      and g.gameYear = " . $gameYear . ");";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Insert of Game Event failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+				}		
+				if($results)
+					echo "<center>Event Update Succeeded!</center><br>";
+			}
+			// Get Game Event Id
+			$tsql = "select ge.id " . 
+					"  from GameEvent ge " .
+					"       inner join Event e on e.id = ge.eventId " .
+					"       inner join Game g on g.id = ge.gameId " .
+					" where e.eventCode = '" . $eventCode . "' " .
+					"   and g.gameYear = " . $gameYear . ";";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) {
+				echo "Query of Game Event failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			}
+			else {
+				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
+					$gameEventId = $row['id'];
 				}
 			}
 		}
-		else {
-			while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
-				$gameEventId = $row['id'];
-			}
-		}
+		if($results) sqlsrv_free_stmt($results);
 	}
-	if($results) sqlsrv_free_stmt($results);
 	
 	// Add/update matches on this event and teams in each match
-	if ($option == "M") {
+	if ($eventTBAExists && $option == "M") {
 		$timezone = "America/Chicago";
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
@@ -539,7 +553,7 @@
 	}	
 
 	// Add/update teams on this event and link teams to the event
-	if ($option == "T") {
+	if ($eventTBAExists && $option == "T") {
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/simple";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
@@ -624,7 +638,6 @@
 			sqlsrv_free_stmt($results);
 		}
 	}	
-	
 	sqlsrv_close($conn);
 ?>
 </html>
