@@ -985,22 +985,22 @@ create view v_MatchHyperlinks as
 select '<a href="Reports\matchReport.php?matchId=' + convert(varchar, subquery.matchId) + '"> ' + subquery.matchNumber + '</a>' matchReportUrl
      , subquery.r1TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.r1TeamId) + '"> ' + convert(varchar, subquery.r1TeamNumber) + '</a>' r1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.r1TeamId) + '&teamNumber=' + convert(varchar, subquery.r1TeamNumber) + '"> S </a>' r1TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r1TeamNumber), 'NA') + '&alliancePosition=R1"> S </a>' r1TeamScoutUrl
      , subquery.r2TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.r2TeamId) + '"> ' + convert(varchar, subquery.r2TeamNumber) + '</a>' r2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.r2TeamId) + '&teamNumber=' + convert(varchar, subquery.r2TeamNumber) + '"> S </a>' r2TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r2TeamNumber), 'NA') + '&alliancePosition=R2"> S </a>' r2TeamScoutUrl
      , subquery.r3TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.r3TeamId) + '"> ' + convert(varchar, subquery.r3TeamNumber) + '</a>' r3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.r3TeamId) + '&teamNumber=' + convert(varchar, subquery.r3TeamNumber) + '"> S </a>' r3TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r3TeamNumber), 'NA') + '&alliancePosition=R3"> S </a>' r3TeamScoutUrl
      , subquery.b1TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.b1TeamId) + '"> ' + convert(varchar, subquery.b1TeamNumber) +  '</a>' b1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.b1TeamId) + '&teamNumber=' + convert(varchar, subquery.b1TeamNumber) + '"> S </a>' b1TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b1TeamNumber), 'NA') + '&alliancePosition=B1"> S </a>' b1TeamScoutUrl
      , subquery.b2TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.b2TeamId) + '"> ' + convert(varchar, subquery.b2TeamNumber) +  '</a>' b2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.b2TeamId) + '&teamNumber=' + convert(varchar, subquery.b2TeamNumber) + '"> S </a>' b2TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b2TeamNumber), 'NA') + '&alliancePosition=B2"> S </a>' b2TeamScoutUrl
      , subquery.b3TeamNumber
      , '<a href="Reports\robotReport.php?TeamId=' + convert(varchar, subquery.b3TeamId) + '"> ' + convert(varchar, subquery.b3TeamNumber) +  '</a>' b3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + convert(varchar, subquery.b3TeamId) + '&teamNumber=' + convert(varchar, subquery.b3TeamNumber) + '"> S </a>' b3TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b3TeamNumber), 'NA') + '&alliancePosition=B3"> S </a>' b3TeamScoutUrl
      , subquery.sortOrder
      , subquery.matchNumber
      , subquery.matchId
@@ -1579,6 +1579,7 @@ go
 CREATE PROCEDURE sp_ins_scoutRecord (@pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
+								   , @pv_AlliancePosition varchar(64)
                                    , @pv_IntegerValue01 integer
                                    , @pv_IntegerValue02 integer = null
                                    , @pv_IntegerValue03 integer = null
@@ -2035,6 +2036,26 @@ BEGIN
 			                       WHERE m.id = @pv_MatchId
 			                         AND o.sortOrder = 15);
 	END
+
+	-- Lookup Team Match Record
+	SELECT @lv_id = max(id)
+	  FROM TeamMatch
+	 WHERE matchId = @pv_MatchId
+	   AND teamId = @pv_TeamId;
+
+	-- Add Team Match Record
+	IF @lv_Id is null
+		insert into TeamMatch (matchId, teamId, alliance, alliancePosition)
+		values (@pv_MatchId, @pv_TeamId, substring(@pv_AlliancePosition, 1, 1), convert(int, substring(@pv_AlliancePosition, 2, 1)));
+	ELSE
+		-- Update Team Match Record
+		update TeamMatch
+		   set alliance = substring(@pv_AlliancePosition, 1, 1)
+		     , alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1))
+		 where matchId = @pv_MatchId
+		   and teamId = @pv_TeamId
+		   and (alliance <> substring(@pv_AlliancePosition, 1, 1)
+		     or alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1)));
 END
 GO
 

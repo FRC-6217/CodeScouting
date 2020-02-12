@@ -72,7 +72,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='..\Reports\robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			echo "<td>" . $row['avgRank'] . "</td>";
 			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>";
 			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>";
