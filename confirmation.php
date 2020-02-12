@@ -54,7 +54,7 @@
 					  where m2.isActive = 'Y'
 					    and m2.dateTime > m.dateTime
 					    and m.id = $matchId
-			 order by m2.dateTime);";
+			         order by m2.dateTime)";
 	$getResults = sqlsrv_query($conn, $tsql);
 	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
