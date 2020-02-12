@@ -123,9 +123,9 @@
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 								if ($row["eventCode"] == $eventCode)
-									echo '<option value="' . $value["eventCode"] . '" selected>' . $value["name"] . '</option>';
+									echo '<option value="' . $row["eventCode"] . '" selected>' . $row["name"] . '</option>';
 								else
-									echo '<option value="' . $value["eventCode"] . '">' . $value["name"] . '</option>';
+									echo '<option value="' . $row["eventCode"] . '">' . $row["name"] . '</option>';
 							}
 							sqlsrv_free_stmt($getResults);
 
