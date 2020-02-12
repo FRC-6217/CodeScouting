@@ -42,11 +42,13 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get Query String Parameters
+	$scoutId = "$_GET[scoutId]";
 	$matchId = "$_GET[matchId]";
 	$matchNumber = "$_GET[matchNumber]";
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
 	$alliancePosition = "$_GET[alliancePosition]";
+	
 ?>
 			<center>				
 				<div class="container" id="scout">
@@ -66,9 +68,10 @@
 								}
 							$cnt = 0;
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-							?>
-							<option value="<?php echo ($row['id']);?>"><?php echo ($row['fullName']);?></option>
-							<?php		
+								if ($row['id'] == @scoutId)
+									echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+								else
+									echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
 							}
 							?>
 						</select>

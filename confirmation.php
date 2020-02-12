@@ -37,7 +37,7 @@
 	$value14 = $_POST[value14];
 	$value15 = $_POST[value15];
 
-	echo '<center><a class="clickme danger" href="scoutRecord.php?matchId=' . $matchId + 1 . '&matchNumber=PR 5&teamId=NA&teamNumber=NA&alliancePosition=' . $alliancePosition . '">Another Scout Record</a></center>';
+	echo "<center><a class='clickme danger' href='scoutRecord.php?matchId=" . $matchId + 1 . "&matchNumber=PR 5&teamId=NA&teamNumber=NA&alliancePosition=" . $alliancePosition . "'>Another Scout Record</a></center>";
 ?>
 	 <p></p>
 	 <center><a class="clickme danger" href="index.php">Home</a></center>
