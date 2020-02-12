@@ -116,15 +116,13 @@
 									}
 								}
 							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-							?>
-							<option value="<?php echo ($row['id']);?>"><?php echo ($row['teamNumber']);?></option>
-							<?php		
+								echo "<option value=" . $row['id'] . ">" . $row['teamNumber'] . "</option>";
 							}
 							?>
 						</select>
 					</p>
 					<p>Alliance Position:
-						<select name="alliancePosition" style="width: 154.5px;">
+						<select name="alliancePosition" style="width: 70px;">
 						<?php
 						    if ($alliancePosition != "B1")
 								echo "<option value='B1'>Blue 1</option>";
