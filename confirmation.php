@@ -44,6 +44,8 @@
 			   from Match m
 				    left outer join TeamMatch tm
 				    on tm.matchId = m.id 
+					and tm.alliance = substring($alliancePosition, 1, 1)
+                    and tm.alliancePosition = convert(int, substring($alliancePosition, 2, 1)
 				    left outer join Team t
 				    on t.id = tm.teamId
 			  where m.id =
