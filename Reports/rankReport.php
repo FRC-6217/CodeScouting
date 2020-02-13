@@ -2,6 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
+	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -16,11 +17,11 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 ?>
 <center><h1>Rank Report</h1></center>
-<center><a class="clickme danger" href="..\index.php">Home</a></center>
 <center>
     <table cellspacing="0" cellpadding="5">
         <tr>
             <th>Team</th>
+			<th>Matches</th>
             <th>AVG</th>
 			<?php
 			// Display table headers for the ranks
@@ -73,6 +74,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
 			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td>" . $row['cntMatches'] . "</td>";
 			echo "<td>" . $row['avgRank'] . "</td>";
 			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>";
 			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>";

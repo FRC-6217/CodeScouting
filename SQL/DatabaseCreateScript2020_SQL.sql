@@ -1524,11 +1524,30 @@ BEGIN
 		   , r.name
 		   , r.sortOrder
 		   , atr.cntMatches;
+	-- Add teams that do not have a scout record yet
+	INSERT INTO #AvgTeamRecord
+	select tge.teamId
+		 , r.gameId
+		 , r.name rankName
+		 , r.sortOrder
+		 , 0 cntMatches
+		 , 0 value
+      from rank r
+		   inner join GameEvent ge
+		   on ge.gameId = r.gameId
+		   inner join TeamGameEvent tge
+		   on tge.gameEventId = ge.id
+	 where ge.isActive = 'Y'
+	   and not exists
+	       (select 1
+		      from #AvgTeamRecord atr
+			 where atr.TeamId = tge.teamId);
 
     -- Use temporary table to return rankings and average values
 	select subquery.teamId
 	     , t.TeamNumber
 		 , t.TeamName
+		 , subquery.cntMatches
 		 , avg(subquery.rank) avgRank
 		 , sum(case when subquery.sortOrder = 1 then subquery.rank else null end) rankValue1
 		 , sum(case when subquery.sortOrder = 2 then subquery.rank else null end) rankValue2
@@ -1571,7 +1590,9 @@ BEGIN
 	       , t.TeamNumber
 		   , t.TeamName
 		   , subquery.TeamId
-	order by sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end);
+		   , subquery.cntMatches
+	order by sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end)
+	       , t.teamNumber;
 
 END
 go
