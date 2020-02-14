@@ -44,15 +44,27 @@
 <center><h1>Rank Report</h1></center>
 <center>
 
+    <br>
+	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
+	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th>Team</th>
-        <th>Weight</th>
-        <th>Flexible Start</th>
-        <th>Start Location</th>
-        <th>Autonomous Path</th>
-        <th>Flexible Path </th>
+        <th>Match </th>
+        <th>Time</th>
+        <th>Red 1</th>
         <th>S</th>
+        <th>Red 2</th>
+        <th>S</th>
+        <th>Red 3</th>
+        <th>S</th>
+        <th>Blu 1</th>
+        <th>S</th>
+        <th>Blu 2</th>
+        <th>S</th>
+        <th>Blu 3</th>
+        <th>S</th>
+        <th>Red Sc</th>
+        <th>Blu Sc</th>
      </tr>
 
     <?php
