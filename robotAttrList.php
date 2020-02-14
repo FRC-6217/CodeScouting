@@ -34,7 +34,6 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
     </head>
 
     <h2>
