@@ -67,13 +67,13 @@
 		?>
 		</center></h2>
 
-    <img class="image1" src="Flag/USA.png" style="max-width: 10%; float: left; border-radius: 100%;">
-    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
-    <p></p>
     <h2>
           <center><a class="clickme danger" href="index.php">Home</a></center>
           <p></p>
      </h2>
+	 
+<center><h1>Rank Report</h1></center>
+<center>
 
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
