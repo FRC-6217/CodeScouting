@@ -37,36 +37,6 @@
 		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
     </head>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>Robot Attributes</center></h1>
-	    <h2><center>
-		<?php
-		$tsql = "select g.name game_name
-                      , e.name event_name
-	                  , ge.eventDate
-                   from GameEvent ge
-                        inner join Game g
-	                    on g.id = ge.gameId
-	                    inner join Event e
-	                    on e.id = ge.eventId
-                  where ge.isActive = 'Y'
-                 order by ge.eventDate";
-		$getResults = sqlsrv_query($conn, $tsql);
-		if ($getResults == FALSE)
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
-			}
-		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-			echo $row['game_name'] . ", " . $row['event_name'];
-		}
-		sqlsrv_free_stmt($getResults);
-		?>
-		</center></h2>
-
     <h2>
           <center><a class="clickme danger" href="index.php">Home</a></center>
           <p></p>
