@@ -38,7 +38,7 @@
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>Bomb Botz Scouting App</center></h1>
+    <h1><center>Robot Attributes</center></h1>
 	    <h2><center>
 		<?php
 		$tsql = "select g.name game_name
@@ -71,36 +71,10 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
-		  <a id="mainpage" class="clickme danger" href="robotattrlist.php">Scout Robot</a></center>
+          <center><a class="clickme danger" href="index.php">Home</a></center>
           <p></p>
      </h2>
-	 
-    <center><h2>
-    <?php
-    $tsql = "select buttonHtml
-	              , sortOrder
-			   from v_RankButtons
-			  order by sortOrder";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		echo ($row['buttonHtml']);
-    }
-    sqlsrv_free_stmt($getResults);
-    ?>
-     </center> </h2>
-    <h2>
-          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
-          <p></p>
-     </h2>
+
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
