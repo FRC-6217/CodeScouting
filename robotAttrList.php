@@ -46,22 +46,13 @@
 
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th>Match </th>
-        <th>Time</th>
-        <th>Red 1</th>
+        <th>Team</th>
+        <th>Weight</th>
+        <th>Flexible Start</th>
+        <th>Start Location</th>
+        <th>Autonomous Path</th>
+        <th>Flexible Path </th>
         <th>S</th>
-        <th>Red 2</th>
-        <th>S</th>
-        <th>Red 3</th>
-        <th>S</th>
-        <th>Blu 1</th>
-        <th>S</th>
-        <th>Blu 2</th>
-        <th>S</th>
-        <th>Blu 3</th>
-        <th>S</th>
-        <th>Red Sc</th>
-        <th>Blu Sc</th>
      </tr>
 
     <?php
