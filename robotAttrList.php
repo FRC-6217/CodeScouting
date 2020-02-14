@@ -44,9 +44,6 @@
 <center><h1>Rank Report</h1></center>
 <center>
 
-    <br>
-	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
-	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
