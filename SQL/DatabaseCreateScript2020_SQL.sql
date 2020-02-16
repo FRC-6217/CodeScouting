@@ -2062,7 +2062,8 @@ BEGIN
 	SELECT @lv_id = max(id)
 	  FROM TeamMatch
 	 WHERE matchId = @pv_MatchId
-	   AND teamId = @pv_TeamId;
+	   AND alliance = substring(@pv_AlliancePosition, 1, 1)
+	   AND alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
 
 	-- Add Team Match Record
 	IF @lv_Id is null
@@ -2071,12 +2072,10 @@ BEGIN
 	ELSE
 		-- Update Team Match Record
 		update TeamMatch
-		   set alliance = substring(@pv_AlliancePosition, 1, 1)
-		     , alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1))
+		   set teamId = @pv_TeamId
 		 where matchId = @pv_MatchId
-		   and teamId = @pv_TeamId
-		   and (alliance <> substring(@pv_AlliancePosition, 1, 1)
-		     or alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1)));
+		   and alliance = substring(@pv_AlliancePosition, 1, 1)
+		   and alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
 END
 GO
 
