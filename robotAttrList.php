@@ -75,7 +75,7 @@
      </tr>
 
     <?php
-    $tsql = "select t.teamNumber
+    $tsql = "select t.teamNumber, t.id teamId
      , coalesce(
 	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
 	      from TeamAttribute ta
@@ -151,6 +151,7 @@ order by teamNumber";
         ?>
        <tr>
 			<?php
+			echo "<td><a href='robotAttrSetup.php?TeamId" . $row['teamId'] <a/>
 			echo "<td>" . ($row['teamNumber']) . "</td>";
 			echo "<td>" . ($row['attrValue1']) . "</td>";
 			echo "<td>" . ($row['attrValue2']) . "</td>";
