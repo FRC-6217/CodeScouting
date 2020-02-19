@@ -75,39 +75,69 @@
      </tr>
 
     <?php
-    $tsql = "select matchReportUrl
-	              , r1TeamNumber
-				  , r1TeamReportUrl
-				  , r1TeamScoutUrl
-				  , r2TeamNumber
-				  , r2TeamReportUrl
-				  , r2TeamScoutUrl
-				  , r3TeamNumber
-				  , r3TeamReportUrl
-				  , r3TeamScoutUrl
-				  , b1TeamNumber
-				  , b1TeamReportUrl
-				  , b1TeamScoutUrl
-				  , b2TeamNumber
-				  , b2TeamReportUrl
-				  , b2TeamScoutUrl
-				  , b3TeamNumber
-				  , b3TeamReportUrl
-				  , b3TeamScoutUrl
-				  , sortOrder
-				  , matchNumber
-				  , matchId
-				  , datetime
-				  , redScore
-				  , blueScore
-				  , r1TeamId
-				  , r2TeamId
-				  , r3TeamId
-				  , b1TeamId
-				  , b2TeamId
-				  , b3TeamId
-			   from v_MatchHyperlinks
-			  order by sortOrder, datetime, matchNumber";
+    $tsql = "select t.teamNumber
+     , coalesce(
+	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
+	      from TeamAttribute ta
+		       inner join Attribute a
+			   on a.id = ta.attributeId
+			   and a.gameId = ge.gameId
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 1
+		   and ta.teamId = t.id), 'N/A') attrValue1
+     , coalesce(
+	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
+	      from TeamAttribute ta
+		       inner join Attribute a
+			   on a.id = ta.attributeId
+			   and a.gameId = ge.gameId
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 2
+		   and ta.teamId = t.id), 'N/A') attrValue2
+     , coalesce(
+	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
+	      from TeamAttribute ta
+		       inner join Attribute a
+			   on a.id = ta.attributeId
+			   and a.gameId = ge.gameId
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 3
+		   and ta.teamId = t.id), 'N/A') attrValue3
+     , coalesce(
+	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
+	      from TeamAttribute ta
+		       inner join Attribute a
+			   on a.id = ta.attributeId
+			   and a.gameId = ge.gameId
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 4
+		   and ta.teamId = t.id), 'N/A') attrValue4
+     , coalesce(
+	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
+	      from TeamAttribute ta
+		       inner join Attribute a
+			   on a.id = ta.attributeId
+			   and a.gameId = ge.gameId
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 5
+		   and ta.teamId = t.id), 'N/A') attrValue5
+  from Team t 
+       inner join TeamGameEvent tge 
+       on tge.teamId = t.id
+       inner join GameEvent ge 
+       on ge.id = tge.gameEventId
+ where ge.isActive = 'Y'
+order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -121,38 +151,12 @@
         ?>
        <tr>
 			<?php
-			if ($row['redScore'] > $row['blueScore']) {
-				$redTdTag = "<td><b>";
-				$redTdTagEnd = "</b></td>";
-			}
-			else {
-				$redTdTag = "<td>";
-				$redTdTagEnd = "</td>";
-			}
-			if ($row['blueScore'] > $row['redScore']) {
-				$blueTdTag = "<td><b>";
-				$blueTdTagEnd = "</b></td>";
-			}
-			else {
-				$blueTdTag = "<td>";
-				$blueTdTagEnd = "</td>";
-			}
-			echo "<td>" . ($row['matchReportUrl']) . "</td>";
-			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
-            echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r2TeamScoutUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r3TeamScoutUrl']) . $redTdTagEnd;
-            echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b1TeamScoutUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b2TeamScoutUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
-            echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
-            echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
+			echo "<td>" . ($row['teamNumber']) . "</td>";
+			echo "<td>" . ($row['attrValue1']) . "</td>";
+			echo "<td>" . ($row['attrValue2']) . "</td>";
+			echo "<td>" . ($row['attrValue3']) . "</td>";
+			echo "<td>" . ($row['attrValue4']) . "</td>";
+			echo "<td>" . ($row['attrValue5']) . "</td>";
 		   ?>
         </tr>
     <?php
