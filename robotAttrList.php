@@ -41,7 +41,7 @@
           <p></p>
      </h2>
 	 
-<center><h1>Rank Report</h1></center>
+<center><h1>Robot Attributes</h1></center>
 <center>
 
     <br>
@@ -49,22 +49,29 @@
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
-        <th>Match </th>
-        <th>Time</th>
-        <th>Red 1</th>
-        <th>S</th>
-        <th>Red 2</th>
-        <th>S</th>
-        <th>Red 3</th>
-        <th>S</th>
-        <th>Blu 1</th>
-        <th>S</th>
-        <th>Blu 2</th>
-        <th>S</th>
-        <th>Blu 3</th>
-        <th>S</th>
-        <th>Red Sc</th>
-        <th>Blu Sc</th>
+        <th>Team</th>
+      	<?php
+			// Display table headers for robot attributes
+			$tsql = "select a.tableheader
+					   from Attribute a
+							inner join gameEvent ge
+							on ge.gameId = a.gameId
+					  where ge.isActive = 'Y'
+					 order by a.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['tableheader'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
      </tr>
 
     <?php
