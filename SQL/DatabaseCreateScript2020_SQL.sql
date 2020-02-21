@@ -9,6 +9,7 @@ drop view v_MatchReport;
 drop view v_TeamReport;
 drop view v_ScoutRecord;
 drop view v_MatchHyperlinks;
+drop view v_ScoutTeamHyperlinks;
 drop table ScoutObjectiveRecord;
 drop table ScoutRecord;
 drop table TeamMatch;
@@ -413,7 +414,7 @@ create table TeamAttribute (
 	attributeId integer not null,
 	integerValue integer null,
 	decimalValue integer null,
-	textValue numeric(10,3) null,
+	textValue varchar(4000) null,
 	lastUpdated datetime null);
 create unique index idx_TeamAttribute on TeamAttribute(teamId, attributeId);
 alter table TeamAttribute add constraint fk_TeamAttribute_Team foreign key (teamId) references Team (id);
@@ -692,7 +693,7 @@ create table ScoutObjectiveRecord (
 	objectiveId integer not null,
 	integerValue integer null,
 	decimalValue integer null,
-	textValue numeric(10,3) null,
+	textValue varchar(4000) null,
 	scoreValue integer null,
 	lastUpdated datetime null);
 create unique index idx_ScoutObjectiveRecord on ScoutObjectiveRecord(scoutRecordId, objectiveId);
@@ -1113,6 +1114,118 @@ select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end
 	   on ge.id = m.gameEventId
  where ge.isActive = 'Y'
    and m.isActive = 'Y') subquery;
+go
+
+create view v_ScoutTeamHyperlinks as
+select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
+     , t.teamNumber
+	 , t.id teamId
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 1
+		   and a.gameId = ge.gameId) attrValue1
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 2
+		   and a.gameId = ge.gameId) attrValue2
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 3
+		   and a.gameId = ge.gameId) attrValue3
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 4
+		   and a.gameId = ge.gameId) attrValue4
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 5
+		   and a.gameId = ge.gameId) attrValue5
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 6
+		   and a.gameId = ge.gameId) attrValue6
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 7
+		   and a.gameId = ge.gameId) attrValue7
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 8
+		   and a.gameId = ge.gameId) attrValue8
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 9
+		   and a.gameId = ge.gameId) attrValue9
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 10
+		   and a.gameId = ge.gameId) attrValue10
+  from Team t 
+       inner join TeamGameEvent tge 
+       on tge.teamId = t.id
+       inner join GameEvent ge 
+       on ge.id = tge.gameEventId
+ where ge.isActive = 'Y';
 go
 
 create view v_RankButtons as
