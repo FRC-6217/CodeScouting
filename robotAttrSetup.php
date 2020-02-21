@@ -43,10 +43,12 @@
 
     // Get Query String Parameters
 	$teamId = "$_GET[teamId]";
+	$teamNumber = "$_GET[teamNumber]";
 ?>
 			<center>				
 				<div class="container" id="scout">
 					<?php
+					echo "<p><u><b>Team " . $teamNumber . "</b></u></p>";
 					$tsql = "select attributeName
 								  , attributeLabel
 								  , displayValue
@@ -55,6 +57,7 @@
 								  , attributeValueSort
 								  , scoutTeamHtml
 							   from v_EnterScoutTeamHTML
+							  where teamId = $teamId
 							 order by attributeSort, attributeValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)

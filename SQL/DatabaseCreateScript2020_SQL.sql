@@ -1119,7 +1119,7 @@ select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end
 go
 
 create view v_ScoutTeamHyperlinks as
-select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
+select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
      , t.teamNumber
 	 , t.id teamId
      , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
@@ -1311,22 +1311,35 @@ select a.name attributeName
 	 , av.integerValue
      , a.sortOrder attributeSort
 	 , av.sortOrder attributeValueSort
-     , case when st.hasValueList = 'N'
-	        then '<br>' + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=0 style="width: 40px;"><br>'
+     , case when st.hasValueList = 'N' and st.name = 'Free Form'
+	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) + '" placeholder="' +
+			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'Drive Straight 5 feet') +
+			'" style="width: 320px"><br>'
+			when st.hasValueList = 'N'
+	        then '<br>' + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
+			coalesce((select convert(varchar, ta.integerValue) from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '0') +
+			' style="width: 50px;"><br>'
 			when av.sortOrder = 1
-	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>'
-			else '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>' end scoutTeamHtml
+	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
+			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '') +
+			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>'
+			else                        '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
+			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '') +
+			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>' end scoutTeamHtml
+	 , t.id teamId
+	 , t.teamNumber
   from attribute a
 	   inner join scoringType st
 	   on st.id = a.scoringTypeId
 	   left outer join attributeValue av
-	   on av.attributeId = a.id
- where a.gameId in
-       (select g.id
-	      from game g
-		       inner join gameEvent ge
-			   on ge.gameId = g.id
-		 where ge.isActive = 'Y')
+	   on av.attributeId = a.id,
+	   team t
+	   inner join TeamGameEvent tge
+	   on tge.teamId = t.id
+	   inner join GameEvent ge
+	   on ge.id = tge.gameEventId
+ where ge.isActive = 'Y'
+   and a.gameId = ge.gameId
 --order by attributeSort, attributeValueSort
 go
 
