@@ -10,6 +10,8 @@ drop view v_TeamReport;
 drop view v_ScoutRecord;
 drop view v_MatchHyperlinks;
 drop view v_ScoutTeamHyperlinks;
+drop view v_EnterScoutRecordHTML;
+drop view v_EnterScoutTeamHTML;
 drop table ScoutObjectiveRecord;
 drop table ScoutRecord;
 drop table TeamMatch;
@@ -1300,6 +1302,32 @@ select distinct
 			   on ge.gameId = g.id
 		 where ge.isActive = 'Y')
 --order by groupSort, objectiveSort, objectiveValueSort
+go
+
+create view v_EnterScoutTeamHTML as
+select a.name attributeName
+	 , a.label attributeLabel
+	 , av.displayValue
+	 , av.integerValue
+     , a.sortOrder attributeSort
+	 , av.sortOrder attributeValueSort
+     , case when st.hasValueList = 'N'
+	        then '<br>' + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=0 style="width: 40px;"><br>'
+			when av.sortOrder = 1
+	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>'
+			else '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>' end scoutTeamHtml
+  from attribute a
+	   inner join scoringType st
+	   on st.id = a.scoringTypeId
+	   left outer join attributeValue av
+	   on av.attributeId = a.id
+ where a.gameId in
+       (select g.id
+	      from game g
+		       inner join gameEvent ge
+			   on ge.gameId = g.id
+		 where ge.isActive = 'Y')
+--order by attributeSort, attributeValueSort
 go
 
 -- View for Scout Record
