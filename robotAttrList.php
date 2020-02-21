@@ -21,7 +21,6 @@
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/Logo/apple-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="76x76" href="/Logo/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/Logo/apple-icon-114x114.png">
         <link rel="apple-touch-icon" sizes="120x120" href="/Logo/apple-icon-120x120.png">
         <link rel="apple-touch-icon" sizes="144x144" href="/Logo/apple-icon-144x144.png">
         <link rel="apple-touch-icon" sizes="152x152" href="/Logo/apple-icon-152x152.png">
@@ -151,11 +150,10 @@ order by teamNumber";
         ?>
        <tr>
 			<?php
-			echo "<td><a href='robotAttrSetup.php?teamId=" . $row['teamId']  "<a/><td/>"
+			echo "<td><a href='robotAttrSetup.php?teamId=" . $row['teamId'] . "<a/><td/>"
 			echo "<td>" . ($row['teamNumber']) . "</td>";
 			echo "<td>" . ($row['attrValue1']) . "</td>";
 			echo "<td>" . ($row['attrValue2']) . "</td>";
-			echo "<td>" . ($row['attrValue3']) . "</td>";
 			echo "<td>" . ($row['attrValue4']) . "</td>";
 			echo "<td>" . ($row['attrValue5']) . "</td>";
 		   ?>
