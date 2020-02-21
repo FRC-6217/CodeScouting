@@ -151,7 +151,7 @@ order by teamNumber";
         ?>
        <tr>
 			<?php
-			"<td><a href='robotAttrSetup.php?TeamId" . $row['teamId'] <a/>
+			echo "<td><a href='robotAttrSetup.php?TeamId=" . $row['teamId']  <a/><td/>
 			echo "<td>" . ($row['teamNumber']) . "</td>";
 			echo "<td>" . ($row['attrValue1']) . "</td>";
 			echo "<td>" . ($row['attrValue2']) . "</td>";
