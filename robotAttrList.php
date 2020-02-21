@@ -74,69 +74,21 @@
      </tr>
 
     <?php
-    $tsql = "select t.teamNumber, t.id teamId
-     , coalesce(
-	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
-	      from TeamAttribute ta
-		       inner join Attribute a
-			   on a.id = ta.attributeId
-			   and a.gameId = ge.gameId
-			   left outer join AttributeValue av
-			   on av.attributeId = a.id
-			   and av.integerValue = ta.integerValue
-		 where a.sortOrder = 1
-		   and ta.teamId = t.id), 'N/A') attrValue1
-     , coalesce(
-	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
-	      from TeamAttribute ta
-		       inner join Attribute a
-			   on a.id = ta.attributeId
-			   and a.gameId = ge.gameId
-			   left outer join AttributeValue av
-			   on av.attributeId = a.id
-			   and av.integerValue = ta.integerValue
-		 where a.sortOrder = 2
-		   and ta.teamId = t.id), 'N/A') attrValue2
-     , coalesce(
-	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
-	      from TeamAttribute ta
-		       inner join Attribute a
-			   on a.id = ta.attributeId
-			   and a.gameId = ge.gameId
-			   left outer join AttributeValue av
-			   on av.attributeId = a.id
-			   and av.integerValue = ta.integerValue
-		 where a.sortOrder = 3
-		   and ta.teamId = t.id), 'N/A') attrValue3
-     , coalesce(
-	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
-	      from TeamAttribute ta
-		       inner join Attribute a
-			   on a.id = ta.attributeId
-			   and a.gameId = ge.gameId
-			   left outer join AttributeValue av
-			   on av.attributeId = a.id
-			   and av.integerValue = ta.integerValue
-		 where a.sortOrder = 4
-		   and ta.teamId = t.id), 'N/A') attrValue4
-     , coalesce(
-	   (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue))
-	      from TeamAttribute ta
-		       inner join Attribute a
-			   on a.id = ta.attributeId
-			   and a.gameId = ge.gameId
-			   left outer join AttributeValue av
-			   on av.attributeId = a.id
-			   and av.integerValue = ta.integerValue
-		 where a.sortOrder = 5
-		   and ta.teamId = t.id), 'N/A') attrValue5
-  from Team t 
-       inner join TeamGameEvent tge 
-       on tge.teamId = t.id
-       inner join GameEvent ge 
-       on ge.id = tge.gameEventId
- where ge.isActive = 'Y'
-order by teamNumber";
+    $tsql = "select teamUrl
+	              , teamNumber
+	              , teamId
+				  , attrValue1
+				  , attrValue2
+				  , attrValue3
+				  , attrValue4
+				  , attrValue5
+				  , attrValue6
+				  , attrValue7
+				  , attrValue8
+				  , attrValue9
+				  , attrValue10
+               from v_ScoutTeamHyperlinks
+			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -147,17 +99,19 @@ order by teamNumber";
 			}
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-        ?>
-       <tr>
-			<?php
-	echo "<td><a href=robotAttrSetup.php?teamId=" . $row['teamId'] . ">" . $row['teamNumber'] . "</a></td>";
-			echo "<td>" . ($row['attrValue1']) . "</td>";
-			echo "<td>" . ($row['attrValue2']) . "</td>";
-			echo "<td>" . ($row['attrValue3']) . "</td>";
-			echo "<td>" . ($row['attrValue4']) . "</td>";
-			echo "<td>" . ($row['attrValue5']) . "</td>";
-		   ?>
-        </tr>
+       echo "<tr>";
+			echo "<td>" . $row['teamUrl'] . "</td>";
+			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
+			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";
+			if (isset($row['attrValue3'])) echo "<td>" . $row['attrValue3'] . "</td>";
+			if (isset($row['attrValue4'])) echo "<td>" . $row['attrValue4'] . "</td>";
+			if (isset($row['attrValue5'])) echo "<td>" . $row['attrValue5'] . "</td>";
+			if (isset($row['attrValue6'])) echo "<td>" . $row['attrValue6'] . "</td>";
+			if (isset($row['attrValue7'])) echo "<td>" . $row['attrValue7'] . "</td>";
+			if (isset($row['attrValue8'])) echo "<td>" . $row['attrValue8'] . "</td>";
+			if (isset($row['attrValue9'])) echo "<td>" . $row['attrValue9'] . "</td>";
+			if (isset($row['attrValue10'])) echo "<td>" . $row['attrValue10'] . "</td>";
+       echo "</tr>";
     <?php
     }
     sqlsrv_free_stmt($getResults);
