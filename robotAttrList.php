@@ -112,7 +112,6 @@
 			if (isset($row['attrValue9'])) echo "<td>" . $row['attrValue9'] . "</td>";
 			if (isset($row['attrValue10'])) echo "<td>" . $row['attrValue10'] . "</td>";
        echo "</tr>";
-    <?php
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
