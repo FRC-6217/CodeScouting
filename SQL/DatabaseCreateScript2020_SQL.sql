@@ -2235,23 +2235,34 @@ END
 GO
 
 CREATE PROCEDURE sp_ins_scoutRobot  (@pv_TeamId integer
-								   , @pv_IntegerValue01 integer
+								   , @pv_IntegerValue01 integer = null
+                                   , @pv_TextValue01 integer = null
                                    , @pv_IntegerValue02 integer = null
+                                   , @pv_TextValue02 integer = null
                                    , @pv_IntegerValue03 integer = null
+                                   , @pv_TextValue03 integer = null
                                    , @pv_IntegerValue04 integer = null
+                                   , @pv_TextValue04 integer = null
                                    , @pv_IntegerValue05 integer = null
+                                   , @pv_TextValue05 integer = null
                                    , @pv_IntegerValue06 integer = null
+                                   , @pv_TextValue06 integer = null
                                    , @pv_IntegerValue07 integer = null
+                                   , @pv_TextValue07 integer = null
                                    , @pv_IntegerValue08 integer = null
+                                   , @pv_TextValue08 integer = null
                                    , @pv_IntegerValue09 integer = null
-                                   , @pv_IntegerValue10 integer = null)
+                                   , @pv_TextValue09 integer = null
+                                   , @pv_IntegerValue10 integer = null
+                                   , @pv_TextValue10 integer = null)
 AS
 declare @lv_Id integer;
 
 BEGIN
 	SET NOCOUNT ON
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue01 is not null
+	if @pv_IntegerValue01 is not null or
+	   @pv_TextValue01 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2265,20 +2276,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue01;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue01, @pv_TextValue01;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue01
+			     , textValue = @pv_TextValue01
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue02 is not null
+	if @pv_IntegerValue02 is not null or
+	   @pv_TextValue02 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2292,20 +2305,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue02;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue02, @pv_TextValue02;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue02
-             WHERE teamId = @pv_TeamId
+    			 , textValue = @pv_TextValue02
+         WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue03 is not null
+	if @pv_IntegerValue03 is not null or
+	   @pv_TextValue03 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2319,20 +2334,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue03;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue03, @pv_TextValue03;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue03
+    			 , textValue = @pv_TextValue03
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue04 is not null
+	if @pv_IntegerValue04 is not null or
+	   @pv_TextValue04 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2346,20 +2363,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue04;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue04, @pv_TextValue04;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue04
+    			 , textValue = @pv_TextValue04
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue05 is not null
+	if @pv_IntegerValue05 is not null or
+	   @pv_TextValue05 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2373,20 +2392,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue05;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue05, @pv_TextValue05;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue05
+    			 , textValue = @pv_TextValue05
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue06 is not null
+	if @pv_IntegerValue06 is not null or
+	   @pv_TextValue06 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2400,20 +2421,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue06;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue06, @pv_TextValue06;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue06
+    			 , textValue = @pv_TextValue06
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue07 is not null
+	if @pv_IntegerValue07 is not null or
+	   @pv_TextValue07 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2427,20 +2450,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue07;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue07, @pv_TextValue07;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue07
+    			 , textValue = @pv_TextValue07
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue08 is not null
+	if @pv_IntegerValue08 is not null or
+	   @pv_TextValue08 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2454,20 +2479,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue08;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue08, @pv_TextValue08;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue08
+    			 , textValue = @pv_TextValue08
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue09 is not null
+	if @pv_IntegerValue09 is not null or
+	   @pv_TextValue09 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2481,20 +2508,22 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue09;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue09, @pv_TextValue09;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue09
+    			 , textValue = @pv_TextValue09
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END
 		END
 
 	-- Lookup Team Attribute Record
-	if @pv_IntegerValue10 is not null
+	if @pv_IntegerValue10 is not null or
+	   @pv_TextValue10 is not null
 		BEGIN
 		SELECT @lv_id = max(a.id)
 		  FROM TeamAttribute ta
@@ -2508,13 +2537,14 @@ BEGIN
 		-- Add Team Attribute Record
 		IF @lv_Id is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue10;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue10, @pv_TextValue10;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue10
+    			 , textValue = @pv_TextValue10
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_id;
 			END

@@ -36,28 +36,26 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, $value1";
-	echo "Hello World" . $tsql;
+    $tsql = "sp_ins_scoutRobot $teamId, $value1, null";
 	if (isset($value2))
-		$tsql .= ", $value2";
+		$tsql .= ", $value2, null";
 	if (isset($value3))
-		$tsql .= ", $value3";
+		$tsql .= ", $value3, null";
 	if (isset($value4))
-		$tsql .= ", $value4";
+		$tsql .= ", $value4, null";
 	if (isset($value5))
-		$tsql .= ", $value5";
+		$tsql .= ", null, '$value5'";
 	if (isset($value6))
-		$tsql .= ", $value6";
+		$tsql .= ", $value6, null";
 	if (isset($value7))
-		$tsql .= ", $value7";
+		$tsql .= ", $value7, null";
 	if (isset($value8))
-		$tsql .= ", $value8";
+		$tsql .= ", $value8, null";
 	if (isset($value9))
-		$tsql .= ", $value9";
+		$tsql .= ", $value9, null";
 	if (isset($value10))
-		$tsql .= ", $value10";
+		$tsql .= ", $value10, null";
 	echo $tsql;
-/*
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
@@ -75,7 +73,6 @@
 	}		
 
     sqlsrv_free_stmt($getResults);
-*/
 	sqlsrv_close($conn);
 ?>
 </html>
