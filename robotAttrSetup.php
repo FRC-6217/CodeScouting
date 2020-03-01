@@ -25,8 +25,10 @@
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
-		<center><a class="clickme danger" href="index.php">Home</a></center>
-		<center><a class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
+		<center><h2>
+			<div id="buttons"><a class="clickme danger" href="index.php">Home</a></div>
+			<div id="buttons"><a class="clickme danger" href="robotAttrList.php">Scout Robot</a></div>
+		</center></h2>
 		
 		<form action='confirmation.php' method='post'>
 <?php
