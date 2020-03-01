@@ -1322,7 +1322,7 @@ select a.name attributeName
 			' style="width: 50px;"><br>'
 			when av.sortOrder = 1
 	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
-			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '') +
+			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'checked="checked"') +
 			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>'
 			else                        '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
 			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '') +
@@ -2236,27 +2236,28 @@ GO
 
 CREATE PROCEDURE sp_ins_scoutRobot  (@pv_TeamId integer
 								   , @pv_IntegerValue01 integer = null
-                                   , @pv_TextValue01 integer = null
+                                   , @pv_TextValue01 varchar(4000) = null
                                    , @pv_IntegerValue02 integer = null
-                                   , @pv_TextValue02 integer = null
+                                   , @pv_TextValue02 varchar(4000) = null
                                    , @pv_IntegerValue03 integer = null
-                                   , @pv_TextValue03 integer = null
+                                   , @pv_TextValue03 varchar(4000) = null
                                    , @pv_IntegerValue04 integer = null
-                                   , @pv_TextValue04 integer = null
+                                   , @pv_TextValue04 varchar(4000) = null
                                    , @pv_IntegerValue05 integer = null
-                                   , @pv_TextValue05 integer = null
+                                   , @pv_TextValue05 varchar(4000) = null
                                    , @pv_IntegerValue06 integer = null
-                                   , @pv_TextValue06 integer = null
+                                   , @pv_TextValue06 varchar(4000) = null
                                    , @pv_IntegerValue07 integer = null
-                                   , @pv_TextValue07 integer = null
+                                   , @pv_TextValue07 varchar(4000) = null
                                    , @pv_IntegerValue08 integer = null
-                                   , @pv_TextValue08 integer = null
+                                   , @pv_TextValue08 varchar(4000) = null
                                    , @pv_IntegerValue09 integer = null
-                                   , @pv_TextValue09 integer = null
+                                   , @pv_TextValue09 varchar(4000) = null
                                    , @pv_IntegerValue10 integer = null
-                                   , @pv_TextValue10 integer = null)
+                                   , @pv_TextValue10 varchar(4000) = null)
 AS
-declare @lv_Id integer;
+declare @lv_AtributeId integer;
+declare @lv_TeamAtributeId integer;
 
 BEGIN
 	SET NOCOUNT ON
@@ -2264,20 +2265,21 @@ BEGIN
 	if @pv_IntegerValue01 is not null or
 	   @pv_TextValue01 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 1
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 1
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue01, @pv_TextValue01;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue01, @pv_TextValue01;
 			END
 		ELSE
 			BEGIN
@@ -2285,7 +2287,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue01
 			     , textValue = @pv_TextValue01
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2293,20 +2295,21 @@ BEGIN
 	if @pv_IntegerValue02 is not null or
 	   @pv_TextValue02 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 2
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 2
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue02, @pv_TextValue02;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue02, @pv_TextValue02;
 			END
 		ELSE
 			BEGIN
@@ -2314,7 +2317,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue02
     			 , textValue = @pv_TextValue02
          WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2322,20 +2325,21 @@ BEGIN
 	if @pv_IntegerValue03 is not null or
 	   @pv_TextValue03 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 3
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 3
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue03, @pv_TextValue03;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue03, @pv_TextValue03;
 			END
 		ELSE
 			BEGIN
@@ -2343,7 +2347,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue03
     			 , textValue = @pv_TextValue03
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2351,20 +2355,21 @@ BEGIN
 	if @pv_IntegerValue04 is not null or
 	   @pv_TextValue04 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 4
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 4
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue04, @pv_TextValue04;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue04, @pv_TextValue04;
 			END
 		ELSE
 			BEGIN
@@ -2372,7 +2377,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue04
     			 , textValue = @pv_TextValue04
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2380,20 +2385,21 @@ BEGIN
 	if @pv_IntegerValue05 is not null or
 	   @pv_TextValue05 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 5
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 5
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue05, @pv_TextValue05;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue05, @pv_TextValue05;
 			END
 		ELSE
 			BEGIN
@@ -2401,7 +2407,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue05
     			 , textValue = @pv_TextValue05
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2409,20 +2415,21 @@ BEGIN
 	if @pv_IntegerValue06 is not null or
 	   @pv_TextValue06 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 6
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 6
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue06, @pv_TextValue06;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue06, @pv_TextValue06;
 			END
 		ELSE
 			BEGIN
@@ -2430,7 +2437,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue06
     			 , textValue = @pv_TextValue06
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2438,20 +2445,21 @@ BEGIN
 	if @pv_IntegerValue07 is not null or
 	   @pv_TextValue07 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 7
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 7
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue07, @pv_TextValue07;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue07, @pv_TextValue07;
 			END
 		ELSE
 			BEGIN
@@ -2459,7 +2467,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue07
     			 , textValue = @pv_TextValue07
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2467,20 +2475,21 @@ BEGIN
 	if @pv_IntegerValue08 is not null or
 	   @pv_TextValue08 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 8
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 8
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue08, @pv_TextValue08;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue08, @pv_TextValue08;
 			END
 		ELSE
 			BEGIN
@@ -2488,7 +2497,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue08
     			 , textValue = @pv_TextValue08
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2496,20 +2505,21 @@ BEGIN
 	if @pv_IntegerValue09 is not null or
 	   @pv_TextValue09 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 9
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 9
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue09, @pv_TextValue09;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue09, @pv_TextValue09;
 			END
 		ELSE
 			BEGIN
@@ -2517,7 +2527,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue09
     			 , textValue = @pv_TextValue09
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 
@@ -2525,20 +2535,21 @@ BEGIN
 	if @pv_IntegerValue10 is not null or
 	   @pv_TextValue10 is not null
 		BEGIN
-		SELECT @lv_id = max(a.id)
-		  FROM TeamAttribute ta
-			   INNER JOIN Attribute a
-			   ON a.id = ta.attributeId
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+		  FROM Attribute a
 			   INNER JOIN GameEvent ge
 			   ON ge.gameId = a.gameId
-		 WHERE ta.teamId = @pv_TeamId
-		   AND a.sortOrder = 10
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 10
 		   AND ge.isActive = 'Y';
 		-- Add Team Attribute Record
-		IF @lv_Id is null
+		IF @lv_TeamAtributeId is null
 			BEGIN
 			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue10, @pv_TextValue10;
+			SELECT @pv_TeamId, @lv_AtributeId, @pv_IntegerValue10, @pv_TextValue10;
 			END
 		ELSE
 			BEGIN
@@ -2546,7 +2557,7 @@ BEGIN
                SET integerValue = @pv_IntegerValue10
     			 , textValue = @pv_TextValue10
              WHERE teamId = @pv_TeamId
-			   AND attributeId = @lv_id;
+			   AND attributeId = @lv_AtributeId;
 			END
 		END
 END

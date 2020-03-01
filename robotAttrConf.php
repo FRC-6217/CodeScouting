@@ -55,7 +55,6 @@
 		$tsql .= ", $value9, null";
 	if (isset($value10))
 		$tsql .= ", $value10, null";
-	echo $tsql;
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
