@@ -26,6 +26,7 @@
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
 		<center><a class="clickme danger" href="index.php">Home</a></center>
+		<center><a class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
 		
 		<form action='confirmation.php' method='post'>
 <?php
@@ -49,6 +50,8 @@
 				<div class="container" id="scout">
 					<?php
 					echo "<p><u><b>Team " . $teamNumber . "</b></u></p>";
+					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					$tsql = "select attributeName
 								  , attributeLabel
 								  , displayValue
