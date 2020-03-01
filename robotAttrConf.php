@@ -38,6 +38,12 @@
 <?php
     $tsql = "sp_ins_scoutRobot $teamId, $value1";
 	echo "Hello World" . $tql;
+	echo "Team Id " . $teamId;
+	echo "Value1 " . $value1;
+	echo "Value2 " . $value2;
+	echo "Value3 " . $value3;
+	echo "Value4 " . $value4;
+	echo "Value5 " . $value5;
 	if (isset($value2))
 		$tsql .= ", $value2";
 	if (isset($value3))
