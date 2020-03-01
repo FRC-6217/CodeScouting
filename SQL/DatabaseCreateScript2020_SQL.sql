@@ -1,5 +1,6 @@
 /*
 drop procedure sp_ins_scoutRecord;
+drop procedure sp_ins_scoutRobot;
 drop procedure sp_rpt_rankReport;
 drop trigger tr_SOR_CalcScoreValue;
 drop function calcScoreValue;
@@ -2233,4 +2234,291 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE sp_ins_scoutRobot  (@pv_TeamId integer
+								   , @pv_IntegerValue01 integer
+                                   , @pv_IntegerValue02 integer = null
+                                   , @pv_IntegerValue03 integer = null
+                                   , @pv_IntegerValue04 integer = null
+                                   , @pv_IntegerValue05 integer = null
+                                   , @pv_IntegerValue06 integer = null
+                                   , @pv_IntegerValue07 integer = null
+                                   , @pv_IntegerValue08 integer = null
+                                   , @pv_IntegerValue09 integer = null
+                                   , @pv_IntegerValue10 integer = null)
+AS
+declare @lv_Id integer;
+
+BEGIN
+	SET NOCOUNT ON
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue01 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 1
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue01;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue01
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue02 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 2
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue02;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue02
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue03 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 3
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue03;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue03
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue04 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 4
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue04;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue04
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue05 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 5
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue05;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue05
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue06 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 6
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue06;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue06
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue07 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 7
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue07;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue07
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue08 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 8
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue08;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue08
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue09 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 9
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue09;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue09
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_IntegerValue10 is not null
+		BEGIN
+		SELECT @lv_id = max(a.id)
+		  FROM TeamAttribute ta
+			   INNER JOIN Attribute a
+			   ON a.id = ta.attributeId
+			   INNER JOIN GameEvent ge
+			   ON ge.gameId = a.gameId
+		 WHERE ta.teamId = @pv_TeamId
+		   AND a.sortOrder = 10
+		   AND ge.isActive = 'Y';
+		-- Add Team Attribute Record
+		IF @lv_Id is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue)
+			SELECT @pv_TeamId, @lv_id, @pv_IntegerValue10;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @pv_IntegerValue10
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_id;
+			END
+		END
+END
+GO
 */
