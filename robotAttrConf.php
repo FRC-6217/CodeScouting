@@ -61,6 +61,7 @@
 	if (isset($value10))
 		$tsql .= ", $value10";
 	echo $tql;
+/*
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
@@ -78,6 +79,7 @@
 	}		
 
     sqlsrv_free_stmt($getResults);
+*/
 	sqlsrv_close($conn);
 ?>
 </html>
