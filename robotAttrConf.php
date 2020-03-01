@@ -41,7 +41,7 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, $value1";
+    $tsql = "sp_ins_scoutRobot $teamId";
 	echo "Hello World" . $tql;
 	if (isset($value2))
 		$tsql .= ", $value2";
