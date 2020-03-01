@@ -37,7 +37,7 @@
 	<p></p>
 <?php
     $tsql = "sp_ins_scoutRobot $teamId, $value1";
-	echo "Hello World" . $tql;
+	echo "Hello World" . $tsql;
 	if (isset($value2))
 		$tsql .= ", $value2";
 	if (isset($value3))
@@ -56,7 +56,7 @@
 		$tsql .= ", $value9";
 	if (isset($value10))
 		$tsql .= ", $value10";
-	echo $tql;
+	echo $tsql;
 /*
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
