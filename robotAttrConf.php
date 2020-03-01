@@ -36,15 +36,8 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot " . ", ";
-	echo "Hello World " . $tql . "<br>";
-	echo $tql . "<br>";
-	echo "Team Id " . $teamId . "<br>";
-	echo "Value1 " . $value1 . "<br>";
-	echo "Value2 " . $value2 . "<br>";
-	echo "Value3 " . $value3 . "<br>";
-	echo "Value4 " . $value4 . "<br>";
-	echo "Value5 " . $value5 . "<br>";
+    $tsql = "sp_ins_scoutRobot $teamId, $value1";
+	echo "Hello World" . $tql;
 	if (isset($value2))
 		$tsql .= ", $value2";
 	if (isset($value3))
