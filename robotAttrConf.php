@@ -36,7 +36,7 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, $value1";
+    $tsql = "sp_ins_scoutRobot " . $teamId . ", " . $value1;
 	echo "Hello World" . $tql;
 	echo "Team Id " . $teamId;
 	echo "Value1 " . $value1;
