@@ -28,11 +28,6 @@
 	$value8 = $_POST[value8];
 	$value9 = $_POST[value9];
 	$value10 = $_POST[value10];
-	$value11 = $_POST[value11];
-	$value12 = $_POST[value12];
-	$value13 = $_POST[value13];
-	$value14 = $_POST[value14];
-	$value15 = $_POST[value15];
 ?>
 	<p></p>
 	<h2>
@@ -41,7 +36,7 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $value1";
+    $tsql = "sp_ins_scoutRobot $teamId, $value1";
 	echo "Hello World" . $tql;
 	if (isset($value2))
 		$tsql .= ", $value2";
