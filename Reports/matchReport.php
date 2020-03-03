@@ -107,7 +107,9 @@
         echo "</tr>";
     }
 	?>
-	<p></p><center>Robot Attributes</center>
+    </table>
+	</center>
+	<center><h1>Robot Attributes</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Alliance</th>
