@@ -141,7 +141,7 @@
     <?php
     $tsql = "select alliance
 				  , alliancePosition
-				  , teamReportUrl
+				  , teamUrl
 				  , attrValue1
 				  , attrValue2
 				  , attrValue3
@@ -168,7 +168,7 @@
        echo "<tr>";
         	echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['alliancePosition'] . "</td>";
-			echo "<td>" . $row['teamReportUrl'] . "</td>";
+			echo "<td>" . $row['teamUrl'] . "</td>";
 			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
 			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";
 			if (isset($row['attrValue3'])) echo "<td>" . $row['attrValue3'] . "</td>";
