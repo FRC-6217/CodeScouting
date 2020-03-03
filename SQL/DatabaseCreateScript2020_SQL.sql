@@ -1499,7 +1499,7 @@ go
  
 -- View for Match Robot Attributes
 create view v_MatchReportAttributes as
-select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
+select '<a href="../robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
      , t.teamNumber
 	 , t.id teamId
      , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
