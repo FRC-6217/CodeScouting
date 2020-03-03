@@ -1420,13 +1420,18 @@ go
 -- View for match averages
 create view v_MatchReport as
 select m.type + ' ' + m.number matchNumber
-     , mr.matchId
-     , mr.teamId
+     , tm.matchId
+     , tm.teamId
      , r.TeamNumber
-     , mr.alliance
-     , mr.alliancePosition
-     , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, mr.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
-     , count(*) matchCnt
+     , case when tm.alliance = 'R' then 'Red'
+	        when tm.alliance = 'B' then 'Blue'
+	        else tm.alliance end alliance
+     , tm.alliancePosition
+     , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
+     , sum(case when sr.TeamId is null then 0 else 1 end) matchCnt
+	 , case when tm.alliance = 'R' then 1
+	        when tm.alliance = 'B' then 3
+	        else 2 end allianceSort
      , round(avg(sr.value1),1) value1
      , round(avg(sr.value2),1) value2
      , round(avg(sr.value3),1) value3
@@ -1445,12 +1450,12 @@ select m.type + ' ' + m.number matchNumber
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
-       inner join TeamMatch mr
-       on mr.matchId = m.id
+       inner join TeamMatch tm
+       on tm.matchId = m.id
        inner join Team r
-       on r.id = mr.teamId
+       on r.id = tm.teamId
        left outer join v_AvgScoutRecord sr
-       on sr.TeamId = mr.teamId
+       on sr.TeamId = tm.teamId
        and exists (select 1
                      from match m2
                     where m2.id = sr.matchId
@@ -1458,11 +1463,37 @@ select m.type + ' ' + m.number matchNumber
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
 group by m.type + ' ' + m.number
-       , mr.matchId
-       , mr.teamId
+       , tm.matchId
+       , tm.teamId
        , r.TeamNumber
-       , mr.alliance
-       , mr.alliancePosition;
+       , tm.alliance
+       , tm.alliancePosition
+union
+select m.type + ' ' + m.number matchNumber
+     , m.id matchId
+     , null teamId
+     , null TeamNumber
+     , null alliance
+     , null alliancePosition
+     , null teamReportUrl
+     , null matchCnt
+	 , 2 allianceSort
+     , null value1
+     , null value2
+     , null value3
+     , null value4
+     , null value5
+     , null value6
+     , null value7
+     , null value8
+     , null value9
+     , null value10
+     , null value11
+     , null value12
+     , null value13
+     , null value14
+     , null value15
+  from Match m;
 go
  
 -- View for Team history and average

@@ -73,7 +73,7 @@
 					  , value15
                    from v_MatchReport
 				  where matchId = $match
-				 order by alliance desc, alliancePosition";
+				 order by allianceSort, alliance desc, alliancePosition";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
