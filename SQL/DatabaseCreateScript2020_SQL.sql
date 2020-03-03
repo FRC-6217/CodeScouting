@@ -2464,7 +2464,7 @@ BEGIN
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue01
-			     , textValue = @pv_TextValue01
+    			 , textValue = case when @pv_TextValue01 is null or @pv_TextValue01 = '' then textValue else @pv_TextValue01 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
 			END
@@ -2584,7 +2584,7 @@ BEGIN
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @pv_IntegerValue05
-    			 , textValue = @pv_TextValue05
+    			 , textValue = case when @pv_TextValue05 is null or @pv_TextValue05 = '' then textValue else @pv_TextValue05 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
 			END
