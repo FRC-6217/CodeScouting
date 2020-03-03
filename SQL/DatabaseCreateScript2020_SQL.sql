@@ -7,6 +7,7 @@ drop function calcScoreValue;
 drop view v_AvgTeamRecord;
 drop view v_AvgScoutRecord;
 drop view v_MatchReport;
+drop view v_MatchReportAttributes;
 drop view v_TeamReport;
 drop view v_ScoutRecord;
 drop view v_MatchHyperlinks;
@@ -1422,12 +1423,12 @@ create view v_MatchReport as
 select m.type + ' ' + m.number matchNumber
      , tm.matchId
      , tm.teamId
-     , r.TeamNumber
+     , t.TeamNumber
      , case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
 	        else tm.alliance end alliance
      , tm.alliancePosition
-     , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, r.teamNumber) + '</a> ' teamReportUrl
+     , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> ' teamReportUrl
      , sum(case when sr.TeamId is null then 0 else 1 end) matchCnt
 	 , case when tm.alliance = 'R' then 1
 	        when tm.alliance = 'B' then 3
@@ -1452,8 +1453,8 @@ select m.type + ' ' + m.number matchNumber
 	   on ge.id = m.gameEventId
        inner join TeamMatch tm
        on tm.matchId = m.id
-       inner join Team r
-       on r.id = tm.teamId
+       inner join Team t
+       on t.id = tm.teamId
        left outer join v_AvgScoutRecord sr
        on sr.TeamId = tm.teamId
        and exists (select 1
@@ -1465,7 +1466,7 @@ select m.type + ' ' + m.number matchNumber
 group by m.type + ' ' + m.number
        , tm.matchId
        , tm.teamId
-       , r.TeamNumber
+       , t.TeamNumber
        , tm.alliance
        , tm.alliancePosition
 union
@@ -1473,7 +1474,7 @@ select m.type + ' ' + m.number matchNumber
      , m.id matchId
      , null teamId
      , null TeamNumber
-     , null alliance
+     , '----' alliance
      , null alliancePosition
      , null teamReportUrl
      , null matchCnt
@@ -1496,6 +1497,153 @@ select m.type + ' ' + m.number matchNumber
   from Match m;
 go
  
+-- View for Match Robot Attributes
+create view v_MatchReportAttributes as
+select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
+     , t.teamNumber
+	 , t.id teamId
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 1
+		   and a.gameId = ge.gameId) attrValue1
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 2
+		   and a.gameId = ge.gameId) attrValue2
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 3
+		   and a.gameId = ge.gameId) attrValue3
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 4
+		   and a.gameId = ge.gameId) attrValue4
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 5
+		   and a.gameId = ge.gameId) attrValue5
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 6
+		   and a.gameId = ge.gameId) attrValue6
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 7
+		   and a.gameId = ge.gameId) attrValue7
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 8
+		   and a.gameId = ge.gameId) attrValue8
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 9
+		   and a.gameId = ge.gameId) attrValue9
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 10
+		   and a.gameId = ge.gameId) attrValue10
+	 , tm.matchId
+     , case when tm.alliance = 'R' then 'Red'
+	        when tm.alliance = 'B' then 'Blue'
+	        else tm.alliance end alliance
+     , tm.alliancePosition
+     , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> ' teamReportUrl
+	 , case when tm.alliance = 'R' then 1
+	        when tm.alliance = 'B' then 3
+	        else 2 end allianceSort
+  from Team t 
+       inner join TeamGameEvent tge 
+       on tge.teamId = t.id
+       inner join GameEvent ge 
+       on ge.id = tge.gameEventId
+       inner join Match m
+	   on m.gameEventId = ge.id
+	   inner join TeamMatch tm
+	   on tm.matchId = m.id
+	   and tm.teamId = t.id
+ where ge.isActive = 'Y'
+union
+select null teamUrl
+     , null TeamNumber
+     , null teamId
+     , null attrValue1
+     , null attrValue2
+     , null attrValue3
+     , null attrValue4
+     , null attrValue5
+     , null attrValue6
+     , null attrValue7
+     , null attrValue8
+     , null attrValue9
+     , null attrValue10
+     , m.id matchId
+     , '----' alliance
+     , null alliancePosition
+     , null teamReportUrl
+	 , 2 allianceSort
+  from Match m;
+go
+
 -- View for Team history and average
 create view v_TeamReport as
 select t.TeamNumber

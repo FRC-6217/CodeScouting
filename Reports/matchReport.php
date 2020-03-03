@@ -106,9 +106,82 @@
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>";
         echo "</tr>";
     }
+	?>
+	<center><h1>Robot Attributes)</h1></center>
+	<center><table cellspacing="0" cellpadding="5">
+		<tr>
+			<th>Alliance</th>
+			<th>Robot</th>
+			<th>Team</th>
+			<?php
+				// Display table headers for robot attributes
+				$tsql = "select a.tableheader
+						   from Attribute a
+								inner join gameEvent ge
+								on ge.gameId = a.gameId
+						  where ge.isActive = 'Y'
+						 order by a.sortOrder";
+				$getResults = sqlsrv_query($conn, $tsql);
+				if ($getResults == FALSE)
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+				while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+					echo "<th>" . $row['tableheader'] . "</th>";
+				}
+				sqlsrv_free_stmt($getResults);
+			?>
+     </tr>
+    <?php
+    $tsql = "select alliance
+				  , alliancePosition
+				  , teamReportUrl
+				  , attrValue1
+				  , attrValue2
+				  , attrValue3
+				  , attrValue4
+				  , attrValue5
+				  , attrValue6
+				  , attrValue7
+				  , attrValue8
+				  , attrValue9
+				  , attrValue10
+			   from v_MatchReport
+			  where matchId = $match
+			 order by allianceSort, alliance desc, alliancePosition";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+       echo "<tr>";
+        	echo "<td>" . $row['alliance'] . "</td>";
+			echo "<td>" . $row['alliancePosition'] . "</td>";
+			echo "<td>" . $row['teamReportUrl'] . "</td>";
+			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
+			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";
+			if (isset($row['attrValue3'])) echo "<td>" . $row['attrValue3'] . "</td>";
+			if (isset($row['attrValue4'])) echo "<td>" . $row['attrValue4'] . "</td>";
+			if (isset($row['attrValue5'])) echo "<td>" . $row['attrValue5'] . "</td>";
+			if (isset($row['attrValue6'])) echo "<td>" . $row['attrValue6'] . "</td>";
+			if (isset($row['attrValue7'])) echo "<td>" . $row['attrValue7'] . "</td>";
+			if (isset($row['attrValue8'])) echo "<td>" . $row['attrValue8'] . "</td>";
+			if (isset($row['attrValue9'])) echo "<td>" . $row['attrValue9'] . "</td>";
+			if (isset($row['attrValue10'])) echo "<td>" . $row['attrValue10'] . "</td>";
+       echo "</tr>";
+    }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
     ?>
-    </center>
     </table>
+	</center>
 </html>
