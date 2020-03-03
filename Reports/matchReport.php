@@ -150,7 +150,7 @@
 				  , attrValue8
 				  , attrValue9
 				  , attrValue10
-			   from v_MatchReport
+			   from v_MatchReportAttributes
 			  where matchId = $match
 			 order by allianceSort, alliance desc, alliancePosition";
     $getResults = sqlsrv_query($conn, $tsql);
