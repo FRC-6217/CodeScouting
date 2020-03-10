@@ -15,14 +15,16 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
+
+	$rankName = "$_GET[rankName]";
+	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 ?>
-<center><h1>Rank Report</h1></center>
 <center>
     <table cellspacing="0" cellpadding="5">
         <tr>
             <th>Team</th>
-			<th>Matches</th>
-            <th>AVG</th>
+			<th>Scouted<br/>Matches</th>
+            <th>Avg<br/>Rank</th>
 			<?php
 			// Display table headers for the ranks
 			$tsql = "select r.name
@@ -42,14 +44,14 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo "<th><a href='../Reports/rankReport.php?sortorder=" . $row['queryString'] . "'>" . $row['name'] . "<br/>Rank</a></th>";
+				echo "<th><a href='../Reports/rankReport.php?sortOrder=" . $row['queryString'] . "&rankName=" . $row['name'] . "'>" . $row['name'] . "<br/>Rank</a></th>";
 				echo "<th>" . $row['name'] . "<br/>Value</th>";
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
         </tr>
 <?php
-$sortOrder = "$_GET[sortorder]";
+$sortOrder = "$_GET[sortOrder]";
 $tsql = "execute sp_rpt_rankReport '$sortOrder'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

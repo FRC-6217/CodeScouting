@@ -1234,7 +1234,7 @@ go
 
 create view v_RankButtons as
 select distinct
-       '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortorder=' + r.queryString + '">Rank by ' + r.name + ' </a></div>' buttonHtml
+       '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=' + r.queryString + '&rankName=' + r.name + '">Rank by ' + r.name + ' </a></div>' buttonHtml
 	 , r.name
 	 , r.queryString
      , r.sortOrder
