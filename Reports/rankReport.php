@@ -26,6 +26,7 @@
 			<?php
 			// Display table headers for the ranks
 			$tsql = "select r.name
+			              , r.queryString
 					   from Rank r
 							inner join gameEvent ge
 							on ge.gameId = r.gameId
@@ -41,7 +42,7 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo "<th>" . $row['name'] . "<br/>Rank</th>";
+				echo "<th><a href='../Reports/rankReport.php?sortorder=" . $row['queryString'] . "'>" . $row['name'] . "<br/>Rank</a></th>";
 				echo "<th>" . $row['name'] . "<br/>Value</th>";
 			}
 			sqlsrv_free_stmt($getResults);
