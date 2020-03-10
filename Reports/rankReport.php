@@ -41,20 +41,8 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo "<th>" . $row['name'] . "</th>";
-			}
-			// Display table headers a second time for the values
-			$getResults = sqlsrv_query($conn, $tsql);
-			if ($getResults == FALSE)
-				if( ($errors = sqlsrv_errors() ) != null) {
-					foreach( $errors as $error ) {
-						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-						echo "code: ".$error[ 'code']."<br />";
-						echo "message: ".$error[ 'message']."<br />";
-					}
-				}
-			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo "<th>" . $row['name'] . "</th>";
+				echo "<th>" . $row['name'] . "<br/>Rank</th>";
+				echo "<th>" . $row['name'] . "<br/>Value</th>";
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
@@ -77,24 +65,24 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
 			echo "<td>" . $row['cntMatches'] . "</td>";
 			echo "<td>" . $row['avgRank'] . "</td>";
 			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>";
-			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>";
-			if (isset($row['rankValue3'])) echo "<td>" . $row['rankValue3'] . "</td>";
-			if (isset($row['rankValue4'])) echo "<td>" . $row['rankValue4'] . "</td>";
-			if (isset($row['rankValue5'])) echo "<td>" . $row['rankValue5'] . "</td>";
-			if (isset($row['rankValue6'])) echo "<td>" . $row['rankValue6'] . "</td>";
-			if (isset($row['rankValue7'])) echo "<td>" . $row['rankValue7'] . "</td>";
-			if (isset($row['rankValue8'])) echo "<td>" . $row['rankValue8'] . "</td>";
-			if (isset($row['rankValue9'])) echo "<td>" . $row['rankValue9'] . "</td>";
-			if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>";
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>";
+			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>";
+			if (isset($row['rankValue3'])) echo "<td>" . $row['rankValue3'] . "</td>";
 			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>";
+			if (isset($row['rankValue4'])) echo "<td>" . $row['rankValue4'] . "</td>";
 			if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>";
+			if (isset($row['rankValue5'])) echo "<td>" . $row['rankValue5'] . "</td>";
 			if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>";
+			if (isset($row['rankValue6'])) echo "<td>" . $row['rankValue6'] . "</td>";
 			if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>";
+			if (isset($row['rankValue7'])) echo "<td>" . $row['rankValue7'] . "</td>";
 			if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>";
+			if (isset($row['rankValue8'])) echo "<td>" . $row['rankValue8'] . "</td>";
 			if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>";
+			if (isset($row['rankValue9'])) echo "<td>" . $row['rankValue9'] . "</td>";
 			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>";
+			if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>";
 			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>";
 		echo "</tr>";
 	}
