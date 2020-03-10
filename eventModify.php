@@ -440,7 +440,7 @@
 		$tsql = "update Match " .
 		        "   set isActive = 'N' " .
 		        " where isActive = 'Y' " .
-				"   and type in ('QM', 'PR') " .
+				"   and type in ('PR') " .
 				"   and gameEventId = " .
 				"       (select ge.id " .
 				"          from GameEvent ge " .
@@ -467,7 +467,7 @@
 		$tsql = "update Match " .
 		        "   set isActive = 'Y' " .
 		        " where isActive = 'N' " .
-				"   and type not in ('QM', 'PR') " .
+				"   and type not in ('PR') " .
 				"   and gameEventId = " .
 				"       (select ge.id " .
 				"          from GameEvent ge " .
