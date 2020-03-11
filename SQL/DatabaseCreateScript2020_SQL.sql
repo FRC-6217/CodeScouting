@@ -1560,21 +1560,21 @@ select m.type + ' ' + m.number matchNumber
 	 , case when tm.alliance = 'R' then 1
 	        when tm.alliance = 'B' then 3
 	        else 2 end allianceSort
-     , round(avg(sr.value1),1) value1
-     , round(avg(sr.value2),1) value2
-     , round(avg(sr.value3),1) value3
-     , round(avg(sr.value4),1) value4
-     , round(avg(sr.value5),1) value5
-     , round(avg(sr.value6),1) value6
-     , round(avg(sr.value7),1) value7
-     , round(avg(sr.value8),1) value8
-     , round(avg(sr.value9),1) value9
-     , round(avg(sr.value10),1) value10
-     , round(avg(sr.value11),1) value11
-     , round(avg(sr.value12),1) value12
-     , round(avg(sr.value13),1) value13
-     , round(avg(sr.value14),1) value14
-     , round(avg(sr.value15),1) value15
+     , round(avg(sr.value1),2) value1
+     , round(avg(sr.value2),2) value2
+     , round(avg(sr.value3),2) value3
+     , round(avg(sr.value4),2) value4
+     , round(avg(sr.value5),2) value5
+     , round(avg(sr.value6),2) value6
+     , round(avg(sr.value7),2) value7
+     , round(avg(sr.value8),2) value8
+     , round(avg(sr.value9),2) value9
+     , round(avg(sr.value10),2) value10
+     , round(avg(sr.value11),2) value11
+     , round(avg(sr.value12),2) value12
+     , round(avg(sr.value13),2) value13
+     , round(avg(sr.value14),2) value14
+     , round(avg(sr.value15),2) value15
 	 , round(avg(coalesce(sr.scoreValue1,0) +
 	             coalesce(sr.scoreValue2,0) +
 	             coalesce(sr.scoreValue3,0) +
@@ -1589,7 +1589,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(sr.scoreValue12,0) +
 	             coalesce(sr.scoreValue13,0) +
 	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
+	             coalesce(sr.scoreValue15,0)), 2) totalScoreValue
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1793,21 +1793,21 @@ select t.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 1) matchTime
      , 'Average Score' scoutName
-     , round(avg(sr.value1),1) value1
-     , round(avg(sr.value2),1) value2
-     , round(avg(sr.value3),1) value3
-     , round(avg(sr.value4),1) value4
-     , round(avg(sr.value5),1) value5
-     , round(avg(sr.value6),1) value6
-     , round(avg(sr.value7),1) value7
-     , round(avg(sr.value8),1) value8
-     , round(avg(sr.value9),1) value9
-     , round(avg(sr.value10),1) value10
-     , round(avg(sr.value11),1) value11
-     , round(avg(sr.value12),1) value12
-     , round(avg(sr.value13),1) value13
-     , round(avg(sr.value14),1) value14
-     , round(avg(sr.value15),1) value15
+     , round(avg(sr.value1),2) value1
+     , round(avg(sr.value2),2) value2
+     , round(avg(sr.value3),2) value3
+     , round(avg(sr.value4),2) value4
+     , round(avg(sr.value5),2) value5
+     , round(avg(sr.value6),2) value6
+     , round(avg(sr.value7),2) value7
+     , round(avg(sr.value8),2) value8
+     , round(avg(sr.value9),2) value9
+     , round(avg(sr.value10),2) value10
+     , round(avg(sr.value11),2) value11
+     , round(avg(sr.value12),2) value12
+     , round(avg(sr.value13),2) value13
+     , round(avg(sr.value14),2) value14
+     , round(avg(sr.value15),2) value15
 	 , round(avg(coalesce(sr.scoreValue1,0) +
 	             coalesce(sr.scoreValue2,0) +
 	             coalesce(sr.scoreValue3,0) +
@@ -1822,7 +1822,7 @@ select t.TeamNumber
 	             coalesce(sr.scoreValue12,0) +
 	             coalesce(sr.scoreValue13,0) +
 	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
+	             coalesce(sr.scoreValue15,0)),2) totalScoreValue
      , t.id TeamId
      , null matchId
      , null scoutId
@@ -1869,7 +1869,7 @@ select t.TeamNumber
 	             coalesce(sr.scoreValue12,0) +
 	             coalesce(sr.scoreValue13,0) +
 	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
+	             coalesce(sr.scoreValue15,0)),2) totalScoreValue
      , sr.TeamId
      , sr.matchId
      , sr.scoutId
