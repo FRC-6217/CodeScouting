@@ -45,7 +45,7 @@
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
-			<th>Score Impact</th>
+			<th>Scr Imp</th>
     </tr>
 <?php
 $tsql = "select TeamNumber
