@@ -1346,6 +1346,134 @@ select a.name attributeName
 go
 
 -- View for Scout Record
+create view v_ScoutRecord as
+select sr.matchId
+     , sr.teamId
+	 , sr.scoutId
+	 , sum(case when o.sortOrder = 1 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 1 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 1 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value1
+	 , sum(case when o.sortOrder = 2 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 2 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 2 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value2
+	 , sum(case when o.sortOrder = 3 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 3 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 3 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value3
+	 , sum(case when o.sortOrder = 4 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 4 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 4 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value4
+	 , sum(case when o.sortOrder = 5 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 5 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 5 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value5
+	 , sum(case when o.sortOrder = 6 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 6 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 6 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value6
+	 , sum(case when o.sortOrder = 7 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 7 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 7 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value7
+	 , sum(case when o.sortOrder = 8 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 8 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 8 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value8
+	 , sum(case when o.sortOrder = 9 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 9 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 9 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value9
+	 , sum(case when o.sortOrder = 10 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 10 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 10 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value10
+	 , sum(case when o.sortOrder = 11 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 11 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 11 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value11
+	 , sum(case when o.sortOrder = 12 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 12 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 12 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value12
+	 , sum(case when o.sortOrder = 13 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 13 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 13 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value13
+	 , sum(case when o.sortOrder = 14 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 14 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 14 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value14
+	 , sum(case when o.sortOrder = 15 and o.reportDisplay = 'S' then sor.scoreValue
+	            when o.sortOrder = 15 and o.reportDisplay = 'I' then sor.integerValue
+--	            when o.sortOrder = 15 and o.reportDisplay = 'D' then sor.decimalValue
+	            else null end) value15
+	 , sum(case when o.sortOrder = 1 then sor.integerValue else null end) integerValue1
+	 , sum(case when o.sortOrder = 2 then sor.integerValue else null end) integerValue2
+	 , sum(case when o.sortOrder = 3 then sor.integerValue else null end) integerValue3
+	 , sum(case when o.sortOrder = 4 then sor.integerValue else null end) integerValue4
+	 , sum(case when o.sortOrder = 5 then sor.integerValue else null end) integerValue5
+	 , sum(case when o.sortOrder = 6 then sor.integerValue else null end) integerValue6
+	 , sum(case when o.sortOrder = 7 then sor.integerValue else null end) integerValue7
+	 , sum(case when o.sortOrder = 8 then sor.integerValue else null end) integerValue8
+	 , sum(case when o.sortOrder = 9 then sor.integerValue else null end) integerValue9
+	 , sum(case when o.sortOrder = 10 then sor.integerValue else null end) integerValue10
+	 , sum(case when o.sortOrder = 11 then sor.integerValue else null end) integerValue11
+	 , sum(case when o.sortOrder = 12 then sor.integerValue else null end) integerValue12
+	 , sum(case when o.sortOrder = 13 then sor.integerValue else null end) integerValue13
+	 , sum(case when o.sortOrder = 14 then sor.integerValue else null end) integerValue14
+	 , sum(case when o.sortOrder = 15 then sor.integerValue else null end) integerValue15
+/*
+	 , sum(case when o.sortOrder = 1 then sor.decimalValue else null end) decimalValue1
+	 , sum(case when o.sortOrder = 2 then sor.decimalValue else null end) decimalValue2
+	 , sum(case when o.sortOrder = 3 then sor.decimalValue else null end) decimalValue3
+	 , sum(case when o.sortOrder = 4 then sor.decimalValue else null end) decimalValue4
+	 , sum(case when o.sortOrder = 5 then sor.decimalValue else null end) decimalValue5
+	 , sum(case when o.sortOrder = 6 then sor.decimalValue else null end) decimalValue6
+	 , sum(case when o.sortOrder = 7 then sor.decimalValue else null end) decimalValue7
+	 , sum(case when o.sortOrder = 8 then sor.decimalValue else null end) decimalValue8
+	 , sum(case when o.sortOrder = 9 then sor.decimalValue else null end) decimalValue9
+	 , sum(case when o.sortOrder = 10 then sor.decimalValue else null end) decimalValue10
+	 , sum(case when o.sortOrder = 11 then sor.decimalValue else null end) decimalValue11
+	 , sum(case when o.sortOrder = 12 then sor.decimalValue else null end) decimalValue12
+	 , sum(case when o.sortOrder = 13 then sor.decimalValue else null end) decimalValue13
+	 , sum(case when o.sortOrder = 14 then sor.decimalValue else null end) decimalValue14
+	 , sum(case when o.sortOrder = 15 then sor.decimalValue else null end) decimalValue15
+*/
+	 , sum(case when o.sortOrder = 1 then sor.scoreValue else null end) scoreValue1
+	 , sum(case when o.sortOrder = 2 then sor.scoreValue else null end) scoreValue2
+	 , sum(case when o.sortOrder = 3 then sor.scoreValue else null end) scoreValue3
+	 , sum(case when o.sortOrder = 4 then sor.scoreValue else null end) scoreValue4
+	 , sum(case when o.sortOrder = 5 then sor.scoreValue else null end) scoreValue5
+	 , sum(case when o.sortOrder = 6 then sor.scoreValue else null end) scoreValue6
+	 , sum(case when o.sortOrder = 7 then sor.scoreValue else null end) scoreValue7
+	 , sum(case when o.sortOrder = 8 then sor.scoreValue else null end) scoreValue8
+	 , sum(case when o.sortOrder = 9 then sor.scoreValue else null end) scoreValue9
+	 , sum(case when o.sortOrder = 10 then sor.scoreValue else null end) scoreValue10
+	 , sum(case when o.sortOrder = 11 then sor.scoreValue else null end) scoreValue11
+	 , sum(case when o.sortOrder = 12 then sor.scoreValue else null end) scoreValue12
+	 , sum(case when o.sortOrder = 13 then sor.scoreValue else null end) scoreValue13
+	 , sum(case when o.sortOrder = 14 then sor.scoreValue else null end) scoreValue14
+	 , sum(case when o.sortOrder = 15 then sor.scoreValue else null end) scoreValue15
+  from ScoutRecord sr
+       inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   inner join Objective o
+	   on o.id = sor.objectiveId
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y'
+group by sr.matchId
+       , sr.teamId
+	   , sr.scoutId;
+GO
+
+
 -- View for average Team report on a match
 create view v_AvgScoutRecord as
 select sr.matchId

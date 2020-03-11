@@ -44,6 +44,7 @@
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
+			<th>Score Impact</th>
 		</tr>
 
 		<?php
@@ -71,6 +72,7 @@
 					  , value13
 					  , value14
 					  , value15
+					  , totalScoreValue
                    from v_MatchReport
 				  where matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
@@ -104,6 +106,7 @@
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>";
+			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
         echo "</tr>";
     }
 	?>
