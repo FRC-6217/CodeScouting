@@ -1473,7 +1473,6 @@ group by sr.matchId
 	   , sr.scoutId;
 GO
 
-
 -- View for average Team report on a match
 create view v_AvgScoutRecord as
 select sr.matchId
@@ -1576,6 +1575,21 @@ select m.type + ' ' + m.number matchNumber
      , round(avg(sr.value13),1) value13
      , round(avg(sr.value14),1) value14
      , round(avg(sr.value15),1) value15
+	 , round(avg(coalesce(sr.scoreValue1,0) +
+	             coalesce(sr.scoreValue2,0) +
+	             coalesce(sr.scoreValue3,0) +
+	             coalesce(sr.scoreValue4,0) +
+	             coalesce(sr.scoreValue5,0) +
+	             coalesce(sr.scoreValue6,0) +
+	             coalesce(sr.scoreValue7,0) +
+	             coalesce(sr.scoreValue8,0) +
+	             coalesce(sr.scoreValue9,0) +
+	             coalesce(sr.scoreValue10,0) +
+	             coalesce(sr.scoreValue11,0) +
+	             coalesce(sr.scoreValue12,0) +
+	             coalesce(sr.scoreValue13,0) +
+	             coalesce(sr.scoreValue14,0) +
+	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1622,6 +1636,7 @@ select m.type + ' ' + m.number matchNumber
      , null value13
      , null value14
      , null value15
+	 , null totalScoreValue
   from Match m;
 go
  
@@ -1793,6 +1808,21 @@ select t.TeamNumber
      , round(avg(sr.value13),1) value13
      , round(avg(sr.value14),1) value14
      , round(avg(sr.value15),1) value15
+	 , round(avg(coalesce(sr.scoreValue1,0) +
+	             coalesce(sr.scoreValue2,0) +
+	             coalesce(sr.scoreValue3,0) +
+	             coalesce(sr.scoreValue4,0) +
+	             coalesce(sr.scoreValue5,0) +
+	             coalesce(sr.scoreValue6,0) +
+	             coalesce(sr.scoreValue7,0) +
+	             coalesce(sr.scoreValue8,0) +
+	             coalesce(sr.scoreValue9,0) +
+	             coalesce(sr.scoreValue10,0) +
+	             coalesce(sr.scoreValue11,0) +
+	             coalesce(sr.scoreValue12,0) +
+	             coalesce(sr.scoreValue13,0) +
+	             coalesce(sr.scoreValue14,0) +
+	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
      , t.id TeamId
      , null matchId
      , null scoutId
@@ -1825,6 +1855,21 @@ select t.TeamNumber
      , sr.value13
      , sr.value14
      , sr.value15
+	 , round(avg(coalesce(sr.scoreValue1,0) +
+	             coalesce(sr.scoreValue2,0) +
+	             coalesce(sr.scoreValue3,0) +
+	             coalesce(sr.scoreValue4,0) +
+	             coalesce(sr.scoreValue5,0) +
+	             coalesce(sr.scoreValue6,0) +
+	             coalesce(sr.scoreValue7,0) +
+	             coalesce(sr.scoreValue8,0) +
+	             coalesce(sr.scoreValue9,0) +
+	             coalesce(sr.scoreValue10,0) +
+	             coalesce(sr.scoreValue11,0) +
+	             coalesce(sr.scoreValue12,0) +
+	             coalesce(sr.scoreValue13,0) +
+	             coalesce(sr.scoreValue14,0) +
+	             coalesce(sr.scoreValue15,0)), 1) totalScoreValue
      , sr.TeamId
      , sr.matchId
      , sr.scoutId
