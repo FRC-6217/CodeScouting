@@ -990,22 +990,22 @@ create view v_MatchHyperlinks as
 select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.matchId) + '"> ' + subquery.matchNumber + '</a>' matchReportUrl
      , subquery.r1TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r1TeamId) + '"> ' + convert(varchar, subquery.r1TeamNumber) + '</a>' r1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r1TeamNumber), 'NA') + '&alliancePosition=R1"> S </a>' r1TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r1TeamNumber), 'NA') + '&alliancePosition=R1"> ' + subquery.r1ScoutIndicator + ' </a>' r1TeamScoutUrl
      , subquery.r2TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r2TeamId) + '"> ' + convert(varchar, subquery.r2TeamNumber) + '</a>' r2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r2TeamNumber), 'NA') + '&alliancePosition=R2"> S </a>' r2TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r2TeamNumber), 'NA') + '&alliancePosition=R2"> ' + subquery.r2ScoutIndicator + ' </a>' r2TeamScoutUrl
      , subquery.r3TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r3TeamId) + '"> ' + convert(varchar, subquery.r3TeamNumber) + '</a>' r3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r3TeamNumber), 'NA') + '&alliancePosition=R3"> S </a>' r3TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r3TeamNumber), 'NA') + '&alliancePosition=R3"> ' + subquery.r3ScoutIndicator + ' </a>' r3TeamScoutUrl
      , subquery.b1TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b1TeamId) + '"> ' + convert(varchar, subquery.b1TeamNumber) +  '</a>' b1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b1TeamNumber), 'NA') + '&alliancePosition=B1"> S </a>' b1TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b1TeamNumber), 'NA') + '&alliancePosition=B1"> ' + subquery.b1ScoutIndicator + ' </a>' b1TeamScoutUrl
      , subquery.b2TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b2TeamId) + '"> ' + convert(varchar, subquery.b2TeamNumber) +  '</a>' b2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b2TeamNumber), 'NA') + '&alliancePosition=B2"> S </a>' b2TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b2TeamNumber), 'NA') + '&alliancePosition=B2"> ' + subquery.b2ScoutIndicator + ' </a>' b2TeamScoutUrl
      , subquery.b3TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b3TeamId) + '"> ' + convert(varchar, subquery.b3TeamNumber) +  '</a>' b3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b3TeamNumber), 'NA') + '&alliancePosition=B3"> S </a>' b3TeamScoutUrl
+     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b3TeamNumber), 'NA') + '&alliancePosition=B3"> ' + subquery.b3ScoutIndicator + ' </a>' b3TeamScoutUrl
      , subquery.sortOrder
      , subquery.matchNumber
      , subquery.matchId
@@ -1022,102 +1022,50 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	        then convert(numeric, subquery.number)
 			else 1000 end matchSort
   from (
-select case when (m.datetime - getdate()) + (6 / 24 / 60)  < 0 then 1 else 0 end sortOrder
+select case when (m.datetime - getdate()) + (306 / 24 / 60)  < 0 then 1 else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
      , m.id matchId
 	 , m.number
 	 , m.datetime
 	 , m.redScore
 	 , m.blueScore
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 1) r1TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 1) r1TeamId
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 2) r2TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 2) r2TeamId
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 3) r3TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'R'
-           and alliancePosition = 3) r3TeamId
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 1) b1TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 1) b1TeamId
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 2) b2TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 2) b2TeamId
-     , (select r.teamNumber
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 3) b3TeamNumber
-     , (select mr.teamId
-          from TeamMatch mr
-               inner join Team r
-               on r.id = mr.teamId
-         where mr.matchId = m.id
-           and alliance = 'B'
-           and alliancePosition = 3) b3TeamId
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.teamNumber else null end) r1TeamNumber
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.id else null end) r1TeamId
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r1ScoutIndicator
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.teamNumber else null end) r2TeamNumber
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.id else null end) r2TeamId
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r2ScoutIndicator
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.teamNumber else null end) r3TeamNumber
+	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.id else null end) r3TeamId
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r3ScoutIndicator
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.teamNumber else null end) b1TeamNumber
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.id else null end) b1TeamId
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b1ScoutIndicator
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.teamNumber else null end) b2TeamNumber
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.id else null end) b2TeamId
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b2ScoutIndicator
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.teamNumber else null end) b3TeamNumber
+	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.id else null end) b3TeamId
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b3ScoutIndicator
   from Match m
        inner join GameEvent ge
 	   on ge.id = m.gameEventId
+	   left outer join TeamMatch tm
+	   on tm.matchId = m.id
+	   left outer join Team t
+	   on t.id = tm.teamId
+	   left outer join ScoutRecord sr
+	   on sr.matchId = tm.matchId
+	   and sr.teamId = tm.teamId
  where ge.isActive = 'Y'
-   and m.isActive = 'Y') subquery;
+   and m.isActive = 'Y'
+group by m.type
+       , m.id
+	   , m.number
+	   , m.datetime
+	   , m.redScore
+	   , m.blueScore
+) subquery;
 go
 
 create view v_ScoutTeamHyperlinks as
@@ -2565,17 +2513,33 @@ BEGIN
 			                         AND o.sortOrder = 15);
 	END
 
-	-- Lookup Team Match Record
+	-- Lookup Team Match Record by Alliance/Position
 	SELECT @lv_id = max(id)
 	  FROM TeamMatch
 	 WHERE matchId = @pv_MatchId
 	   AND alliance = substring(@pv_AlliancePosition, 1, 1)
 	   AND alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
 
-	-- Add Team Match Record
+	-- Lookup Team Match Record by Team Id
 	IF @lv_Id is null
-		insert into TeamMatch (matchId, teamId, alliance, alliancePosition)
-		values (@pv_MatchId, @pv_TeamId, substring(@pv_AlliancePosition, 1, 1), convert(int, substring(@pv_AlliancePosition, 2, 1)));
+	BEGIN
+		SELECT @lv_id = max(id)
+		  FROM TeamMatch
+		 WHERE matchId = @pv_MatchId
+		   AND teamId = @pv_TeamId;
+
+		-- Add Team Match Record
+		IF @lv_Id is null
+			insert into TeamMatch (matchId, teamId, alliance, alliancePosition)
+			values (@pv_MatchId, @pv_TeamId, substring(@pv_AlliancePosition, 1, 1), convert(int, substring(@pv_AlliancePosition, 2, 1)));
+		ELSE
+			-- Update Team Match Record
+			update TeamMatch
+			   set alliance = substring(@pv_AlliancePosition, 1, 1)
+			     , alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1))
+			 where matchId = @pv_MatchId
+			   and teamId = @pv_TeamId;
+	END
 	ELSE
 		-- Update Team Match Record
 		update TeamMatch
