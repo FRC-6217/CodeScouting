@@ -199,7 +199,7 @@
 					                                    substr($value["alliances"]["red"]["team_keys"][2], 3) . ", " .
 					                                    substr($value["alliances"]["blue"]["team_keys"][0], 3) . ", " .
 					                                    substr($value["alliances"]["blue"]["team_keys"][1], 3) . ", " .
-					                                    substr($value["alliances"]["blue"]["team_keys"][2], 3) . ");";
+					                                    substr($value["alliances"]["blue"]["team_keys"][2], 3) . "));";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
