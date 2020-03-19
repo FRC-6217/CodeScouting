@@ -183,6 +183,38 @@
 				break;
 			}
 
+			// Delete from Team/Match, if team not part of the match
+			$tsql = "delete from TeamMatch " .
+			        " where matchId in " .
+					"      (select m.id " .
+					"         from Match m " .
+					"        where m.gameEventId = " . $gameEventId .
+				    "          and m.type = '" . strtoupper($value["comp_level"]) . "' " .
+					"          and m.number = '" . $matchNumber . "') " .
+					"   and teamId not in " .
+					"      (select t.id " .
+					"         from Team t " .
+					"        where t.teamNumber in (" . substr($value["alliances"]["red"]["team_keys"][0], 3) . ", " .
+					                                    substr($value["alliances"]["red"]["team_keys"][1], 3) . ", " .
+					                                    substr($value["alliances"]["red"]["team_keys"][2], 3) . ", " .
+					                                    substr($value["alliances"]["blue"]["team_keys"][0], 3) . ", " .
+					                                    substr($value["alliances"]["blue"]["team_keys"][1], 3) . ", " .
+					                                    substr($value["alliances"]["blue"]["team_keys"][2], 3) . ");";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Delete of Team Matches for Match " . $matchNumber . " failed!<br />";
+				echo "SQL " . $tsql . "<br>";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+				break;
+			}
+			
 			// Create Match/Team Cross-Reference
 			$tsql = "insert into TeamMatch (matchId, teamId, alliance, alliancePosition) " . 
 					"select m.id, t.id, 'R', 1 " .
@@ -259,7 +291,7 @@
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
-				echo "Insert of Match for Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+				echo "Insert of Team Matches for Match " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
 				echo "SQL " . $tsql . "<br>";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
