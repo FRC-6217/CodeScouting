@@ -304,6 +304,56 @@
 			}
 			else $cnt += 1;
 		}
+		// Delete from scout objective records created for Team/Matches that do not exist
+		$tsql = "delete from ScoutObjectiveRecord " .
+				" where not exists " .
+				"      (select 1 " .
+				"	      from TeamMatch tm " .
+				"		       inner join ScoutRecord sr " .
+				"			   on tm.matchId = sr.matchId " .
+				"			   and tm.teamId = sr.teamId " .
+				"              inner join Match m " .
+				"              on m.id = tm.matchId " .
+				"		 where m.gameEventId = " . $gameEventId .
+				"          and sr.id = ScoutObjectiveRecord.scoutRecordId);";
+		$results = sqlsrv_query($conn, $tsql);
+		if(!$results) 
+		{
+			echo "Delete of Team Scout Objective Records failed!<br />";
+			echo "SQL " . $tsql . "<br>";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+
+		// Delete from scout records created for Team/Matches that do not exist
+		$tsql = "delete from ScoutRecord " .
+		        " where not exists " .
+		        "      (select 1 " .
+		        "	      from TeamMatch tm " .
+				"              inner join Match m " .
+				"              on m.id = tm.matchId " .
+				"		 where m.gameEventId = " . $gameEventId .
+		        "		   and tm.matchId = ScoutRecord.matchId " .
+		        "		   and tm.teamId = ScoutRecord.teamId);";
+		$results = sqlsrv_query($conn, $tsql);
+		if(!$results) 
+		{
+			echo "Delete of Team Scout Records failed!<br />";
+			echo "SQL " . $tsql . "<br>";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+
 		echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
 		if ($cnt > 0) {
 			sqlsrv_free_stmt($results);
