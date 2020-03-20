@@ -208,7 +208,9 @@ create table TeamGameEvent(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	teamId integer not null,
 	gameEventId integer not null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	rank integer null,
+	rankingPointAverage numeric(10,3) null);
 create unique index idx_TeamGameEvent on TeamGameEvent(teamId, gameEventId);
 alter table TeamGameEvent add constraint fk_TeamGameEvent_Team foreign key (teamId) references Team (id);
 alter table TeamGameEvent add constraint fk_TeamGameEvent_GameEvent foreign key (gameEventId) references GameEvent (id);
@@ -1022,7 +1024,7 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	        then convert(numeric, subquery.number)
 			else 1000 end matchSort
   from (
-select case when (m.datetime - getdate()) + (306 / 24 / 60)  < 0 then 1 else 0 end sortOrder
+select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (6.0 / 24.0 / 60.0) < 0 then 1 else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
      , m.id matchId
 	 , m.number

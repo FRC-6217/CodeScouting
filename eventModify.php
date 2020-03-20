@@ -306,7 +306,15 @@
 		}
 		// Delete from scout objective records created for Team/Matches that do not exist
 		$tsql = "delete from ScoutObjectiveRecord " .
-				" where not exists " .
+		        " where scoutRecordId in " .
+		        "      (select sr.id " .
+		        "	      from ScoutRecord sr " .
+				"              inner join Match m " .
+				"              on m.id = sr.matchId " .
+				"              inner join GameEvent ge " .
+				"              on ge.id = m.gameEventId " .
+				"		 where m.gameEventId = " . $gameEventId . ") " .
+				"   and not exists " .
 				"      (select 1 " .
 				"	      from TeamMatch tm " .
 				"		       inner join ScoutRecord sr " .
@@ -332,7 +340,13 @@
 
 		// Delete from scout records created for Team/Matches that do not exist
 		$tsql = "delete from ScoutRecord " .
-		        " where not exists " .
+		        " where matchId in " .
+		        "      (select m.id " .
+		        "	      from Match m " .
+				"              inner join GameEvent ge " .
+				"              on ge.id = m.gameEventId " .
+				"		 where m.gameEventId = " . $gameEventId . ") " .
+				"   and not exists " .
 		        "      (select 1 " .
 		        "	      from TeamMatch tm " .
 				"              inner join Match m " .
