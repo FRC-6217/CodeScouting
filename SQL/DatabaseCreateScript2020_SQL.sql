@@ -1917,7 +1917,9 @@ BEGIN
 	                          , rankName varchar(64)
 	                          , sortOrder int
 							  , cntMatches int
-	                          , value numeric(38, 6));
+	                          , value numeric(38, 6)
+							  , rank integer
+							  , rankingPointAverage numeric(10, 3));
 	SET NOCOUNT ON
 	-- Get Sort Order
 	SELECT @lv_SortOrder = coalesce(max(sortOrder), 1)
@@ -1967,6 +1969,8 @@ BEGIN
 					                            when o.sortOrder = 15 then atr.scoreValue15
  						                        else null end
 					else null end) value
+		 , tge.rank
+		 , tge.rankingPointAverage
 	  from rank r
 		   inner join RankObjective ro
 		   on ro.rankId = r.id
@@ -1974,13 +1978,18 @@ BEGIN
 		   on o.id = ro.objectiveId
 		   inner join GameEvent ge
 		   on ge.gameId = o.gameId
-		 , v_AvgTeamRecord atr
+		   inner join TeamGameEvent tge
+		   on ge.id = tge.gameEventId
+		   inner join v_AvgTeamRecord atr
+		   on atr.teamId = tge.teamId
 	 where ge.isActive = 'Y'
 	group by atr.teamId
 		   , r.gameId
 		   , r.name
 		   , r.sortOrder
-		   , atr.cntMatches;
+		   , atr.cntMatches
+		   , tge.rank
+		   , tge.rankingPointAverage;
 	-- Add teams that do not have a scout record yet
 	INSERT INTO #AvgTeamRecord
 	select tge.teamId
@@ -1989,6 +1998,8 @@ BEGIN
 		 , r.sortOrder
 		 , 0 cntMatches
 		 , 0 value
+		 , tge.rank
+		 , tge.rankingPointAverage
       from rank r
 		   inner join GameEvent ge
 		   on ge.gameId = r.gameId
@@ -2026,6 +2037,8 @@ BEGIN
 		 , sum(case when subquery.sortOrder = 8 then subquery.value else null end) value8
 		 , sum(case when subquery.sortOrder = 9 then subquery.value else null end) value9
 		 , sum(case when subquery.sortOrder = 10 then subquery.value else null end) value10
+		 , subquery.eventRank
+		 , subquery.rankingPointAverage
 	  from (
 	select atr.teamId
 		 , atr.gameId
@@ -2039,6 +2052,8 @@ BEGIN
 			   and atr2.rankName = atr.rankName
 			   and atr2.sortOrder = atr.sortOrder
 			   and atr2.value > atr.value) + 1 rank
+		 , atr.rank eventRank
+		 , atr.rankingPointAverage
       from #AvgTeamRecord atr) subquery
 	       inner join Team t
 		   on t.id = subquery.teamId
@@ -2048,6 +2063,8 @@ BEGIN
 		   , t.TeamName
 		   , subquery.TeamId
 		   , subquery.cntMatches
+ 		   , subquery.eventRank
+		   , subquery.rankingPointAverage
 	order by sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end)
 	       , t.teamNumber;
 

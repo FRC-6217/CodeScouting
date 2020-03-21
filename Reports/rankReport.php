@@ -48,6 +48,8 @@
 				echo "<th>" . $row['name'] . "<br/>Value</th>";
 			}
 			sqlsrv_free_stmt($getResults);
+			<th>Event<br/>Rank</th>
+            <th>Rank<br/>Pts</th>
 			?>
         </tr>
 <?php
@@ -87,6 +89,8 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder'";
 			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>";
 			if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>";
 			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>";
+			echo "<td>" . $row['eventRank'] . "</td>";
+			echo "<td>" . $row['rankingPointAverage'] . "</td>";
 		echo "</tr>";
 	}
 	sqlsrv_free_stmt($getResults);
