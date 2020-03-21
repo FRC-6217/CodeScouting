@@ -382,8 +382,8 @@
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
-//			echo $value['alliance_status_str'];
-			echo "step";
+			echo $value['alliance_status_str'];
+			echo "<br>step";
 		}
 		echo "<br>Hello World<br>";
 /*
