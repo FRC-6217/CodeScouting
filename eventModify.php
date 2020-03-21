@@ -380,9 +380,11 @@
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
-//		JSONParser parse = new JSONParser();
-//		JSONObject jobj = (JSONObject)parse.parse($teamsJSON);
-		echo "Hello World";
+		echo "Hello World<br>";
+		var_dump(json_decode($teamsJSON));
+		echo "Hello World<br>";
+		var_dump(json_decode($teamsJSON, true));
+		echo "Hello World<br>";
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
