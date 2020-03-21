@@ -380,8 +380,9 @@
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
-		echo $sURL;
-		echo $teamsJSON;
+		echo $teamsArray[0];
+		echo $teamsArray[0].["qual"].["ranking"].["rank"];
+/*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
 			echo $value;
@@ -421,6 +422,7 @@
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
 		}
+*/
 	}
 
 	// Create 40 empty practice matches and activate these matches
