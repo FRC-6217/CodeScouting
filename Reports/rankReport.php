@@ -48,9 +48,9 @@
 				echo "<th>" . $row['name'] . "<br/>Value</th>";
 			}
 			sqlsrv_free_stmt($getResults);
+			?>
 			<th>Event<br/>Rank</th>
             <th>Rank<br/>Pts</th>
-			?>
         </tr>
 <?php
 $sortOrder = "$_GET[sortOrder]";
