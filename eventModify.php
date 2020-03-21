@@ -382,11 +382,11 @@
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
-			echo "<br>step0<br>";
+			echo "<br>step0a<br>";
 			var_dump($value);
-			echo "<br>step1<br>";
-			echo $value[7].[1].[3];
-			echo "<br>step2<br>";
+			echo "<br>step1a<br>";
+			echo $value["qual"]["rank"]["ranking"];
+			echo "<br>step2a<br>";
 			echo $value["playoff_status_str"];
 			echo "<br>step3a<br>";
 		}
