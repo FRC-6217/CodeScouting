@@ -382,7 +382,7 @@
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
-			echo $value['frc167'].['qual'].['ranking'].['sort_orders'].[0];
+			var_dump($value);
 			echo "<br>step2<br>";
 		}
 		echo "<br>Hello World<br>";
