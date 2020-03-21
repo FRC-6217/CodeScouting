@@ -381,7 +381,8 @@
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
 		echo "<br>Hello World<br>";
-		var_dump($teamsArray);
+		var_dump($teamsArray["frc167"]);
+		echo "<br>Hello World<br>";
 		echo $teamsArray["frc167"].["qual"].["ranking"].["rank"];
 		echo "<br>Hello World<br>";
 /*
