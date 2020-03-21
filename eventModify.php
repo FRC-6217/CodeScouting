@@ -407,10 +407,12 @@
 					"          from TeamGameEvent tge " .
 					"               inner join Team t " .
 					"               on t.id = tge.teamId " .
+					"			    inner join GameEvent ge " .
+					"			    on ge.id = tge.gameEventId " .
 					"               inner join Game g " .
-					"               on g.id = tge.gameId " .
+					"               on g.id = ge.gameId " .
 					"               inner join Event e " .
-					"               on e.id = tge.eventId " .
+					"               on e.id = ge.eventId " .
 					"         where t.teamNumber = " . substr($value["qual"]["ranking"]["team_key"], 3) .
 					"           and g.gameYear = " . $gameYear .
 				    "           and e.eventCode = '" . $eventCode . "');";
