@@ -385,7 +385,9 @@
 			echo "<br>step0a<br>";
 			var_dump($value);
 			echo "<br>step1a<br>";
-			echo $value["qual"]["rank"]["ranking"];
+			echo $value["qual"]["ranking"]["rank"];
+			echo "<br>step2a<br>";
+			echo $value[0]["qual"]["ranking"]["rank"];
 			echo "<br>step2a<br>";
 			echo $value["playoff_status_str"];
 			echo "<br>step3a<br>";
