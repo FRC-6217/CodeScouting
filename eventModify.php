@@ -382,7 +382,7 @@
 		$cnt = 0;
 		JSONParser parse = new JSONParser();
 		JSONObject jobj = (JSONObject)parse.parse($teamsJSON);
-		echo jobj;
+		echo "Hello World";
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
