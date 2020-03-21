@@ -380,7 +380,7 @@
 		$cnt = 0;
 		// Update team information
 		foreach($teamsArray as $key => $value) {
-			if (not(is_null($value)) {
+			if (isset($value)) {
 				// Update Team/Event Cross-Reference
 				$tsql = "update TeamGameEvent " . 
 						"   set rank = " . $value["qual"]["ranking"]["rank"] . " " .
