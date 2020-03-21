@@ -385,7 +385,7 @@
 //			echo $value['alliance_status_str'];
 			echo "step";
 		}
-}		echo "<br>Hello World<br>";
+		echo "<br>Hello World<br>";
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
