@@ -387,8 +387,8 @@
 			echo "<br>step1<br>";
 			echo $value[7].[1].[3];
 			echo "<br>step2<br>";
-			echo $value["status"];
-			echo "<br>step3<br>";
+			echo $value["playoff_status_str"];
+			echo "<br>step3a<br>";
 		}
 		echo "<br>Hello World<br>";
 /*
