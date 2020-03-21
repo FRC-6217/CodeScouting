@@ -63,6 +63,7 @@
 	
 	// Get TBA Event information and insert/update Event in the database
 	if ($eventTBAExists) {
+echo '01 : ' . time();
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
 		$eventJSON = file_get_contents($sURL, false, $context);
 		$eventValue = json_decode($eventJSON, true);
@@ -116,6 +117,7 @@
 				if($results)
 					echo "<center>Event Update Succeeded!</center><br>";
 			}
+echo '02 : ' . time();
 			// Get Game Event Id
 			$tsql = "select ge.id " . 
 					"  from GameEvent ge " .
@@ -145,6 +147,7 @@
 	
 	// Add/update matches on this event and teams in each match
 	if ($eventTBAExists && $option == "M") {
+echo '03 : ' . time();
 		$timezone = "America/Chicago";
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
@@ -304,6 +307,7 @@
 			}
 			else $cnt += 1;
 		}
+echo '04 : ' . time();
 		// Delete from scout objective records created for Team/Matches that do not exist
 		$tsql = "delete from ScoutObjectiveRecord " .
 		        " where scoutRecordId in " .
@@ -338,6 +342,7 @@
 			}
 		}
 
+echo '05 : ' . time();
 		// Delete from scout records created for Team/Matches that do not exist
 		$tsql = "delete from ScoutRecord " .
 		        " where matchId in " .
@@ -373,6 +378,7 @@
 			sqlsrv_free_stmt($results);
 		}
 
+echo '06 : ' . time();
 		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
 		$teamsJSON = file_get_contents($sURL, false, $context);
@@ -420,6 +426,7 @@
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
 		}
+echo '07 : ' . time();
 	}
 
 	// Create 40 empty practice matches and activate these matches
