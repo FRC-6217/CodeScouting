@@ -434,7 +434,6 @@
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
 		}
-*/
 	}
 
 	// Create 40 empty practice matches and activate these matches
