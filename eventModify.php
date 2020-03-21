@@ -381,16 +381,9 @@
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
 		echo "<br>Hello World<br>";
-$jsonIterator = new RecursiveIteratorIterator(
-    new RecursiveArrayIterator(json_decode($teamsJSON, TRUE)),
-    RecursiveIteratorIterator::SELF_FIRST);
-
-foreach ($jsonIterator as $key => $val) {
-    if(is_array($val)) {
-        echo "$key:\n";
-    } else {
-        echo "$key => $val\n";
-    }
+		foreach($teamsArray as $key => $value) {
+			echo $value['alliance_status_str'];
+		}
 }		echo "<br>Hello World<br>";
 /*
 		// Update team information
