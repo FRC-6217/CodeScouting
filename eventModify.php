@@ -382,7 +382,10 @@
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
+			echo "<br>step0<br>";
 			var_dump($value);
+			echo "<br>step1<br>";
+			echo $value["qual"].["ranking"].["rank"];
 			echo "<br>step2<br>";
 		}
 		echo "<br>Hello World<br>";
