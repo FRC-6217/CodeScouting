@@ -380,8 +380,8 @@
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
-		echo $teamsArray[0];
-		echo $teamsArray[0].["qual"].["ranking"].["rank"];
+		echo $teamsJSON[0];
+		echo $teamsJSON[0].["qual"].["ranking"].["rank"];
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
