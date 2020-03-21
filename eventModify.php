@@ -385,8 +385,10 @@
 			echo "<br>step0<br>";
 			var_dump($value);
 			echo "<br>step1<br>";
-			echo $value["qual"].["ranking"].["rank"];
+			echo $value[7].[1].[3];
 			echo "<br>step2<br>";
+			echo $value["status"];
+			echo "<br>step3<br>";
 		}
 		echo "<br>Hello World<br>";
 /*
