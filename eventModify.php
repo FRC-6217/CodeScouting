@@ -378,7 +378,7 @@
 		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
 		$teamsJSON = file_get_contents($sURL, false, $context);
-		$teamsArray = json_decode($teamsJSON, true);
+		$teamsArray = json_decode($teamsJSON, false);
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		var_dump($teamsArray["frc167"]);
