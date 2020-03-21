@@ -145,7 +145,6 @@
 	
 	// Add/update matches on this event and teams in each match
 	if ($eventTBAExists && $option == "M") {
-/*
 		$timezone = "America/Chicago";
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
@@ -373,31 +372,14 @@
 		if ($cnt > 0) {
 			sqlsrv_free_stmt($results);
 		}
-*/
 
 		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
-/*
-		echo "<br>Hello World<br>";
-		foreach($teamsArray as $key => $value) {
-			echo "<br>step0a<br>";
-			var_dump($value);
-			echo "<br>step1a<br>";
-			echo $value["qual"]["ranking"]["rank"];
-			echo "<br>step2a<br>";
-			echo $value[0]["qual"]["ranking"]["rank"];
-			echo "<br>step2a<br>";
-			echo $value["playoff_status_str"];
-			echo "<br>step3a<br>";
-		}
-		echo "<br>Hello World<br>";
-*/
 		// Update team information
 		foreach($teamsArray as $key => $value) {
-			echo $value;
 			// Update Team/Event Cross-Reference
 			$tsql = "update TeamGameEvent " . 
 					"   set rank = " . $value["qual"]["ranking"]["rank"] . " " .
