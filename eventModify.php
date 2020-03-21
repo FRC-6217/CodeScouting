@@ -378,13 +378,20 @@
 		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
 		$teamsJSON = file_get_contents($sURL, false, $context);
-		$teamsArray = json_decode($teamsJSON, false);
+		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
 		echo "<br>Hello World<br>";
-		var_dump($teamsArray["frc167"]);
-		echo "<br>Hello World<br>";
-		echo $teamsArray["frc167"].["qual"].["ranking"].["rank"];
-		echo "<br>Hello World<br>";
+$jsonIterator = new RecursiveIteratorIterator(
+    new RecursiveArrayIterator(json_decode($teamsJSON, TRUE)),
+    RecursiveIteratorIterator::SELF_FIRST);
+
+foreach ($jsonIterator as $key => $val) {
+    if(is_array($val)) {
+        echo "$key:\n";
+    } else {
+        echo "$key => $val\n";
+    }
+}		echo "<br>Hello World<br>";
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
