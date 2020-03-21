@@ -383,8 +383,6 @@
 		JSONParser parse = new JSONParser();
 		JSONObject jobj = (JSONObject)parse.parse($teamsJSON);
 		echo jobj;
-		echo jobj[0];
-		echo jobj[0].["qual"].["ranking"].["rank"];
 /*
 		// Update team information
 		foreach($teamsArray as $key => $value) {
