@@ -416,7 +416,7 @@
 				else $cnt += 1;
 			}
 		}
-		if ($results) {
+		if ($cnt > 0) {
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
 		}
