@@ -382,8 +382,8 @@
 		$cnt = 0;
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
-			echo $value['qual'].['ranking'].['rank'];
-			echo "<br>step<br>";
+			echo $value['qual'].['ranking'].['sort_orders'].[0];
+			echo "<br>step2<br>";
 		}
 		echo "<br>Hello World<br>";
 /*
