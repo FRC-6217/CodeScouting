@@ -783,3 +783,110 @@ insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, deci
 insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 1, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'leaveHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2846 and m.type = 'QM' and m.number = '35' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 1, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toHatchCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2846 and m.type = 'QM' and m.number = '35' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toCargoCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2846 and m.type = 'QM' and m.number = '35' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 1, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'returnToHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2846 and m.type = 'QM' and m.number = '35' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'playedDefense' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2846 and m.type = 'QM' and m.number = '35' and s.lastName = 'Giese' and s.firstName = 'Matthew';
 insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 1, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'leaveHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2574 and m.type = 'QM' and m.number = '36' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toHatchCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2574 and m.type = 'QM' and m.number = '36' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toCargoCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2574 and m.type = 'QM' and m.number = '36' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'returnToHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2574 and m.type = 'QM' and m.number = '36' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'playedDefense' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 2574 and m.type = 'QM' and m.number = '36' and s.lastName = 'Giese' and s.firstName = 'Matthew';
 insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 1, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'leaveHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 3883 and m.type = 'QM' and m.number = '37' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toHatchCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 3883 and m.type = 'QM' and m.number = '37' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'toCargoCnt' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 3883 and m.type = 'QM' and m.number = '37' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'returnToHAB' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 3883 and m.type = 'QM' and m.number = '37' and s.lastName = 'Giese' and s.firstName = 'Matthew';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) select sr.id, o.id, 0, null, null from scoutRecord sr inner join Team t on t.id = sr.teamId inner join Scout s on s.id = sr.scoutId inner join Match m on m.id = sr.matchId inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join objective o on o.gameid = g.id and o.name = 'playedDefense' inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'EMCC Off-Season' and t.teamNumber = 3883 and m.type = 'QM' and m.number = '37' and s.lastName = 'Giese' and s.firstName = 'Matthew';
+
+
+insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+select scoutRecordId, 2, 0
+  from ScoutObjectiveRecord sor
+       inner join ScoutRecord sr
+	   on sr.id = sor.scoutRecordId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join Game g
+	   on g.id = ge.gameId
+	   inner join Event e
+	   on e.id = ge.eventId
+ where g.name = 'Deep Space'
+   and e.name = 'EMCC 2019'
+   and objectiveid = 1
+   and not exists
+       (select 1
+	      from ScoutObjectiveRecord sor2
+		 where sor2.scoutRecordId  = sor.scoutRecordId
+		   and sor2.objectiveId = 2);
+insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+select scoutRecordId, 3, 0
+  from ScoutObjectiveRecord sor
+       inner join ScoutRecord sr
+	   on sr.id = sor.scoutRecordId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join Game g
+	   on g.id = ge.gameId
+	   inner join Event e
+	   on e.id = ge.eventId
+ where g.name = 'Deep Space'
+   and e.name = 'EMCC 2019'
+   and objectiveid = 1
+   and not exists
+       (select 1
+	      from ScoutObjectiveRecord sor2
+		 where sor2.scoutRecordId  = sor.scoutRecordId
+		   and sor2.objectiveId = 3);
+insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+select scoutRecordId, 5, 0
+  from ScoutObjectiveRecord sor
+       inner join ScoutRecord sr
+	   on sr.id = sor.scoutRecordId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join Game g
+	   on g.id = ge.gameId
+	   inner join Event e
+	   on e.id = ge.eventId
+ where g.name = 'Deep Space'
+   and e.name = 'EMCC 2019'
+   and objectiveid = 1
+   and not exists
+       (select 1
+	      from ScoutObjectiveRecord sor2
+		 where sor2.scoutRecordId  = sor.scoutRecordId
+		   and sor2.objectiveId = 5);
+insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+select scoutRecordId, 6, 0
+  from ScoutObjectiveRecord sor
+       inner join ScoutRecord sr
+	   on sr.id = sor.scoutRecordId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join Game g
+	   on g.id = ge.gameId
+	   inner join Event e
+	   on e.id = ge.eventId
+ where g.name = 'Deep Space'
+   and e.name = 'EMCC 2019'
+   and objectiveid = 1
+   and not exists
+       (select 1
+	      from ScoutObjectiveRecord sor2
+		 where sor2.scoutRecordId  = sor.scoutRecordId
+		   and sor2.objectiveId = 6);
+insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+select scoutRecordId, 7, 0
+  from ScoutObjectiveRecord sor
+       inner join ScoutRecord sr
+	   on sr.id = sor.scoutRecordId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join Game g
+	   on g.id = ge.gameId
+	   inner join Event e
+	   on e.id = ge.eventId
+ where g.name = 'Deep Space'
+   and e.name = 'EMCC 2019'
+   and objectiveid = 1
+   and not exists
+       (select 1
+	      from ScoutObjectiveRecord sor2
+		 where sor2.scoutRecordId  = sor.scoutRecordId
+		   and sor2.objectiveId = 7);
