@@ -380,6 +380,7 @@
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
 		$cnt = 0;
+/*
 		echo "<br>Hello World<br>";
 		foreach($teamsArray as $key => $value) {
 			echo "<br>step0a<br>";
@@ -393,14 +394,14 @@
 			echo "<br>step3a<br>";
 		}
 		echo "<br>Hello World<br>";
-/*
+*/
 		// Update team information
 		foreach($teamsArray as $key => $value) {
 			echo $value;
 			// Update Team/Event Cross-Reference
 			$tsql = "update TeamGameEvent " . 
-					"   set rank = " . $value["qual"].["ranking"].["rank"] . " " .
-					"     , rankingPointAverage = " . $value["qual"].["ranking"].["sort_orders"].[0] . " " .
+					"   set rank = " . $value["qual"]["ranking"]["rank"] . " " .
+					"     , rankingPointAverage = " . $value["qual"]["ranking"]["sort_orders"][0] . " " .
 					"  where id = " .
 					"       (select tge.id " .
 					"          from TeamGameEvent tge " .
@@ -410,7 +411,7 @@
 					"               on g.id = tge.gameId " .
 					"               inner join Event e " .
 					"               on e.id = tge.eventId " .
-					"         where t.teamNumber = " . substr($value["qual"].["ranking"].["team_key"], 3) .
+					"         where t.teamNumber = " . substr($value["qual"]["ranking"]["team_key"], 3) .
 					"           and g.gameYear = " . $gameYear .
 				    "           and e.eventCode = '" . $eventCode . "');";
 			$results = sqlsrv_query($conn, $tsql);
