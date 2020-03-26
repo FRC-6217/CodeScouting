@@ -436,7 +436,11 @@ create table Match(
 	isActive char(1) not null,
 	redScore integer null,
 	blueScore integer null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	redTeamPoints integer null,
+	redFoulPoints integer null,
+	blueTeamPoints integer null,
+	blueFoulPoints integer null);
 create unique index idx_Match on Match(gameEventId, type, number);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
@@ -1300,6 +1304,7 @@ create view v_ScoutRecord as
 select sr.matchId
      , sr.teamId
 	 , sr.scoutId
+	 , m.gameEventId
 	 , sum(case when o.sortOrder = 1 and o.reportDisplay = 'S' then sor.scoreValue
 	            when o.sortOrder = 1 and o.reportDisplay = 'I' then sor.integerValue
 --	            when o.sortOrder = 1 and o.reportDisplay = 'D' then sor.decimalValue
@@ -1420,13 +1425,15 @@ select sr.matchId
    and m.isActive = 'Y'
 group by sr.matchId
        , sr.teamId
-	   , sr.scoutId;
+	   , sr.scoutId
+	   , m.gameEventId;
 GO
 
 -- View for average Team report on a match
 create view v_AvgScoutRecord as
 select sr.matchId
      , sr.teamId
+	 , sr.gameEventId
      , count(*) cnt
      , avg(convert(numeric, value1)) value1
      , avg(convert(numeric, value2)) value2
@@ -1492,7 +1499,8 @@ select sr.matchId
      , avg(convert(numeric, scoreValue15)) scoreValue15 
   from v_ScoutRecord sr
 group by sr.matchId
-       , sr.TeamId;
+       , sr.TeamId
+	   , sr.gameEventId;
 go
 
 -- View for match averages
@@ -1776,6 +1784,7 @@ select t.TeamNumber
      , t.id TeamId
      , null matchId
      , null scoutId
+	 , sr.gameEventId
  from Team t
       inner join v_AvgScoutRecord sr
       on sr.TeamId = t.id
@@ -1785,6 +1794,7 @@ select t.TeamNumber
    and m.isActive = 'Y'
 group by t.TeamNumber
        , t.id
+	   , sr.gameEventId
 union
 select t.TeamNumber
      , m.type + ' ' + m.number matchNumber
@@ -1805,24 +1815,25 @@ select t.TeamNumber
      , sr.value13
      , sr.value14
      , sr.value15
-	 , round(avg(coalesce(sr.scoreValue1,0) +
-	             coalesce(sr.scoreValue2,0) +
-	             coalesce(sr.scoreValue3,0) +
-	             coalesce(sr.scoreValue4,0) +
-	             coalesce(sr.scoreValue5,0) +
-	             coalesce(sr.scoreValue6,0) +
-	             coalesce(sr.scoreValue7,0) +
-	             coalesce(sr.scoreValue8,0) +
-	             coalesce(sr.scoreValue9,0) +
-	             coalesce(sr.scoreValue10,0) +
-	             coalesce(sr.scoreValue11,0) +
-	             coalesce(sr.scoreValue12,0) +
-	             coalesce(sr.scoreValue13,0) +
-	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)),2) totalScoreValue
+	 , round(coalesce(sr.scoreValue1,0) +
+	         coalesce(sr.scoreValue2,0) +
+	         coalesce(sr.scoreValue3,0) +
+	         coalesce(sr.scoreValue4,0) +
+	         coalesce(sr.scoreValue5,0) +
+	         coalesce(sr.scoreValue6,0) +
+	         coalesce(sr.scoreValue7,0) +
+	         coalesce(sr.scoreValue8,0) +
+	         coalesce(sr.scoreValue9,0) +
+	         coalesce(sr.scoreValue10,0) +
+	         coalesce(sr.scoreValue11,0) +
+	         coalesce(sr.scoreValue12,0) +
+	         coalesce(sr.scoreValue13,0) +
+	         coalesce(sr.scoreValue14,0) +
+	         coalesce(sr.scoreValue15,0),2) totalScoreValue
      , sr.TeamId
      , sr.matchId
      , sr.scoutId
+	 , sr.gameEventId
  from Team t
       inner join v_ScoutRecord sr
       on sr.TeamId = t.id
