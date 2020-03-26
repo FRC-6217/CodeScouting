@@ -161,11 +161,19 @@
 			if ($value["comp_level"] != 'qm')
 				$matchNumber = $value["set_number"] . "-" . $matchNumber;
 			// Update/insert Match
+			if ($value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel")
+				$redTeamPoints = 15;
+			else
+				$redTeamPoints = 0;
+			if ($value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel")
+				$blueTeamPoints = 15;
+			else
+				$blueTeamPoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " .
  					                   $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
- 					                   $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
- 					                   $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ") " .
+ 					                   $redTeamPoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
+ 					                   $blueTeamPoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ") " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redTeamPoints, redFoulPoints, blueTeamPoints, blueFoulPoints) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched THEN " .
