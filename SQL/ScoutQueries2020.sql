@@ -164,12 +164,64 @@ group by subquery.TeamNumber
        , subquery.avgScoreValue
 	   , subquery.teamMatchCount
 order by 7 desc, subquery.TeamNumber
-*/
 
 -- Match Point Percentage
 select subquery.teamNumber
      , sum(subquery.teamScore) / sum(subquery.teamScore + subquery.partnerScore) teamAlliancePercentage
 	 , subquery.rank eventRank
+	 , avg(subquery.teamScore) avgTeamScore
+	 , avg(subquery.partnerScore) avgPartnerScore
+  from (
+select m.number
+     , t.teamNumber
+	 , tge.rank
+	 , count(*) partnersScouted
+	 , asr.scoreValue1 + asr.scoreValue2 + asr.scoreValue3 + asr.scoreValue4 + asr.scoreValue5 +
+	   asr.scoreValue6 + asr.scoreValue7 + asr.scoreValue8 + asr.scoreValue9 + asr.scoreValue10 +
+	   asr.scoreValue11 teamScore
+	 , sum(asr2.scoreValue1 + asr2.scoreValue2 + asr2.scoreValue3 + asr2.scoreValue4 + asr2.scoreValue5 +
+	       asr2.scoreValue6 + asr2.scoreValue7 + asr2.scoreValue8 + asr2.scoreValue9 + asr2.scoreValue10 +
+	       asr2.scoreValue11) partnerScore
+  from v_AvgScoutRecord asr
+       inner join Team t
+	   on t.id = asr.teamId
+       inner join TeamMatch tm
+	   on tm.matchId = asr.matchId
+	   and tm.teamId = asr.teamId
+	   inner join Match m
+	   on m.id = asr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join TeamGameEvent tge
+	   on tge.gameEventId = ge.id
+	   and tge.teamId = asr.teamId
+	   inner join v_AvgScoutRecord asr2
+	   on asr2.matchId = asr.matchId
+       inner join TeamMatch tm2
+	   on tm2.matchId = asr2.matchId
+	   and tm2.teamId = asr2.teamId
+	   and tm2.alliance = tm.alliance
+ where asr2.teamId <> asr.teamId
+--   and asr.teamId = 101
+group by m.number
+       , t.teamNumber
+	   , tge.rank
+	   , asr.scoreValue1 + asr.scoreValue2 + asr.scoreValue3 + asr.scoreValue4 + asr.scoreValue5 +
+	     asr.scoreValue6 + asr.scoreValue7 + asr.scoreValue8 + asr.scoreValue9 + asr.scoreValue10 +
+	     asr.scoreValue11
+having count(*) = 2
+--order by m.type, convert(integer, m.number)
+) subquery
+group by subquery.teamNumber
+  	   , subquery.rank
+order by 2 desc
+*/
+
+-- Scouted Data Accuracy
+select subquery.allianceScore
+     , subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints calcAllianceScore
+     , subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints calcAllianceScore) deltaScore
+     , subquery.*
   from (
 select m.type
      , m.number
@@ -247,16 +299,16 @@ group by m.type
 	   , asr.integerValue6
 	   , asr.integerValue7
 	   , asr.scoreValue8
-	   , asr.matchId
---order by m.type, convert(integer, m.number)
-) subquery
-group by subquery.teamNumber
-  	   , subquery.rank
-order by 2 desc
+	   , asr.matchId) subquery
+ where subquery.allianceScore <> subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints
+order by subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints)
+       , subquery.type, convert(integer, subquery.number), subquery.alliance
 
 --update GameEvent set isActive = 'N' where id = 2; -- Iowa 2019
 --update GameEvent set isActive = 'Y' where id = 7; -- Duluth 2020
 /*
+update Objective set reportDisplay = 'S' where gameid = 2
+
 select tr.TeamNumber
      , tr.scoutId
      , tr.matchId
@@ -292,6 +344,10 @@ select tr.TeamNumber
        inner join TeamMatch tm
 	   on tm.teamId = tr.TeamId
 	   and tm.matchId = tr.matchId
- where matchNumber = 'QM 19'
-order by 5
+-- where matchNumber = 'QM 17' order by 5
+-- where tr.value1 not in (0, 1) or tr.value2 > 3 or tr.value3 > 3 or tr.value4 > 3 order by 1
+ where tr.value5 > 0 and (tr.value3 > 0 or tr.value4 > 0 or tr.value6 > 0 or tr.value7 > 0)
+
+exec sp_ins_scoutRecord 18, 1100, 108, 'R2', 1.000000, 0.000000, 0.000000, 0.000000, 3.000000, 0.000000, 0.000000, 2.000000, 0.000000, 0.000000, 0.000000
+
 */

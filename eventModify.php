@@ -161,11 +161,13 @@
 			if ($value["comp_level"] != 'qm')
 				$matchNumber = $value["set_number"] . "-" . $matchNumber;
 			// Update/insert Match
-			if ($value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel")
+			if ($value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel" &&
+			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40)
 				$redTeamPoints = 15;
 			else
 				$redTeamPoints = 0;
-			if ($value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel")
+			if ($value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel" &&
+			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40)
 				$blueTeamPoints = 15;
 			else
 				$blueTeamPoints = 0;
