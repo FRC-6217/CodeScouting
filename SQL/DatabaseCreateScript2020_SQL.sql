@@ -297,7 +297,8 @@ create table Objective(
 	sortOrder integer not null,
 	lastUpdated datetime null,
 	tableHeader varchar(64) not null,
-	reportDisplay varchar(1) not null);
+	reportDisplay varchar(1) not null,
+	sameLineAsPrevious char(1) not null);
 create unique index idx_Objective on Objective(gameId, name);
 alter table Objective add constraint fk_Objective_Game foreign key (gameId) references Game (id);
 alter table Objective add constraint fk_Objective_ScoringType foreign key (scoringTypeId) references ScoringType (id);
@@ -316,7 +317,8 @@ create table ObjectiveValue(
 	integerValue integer null,
 	sortOrder integer null,
 	scoreValue integer null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	sameLineAsPrevious char(1) not null);
 create unique index idx_ObjectiveValue on ObjectiveValue(objectiveId, displayValue);
 alter table ObjectiveValue add constraint fk_ObjectiveValue_Objective foreign key (objectiveId) references Objective (id);
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Did Not Leave', 0, 1, 0 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'leaveHAB';
@@ -399,7 +401,8 @@ create table Attribute(
 	highRangeValue integer null,
 	sortOrder integer not null,
 	lastUpdated datetime null,
-	tableHeader varchar(64));
+	tableHeader varchar(64) not null,
+	sameLineAsPrevious char(1) not null);
 create unique index idx_Attribute on Attribute(gameId, name);
 alter table Attribute add constraint fk_Attribute_Game foreign key (gameId) references Game (id);
 alter table Attribute add constraint fk_Attribute_ScoringType foreign key (scoringTypeId) references ScoringType (id);
@@ -1037,22 +1040,22 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	 , m.blueScore
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.teamNumber else null end) r1TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.id else null end) r1TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r1ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r1ScoutIndicator
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.teamNumber else null end) r2TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.id else null end) r2TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r2ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r2ScoutIndicator
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.teamNumber else null end) r3TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.id else null end) r3TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end r3ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r3ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.teamNumber else null end) b1TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.id else null end) b1TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b1ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b1ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.teamNumber else null end) b2TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.id else null end) b2TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b2ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b2ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.teamNumber else null end) b3TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.id else null end) b3TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 's' end b3ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b3ScoutIndicator
   from Match m
        inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1215,7 +1218,7 @@ select distinct
      , og.sortOrder groupSort
 	 , null objectiveSort
 	 , null objectiveValueSort
-	 , '<br><b><u>' + og.name + '</u></b>' scoutRecordHtml
+	 , case when og.sortOrder = 1 then '' else '<br><br>' end + '<b><u>' + og.name + '</u>' scoutRecordHtml
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
@@ -1238,10 +1241,32 @@ select distinct
 	 , o.sortOrder objectiveSort
 	 , ov.sortOrder objectiveValueSort
 	 , case when st.hasValueList = 'N'
-	        then '<br>' + o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;"><br>'
+	        then case when o.sameLineAsPrevious = 'Y'
+			          then '&nbsp;&nbsp;'
+					  else case when o.sortOrder = 
+					                (select min(o2.sortOrder)
+                                       from Objective o2
+		                                    inner join ObjectiveGroupObjective ogo2
+			                                on ogo2.objectiveId = o2.id
+			                                inner join ObjectiveGroup og2
+			                                on og2.id = ogo2.objectiveGroupId
+		                              where o2.gameId = o.gameId
+		                                and og2.id = og.id)
+								then '<br>'
+								else '<br><br>' end end + o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;">'
 			when ov.sortOrder = 1
-	        then '<br>' + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '><br>'
-			else '&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '><br>' end scoutRecordHtml
+	        then case when o.sortOrder = 
+					      (select min(o2.sortOrder)
+                             from Objective o2
+		                          inner join ObjectiveGroupObjective ogo2
+			                      on ogo2.objectiveId = o2.id
+			                      inner join ObjectiveGroup og2
+			                      on og2.id = ogo2.objectiveGroupId
+		                    where o2.gameId = o.gameId
+		                      and og2.id = og.id)
+						then '<br>'
+						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>'
+			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
@@ -1272,9 +1297,9 @@ select a.name attributeName
 			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'Drive Straight 5 feet') +
 			'" style="width: 320px"><br>'
 			when st.hasValueList = 'N'
-	        then '<br>' + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
+	        then case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
 			coalesce((select convert(varchar, ta.integerValue) from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '0') +
-			' style="width: 50px;"><br>'
+			' style="width: 50px;">' + case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end
 			when av.sortOrder = 1
 	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
 			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'checked="checked"') +

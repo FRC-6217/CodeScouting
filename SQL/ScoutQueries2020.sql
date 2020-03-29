@@ -220,7 +220,7 @@ order by 2 desc
 -- Scouted Data Accuracy
 select subquery.allianceScore
      , subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints calcAllianceScore
-     , subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints calcAllianceScore) deltaScore
+     , subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints) deltaScore
      , subquery.*
   from (
 select m.type
@@ -301,30 +301,36 @@ group by m.type
 	   , asr.scoreValue8
 	   , asr.matchId) subquery
  where subquery.allianceScore <> subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints
-order by subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints)
-       , subquery.type, convert(integer, subquery.number), subquery.alliance
+order by abs(subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints)) desc, subquery.alliance
+
+-- Best team individual matches
+select tr.totalScoreValue teamScore
+     , tge.rank eventRank
+     , tr.*
+  from v_TeamReport tr
+	   inner join Match m
+	   on m.id = tr.matchId
+	   inner join TeamGameEvent tge
+	   on tge.gameEventId = m.gameEventId
+	   and tge.teamId = tr.TeamId
+order by tr.totalScoreValue desc
+
+--order by subquery.type, convert(integer, subquery.number), subquery.alliance
 
 --update GameEvent set isActive = 'N' where id = 2; -- Iowa 2019
 --update GameEvent set isActive = 'Y' where id = 7; -- Duluth 2020
 /*
-update Objective set reportDisplay = 'S' where gameid = 2
+select * from objective
+update Objective set reportDisplay = 'I' where gameid = 2 --and id <> 113
+update Objective set reportDisplay = 'S' where gameid = 2 --and id <> 113
 
-select tr.TeamNumber
-     , tr.scoutId
-     , tr.matchId
-	 , tr.TeamId
-	 , tm.alliance + convert(varchar, tm.alliancePosition) alliancePos
-	 , tr.value1
-	 , tr.value2
-	 , tr.value3
-	 , tr.value4
-	 , tr.value5
-	 , tr.value6
-	 , tr.value7
-	 , tr.value8
-	 , tr.value9
-	 , tr.value10
-	 , tr.value11
+select tr.matchNumber
+     , tm.alliance + convert(varchar, tm.alliancePosition) alliancePos
+	 , tr.TeamNumber
+	 , tr.totalScoreValue teamScore
+	 , case when tm.alliance = 'R' then m.redScore else m.blueScore end allianceScore
+	 , case when tm.alliance = 'R' then m.redTeamPoints else m.blueTeamPoints end allianceTeamPoints
+	 , case when tm.alliance = 'R' then m.redFoulPoints else m.blueFoulPoints end allianceFoulPoints
 	 , 'exec sp_ins_scoutRecord ' + convert(varchar, tr.scoutId) +
 	                         ', ' + convert(varchar, tr.matchId) +
 	                         ', ' + convert(varchar, tr.teamId) +
@@ -339,15 +345,35 @@ select tr.TeamNumber
 	                         ', ' + convert(varchar, tr.value8) +
 	                         ', ' + convert(varchar, tr.value9) +
 	                         ', ' + convert(varchar, tr.value10) +
-	                         ', ' + convert(varchar, tr.value11) stmt
+	                         ', ' + convert(varchar, tr.value11) +
+							 ' -- ' + convert(varchar, tr.teamNumber) stmt
+     , tr.scoutId
+     , tr.matchId
+	 , tr.TeamId
+	 , tr.value1
+	 , tr.value2
+	 , tr.value3
+	 , tr.value4
+	 , tr.value5
+	 , tr.value6
+	 , tr.value7
+	 , tr.value8
+	 , tr.value9
+	 , tr.value10
+	 , tr.value11
   from v_TeamReport tr
        inner join TeamMatch tm
 	   on tm.teamId = tr.TeamId
 	   and tm.matchId = tr.matchId
--- where matchNumber = 'QM 17' order by 5
+	   inner join Match m
+	   on m.id = tm.matchId
+ where tr.matchNumber in ('QM 54','QM 70') order by tr.matchNumber, tm.alliance desc, convert(varchar, tm.alliancePosition)
 -- where tr.value1 not in (0, 1) or tr.value2 > 3 or tr.value3 > 3 or tr.value4 > 3 order by 1
- where tr.value5 > 0 and (tr.value3 > 0 or tr.value4 > 0 or tr.value6 > 0 or tr.value7 > 0)
+-- where tr.value5 > 0 and (tr.value3 > 0 or tr.value4 > 0 or tr.value6 > 0 or tr.value7 > 0)
 
-exec sp_ins_scoutRecord 18, 1100, 108, 'R2', 1.000000, 0.000000, 0.000000, 0.000000, 3.000000, 0.000000, 0.000000, 2.000000, 0.000000, 0.000000, 0.000000
+exec sp_ins_scoutRecord 15, 1159, 85, 'B1', 1.000000, 0.000000, 2.000000, 0.000000, 0.000000, 4.000000, 1.000000, 1.000000, 0.000000, 0.000000, 0.000000 -- 5653
+exec sp_ins_scoutRecord 1, 1159, 1, 'B2', 1.000000, 0.000000, 0.000000, 0.000000, 0.000000, 3.000000, 0.000000, 0.000000, 0.000000, 0.000000, 0.000000 -- 93
+exec sp_ins_scoutRecord 30, 1159, 44, 'B3', 1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 1.000000, -1.000000, 0.000000, 0.000000 -- 3291
 
 */
+
