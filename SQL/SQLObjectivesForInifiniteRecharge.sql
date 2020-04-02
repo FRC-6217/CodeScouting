@@ -25,25 +25,25 @@
 
 -- Clear any previous setup
 Delete from RankObjective where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
-Delete from ObjectiveGroupObjective where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
+Delete From ObjectiveGroupObjective where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
 Delete From ObjectiveValue where objectiveId in (select o.id from objective o inner join game g on g.id = o.gameId where g.name = 'Infinite Recharge')
 Delete From Objective where gameid = (select g.id from game g where g.name = 'Infinite Recharge')
 
 -- Autonomous 
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'aPcLower', 'Lower: ', st.id, 0, 8, 2, 1, 'aLower', 'I', 'N' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'aPcOuter', 'Outer: ', st.id, 0, 8, 4, 2, 'aOuter', 'I', 'Y' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'aPcInner', 'Inner: ', st.id, 0, 8, 6, 3, 'aInner', 'I', 'Y' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'aMove', 'Move Off Line:', st.id, null, null, null, 4, 'aMove', 'I', 'N' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'aPcLower', 'Lower: ', st.id, 0, 8, 2, 1, 'aLower', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'aPcOuter', 'Outer: ', st.id, 0, 8, 4, 2, 'aOuter', 'I', 'Y' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'aPcInner', 'Inner: ', st.id, 0, 8, 6, 3, 'aInner', 'I', 'Y' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'aMove', 'Move Off Line:', st.id, null, null, null, 4, 'aMove', 'I', 'N' from ScoringType st, game g where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- TeleOp
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toPcLower', 'Lower: ', st.id, 0, 50, 1, 5, 'toLower', 'I', 'N' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toPcOuter', 'Outer: ', st.id, 0, 50, 2, 6, 'toOuter', 'I', 'Y' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toPcInner', 'Inner: ', st.id, 0, 50, 3, 7, 'toInner', 'I', 'Y' from ScoringType st, game g  where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toCpRotation', 'Ctrl Pnl Rotation:', st.id, null, null, null, 8, 'cpRot', 'I', 'N' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toCpRotationTime', 'Rotation Time: ', st.id, 0, 60, null, 9, 'cpRotTime', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toCpPosition', 'Ctrl Pnl Position:', st.id, null, null, null, 10, 'cpPos', 'I', 'N' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toCpPositionTime', 'Position Time: ', st.id, 0, 60, null, 11, 'cpPosTime', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge' 
-insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious) select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 12, 'Defense', 'I', 'N' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toPcLower', 'Lower: ', st.id, 0, 50, 1, 5, 'toLower', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toPcOuter', 'Outer: ', st.id, 0, 50, 2, 6, 'toOuter', 'I', 'Y' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toPcInner', 'Inner: ', st.id, 0, 50, 3, 7, 'toInner', 'I', 'Y' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toCpRotation', 'Ctrl Pnl Rotation:', st.id, null, null, null, 8, 'cpRot', 'I', 'N' from ScoringType st, game g where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toCpRotationTime', 'Rotation Time: ', st.id, 0, 60, null, 9, 'cpRotTime', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toCpPosition', 'Ctrl Pnl Position:', st.id, null, null, null, 10, 'cpPos', 'I', 'N' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toCpPositionTime', 'Position Time: ', st.id, 0, 60, null, 11, 'cpPosTime', 'I', 'N' from ScoringType st, game g where st.name = 'integer' and g.name = 'Infinite Recharge'
+insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay, sameLineAsPrevious, objectiveGroupId) select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 12, 'Defense', 'I', 'N' from ScoringType st, game g where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
 
 -- End Game
 insert into Objective (gameId, name, label, scoringTypeId, lowRangeValue, highRangeValue, scoreMultiplier, sortOrder, tableHeader, reportDisplay) select g.id, 'toFinalPosition', 'Final Position:', st.id, null, null, null, 13, 'Finish', 'S' from ScoringType st, game g  where st.name = 'Radio Button' and g.name = 'Infinite Recharge'
@@ -70,20 +70,52 @@ insert into ObjectiveValue select o.id, 'Hang Assisted', 1, 4, 10 from game g in
 insert into ObjectiveValue select o.id, 'Hang Assist 1', 3, 5, 40 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
 insert into ObjectiveValue select o.id, 'Hang Assist 2', 4, 6, 55 from game g inner join objective o on o.gameId = g.id where g.name = 'Infinite Recharge' and o.name = 'toFinalPosition'
 
--- Objective Groupings
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcLower';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcOuter';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aPcInner';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and o.name = 'aMove';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcLower';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcOuter';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toPcInner';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpRotation';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpRotationTime';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpPosition';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCpPositionTime';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toDefense';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'toFinalPosition';
+-- Objective Group
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Autonomous', 1, 'Report Pie Chart');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('TeleOp', 2, 'Report Pie Chart');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('End Game', 3, 'Report Pie Chart');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Autonomous', 1, 'Report Line Graph');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Power Cells', 2, 'Report Line Graph');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Control Panel', 3, 'Report Line Graph');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('End Game', 4, 'Report Line Graph');
+
+-- Objective Group Objectives
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Scout Match' and o.name = 'aPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Scout Match' and o.name = 'aPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Scout Match' and o.name = 'aPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Scout Match' and o.name = 'aMove';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toCpRotation';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toCpPosition';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toDefense';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toEndGame';
+
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart' and o.name = 'aPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart' and o.name = 'aPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart' and o.name = 'aPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart' and o.name = 'aMove';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart' and o.name = 'toPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart' and o.name = 'toPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart' and o.name = 'toPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart' and o.name = 'toCpRotation';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart' and o.name = 'toCpPosition';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and og.groupCode = 'Report Pie Chart' and o.name = 'toEndGame';
+
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Line Graph' and o.name = 'aPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Line Graph' and o.name = 'aPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Line Graph' and o.name = 'aPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Autonomous' and og.groupCode = 'Report Line Graph' and o.name = 'aMove';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'aPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'aPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'aPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'toPcLower';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'toPcOuter';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Power Cells' and og.groupCode = 'Report Line Graph' and o.name = 'toPcInner';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Control Panel' and og.groupCode = 'Report Line Graph' and o.name = 'toCpRotation';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Control Panel' and og.groupCode = 'Report Line Graph' and o.name = 'toCpPosition';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and og.groupCode = 'Report Line Graph' and o.name = 'toEndGame';
 
 -- Rank Setup
 insert into Rank (gameId, name, queryString, type, sortOrder) select g.id, 'Auto', 'rankAuto', 'S', 1 from game g where g.name = 'Infinite Recharge';

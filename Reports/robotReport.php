@@ -17,53 +17,18 @@
 	$table['cols'] = array(
 		// Labels for your chart, these represent the column titles
 		// Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
-		array('label' => 'Scoring Type', 'type' => 'string'),
+		array('label' => 'Scoring Group', 'type' => 'string'),
 		array('label' => 'Score', 'type' => 'number')
 	);
 
 	$rows = array();
-	$tsql = "select subquery.*
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 1) objective1
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 2) objective2
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 3) objective3
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 4) objective4
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 5) objective5
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 6) objective6
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 7) objective7
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 8) objective8
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 9) objective9
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 10) objective10
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 11) objective11
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 12) objective12
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 13) objective13
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 14) objective14
-				 , (select tableHeader from Objective o inner join GameEvent ge on ge.gameId = o.gameId where ge.id = subquery.gameEventId and sortOrder = 15) objective15
-			  from (
-			select t.TeamNumber
-				 , sr.gameEventId
-				 , round(avg(sr.value1),2) value1
-				 , round(avg(sr.value2),2) value2
-				 , round(avg(sr.value3),2) value3
-				 , round(avg(sr.value4),2) value4
-				 , round(avg(sr.value5),2) value5
-				 , round(avg(sr.value6),2) value6
-				 , round(avg(sr.value7),2) value7
-				 , round(avg(sr.value8),2) value8
-				 , round(avg(sr.value9),2) value9
-				 , round(avg(sr.value10),2) value10
-				 , round(avg(sr.value11),2) value11
-				 , round(avg(sr.value12),2) value12
-				 , round(avg(sr.value13),2) value13
-				 , round(avg(sr.value14),2) value14
-				 , round(avg(sr.value15),2) value15
-			 from Team t
-				  inner join v_AvgScoutRecord sr
-				  on sr.TeamId = t.id
-				  inner join Match m
-				  on m.id = sr.matchId
-			where sr.teamId = $team
-			group by t.TeamNumber
-				   , sr.gameEventId) subquery";
+	$tsql = "select trpc.teamNumber
+	              , trpc.objectiveGroupName
+				  , trpc.teamId
+				  , trpc.objectiveGroupScoreValue
+			   from v_TeamReportPieChart trpc
+			  where trpc.teamId = $team
+			 order by objectiveGroupSortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -73,42 +38,12 @@
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
-    $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-	$temp = array();
-	// the following line will be used to slice the Pie chart
-	$temp[] = array('v' => (string) $row['objective1']); 
-	// Values of each slice
-	$temp[] = array('v' => (float) $row['value1']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective2']); 
-	$temp[] = array('v' => (float) $row['value2']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective3']); 
-	$temp[] = array('v' => (float) $row['value3']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective4']); 
-	$temp[] = array('v' => (float) $row['value4']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective5']); 
-	$temp[] = array('v' => (float) $row['value5']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective6']); 
-	$temp[] = array('v' => (float) $row['value6']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective7']); 
-	$temp[] = array('v' => (float) $row['value7']); 
-	$rows[] = array('c' => $temp);
-	$temp = array();
-	$temp[] = array('v' => (string) $row['objective8']); 
-	$temp[] = array('v' => (float) $row['value8']); 
-	$rows[] = array('c' => $temp);
-
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$temp = array();
+		$temp[] = array('v' => (string) $row['objectiveGroupName']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue']); 
+		$rows[] = array('c' => $temp);
+	}
 	$table['rows'] = $rows;
 	$jsonTable = json_encode($table);
 ?>

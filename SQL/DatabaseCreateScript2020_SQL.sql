@@ -336,12 +336,13 @@ create table ObjectiveGroup(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	name varchar(64) not null,
 	sortOrder integer null,
-	lastUpdated datetime null);
-create unique index idx_ObjectiveGroup on ObjectiveGroup(name);
-insert into ObjectiveGroup (name, sortOrder) values ('Sandstorm', 1);
-insert into ObjectiveGroup (name, sortOrder) values ('Autonomous', 1);
-insert into ObjectiveGroup (name, sortOrder) values ('Tele Op', 2);
-insert into ObjectiveGroup (name, sortOrder) values ('End Game', 3);
+	lastUpdated datetime null,
+	groupCode varchar(32) not null);
+create unique index idx_ObjectiveGroup on ObjectiveGroup(name, groupCode);
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Sandstorm', 1, 'Scout Match');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Autonomous', 1, 'Scout Match');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('Tele Op', 2, 'Scout Match');
+insert into ObjectiveGroup (name, sortOrder, groupCode) values ('End Game', 3, 'Scout Match');
 
 create table ObjectiveGroupObjective(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -351,13 +352,13 @@ create table ObjectiveGroupObjective(
 create unique index idx_ObjectiveGroupObjective on ObjectiveGroupObjective(objectiveGroupId, objectiveId);
 alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_ObjectiveGroup foreign key (objectiveGroupId) references ObjectiveGroup (id);
 alter table ObjectiveGroupObjective add constraint fk_ObjectiveGroupObjective_Objective foreign key (objectiveId) references Objective (id);
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'leaveHAB';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'ssHatchCnt';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and o.name = 'ssCargoCnt';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toHatchCnt';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'toCargoCnt';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and o.name = 'playedDefense';
-insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and o.name = 'returnToHAB';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and og.groupCode = 'Scout Match' and o.name = 'leaveHAB';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and og.groupCode = 'Scout Match' and o.name = 'ssHatchCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Sandstorm' and og.groupCode = 'Scout Match' and o.name = 'ssCargoCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toHatchCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'toCargoCnt';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'Tele Op' and og.groupCode = 'Scout Match' and o.name = 'playedDefense';
+insert into ObjectiveGroupObjective (objectiveGroupId, objectiveId) select og.id, o.id from ObjectiveGroup og, Objective o where og.name = 'End Game' and og.groupCode = 'Scout Match' and o.name = 'returnToHAB';
 
 create table Rank(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -1224,7 +1225,8 @@ select distinct
 	   on ogo.objectiveGroupId = og.id
        inner join objective o
 	   on o.id = ogo.objectiveId
- where o.gameId in
+ where og.groupCode = 'Scout Match'
+   and o.gameId in
        (select g.id
 	      from game g
 		       inner join gameEvent ge
@@ -1250,7 +1252,8 @@ select distinct
 			                                on ogo2.objectiveId = o2.id
 			                                inner join ObjectiveGroup og2
 			                                on og2.id = ogo2.objectiveGroupId
-		                              where o2.gameId = o.gameId
+		                              where og2.groupCode = 'Scout Match'
+									    and o2.gameId = o.gameId
 		                                and og2.id = og.id)
 								then '<br>'
 								else '<br><br>' end end + o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;">'
@@ -1262,7 +1265,8 @@ select distinct
 			                      on ogo2.objectiveId = o2.id
 			                      inner join ObjectiveGroup og2
 			                      on og2.id = ogo2.objectiveGroupId
-		                    where o2.gameId = o.gameId
+		                    where og2.groupCode = 'Scout Match'
+							  and o2.gameId = o.gameId
 		                      and og2.id = og.id)
 						then '<br>'
 						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>'
@@ -1276,7 +1280,8 @@ select distinct
 	   on st.id = o.scoringTypeId
 	   left outer join objectiveValue ov
 	   on ov.objectiveId = o.id
- where o.gameId in
+ where og.groupCode = 'Scout Match'
+   and o.gameId in
        (select g.id
 	      from game g
 		       inner join gameEvent ge
@@ -1437,6 +1442,21 @@ select sr.matchId
 	 , sum(case when o.sortOrder = 13 then sor.scoreValue else null end) scoreValue13
 	 , sum(case when o.sortOrder = 14 then sor.scoreValue else null end) scoreValue14
 	 , sum(case when o.sortOrder = 15 then sor.scoreValue else null end) scoreValue15
+	 , sum(case when o.sortOrder = 1 then sor.objectiveId else null end) objectiveId1
+	 , sum(case when o.sortOrder = 2 then sor.objectiveId else null end) objectiveId2
+	 , sum(case when o.sortOrder = 3 then sor.objectiveId else null end) objectiveId3
+	 , sum(case when o.sortOrder = 4 then sor.objectiveId else null end) objectiveId4
+	 , sum(case when o.sortOrder = 5 then sor.objectiveId else null end) objectiveId5
+	 , sum(case when o.sortOrder = 6 then sor.objectiveId else null end) objectiveId6
+	 , sum(case when o.sortOrder = 7 then sor.objectiveId else null end) objectiveId7
+	 , sum(case when o.sortOrder = 8 then sor.objectiveId else null end) objectiveId8
+	 , sum(case when o.sortOrder = 9 then sor.objectiveId else null end) objectiveId9
+	 , sum(case when o.sortOrder = 10 then sor.objectiveId else null end) objectiveId10
+	 , sum(case when o.sortOrder = 11 then sor.objectiveId else null end) objectiveId11
+	 , sum(case when o.sortOrder = 12 then sor.objectiveId else null end) objectiveId12
+	 , sum(case when o.sortOrder = 13 then sor.objectiveId else null end) objectiveId13
+	 , sum(case when o.sortOrder = 14 then sor.objectiveId else null end) objectiveId14
+	 , sum(case when o.sortOrder = 15 then sor.objectiveId else null end) objectiveId15
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -1460,68 +1480,83 @@ select sr.matchId
      , sr.teamId
 	 , sr.gameEventId
      , count(*) cnt
-     , avg(convert(numeric, value1)) value1
-     , avg(convert(numeric, value2)) value2
-     , avg(convert(numeric, value3)) value3
-     , avg(convert(numeric, value4)) value4
-     , avg(convert(numeric, value5)) value5 
-     , avg(convert(numeric, value6)) value6
-     , avg(convert(numeric, value7)) value7
-     , avg(convert(numeric, value8)) value8
-     , avg(convert(numeric, value9)) value9
-     , avg(convert(numeric, value10)) value10
-     , avg(convert(numeric, value11)) value11
-     , avg(convert(numeric, value12)) value12
-     , avg(convert(numeric, value13)) value13
-     , avg(convert(numeric, value14)) value14
-     , avg(convert(numeric, value15)) value15 
-     , avg(convert(numeric, integerValue1)) integerValue1
-     , avg(convert(numeric, integerValue2)) integerValue2
-     , avg(convert(numeric, integerValue3)) integerValue3
-     , avg(convert(numeric, integerValue4)) integerValue4
-     , avg(convert(numeric, integerValue5)) integerValue5 
-     , avg(convert(numeric, integerValue6)) integerValue6
-     , avg(convert(numeric, integerValue7)) integerValue7
-     , avg(convert(numeric, integerValue8)) integerValue8
-     , avg(convert(numeric, integerValue9)) integerValue9
-     , avg(convert(numeric, integerValue10)) integerValue10
-     , avg(convert(numeric, integerValue11)) integerValue11
-     , avg(convert(numeric, integerValue12)) integerValue12
-     , avg(convert(numeric, integerValue13)) integerValue13
-     , avg(convert(numeric, integerValue14)) integerValue14
-     , avg(convert(numeric, integerValue15)) integerValue15 
+     , avg(convert(numeric, sr.value1)) value1
+     , avg(convert(numeric, sr.value2)) value2
+     , avg(convert(numeric, sr.value3)) value3
+     , avg(convert(numeric, sr.value4)) value4
+     , avg(convert(numeric, sr.value5)) value5 
+     , avg(convert(numeric, sr.value6)) value6
+     , avg(convert(numeric, sr.value7)) value7
+     , avg(convert(numeric, sr.value8)) value8
+     , avg(convert(numeric, sr.value9)) value9
+     , avg(convert(numeric, sr.value10)) value10
+     , avg(convert(numeric, sr.value11)) value11
+     , avg(convert(numeric, sr.value12)) value12
+     , avg(convert(numeric, sr.value13)) value13
+     , avg(convert(numeric, sr.value14)) value14
+     , avg(convert(numeric, sr.value15)) value15 
+     , avg(convert(numeric, sr.integerValue1)) integerValue1
+     , avg(convert(numeric, sr.integerValue2)) integerValue2
+     , avg(convert(numeric, sr.integerValue3)) integerValue3
+     , avg(convert(numeric, sr.integerValue4)) integerValue4
+     , avg(convert(numeric, sr.integerValue5)) integerValue5 
+     , avg(convert(numeric, sr.integerValue6)) integerValue6
+     , avg(convert(numeric, sr.integerValue7)) integerValue7
+     , avg(convert(numeric, sr.integerValue8)) integerValue8
+     , avg(convert(numeric, sr.integerValue9)) integerValue9
+     , avg(convert(numeric, sr.integerValue10)) integerValue10
+     , avg(convert(numeric, sr.integerValue11)) integerValue11
+     , avg(convert(numeric, sr.integerValue12)) integerValue12
+     , avg(convert(numeric, sr.integerValue13)) integerValue13
+     , avg(convert(numeric, sr.integerValue14)) integerValue14
+     , avg(convert(numeric, sr.integerValue15)) integerValue15 
 /*
-     , avg(convert(numeric, decimalValue1)) decimalValue1
-     , avg(convert(numeric, decimalValue2)) decimalValue2
-     , avg(convert(numeric, decimalValue3)) decimalValue3
-     , avg(convert(numeric, decimalValue4)) decimalValue4
-     , avg(convert(numeric, decimalValue5)) decimalValue5 
-     , avg(convert(numeric, decimalValue6)) decimalValue6
-     , avg(convert(numeric, decimalValue7)) decimalValue7
-     , avg(convert(numeric, decimalValue8)) decimalValue8
-     , avg(convert(numeric, decimalValue9)) decimalValue9
-     , avg(convert(numeric, decimalValue10)) decimalValue10
-     , avg(convert(numeric, decimalValue11)) decimalValue11
-     , avg(convert(numeric, decimalValue12)) decimalValue12
-     , avg(convert(numeric, decimalValue13)) decimalValue13
-     , avg(convert(numeric, decimalValue14)) decimalValue14
-     , avg(convert(numeric, decimalValue15)) decimalValue15 
+     , avg(convert(numeric, sr.decimalValue1)) decimalValue1
+     , avg(convert(numeric, sr.decimalValue2)) decimalValue2
+     , avg(convert(numeric, sr.decimalValue3)) decimalValue3
+     , avg(convert(numeric, sr.decimalValue4)) decimalValue4
+     , avg(convert(numeric, sr.decimalValue5)) decimalValue5 
+     , avg(convert(numeric, sr.decimalValue6)) decimalValue6
+     , avg(convert(numeric, sr.decimalValue7)) decimalValue7
+     , avg(convert(numeric, sr.decimalValue8)) decimalValue8
+     , avg(convert(numeric, sr.decimalValue9)) decimalValue9
+     , avg(convert(numeric, sr.decimalValue10)) decimalValue10
+     , avg(convert(numeric, sr.decimalValue11)) decimalValue11
+     , avg(convert(numeric, sr.decimalValue12)) decimalValue12
+     , avg(convert(numeric, sr.decimalValue13)) decimalValue13
+     , avg(convert(numeric, sr.decimalValue14)) decimalValue14
+     , avg(convert(numeric, sr.decimalValue15)) decimalValue15 
 */
-     , avg(convert(numeric, scoreValue1)) scoreValue1
-     , avg(convert(numeric, scoreValue2)) scoreValue2
-     , avg(convert(numeric, scoreValue3)) scoreValue3
-     , avg(convert(numeric, scoreValue4)) scoreValue4
-     , avg(convert(numeric, scoreValue5)) scoreValue5 
-     , avg(convert(numeric, scoreValue6)) scoreValue6
-     , avg(convert(numeric, scoreValue7)) scoreValue7
-     , avg(convert(numeric, scoreValue8)) scoreValue8
-     , avg(convert(numeric, scoreValue9)) scoreValue9
-     , avg(convert(numeric, scoreValue10)) scoreValue10
-     , avg(convert(numeric, scoreValue11)) scoreValue11
-     , avg(convert(numeric, scoreValue12)) scoreValue12
-     , avg(convert(numeric, scoreValue13)) scoreValue13
-     , avg(convert(numeric, scoreValue14)) scoreValue14
-     , avg(convert(numeric, scoreValue15)) scoreValue15 
+     , avg(convert(numeric, sr.scoreValue1)) scoreValue1
+     , avg(convert(numeric, sr.scoreValue2)) scoreValue2
+     , avg(convert(numeric, sr.scoreValue3)) scoreValue3
+     , avg(convert(numeric, sr.scoreValue4)) scoreValue4
+     , avg(convert(numeric, sr.scoreValue5)) scoreValue5 
+     , avg(convert(numeric, sr.scoreValue6)) scoreValue6
+     , avg(convert(numeric, sr.scoreValue7)) scoreValue7
+     , avg(convert(numeric, sr.scoreValue8)) scoreValue8
+     , avg(convert(numeric, sr.scoreValue9)) scoreValue9
+     , avg(convert(numeric, sr.scoreValue10)) scoreValue10
+     , avg(convert(numeric, sr.scoreValue11)) scoreValue11
+     , avg(convert(numeric, sr.scoreValue12)) scoreValue12
+     , avg(convert(numeric, sr.scoreValue13)) scoreValue13
+     , avg(convert(numeric, sr.scoreValue14)) scoreValue14
+     , avg(convert(numeric, sr.scoreValue15)) scoreValue15 
+     , avg(convert(integer, objectiveId1)) objectiveId1
+     , avg(convert(integer, objectiveId2)) objectiveId2
+     , avg(convert(integer, objectiveId3)) objectiveId3
+     , avg(convert(integer, objectiveId4)) objectiveId4
+     , avg(convert(integer, objectiveId5)) objectiveId5 
+     , avg(convert(integer, objectiveId6)) objectiveId6
+     , avg(convert(integer, objectiveId7)) objectiveId7
+     , avg(convert(integer, objectiveId8)) objectiveId8
+     , avg(convert(integer, objectiveId9)) objectiveId9
+     , avg(convert(integer, objectiveId10)) objectiveId10
+     , avg(convert(integer, objectiveId11)) objectiveId11
+     , avg(convert(integer, objectiveId12)) objectiveId12
+     , avg(convert(integer, objectiveId13)) objectiveId13
+     , avg(convert(integer, objectiveId14)) objectiveId14
+     , avg(convert(integer, objectiveId15)) objectiveId15 
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId
@@ -1868,6 +1903,65 @@ select t.TeamNumber
       on s.id = sr.scoutId
  where t.isActive = 'Y'
    and m.isActive = 'Y';
+go
+
+-- View for Team Average Pie Chart
+create view v_TeamReportPieChart as
+select objectiveScoutRecordAverages.teamNumber
+     , objectiveScoutRecordAverages.objectiveGroupName
+	 , objectiveScoutRecordAverages.objectiveGroupSortOrder
+     , objectiveScoutRecordAverages.teamId
+	 , round(sum(objectiveScoutRecordAverages.avgScoreValue), 2) objectiveGroupScoreValue
+ from (
+select matchScoutRecordAverages.teamNumber
+     , matchScoutRecordAverages.objectiveGroupName
+	 , matchScoutRecordAverages.objectiveGroupSortOrder
+     , matchScoutRecordAverages.objectiveName
+	 , matchScoutRecordAverages.teamId
+	 , avg(matchScoutRecordAverages.scoreValue) avgScoreValue 
+  from (
+select t.teamNumber
+     , og.name objectiveGroupName
+	 , og.sortOrder objectiveGroupSortOrder
+	 , o.name objectiveName
+	 , sr.matchId
+     , sr.teamId
+	 , avg(convert(numeric, sor.scoreValue)) scoreValue
+  from ScoutRecord sr
+       inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   inner join Objective o
+	   on o.id = sor.objectiveId
+	   inner join ObjectiveGroupObjective ogo
+	   on ogo.objectiveId = o.id
+	   inner join ObjectiveGroup og
+	   on og.id = ogo.objectiveGroupId
+	   inner join Team t
+	   on t.id = sr.teamId
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y'
+   and og.groupCode = 'Report Pie Chart'
+group by t.teamNumber
+       , og.name
+	   , og.sortOrder
+	   , o.name
+       , sr.matchId
+       , sr.teamId
+) matchScoutRecordAverages
+group by matchScoutRecordAverages.teamNumber
+       , matchScoutRecordAverages.objectiveGroupName
+	   , matchScoutRecordAverages.objectiveGroupSortOrder
+       , matchScoutRecordAverages.objectiveName
+	   , matchScoutRecordAverages.teamId
+) objectiveScoutRecordAverages
+group by objectiveScoutRecordAverages.teamNumber
+       , objectiveScoutRecordAverages.objectiveGroupName
+	   , objectiveScoutRecordAverages.objectiveGroupSortOrder
+	   , objectiveScoutRecordAverages.teamId;
 go
 
 create view v_AvgTeamRecord as
