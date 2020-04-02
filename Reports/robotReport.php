@@ -19,16 +19,28 @@
 	$table['cols'] = array(
 	 array('label' => 'Match', 'type' => 'string'),
 	 array('label' => 'Total Score', 'type' => 'number'),
-	 array('label' => 'Autonomous', 'type' => 'number')
+	 array('label' => 'Autonomous', 'type' => 'number'),
+	 array('label' => 'Power Cells', 'type' => 'number'),
+	 array('label' => 'Control Panel', 'type' => 'number'),
+	 array('label' => 'End Game', 'type' => 'number'),
 	);
-	$tsql = "select trlg.matchNumber
-                  , trlg.objectiveGroupName
-                  , objectiveGroupSortOrder
-	              , objectiveGroupScoreValue
+	$tsql = "select trlg.matchDateTime
+                  , trlg.matchNumber
 	              , totalScoreValue
+                  , max(case when objectiveGroupSortOrder = 1 then trlg.objectiveGroupName else null end) objectiveGroupName1
+                  , sum(case when objectiveGroupSortOrder = 1 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue1
+                  , max(case when objectiveGroupSortOrder = 2 then trlg.objectiveGroupName else null end) objectiveGroupName2
+                  , sum(case when objectiveGroupSortOrder = 2 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue2
+                  , max(case when objectiveGroupSortOrder = 3 then trlg.objectiveGroupName else null end) objectiveGroupName3
+                  , sum(case when objectiveGroupSortOrder = 3 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue3
+                  , max(case when objectiveGroupSortOrder = 4 then trlg.objectiveGroupName else null end) objectiveGroupName4
+                  , sum(case when objectiveGroupSortOrder = 4 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue4
                from v_TeamReportLineGraph trlg
               where trlg.teamId = $team
-             order by trlg.matchDateTime, objectiveGroupSortOrder";
+             group by trlg.matchDateTime
+                    , trlg.matchNumber
+	                , totalScoreValue
+             order by trlg.matchDateTime";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -39,13 +51,14 @@
 			}
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		if ($row['objectiveGroupSortOrder'] == 1) {
-			$temp = array();
-			$temp[] = array('v' => (string) $row['matchNumber']); 
-			$temp[] = array('v' => (float) $row['totalScoreValue']); 
-			$temp[] = array('v' => (float) $row['objectiveGroupScoreValue']); 
-			$rows[] = array('c' => $temp);
-		}
+		$temp = array();
+		$temp[] = array('v' => (string) $row['matchNumber']); 
+		$temp[] = array('v' => (float) $row['totalScoreValue']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue1']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
+		$rows[] = array('c' => $temp);
 	}
 	$table['rows'] = $rows;
 	$jsonTableLineGraph = json_encode($table);
