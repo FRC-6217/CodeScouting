@@ -78,35 +78,35 @@
 	// the following line will be used to slice the Pie chart
 	$temp[] = array('v' => (string) $row['objective1']); 
 	// Values of each slice
-	$temp[] = array('v' => (int) $row['value1']); 
+	$temp[] = array('v' => (float) $row['value1']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective2']); 
-	$temp[] = array('v' => (int) $row['value2']); 
+	$temp[] = array('v' => (float) $row['value2']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective3']); 
-	$temp[] = array('v' => (int) $row['value3']); 
+	$temp[] = array('v' => (float) $row['value3']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective4']); 
-	$temp[] = array('v' => (int) $row['value4']); 
+	$temp[] = array('v' => (float) $row['value4']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective5']); 
-	$temp[] = array('v' => (int) $row['value5']); 
+	$temp[] = array('v' => (float) $row['value5']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective6']); 
-	$temp[] = array('v' => (int) $row['value6']); 
+	$temp[] = array('v' => (float) $row['value6']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective7']); 
-	$temp[] = array('v' => (int) $row['value7']); 
+	$temp[] = array('v' => (float) $row['value7']); 
 	$rows[] = array('c' => $temp);
 	$temp = array();
 	$temp[] = array('v' => (string) $row['objective8']); 
-	$temp[] = array('v' => (int) $row['value8']); 
+	$temp[] = array('v' => (float) $row['value8']); 
 	$rows[] = array('c' => $temp);
 
 	$table['rows'] = $rows;
@@ -242,8 +242,9 @@ $tsql = "select TeamNumber
     ?>
     </center>
     </table>
-	<p/>
-    <!--this is the div that will hold the pie chart-->
-    <div id="chart_div"></div>
+    <center>
+		<!--this is the div that will hold the pie chart-->
+		<div id="chart_div"></div>
+    </center>
   </body>
 </html>
