@@ -1266,7 +1266,7 @@ select distinct
 		                      and og2.id = og.id)
 						then '<br>'
 						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>'
-			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
+			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
