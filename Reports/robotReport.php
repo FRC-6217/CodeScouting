@@ -12,7 +12,44 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
 
+	// Build data for Line Graph
+	$rows = array();
+	$table = array();
+
+	$table['cols'] = array(
+	 array('label' => 'Match', 'type' => 'string'),
+	 array('label' => 'Total Score', 'type' => 'number')
+	);
+	$tsql = "select trlg.matchNumber
+                  , trlg.objectiveGroupName
+                  , objectiveGroupSortOrder
+	              , objectiveGroupScoreValue
+	              , totalScoreValue
+               from v_TeamReportLineGraph trlg
+              where trlg.teamId = $team
+             order by trlg.matchDateTime, objectiveGroupSortOrder";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		if ($row['matchNumber'] = 1) {
+			$temp = array();
+			$temp[] = array('v' => (string) $row['matchNumber']); 
+			$temp[] = array('v' => (float) $row['totalScoreValue']); 
+			$rows[] = array('c' => $temp);
+		}
+	}
+	$table['rows'] = $rows;
+	$jsonTableLineGraph = json_encode($table);
+
 	// Build data for Pie Chart
+	$rows = array();
 	$table = array();
 	$table['cols'] = array(
 		// Labels for your chart, these represent the column titles
@@ -21,7 +58,6 @@
 		array('label' => 'Score', 'type' => 'number')
 	);
 
-	$rows = array();
 	$tsql = "select trpc.teamNumber
 	              , trpc.objectiveGroupName
 				  , trpc.teamId
@@ -45,7 +81,7 @@
 		$rows[] = array('c' => $temp);
 	}
 	$table['rows'] = $rows;
-	$jsonTable = json_encode($table);
+	$jsonTablePieChart = json_encode($table);
 ?>
 <html>
   <head>
@@ -58,12 +94,28 @@
     google.load('visualization', '1', {'packages':['corechart']});
 
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(drawLineGraph);
+    google.setOnLoadCallback(drawPieChart);
 
-    function drawChart() {
+    function drawLineGraph() {
 
       // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(<?=$jsonTable?>);
+      var data = new google.visualization.DataTable(<?=$jsonTableLineGraph?>);
+      var options = {
+           title: 'Team Scoring Trend',
+		   legend: {position: 'bottom'},
+           chartArea:{width:'95%', height:'65%'}
+        };
+      // Instantiate and draw our chart, passing in some options.
+      // Do not forget to check your div ID
+      var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+      chart.draw(data, options);
+    }
+
+    function drawPieChart() {
+
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
            title: 'Scoring Breakdown',
           is3D: 'true',
@@ -72,7 +124,7 @@
         };
       // Instantiate and draw our chart, passing in some options.
       // Do not forget to check your div ID
-      var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
       chart.draw(data, options);
     }
     </script>
@@ -179,7 +231,8 @@ $tsql = "select TeamNumber
     </table>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<div id="chart_div"></div>
+		<div id="line_chart_div" style="width: 100%; height: 500px"></div>
+		<div id="pie_chart_div"></div>
     </center>
   </body>
 </html>

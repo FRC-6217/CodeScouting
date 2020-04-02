@@ -1574,40 +1574,40 @@ select m.type + ' ' + m.number matchNumber
 	        else tm.alliance end alliance
      , tm.alliancePosition
      , '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> ' teamReportUrl
-     , sum(case when sr.TeamId is null then 0 else 1 end) matchCnt
+     , sum(case when asr.TeamId is null then 0 else 1 end) matchCnt
 	 , case when tm.alliance = 'R' then 1
 	        when tm.alliance = 'B' then 3
 	        else 2 end allianceSort
-     , round(avg(sr.value1),2) value1
-     , round(avg(sr.value2),2) value2
-     , round(avg(sr.value3),2) value3
-     , round(avg(sr.value4),2) value4
-     , round(avg(sr.value5),2) value5
-     , round(avg(sr.value6),2) value6
-     , round(avg(sr.value7),2) value7
-     , round(avg(sr.value8),2) value8
-     , round(avg(sr.value9),2) value9
-     , round(avg(sr.value10),2) value10
-     , round(avg(sr.value11),2) value11
-     , round(avg(sr.value12),2) value12
-     , round(avg(sr.value13),2) value13
-     , round(avg(sr.value14),2) value14
-     , round(avg(sr.value15),2) value15
-	 , round(avg(coalesce(sr.scoreValue1,0) +
-	             coalesce(sr.scoreValue2,0) +
-	             coalesce(sr.scoreValue3,0) +
-	             coalesce(sr.scoreValue4,0) +
-	             coalesce(sr.scoreValue5,0) +
-	             coalesce(sr.scoreValue6,0) +
-	             coalesce(sr.scoreValue7,0) +
-	             coalesce(sr.scoreValue8,0) +
-	             coalesce(sr.scoreValue9,0) +
-	             coalesce(sr.scoreValue10,0) +
-	             coalesce(sr.scoreValue11,0) +
-	             coalesce(sr.scoreValue12,0) +
-	             coalesce(sr.scoreValue13,0) +
-	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)), 2) totalScoreValue
+     , round(avg(asr.value1),2) value1
+     , round(avg(asr.value2),2) value2
+     , round(avg(asr.value3),2) value3
+     , round(avg(asr.value4),2) value4
+     , round(avg(asr.value5),2) value5
+     , round(avg(asr.value6),2) value6
+     , round(avg(asr.value7),2) value7
+     , round(avg(asr.value8),2) value8
+     , round(avg(asr.value9),2) value9
+     , round(avg(asr.value10),2) value10
+     , round(avg(asr.value11),2) value11
+     , round(avg(asr.value12),2) value12
+     , round(avg(asr.value13),2) value13
+     , round(avg(asr.value14),2) value14
+     , round(avg(asr.value15),2) value15
+	 , round(avg(coalesce(asr.scoreValue1,0) +
+	             coalesce(asr.scoreValue2,0) +
+	             coalesce(asr.scoreValue3,0) +
+	             coalesce(asr.scoreValue4,0) +
+	             coalesce(asr.scoreValue5,0) +
+	             coalesce(asr.scoreValue6,0) +
+	             coalesce(asr.scoreValue7,0) +
+	             coalesce(asr.scoreValue8,0) +
+	             coalesce(asr.scoreValue9,0) +
+	             coalesce(asr.scoreValue10,0) +
+	             coalesce(asr.scoreValue11,0) +
+	             coalesce(asr.scoreValue12,0) +
+	             coalesce(asr.scoreValue13,0) +
+	             coalesce(asr.scoreValue14,0) +
+	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
   from Match m
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1615,11 +1615,11 @@ select m.type + ' ' + m.number matchNumber
        on tm.matchId = m.id
        inner join Team t
        on t.id = tm.teamId
-       left outer join v_AvgScoutRecord sr
-       on sr.TeamId = tm.teamId
+       left outer join v_AvgScoutRecord asr
+       on asr.TeamId = tm.teamId
        and exists (select 1
                      from match m2
-                    where m2.id = sr.matchId
+                    where m2.id = asr.matchId
                       and m2.isActive = 'Y')
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
@@ -1655,7 +1655,11 @@ select m.type + ' ' + m.number matchNumber
      , null value14
      , null value15
 	 , null totalScoreValue
-  from Match m;
+  from Match m
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y';
 go
  
 -- View for Match Robot Attributes
@@ -1962,6 +1966,85 @@ group by objectiveScoutRecordAverages.teamNumber
        , objectiveScoutRecordAverages.objectiveGroupName
 	   , objectiveScoutRecordAverages.objectiveGroupSortOrder
 	   , objectiveScoutRecordAverages.teamId;
+go
+
+-- View for Team Trend Line Chart
+create view v_TeamReportLineGraph as
+select objectiveScoutRecordAverages.teamNumber
+     , objectiveScoutRecordAverages.matchNumber
+     , objectiveScoutRecordAverages.matchDateTime
+     , objectiveScoutRecordAverages.objectiveGroupName
+	 , objectiveScoutRecordAverages.objectiveGroupSortOrder
+     , objectiveScoutRecordAverages.teamId
+	 , objectiveScoutRecordAverages.matchId
+	 , round(sum(objectiveScoutRecordAverages.avgScoreValue), 2) objectiveGroupScoreValue
+	 , (select tr.totalScoreValue
+	      from v_TeamReport tr
+		 where tr.teamId = objectiveScoutRecordAverages.teamId
+		   and tr.matchId = objectiveScoutRecordAverages.matchId) totalScoreValue
+ from (
+select matchScoutRecordAverages.teamNumber
+     , matchScoutRecordAverages.matchNumber
+     , matchScoutRecordAverages.matchDateTime
+     , matchScoutRecordAverages.objectiveGroupName
+	 , matchScoutRecordAverages.objectiveGroupSortOrder
+     , matchScoutRecordAverages.objectiveName
+	 , matchScoutRecordAverages.teamId
+	 , matchScoutRecordAverages.matchId
+	 , avg(matchScoutRecordAverages.scoreValue) avgScoreValue 
+  from (
+select t.teamNumber
+     , m.type + ' ' + convert(varchar, m.number) matchNumber
+	 , m.dateTime matchDateTime
+     , og.name objectiveGroupName
+	 , og.sortOrder objectiveGroupSortOrder
+	 , o.name objectiveName
+	 , sr.matchId
+     , sr.teamId
+	 , avg(convert(numeric, sor.scoreValue)) scoreValue
+  from ScoutRecord sr
+       inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   inner join Objective o
+	   on o.id = sor.objectiveId
+	   inner join ObjectiveGroupObjective ogo
+	   on ogo.objectiveId = o.id
+	   inner join ObjectiveGroup og
+	   on og.id = ogo.objectiveGroupId
+	   inner join Team t
+	   on t.id = sr.teamId
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y'
+   and og.groupCode = 'Report Line Graph'
+group by t.teamNumber
+       , m.type + ' ' + convert(varchar, m.number)
+	   , m.dateTime
+       , og.name
+	   , og.sortOrder
+	   , o.name
+       , sr.matchId
+       , sr.teamId
+) matchScoutRecordAverages
+group by matchScoutRecordAverages.teamNumber
+       , matchScoutRecordAverages.matchNumber
+       , matchScoutRecordAverages.matchDateTime
+       , matchScoutRecordAverages.objectiveGroupName
+	   , matchScoutRecordAverages.objectiveGroupSortOrder
+       , matchScoutRecordAverages.objectiveName
+	   , matchScoutRecordAverages.teamId
+	   , matchScoutRecordAverages.matchId
+) objectiveScoutRecordAverages
+group by objectiveScoutRecordAverages.teamNumber
+       , objectiveScoutRecordAverages.matchNumber
+       , objectiveScoutRecordAverages.matchDateTime
+       , objectiveScoutRecordAverages.objectiveGroupName
+	   , objectiveScoutRecordAverages.objectiveGroupSortOrder
+	   , objectiveScoutRecordAverages.teamId
+	   , objectiveScoutRecordAverages.matchId;
 go
 
 create view v_AvgTeamRecord as
