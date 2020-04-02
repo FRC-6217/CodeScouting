@@ -18,7 +18,8 @@
 
 	$table['cols'] = array(
 	 array('label' => 'Match', 'type' => 'string'),
-	 array('label' => 'Total Score', 'type' => 'number')
+	 array('label' => 'Total Score', 'type' => 'number'),
+	 array('label' => 'Autonomous', 'type' => 'number')
 	);
 	$tsql = "select trlg.matchNumber
                   , trlg.objectiveGroupName
@@ -42,6 +43,7 @@
 			$temp = array();
 			$temp[] = array('v' => (string) $row['matchNumber']); 
 			$temp[] = array('v' => (float) $row['totalScoreValue']); 
+			$temp[] = array('v' => (float) $row['objectiveGroupScoreValue']); 
 			$rows[] = array('c' => $temp);
 		}
 	}
@@ -117,7 +119,7 @@
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-           title: 'Scoring Breakdown',
+           title: 'Average Scoring Breakdown',
           is3D: 'true',
           width: 800,
           height: 600
