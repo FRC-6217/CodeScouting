@@ -38,7 +38,7 @@
 			}
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		if ($row['matchNumber'] = 1) {
+		if ($row['objectiveGroupSortOrder'] == 1) {
 			$temp = array();
 			$temp[] = array('v' => (string) $row['matchNumber']); 
 			$temp[] = array('v' => (float) $row['totalScoreValue']); 
