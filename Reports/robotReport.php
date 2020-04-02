@@ -231,7 +231,7 @@ $tsql = "select TeamNumber
     </table>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<div id="line_chart_div" style="width: 100%; height: 500px"></div>
+		<div id="line_chart_div"></div>
 		<div id="pie_chart_div"></div>
     </center>
   </body>
