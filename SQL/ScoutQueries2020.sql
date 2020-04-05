@@ -244,12 +244,12 @@ order by tr.totalScoreValue desc
 -- Allocate Team and Foul Points to Robots
 select subquery.teamNumber
      , avg(subquery.totalScoreValue) avgScoreValue
-	 , avg(subquery.robotPortionOfTeamPoints) avgPortionOfTeamPoints 
+	 , avg(subquery.robotPortionOfAlliancePoints) avgPortionOfAlliancePoints 
 	 , avg(subquery.robotPortionOfFoulPoints) avgPortionOfFoulPoints
      , avg(subquery.totalScoreValue) + 
-	   avg(subquery.robotPortionOfTeamPoints) avgScoreWithTeamPoints
+	   avg(subquery.robotPortionOfAlliancePoints) avgScoreWithAlliancePoints
      , avg(subquery.totalScoreValue) + 
-	   avg(subquery.robotPortionOfTeamPoints) -
+	   avg(subquery.robotPortionOfAlliancePoints) -
 	   avg(subquery.robotPortionOfFoulPoints) avgScoreWithTeamAndFoulPoints
   from (
 select m.type
@@ -266,9 +266,9 @@ select m.type
 	 , tr.value7 toInner
 	 , tr.value8 endGame
 	 , tr.totalScoreValue
-	 , case when alliance = 'R' then redTeamPoints else blueTeamPoints end teamPoints
+	 , case when alliance = 'R' then redAlliancePoints else blueAlliancePoints end AlliancePoints
 	 , case when alliance = 'R' then redFoulPoints else blueFoulPoints end foulPoints
-	 , case when tm.alliance = 'R' and m.redTeamPoints > 0 and tr.value8 = 25 then convert(decimal(18,3), redTeamPoints) /
+	 , case when tm.alliance = 'R' and m.redAlliancePoints > 0 and tr.value8 = 25 then convert(decimal(18,3), redAlliancePoints) /
 	                                                       (select count(*)
 														      from TeamMatch tm2
 															       inner join v_TeamReport tr2
@@ -278,7 +278,7 @@ select m.type
 															 where tr2.value8 = 25
 															   and tm2.alliance = tm.alliance
 															   and tm2.matchId = tm.matchId)
-	        when tm.alliance = 'B' and m.blueTeamPoints > 0 and tr.value8 = 25 then convert(decimal(18,3), blueTeamPoints) /
+	        when tm.alliance = 'B' and m.blueAlliancePoints > 0 and tr.value8 = 25 then convert(decimal(18,3), blueAlliancePoints) /
 	                                                       (select count(*)
 														      from TeamMatch tm2
 															       inner join v_TeamReport tr2
@@ -288,7 +288,7 @@ select m.type
 															 where tr2.value8 = 25
 															   and tm2.alliance = tm.alliance
 															   and tm2.matchId = tm.matchId)
-	        else 0 end robotPortionOfTeamPoints
+	        else 0 end robotPortionOfAlliancePoints
 	 , case when tm.alliance = 'R' then convert(decimal(18,3), m.redFoulPoints) else convert(decimal(18,3), m.blueFoulPoints) end / 3.0 robotPortionOfFoulPoints
   from GameEvent ge
        inner join Match m

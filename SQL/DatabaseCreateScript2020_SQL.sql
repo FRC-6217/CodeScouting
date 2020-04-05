@@ -298,7 +298,8 @@ create table Objective(
 	lastUpdated datetime null,
 	tableHeader varchar(64) not null,
 	reportDisplay varchar(1) not null,
-	sameLineAsPrevious char(1) not null);
+	sameLineAsPrevious char(1) not null,
+	addTeamScorePortion char(1) not null);
 create unique index idx_Objective on Objective(gameId, name);
 alter table Objective add constraint fk_Objective_Game foreign key (gameId) references Game (id);
 alter table Objective add constraint fk_Objective_ScoringType foreign key (scoringTypeId) references ScoringType (id);
@@ -441,9 +442,9 @@ create table Match(
 	redScore integer null,
 	blueScore integer null,
 	lastUpdated datetime null,
-	redTeamPoints integer null,
+	redAlliancePoints integer null,
 	redFoulPoints integer null,
-	blueTeamPoints integer null,
+	blueAlliancePoints integer null,
 	blueFoulPoints integer null);
 create unique index idx_Match on Match(gameEventId, type, number);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
@@ -717,8 +718,8 @@ go
 
 -- Function to calculate score impact for objective
 create function calcScoreValue (@pv_ObjectiveId int
-                             , @pv_IntegerValue int
-							 , @pv_DecimalValue numeric(10,3))
+                              , @pv_IntegerValue int
+							  , @pv_DecimalValue numeric(10,3))
 returns int
 as
 begin
@@ -749,6 +750,7 @@ begin
 	set nocount off
 end;
 go
+
 -- Trigger to maintain last updated value of Attribute
 create trigger tr_a_LastUpdated on Attribute after insert, update
 as

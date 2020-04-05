@@ -163,29 +163,29 @@
 			// Update/insert Match
 			if ($value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel" &&
 			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40)
-				$redTeamPoints = 15;
+				$redAlliancePoints = 15;
 			else
-				$redTeamPoints = 0;
+				$redAlliancePoints = 0;
 			if ($value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel" &&
 			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40)
-				$blueTeamPoints = 15;
+				$blueAlliancePoints = 15;
 			else
-				$blueTeamPoints = 0;
+				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " .
  					                   $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
- 					                   $redTeamPoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
- 					                   $blueTeamPoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ") " .
-					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redTeamPoints, redFoulPoints, blueTeamPoints, blueFoulPoints) " .
+ 					                   $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
+ 					                   $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ") " .
+					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched THEN " .
 					"UPDATE set number = source.number, dateTime = source.dateTime, " .
 					          " redScore = source.redScore, blueScore = source.blueScore, " .
-					          " redTeamPoints = source.redTeamPoints, redFoulPoints = source.redFoulPoints, " .
-					          " blueTeamPoints = source.blueTeamPoints, blueFoulPoints = source.blueFoulPoints " .
+					          " redAlliancePoints = source.redAlliancePoints, redFoulPoints = source.redFoulPoints, " .
+					          " blueAlliancePoints = source.blueAlliancePoints, blueFoulPoints = source.blueFoulPoints " .
 					"WHEN not matched THEN " .
-					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redTeamPoints, redFoulPoints, blueTeamPoints, blueFoulPoints) " .
-					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redTeamPoints, source.redFoulPoints, source.blueTeamPoints, source.blueFoulPoints);";
+					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints) " .
+					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
