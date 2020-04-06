@@ -2091,7 +2091,10 @@ select t.teamNumber
 	 , o.name objectiveName
 	 , sr.matchId
      , sr.teamId
-	 , avg(convert(numeric, sor.scoreValue)) scoreValue
+	 , avg(convert(numeric, sor.scoreValue) +
+	       case when o.addTeamScorePortion = 'Y'
+		        then tm.portionOfAlliancePoints
+				else 0 end) scoreValue
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -2107,6 +2110,9 @@ select t.teamNumber
 	   on og.id = ogo.objectiveGroupId
 	   inner join Team t
 	   on t.id = sr.teamId
+	   inner join TeamMatch tm
+	   on tm.matchId = sr.matchId
+	   and tm.teamId = sr.teamId
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
    and og.groupCode = 'Report Pie Chart'
@@ -2162,7 +2168,10 @@ select t.teamNumber
 	 , o.name objectiveName
 	 , sr.matchId
      , sr.teamId
-	 , avg(convert(numeric, sor.scoreValue)) scoreValue
+	 , avg(convert(numeric, sor.scoreValue) +
+	       case when o.addTeamScorePortion = 'Y'
+		        then tm.portionOfAlliancePoints
+				else 0 end) scoreValue
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -2178,6 +2187,9 @@ select t.teamNumber
 	   on og.id = ogo.objectiveGroupId
 	   inner join Team t
 	   on t.id = sr.teamId
+	   inner join TeamMatch tm
+	   on tm.matchId = sr.matchId
+	   and tm.teamId = sr.teamId
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
    and og.groupCode = 'Report Line Graph'

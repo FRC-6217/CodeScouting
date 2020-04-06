@@ -15,8 +15,23 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
+	$match = "$_GET[matchId]";
+	$tsql = "select distinct matchNumber
+               from v_MatchReport
+			  where matchId = $match";
+	$getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$matchNumber = $row['matchNumber'];
+	echo "<center><h1>Match " . $matchNumber . " - Team Objective Averages)</h1></center>";
 ?>
-	<center><h1>Pre-Match Report (Team Objective Averages)</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Alliance</th>
@@ -48,7 +63,6 @@
 		</tr>
 
 		<?php
-		$match = "$_GET[matchId]";
 		$tsql = "select matchNumber
                       , matchId
 				 	  , TeamId
