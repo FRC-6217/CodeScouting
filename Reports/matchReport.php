@@ -30,7 +30,7 @@
 		}
     $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$matchNumber = $row['matchNumber'];
-	echo "<center><h1>Match " . $matchNumber . " - Team Objective Averages)</h1></center>";
+	echo "<center><h1>Match " . $matchNumber . " - Team Objective Averages</h1></center>";
 ?>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
