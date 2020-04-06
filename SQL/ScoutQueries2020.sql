@@ -268,27 +268,7 @@ select m.type
 	 , tr.totalScoreValue
 	 , case when alliance = 'R' then redAlliancePoints else blueAlliancePoints end AlliancePoints
 	 , case when alliance = 'R' then redFoulPoints else blueFoulPoints end foulPoints
-	 , case when tm.alliance = 'R' and m.redAlliancePoints > 0 and tr.value8 = 25 then convert(decimal(18,3), redAlliancePoints) /
-	                                                       (select count(*)
-														      from TeamMatch tm2
-															       inner join v_TeamReport tr2
-																   on tr2.gameEventId = m.gameEventId
-																   and tr2.matchId = tm2.matchId
-																   and tr2.TeamId = tm2.teamId
-															 where tr2.value8 = 25
-															   and tm2.alliance = tm.alliance
-															   and tm2.matchId = tm.matchId)
-	        when tm.alliance = 'B' and m.blueAlliancePoints > 0 and tr.value8 = 25 then convert(decimal(18,3), blueAlliancePoints) /
-	                                                       (select count(*)
-														      from TeamMatch tm2
-															       inner join v_TeamReport tr2
-																   on tr2.gameEventId = m.gameEventId
-																   and tr2.matchId = tm2.matchId
-																   and tr2.TeamId = tm2.teamId
-															 where tr2.value8 = 25
-															   and tm2.alliance = tm.alliance
-															   and tm2.matchId = tm.matchId)
-	        else 0 end robotPortionOfAlliancePoints
+	 , coalesce(tm.portionOfAlliancePoints, 0) robotPortionOfAlliancePoints
 	 , case when tm.alliance = 'R' then convert(decimal(18,3), m.redFoulPoints) else convert(decimal(18,3), m.blueFoulPoints) end / 3.0 robotPortionOfFoulPoints
   from GameEvent ge
        inner join Match m

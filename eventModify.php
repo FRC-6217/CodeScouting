@@ -162,12 +162,14 @@
 				$matchNumber = $value["set_number"] . "-" . $matchNumber;
 			// Update/insert Match
 			if ($value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel" &&
-			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40)
+			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40 &&
+				$gameYear = 2020)
 				$redAlliancePoints = 15;
 			else
 				$redAlliancePoints = 0;
 			if ($value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel" &&
-			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40)
+			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40 &&
+				$gameYear = 2020)
 				$blueAlliancePoints = 15;
 			else
 				$blueAlliancePoints = 0;
