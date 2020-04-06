@@ -388,6 +388,22 @@
 			}
 		}
 
+		// Update team's portion Of Alliance Points
+		$tsql = "sp_upd_portionOfAlliancePoints $gameYear, $gameEventId";
+		$results = sqlsrv_query($conn, $tsql);
+		if(!$results) 
+		{
+			echo "Update of Team's Portion of Alliance Points failed!<br />";
+			echo "SQL " . $tsql . "<br>";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+
 		echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
 		if ($cnt > 0) {
 			sqlsrv_free_stmt($results);

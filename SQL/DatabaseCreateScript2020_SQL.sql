@@ -2,10 +2,12 @@
 drop procedure sp_ins_scoutRecord;
 drop procedure sp_ins_scoutRobot;
 drop procedure sp_rpt_rankReport;
+drop procedure sp_upd_portionOfAlliancePoints;
 drop trigger tr_SOR_CalcScoreValue;
 drop function calcScoreValue;
 drop view v_AvgTeamRecord;
 drop view v_AvgScoutRecord;
+drop view v_AvgScoutObjectiveRecord;
 drop view v_MatchReport;
 drop view v_MatchReportAttributes;
 drop view v_TeamReport;
@@ -1687,6 +1689,41 @@ group by sr.matchId
 	   , sr.gameEventId;
 go
 
+create view v_AvgScoutObjectiveRecord as
+select sr.teamId
+	 , sr.matchId
+     , m.isActive matchIsActive
+	 , m.gameEventId
+	 , ge.isActive gameEventIsActive
+	 , sor.objectiveId
+	 , o.name objectiveName
+	 , o.addTeamScorePortion
+	 , avg(sor.integerValue) avgIntegerValue
+	 , min(sor.integerValue) minIntegerValue
+	 , max(sor.integerValue) maxIntegerValue
+	 , avg(sor.scoreValue) avgScoreValue
+	 , min(sor.scoreValue) minScoreValue
+	 , max(sor.scoreValue) maxScoreValue
+	 , count(*) cntScoutRecord
+  from ScoutRecord sr
+       inner join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   inner join Objective o
+	   on o.id = sor.objectiveId
+	   inner join Match m
+	   on m.id = sr.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+group by sr.teamId
+	   , sr.matchId
+       , m.isActive
+	   , m.gameEventId
+	   , ge.isActive
+	   , sor.objectiveId
+	   , o.name
+	   , o.addTeamScorePortion;
+go
+
 -- View for match averages
 create view v_MatchReport as
 select m.type + ' ' + m.number matchNumber
@@ -3234,4 +3271,93 @@ BEGIN
 		END
 END
 GO
+
+CREATE PROCEDURE sp_upd_portionOfAlliancePoints
+    (@pv_GameYear integer
+    ,@pv_GameEventId integer)
+as
+begin
+	SET NOCOUNT ON
+	-- If year is 2020, allocate balanced hang points
+	if @pv_GameYear = 2020
+	begin
+		-- Clear all portioning of points
+		update TeamMatch
+		   set portionOfAlliancePoints = null
+		 where portionOfAlliancePoints is not null
+		   and id in
+			   (select tm.id
+				  from TeamMatch tm
+					   inner join Match m
+					   on m.id = tm.matchId
+				 where m.gameEventId = @pv_GameEventId);
+
+		-- Set portion to zero if team did not get scouted
+		update TeamMatch
+		   set portionOfAlliancePoints = 0
+		 where coalesce(portionOfAlliancePoints, -1) <> 0
+		   and id in
+			   (select tm.id
+				  from TeamMatch tm
+					   inner join Match m
+					   on m.id = tm.matchId
+				 where m.gameEventId = @pv_GameEventId)
+		   and not exists
+			   (select 1
+				  from ScoutRecord sr
+					   inner join Match m
+					   on m.id = sr.matchId
+				 where m.gameEventId = @pv_GameEventId
+				   and sr.teamId = TeamMatch.teamId
+				   and sr.matchId = TeamMatch.matchId);
+
+		-- Set portion to zero if team did not hang
+		update TeamMatch
+		   set portionOfAlliancePoints = 0
+		 where coalesce(portionOfAlliancePoints, -1) <> 0
+		   and id in
+			   (select tm.id
+				  from TeamMatch tm
+					   inner join Match m
+					   on m.id = tm.matchId
+				 where m.gameEventId = @pv_GameEventId)
+		   and not exists
+			   (select 1
+				  from v_AvgScoutObjectiveRecord asor
+					   inner join Match m
+					   on m.id = asor.matchId
+				 where m.gameEventId = @pv_GameEventId
+				   and asor.teamId = TeamMatch.teamId
+				   and asor.matchId = TeamMatch.matchId
+				   and asor.addTeamScorePortion = 'Y'
+				   and asor.avgScoreValue >= 20); -- Indicates most scout records showed hang at end
+
+		-- Set portion to alliance score divide by teams hanging
+		update TeamMatch
+		   set portionOfAlliancePoints =
+			   convert(numeric(10,3),
+			   (select case when TeamMatch.alliance = 'R'
+							then m.redAlliancePoints
+							when TeamMatch.alliance = 'B'
+							then m.blueAlliancePoints
+							else 0 end
+				  from Match m
+				 where m.id = TeamMatch.matchId)) /
+			   convert(numeric(10,3),
+			   (select count(*)
+				  from TeamMatch tm
+				 where tm.matchId = TeamMatch.matchId
+				   and tm.alliance = TeamMatch.alliance
+				   and tm.portionOfAlliancePoints is null))
+		 where coalesce(portionOfAlliancePoints, -1) <> 0
+		   and id in
+			   (select tm.id
+				  from TeamMatch tm
+					   inner join Match m
+					   on m.id = tm.matchId
+				 where m.gameEventId = @pv_GameEventId);
+	end
+end
+GO
+
 */
