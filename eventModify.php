@@ -63,6 +63,7 @@
 	
 	// Get TBA Event information and insert/update Event in the database
 	if ($eventTBAExists) {
+echo "1. The time is " . date("h:i:sa");
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
 		$eventJSON = file_get_contents($sURL, false, $context);
 		$eventValue = json_decode($eventJSON, true);
@@ -89,6 +90,7 @@
 					}
 				}
 			}		
+echo "2. The time is " . date("h:i:sa");
 			if($results) {
 				$tsql = "insert into GameEvent (eventId, gameId, eventDate, isActive) " . 
 						"select e.id, g.id, '" . $eventValue["start_date"] . "', 'N' " .
@@ -102,6 +104,7 @@
 						"                    where e.eventCode = '" . $eventCode . "' " .
 						"                      and g.gameYear = " . $gameYear . ");";
 				$results = sqlsrv_query($conn, $tsql);
+echo "3. The time is " . date("h:i:sa");
 				if(!$results) 
 				{
 					echo "Insert of Game Event failed!<br />";
@@ -153,6 +156,7 @@
 		$matchesJSON = file_get_contents($sURL, false, $context);
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
+echo "4. The time is " . date("h:i:sa");
 		// Add/update match information and assign to teams to the match
 		foreach($matchesArray as $key => $value) {
 			$dt->setTimestamp($value["time"]);
@@ -201,6 +205,7 @@
 				}
 				break;
 			}
+echo "5. The time is " . date("h:i:sa");
 
 			// Delete from Team/Match, if team not part of the match
 			$tsql = "delete from TeamMatch " .
@@ -234,6 +239,7 @@
 				break;
 			}
 			
+echo "6. The time is " . date("h:i:sa");
 			// Create Match/Team Cross-Reference
 			$tsql = "insert into TeamMatch (matchId, teamId, alliance, alliancePosition) " . 
 					"select m.id, t.id, 'R', 1 " .
@@ -344,6 +350,7 @@
 				"              on m.id = tm.matchId " .
 				"		 where m.gameEventId = " . $gameEventId .
 				"          and sr.id = ScoutObjectiveRecord.scoutRecordId);";
+echo "7. The time is " . date("h:i:sa");
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
@@ -387,6 +394,7 @@
 				}
 			}
 		}
+echo "8. The time is " . date("h:i:sa");
 
 		echo "<center>Updated " . $cnt . " Matches Successfully!</center><br>";
 		if ($cnt > 0) {
@@ -420,6 +428,7 @@
 						"           and g.gameYear = " . $gameYear .
 						"           and e.eventCode = '" . $eventCode . "');";
 				$results = sqlsrv_query($conn, $tsql);
+echo "9. The time is " . date("h:i:sa");
 				if(!$results) 
 				{
 					echo "Update of Team Game Event for Team " . substr($value["qual"].["ranking"].["team_key"], 3) . " failed!<br />";
