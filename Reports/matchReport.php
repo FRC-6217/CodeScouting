@@ -198,11 +198,10 @@
 			if (isset($row['attrValue10'])) echo "<td>" . $row['attrValue10'] . "</td>";
        echo "</tr>";
     }
-    sqlsrv_free_stmt($getResults);
-	sqlsrv_close($conn);
     ?>
     </table>
 	</center>
+	<center><h1>Final Match Score Breakdown</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
 			<th>Alliance</th>
@@ -293,5 +292,7 @@
 			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
         echo "</tr>";
     }
+    sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
 	?>
 </html>
