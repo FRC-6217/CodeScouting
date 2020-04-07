@@ -236,7 +236,7 @@
 		<?php
 		$tsql = "select alliance
 					  , case when alliancePosition = 99 then null else alliancePosition end alliancePos
-					  , TeamNumber
+					  , teamNumber
 					  , value1
 					  , value2
 					  , value3
