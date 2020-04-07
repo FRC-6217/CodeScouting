@@ -203,4 +203,95 @@
     ?>
     </table>
 	</center>
+	<center><table cellspacing="0" cellpadding="5">
+		<tr>
+			<th>Alliance</th>
+			<th>Robot</th>
+			<th>Team</th>
+			<?php
+			$tsql = "select o.tableHeader
+					   from objective o
+							inner join gameEvent ge
+							on ge.gameId = o.gameId
+					  where ge.isActive = 'Y'
+					 order by o.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['tableHeader'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
+			<th>Scr Imp</th>
+			<th>Fouls</th>
+			<th>Match Scr</th>
+		</tr>
+
+		<?php
+		$tsql = "select alliance
+					  , case when alliancePosition = 99 then null else alliancePosition end alliancePos
+					  , TeamNumber
+					  , value1
+					  , value2
+					  , value3
+					  , value4
+					  , value5
+					  , value6
+					  , value7
+					  , value8
+					  , value9
+					  , value10
+					  , value11
+					  , value12
+					  , value13
+					  , value14
+					  , value15
+					  , totalScoreValue
+					  , matchFoulPoints
+					  , matchScore
+                   from v_MatchFinalReport
+				  where matchId = $match
+				 order by allianceSort, alliance desc, alliancePosition";
+	$getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+        echo "<tr>";
+        	echo "<td>" . $row['alliance'] . "</td>";
+			echo "<td>" . $row['alliancePos'] . "</td>";
+			echo "<td>" . $row['teamNumber'] . "</td>";
+			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>";
+			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>";
+			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>";
+			if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>";
+			if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>";
+			if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>";
+			if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>";
+			if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>";
+			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>";
+			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>";
+			if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>";
+			if (isset($row['value12'])) echo "<td>" . number_format($row['value12'], 2) . "</td>";
+			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>";
+			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>";
+			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>";
+			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
+			if (isset($row['matchFoulPoints'])) echo "<td>" . number_format($row['matchFoulPoints'], 2) . "</td>";
+			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
+        echo "</tr>";
+    }
+	?>
 </html>

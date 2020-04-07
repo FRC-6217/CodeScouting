@@ -1920,6 +1920,186 @@ select m.type + ' ' + m.number matchNumber
  where ge.isActive = 'Y'
    and m.isActive = 'Y';
 go
+
+-- View for Match Final Report
+create view v_MatchFinalReport as
+-- Team Scores
+select case when tm.alliance = 'R' then 'Red'
+	        when tm.alliance = 'B' then 'Blue'
+	        else tm.alliance end alliance
+	 , tm.alliancePosition
+     , t.TeamNumber
+	 , case when tm.alliance = 'R' then 1
+	        when tm.alliance = 'B' then 3
+	        else 2 end allianceSort
+	 , round(asr.value1,2) value1
+     , round(asr.value2,2) value2
+     , round(asr.value3,2) value3
+     , round(asr.value4,2) value4
+     , round(asr.value5,2) value5
+     , round(asr.value6,2) value6
+     , round(asr.value7,2) value7
+     , round(asr.value8,2) value8
+     , round(asr.value9,2) value9
+     , round(asr.value10,2) value10
+     , round(asr.value11,2) value11
+     , round(asr.value12,2) value12
+     , round(asr.value13,2) value13
+     , round(asr.value14,2) value14
+     , round(asr.value15,2) value15
+	 , round(coalesce(asr.scoreValue1,0) +
+	         coalesce(asr.scoreValue2,0) +
+	         coalesce(asr.scoreValue3,0) +
+	         coalesce(asr.scoreValue4,0) +
+	         coalesce(asr.scoreValue5,0) +
+	         coalesce(asr.scoreValue6,0) +
+	         coalesce(asr.scoreValue7,0) +
+	         coalesce(asr.scoreValue8,0) +
+	         coalesce(asr.scoreValue9,0) +
+	         coalesce(asr.scoreValue10,0) +
+	         coalesce(asr.scoreValue11,0) +
+	         coalesce(asr.scoreValue12,0) +
+	         coalesce(asr.scoreValue13,0) +
+	         coalesce(asr.scoreValue14,0) +
+	         coalesce(asr.scoreValue15,0),2) totalScoreValue
+	 , null matchFoulPoints
+	 , null matchScore
+     , t.id TeamId
+     , asr.matchId
+     , asr.gameEventId
+ from Team t
+      inner join v_AvgScoutRecord asr
+      on asr.TeamId = t.id
+      inner join Match m
+      on m.id = asr.matchId
+	  inner join TeamMatch tm
+	  on tm.matchId = asr.matchId
+	  and tm.teamId = asr.teamId
+ where t.isActive = 'Y'
+   and m.isActive = 'Y'
+union
+-- Alliance Scores
+select subquery.alliance
+     , 99 alliancePosition
+	 , null TeamNumber
+	 , subquery.allianceSort
+	 , sum(subquery.value1) value1
+	 , sum(subquery.value2) value2
+	 , sum(subquery.value3) value3
+	 , sum(subquery.value4) value4
+	 , sum(subquery.value5) value5
+	 , sum(subquery.value6) value6
+	 , sum(subquery.value7) value7
+	 , sum(subquery.value8) value8
+	 , sum(subquery.value9) value9
+	 , sum(subquery.value10) value10
+	 , sum(subquery.value11) value11
+	 , sum(subquery.value12) value12
+	 , sum(subquery.value13) value13
+	 , sum(subquery.value14) value14
+	 , sum(subquery.value15) value15
+	 , sum(subquery.totalScoreValue) totalScoreValue
+	 , subquery.matchFoulPoints
+	 , subquery.matchScore
+	 , null TeamId
+	 , subquery.matchId
+	 , subquery.gameEventId
+  from (
+select case when tm.alliance = 'R' then 'Red'
+	        when tm.alliance = 'B' then 'Blue'
+	        else tm.alliance end alliance
+	 , tm.alliancePosition
+     , t.TeamNumber
+	 , case when tm.alliance = 'R' then 1
+	        when tm.alliance = 'B' then 3
+	        else 2 end allianceSort
+	 , round(asr.value1,2) value1
+     , round(asr.value2,2) value2
+     , round(asr.value3,2) value3
+     , round(asr.value4,2) value4
+     , round(asr.value5,2) value5
+     , round(asr.value6,2) value6
+     , round(asr.value7,2) value7
+     , round(asr.value8,2) value8
+     , round(asr.value9,2) value9
+     , round(asr.value10,2) value10
+     , round(asr.value11,2) value11
+     , round(asr.value12,2) value12
+     , round(asr.value13,2) value13
+     , round(asr.value14,2) value14
+     , round(asr.value15,2) value15
+	 , round(coalesce(asr.scoreValue1,0) +
+	         coalesce(asr.scoreValue2,0) +
+	         coalesce(asr.scoreValue3,0) +
+	         coalesce(asr.scoreValue4,0) +
+	         coalesce(asr.scoreValue5,0) +
+	         coalesce(asr.scoreValue6,0) +
+	         coalesce(asr.scoreValue7,0) +
+	         coalesce(asr.scoreValue8,0) +
+	         coalesce(asr.scoreValue9,0) +
+	         coalesce(asr.scoreValue10,0) +
+	         coalesce(asr.scoreValue11,0) +
+	         coalesce(asr.scoreValue12,0) +
+	         coalesce(asr.scoreValue13,0) +
+	         coalesce(asr.scoreValue14,0) +
+	         coalesce(asr.scoreValue15,0),2) totalScoreValue
+	 , case when tm.alliance = 'R' then m.redFoulPoints
+	        when tm.alliance = 'B' then m.blueFoulPoints
+	        else null end matchFoulPoints
+	 , case when tm.alliance = 'R' then m.redScore
+	        when tm.alliance = 'B' then m.blueScore
+	        else null end matchScore
+     , t.id TeamId
+     , asr.matchId
+     , asr.gameEventId
+ from Team t
+      inner join v_AvgScoutRecord asr
+      on asr.TeamId = t.id
+      inner join Match m
+      on m.id = asr.matchId
+	  inner join TeamMatch tm
+	  on tm.matchId = asr.matchId
+	  and tm.teamId = asr.teamId
+ where t.isActive = 'Y'
+   and m.isActive = 'Y') subquery
+group by subquery.alliance
+       , subquery.allianceSort
+	   , subquery.matchFoulPoints
+	   , subquery.matchScore
+	   , subquery.matchId
+	   , subquery.gameEventId
+union
+-- Divider needed in table between alliances
+select '----' alliance
+     , null alliancePosition
+     , null TeamNumber
+     , 2 allianceSort
+     , null value1
+     , null value2
+     , null value3
+     , null value4
+     , null value5
+     , null value6
+     , null value7
+     , null value8
+     , null value9
+     , null value10
+     , null value11
+     , null value12
+     , null value13
+     , null value14
+     , null value15
+	 , null totalScoreValue
+	 , null matchFoulPoints
+	 , null matchScore
+	 , null teamId
+	 , m.id matchId
+	 , m.gameEventId
+  from Match m
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y';
  
 -- View for Match Robot Attributes
 create view v_MatchReportAttributes as
