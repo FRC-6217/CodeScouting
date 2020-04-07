@@ -68,7 +68,7 @@
 				 	  , TeamId
 				 	  , TeamNumber
 					  , alliance
-					  , alliancePosition
+					  , case when alliancePosition = 99 then null else alliancePosition end alliancePosition
 					  , teamReportUrl
 					  , matchCnt
 					  , value1
