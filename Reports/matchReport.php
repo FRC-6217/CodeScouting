@@ -68,7 +68,7 @@
 				 	  , TeamId
 				 	  , TeamNumber
 					  , alliance
-					  , case when alliancePosition = 99 then null else alliancePosition end alliancePosition
+					  , case when alliancePosition = 99 then null else alliancePosition end alliancePos
 					  , teamReportUrl
 					  , matchCnt
 					  , value1
@@ -102,7 +102,7 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         echo "<tr>";
         	echo "<td>" . $row['alliance'] . "</td>";
-			echo "<td>" . $row['alliancePosition'] . "</td>";
+			echo "<td>" . $row['alliancePos'] . "</td>";
 			echo "<td>" . $row['teamReportUrl'] . "</td>";
 			echo "<td>" . $row['matchCnt'] . "</td>";
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>";
