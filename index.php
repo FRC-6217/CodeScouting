@@ -76,7 +76,8 @@
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   pointShape: 'diamond',
-			   chartArea:{width:'95%', height:'65%'},
+			   pointSize: 10,
+			   chartArea:{width:'80%', height:'75%'},
                trendlines: { 2: {labelInLegend: 'Score Trend', visibleInLegend: true, color: '#00ff00', lineWidth: 10, opacity: 0.2} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
