@@ -29,7 +29,7 @@
               where matchId = $match
                 and mr.TeamNumber is not null
              order by mr.alliance desc
-			        , case when mr.alliance = 'R' then mr.totalScoreValue
+			        , case when mr.alliance = 'Red' then mr.totalScoreValue
 					       else - mr.totalScoreValue end
                     , mr.alliancePosition";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -69,7 +69,8 @@
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-           title: 'Match Score Prediction',
+          legend:'left',
+		  title: 'Match Score Prediction',
           is3D: 'true',
           width: 800,
           height: 600,
