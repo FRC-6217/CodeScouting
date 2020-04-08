@@ -72,12 +72,12 @@
 		  var options = {
 			   title: 'Match Scoring Trend',
 			   legend: {position: 'bottom'},
+			   colors: ['#ff0000', '#0000ff', '#ff00ff'],
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   pointShape: 'diamond',
 			   chartArea:{width:'95%', height:'65%'},
-               trendlines: { 2: {labelInLegend: 'Score Trend', visibleInLegend: true, color: '#00ff00', lineWidth: 10, opacity: 0.2} },    // Draw a trendline for total score.
-			   colors: ['#ff0000', '#00ff00', '#ff00ff']
+               trendlines: { 2: {labelInLegend: 'Score Trend', visibleInLegend: true, color: '#00ff00', lineWidth: 10, opacity: 0.2} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
