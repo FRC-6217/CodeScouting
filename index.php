@@ -52,7 +52,7 @@
 <html>
      <meta name="viewport" content="width=device-width, initial-scale=1">
 	 <script src="https://apis.google.com/js/platform.js" async defer></script>
-     <title>Scouting App</title>
+     <title>Team 6217 Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
     <head>
 		<!--Load the Ajax API-->
@@ -77,7 +77,11 @@
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   chartArea:{width:'90%', height:'60%'},
-               trendlines: { 2: {visibleInLegend: true, color: '#00ff00', lineWidth: 5, opacity: 0.2} }    // Draw a trendline for total score.
+               trendlines: { 2: {labelInLegend: 'Total Score Trend'
+			                   , visibleInLegend: true
+			                   , color: '#013220' // Dark Green
+							   , lineWidth: 5
+							   , opacity: 0.3} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
@@ -107,7 +111,7 @@
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <h1><center>Bomb Botz Scouting App</center></h1>
+    <h1><center>Team 6217 Bomb Botz Scouting App</center></h1>
 	    <h2><center>
 		<?php
 		$tsql = "select g.name game_name
