@@ -287,6 +287,6 @@
 	</center>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<div id="line_chart_div" style="width: 70%; float: center;"></div>
+		<div id="line_chart_div" style="width: 70%"></div>
     </center>
 </html> 
