@@ -80,7 +80,7 @@
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
-		  var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+		  var chart = new google.visualization.ScatterChart(document.getElementById('line_chart_div'));
 		  chart.draw(data, options);
 		}
 
