@@ -70,9 +70,14 @@
 		  // Create our data table out of JSON data loaded from server.
 		  var data = new google.visualization.DataTable(<?=$jsonTableLineGraph?>);
 		  var options = {
-			   title: 'Team Scoring Trend',
+			   title: 'Match Scoring Trend',
 			   legend: {position: 'bottom'},
-			   chartArea:{width:'95%', height:'65%'}
+			   hAxis: {title: 'Match'},
+               vAxis: {title: 'Score'},
+			   pointShape: 'diamond',
+			   chartArea:{width:'95%', height:'65%'},
+               trendlines: { 2: {labelInLegend: 'Score Trend', visibleInLegend: true, color: '#00ff00', lineWidth: 10, opacity: 0.2} },    // Draw a trendline for total score.
+			   colors: ['#ff0000', '#00ff00', '#ff00ff']
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
