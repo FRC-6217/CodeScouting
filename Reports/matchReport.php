@@ -71,7 +71,7 @@
       var options = {
           legend:'left',
 		  title: 'Match Score Prediction',
-          is3D: 'true',
+          is3D: 'false',
           width: 800,
           height: 600,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
