@@ -1,8 +1,3 @@
-<html>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-	 <script src="https://apis.google.com/js/platform.js" async defer></script>
-     <title>Scouting App</title>
-     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -15,8 +10,77 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
+
+	// Build data for Line Graph
+	$rows = array();
+	$table = array();
+
+	$table['cols'] = array(
+	 array('label' => 'Match', 'type' => 'string'),
+	 array('label' => 'Red Score', 'type' => 'number'),
+	 array('label' => 'Blue Score', 'type' => 'number'),
+	 array('label' => 'Total Score', 'type' => 'number'),
+	);
+	$tsql = "select matchNumber
+				 , redScore
+				 , blueScore
+				 , redScore + blueScore totalScore
+			  from v_MatchHyperlinks
+			order by datetime, matchNumber";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$temp = array();
+		$temp[] = array('v' => (string) $row['matchNumber']); 
+		$temp[] = array('v' => (float) $row['redScore']); 
+		$temp[] = array('v' => (float) $row['blueScore']); 
+		$temp[] = array('v' => (float) $row['totalScore']); 
+		$rows[] = array('c' => $temp);
+	}
+	$table['rows'] = $rows;
+	$jsonTableLineGraph = json_encode($table);
+
 ?>
+<html>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <script src="https://apis.google.com/js/platform.js" async defer></script>
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
     <head>
+		<!--Load the Ajax API-->
+		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript">
+
+		// Load the Visualization API and the piechart package.
+		google.load('visualization', '1', {'packages':['corechart']});
+
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.setOnLoadCallback(drawLineGraph);
+
+		function drawLineGraph() {
+
+		  // Create our data table out of JSON data loaded from server.
+		  var data = new google.visualization.DataTable(<?=$jsonTableLineGraph?>);
+		  var options = {
+			   title: 'Team Scoring Trend',
+			   legend: {position: 'bottom'},
+			   chartArea:{width:'95%', height:'65%'}
+			};
+		  // Instantiate and draw our chart, passing in some options.
+		  // Do not forget to check your div ID
+		  var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
+		  chart.draw(data, options);
+		}
+
+		</script>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/Logo/apple-icon-72x72.png">
@@ -212,4 +276,8 @@
     ?>
     </table>
 	</center>
+    <center>
+		<!--this is the div that will hold the pie chart-->
+		<div id="line_chart_div"></div>
+    </center>
 </html> 
