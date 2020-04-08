@@ -77,7 +77,7 @@
                vAxis: {title: 'Score'},
 			   pointShape: 'diamond',
 			   pointSize: 10,
-			   chartArea:{width:'80%', height:'75%'},
+			   chartArea:{width:'90%', height:'50%'},
                trendlines: { 2: {labelInLegend: 'Score Trend', visibleInLegend: true, color: '#00ff00', lineWidth: 10, opacity: 0.2} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
