@@ -39,7 +39,7 @@
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
-		$temp[] = array('v' => (datetime) $row['matchDateTime']); 
+		$temp[] = array('v' => (date) $row['matchDateTime']); 
 		$temp[] = array('v' => (float) $row['redScore']); 
 		$temp[] = array('v' => (float) $row['blueScore']); 
 		$temp[] = array('v' => (float) $row['totalScore']); 
@@ -77,7 +77,7 @@
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   chartArea:{width:'90%', height:'60%'},
-               trendlines: { 0: {} }    // Draw a trendline for total score.
+               trendlines: { 2: {} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
