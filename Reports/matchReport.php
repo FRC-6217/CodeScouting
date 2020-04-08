@@ -29,6 +29,8 @@
               where matchId = $match
                 and mr.TeamNumber is not null
              order by mr.alliance desc
+			        , case when mr.alliance = 'R' then mr.totalScoreValue
+					       else - mr.totalScoreValue end
                     , mr.alliancePosition";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
