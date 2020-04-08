@@ -39,7 +39,7 @@
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
-		$temp[] = array('v' => (date) $row['matchDateTime']); 
+		$temp[] = array('v' => $row['matchDateTime']); 
 		$temp[] = array('v' => (float) $row['redScore']); 
 		$temp[] = array('v' => (float) $row['blueScore']); 
 		$temp[] = array('v' => (float) $row['totalScore']); 
