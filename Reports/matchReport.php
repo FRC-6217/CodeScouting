@@ -74,7 +74,7 @@
           is3D: 'true',
           width: 800,
           height: 600,
-		  colors: ['#f53b3b', '#ff0000', '#b50000', '#367cf5', '#035efc', '#0449c2']
+		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
       // Instantiate and draw our chart, passing in some options.
       // Do not forget to check your div ID
