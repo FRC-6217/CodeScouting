@@ -16,17 +16,18 @@
 	$table = array();
 
 	$table['cols'] = array(
-	 array('label' => 'Match', 'type' => 'string'),
+	 array('label' => 'Match', 'type' => 'datetime'),
 	 array('label' => 'Red Score', 'type' => 'number'),
 	 array('label' => 'Blue Score', 'type' => 'number'),
 	 array('label' => 'Total Score', 'type' => 'number'),
 	);
-	$tsql = "select matchNumber
-				 , redScore
-				 , blueScore
-				 , redScore + blueScore totalScore
-			  from v_MatchHyperlinks
-			order by datetime, matchNumber";
+	$tsql = "select datetime matchDateTime
+                  , matchNumber
+				  , redScore
+				  , blueScore
+				  , redScore + blueScore totalScore
+			   from v_MatchHyperlinks
+			 order by datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -38,7 +39,7 @@
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
-		$temp[] = array('v' => (string) $row['matchNumber']); 
+		$temp[] = array('v' => (datetime) $row['matchDateTime']); 
 		$temp[] = array('v' => (float) $row['redScore']); 
 		$temp[] = array('v' => (float) $row['blueScore']); 
 		$temp[] = array('v' => (float) $row['totalScore']); 
