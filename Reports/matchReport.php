@@ -1,8 +1,3 @@
-<html>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <title>Scouting App</title>
-     <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -16,6 +11,80 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$match = "$_GET[matchId]";
+	// Build data for Pie Chart
+	$rows = array();
+	$table = array();
+	$table['cols'] = array(
+		// Labels for your chart, these represent the column titles
+		// Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
+		array('label' => 'Team', 'type' => 'string'),
+		array('label' => 'Avg Score', 'type' => 'number')
+	);
+
+	$tsql = "select mr.TeamNumber
+                  , mr.alliance 
+	              , mr.alliancePosition
+	              , mr.totalScoreValue
+               from v_MatchReport mr
+              where matchId = $match
+                and mr.TeamNumber is not null
+             order by mr.alliance desc
+                    , mr.alliancePosition";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$temp = array();
+		$temp[] = array('v' => (string) $row['TeamNumber']); 
+		$temp[] = array('v' => (float) $row['totalScoreValue']); 
+		$rows[] = array('c' => $temp);
+	}
+	$table['rows'] = $rows;
+	$jsonTablePieChart = json_encode($table);
+?>
+
+<html>
+  <head>
+    <!--Load the Ajax API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawPieChart);
+
+    function drawPieChart() {
+
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
+      var options = {
+           title: 'Match Score Prediction',
+          is3D: 'true',
+          width: 800,
+          height: 600
+        };
+      // Instantiate and draw our chart, passing in some options.
+      // Do not forget to check your div ID
+      var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+      chart.draw(data, options);
+    }
+    </script>
+  </head>
+  <body>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
+	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
+<?php
 	$tsql = "select distinct matchNumber
                from v_MatchReport
 			  where matchId = $match";
@@ -126,6 +195,10 @@
 	?>
     </table>
 	</center>
+    <center>
+		<!--this is the div that will hold the pie chart-->
+		<div id="pie_chart_div"></div>
+    </center>
 	<center><h1>Robot Attributes</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
 		<tr>
@@ -295,4 +368,5 @@
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 	?>
+	</body>
 </html>
