@@ -75,7 +75,7 @@
 			   colors: ['#ff0000', '#0000ff', '#ff00ff'],
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
-			   chartArea:{width:'90%', height:'50%'},
+			   chartArea:{width:'90%', height:'60%'},
                trendlines: { 0: {} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
@@ -282,6 +282,6 @@
 	</center>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<div id="line_chart_div style="width: 70%; float: center; ""></div>
+		<div id="line_chart_div" style="width: 70%; float: center;"></div>
     </center>
 </html> 
