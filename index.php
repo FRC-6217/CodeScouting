@@ -16,13 +16,12 @@
 	$table = array();
 
 	$table['cols'] = array(
-	 array('label' => 'Match', 'type' => 'datetime'),
+	 array('label' => 'Match', 'type' => 'string'),
 	 array('label' => 'Red Score', 'type' => 'number'),
 	 array('label' => 'Blue Score', 'type' => 'number'),
 	 array('label' => 'Total Score', 'type' => 'number'),
 	);
-	$tsql = "select datetime matchDateTime
-                  , matchNumber
+	$tsql = "select matchNumber
 				  , redScore
 				  , blueScore
 				  , redScore + blueScore totalScore
@@ -39,7 +38,7 @@
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
-		$temp[] = array('v' => $row['matchDateTime']); 
+		$temp[] = array('v' => (string) $row['matchNumber']); 
 		$temp[] = array('v' => (float) $row['redScore']); 
 		$temp[] = array('v' => (float) $row['blueScore']); 
 		$temp[] = array('v' => (float) $row['totalScore']); 
@@ -77,7 +76,7 @@
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   chartArea:{width:'90%', height:'60%'},
-               trendlines: { 2: {} }    // Draw a trendline for total score.
+               trendlines: { 0: {} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
