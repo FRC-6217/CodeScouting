@@ -76,11 +76,11 @@
 			   hAxis: {title: 'Match'},
                vAxis: {title: 'Score'},
 			   chartArea:{width:'90%', height:'50%'},
-               trendlines: { 2: {} }    // Draw a trendline for total score.
+               trendlines: { 0: {} }    // Draw a trendline for total score.
 			};
 		  // Instantiate and draw our chart, passing in some options.
 		  // Do not forget to check your div ID
-		  var chart = new google.visualization.ScatterChart(document.getElementById('line_chart_div'));
+		  var chart = new google.visualization.LineChart(document.getElementById('line_chart_div'));
 		  chart.draw(data, options);
 		}
 
