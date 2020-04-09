@@ -91,7 +91,7 @@
 <?php
 	$tsql = "select m.type + ' ' + m.number matchNumber
                from Match m
-			  where match.id = $match";
+			  where m.id = $match";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -181,67 +181,67 @@
 		echo "<td>" . $row['matchCnt'] . "</td>";
 		if (isset($row['value1'])) {
 			echo "<td>" . number_format($row['value1'], 2) . "</td>";
-			$allianceValue1 = $allianceValue1 + 1;
+			$allianceValue1 = $allianceValue1 + $row['value1'];
 		}
 		if (isset($row['value2'])) {
 			echo "<td>" . number_format($row['value2'], 2) . "</td>";
-			$allianceValue2 = $allianceValue2 + 1;
+			$allianceValue2 = $allianceValue2 + $row['value2'];
 		}
 		if (isset($row['value3'])) {
 			echo "<td>" . number_format($row['value3'], 2) . "</td>";
-			$allianceValue3 = $allianceValue3 + 1;
+			$allianceValue3 = $allianceValue3 + $row['value3'];
 		}
 		if (isset($row['value4'])) {
 			echo "<td>" . number_format($row['value4'], 2) . "</td>";
-			$allianceValue4 = $allianceValue4 + 1;
+			$allianceValue4 = $allianceValue4 + $row['value4'];
 		}
 		if (isset($row['value5'])) {
 			echo "<td>" . number_format($row['value5'], 2) . "</td>";
-			$allianceValue5 = $allianceValue5 + 1;
+			$allianceValue5 = $allianceValue5 + $row['value5'];
 		}
 		if (isset($row['value6'])) {
 			echo "<td>" . number_format($row['value6'], 2) . "</td>";
-			$allianceValue6 = $allianceValue6 + 1;
+			$allianceValue6 = $allianceValue6 + $row['value6'];
 		}
 		if (isset($row['value7'])) {
 			echo "<td>" . number_format($row['value7'], 2) . "</td>";
-			$allianceValue7 = $allianceValue7 + 1;
+			$allianceValue7 = $allianceValue7 + $row['value7'];
 		}
 		if (isset($row['value8'])) {
 			echo "<td>" . number_format($row['value8'], 2) . "</td>";
-			$allianceValue8 = $allianceValue8 + 1;
+			$allianceValue8 = $allianceValue8 + $row['value8'];
 		}
 		if (isset($row['value9'])) {
 			echo "<td>" . number_format($row['value9'], 2) . "</td>";
-			$allianceValue9 = $allianceValue9 + 1;
+			$allianceValue9 = $allianceValue9 + $row['value9'];
 		}
 		if (isset($row['value10'])) {
 			echo "<td>" . number_format($row['value10'], 2) . "</td>";
-			$allianceValue10 = $allianceValue10 + 1;
+			$allianceValue10 = $allianceValue10 + $row['value10'];
 		}
 		if (isset($row['value11'])) {
 			echo "<td>" . number_format($row['value11'], 2) . "</td>";
-			$allianceValue11 = $allianceValue11 + 1;
+			$allianceValue11 = $allianceValue11 + $row['value11'];
 		}
 		if (isset($row['value12'])) {
 			echo "<td>" . number_format($row['value12'], 2) . "</td>";
-			$allianceValue12 = $allianceValue12 + 1;
+			$allianceValue12 = $allianceValue12 + $row['value12'];
 		}
 		if (isset($row['value13'])) {
 			echo "<td>" . number_format($row['value13'], 2) . "</td>";
-			$allianceValue13 = $allianceValue13 + 1;
+			$allianceValue13 = $allianceValue13 + $row['value13'];
 		}
 		if (isset($row['value14'])) {
 			echo "<td>" . number_format($row['value14'], 2) . "</td>";
-			$allianceValue14 = $allianceValue14 + 1;
+			$allianceValue14 = $allianceValue14 + $row['value14'];
 		}
 		if (isset($row['value15'])) {
 			echo "<td>" . number_format($row['value15'], 2) . "</td>";
-			$allianceValue15 = $allianceValue15 + 1;
+			$allianceValue15 = $allianceValue15 + $row['value15'];
 		}
 		if (isset($row['totalScoreValue'])) {
 			echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
-			$allianceTotalScoreValue = $allianceTotalScoreValue + 1;
+			$allianceTotalScoreValue = $allianceTotalScoreValue + $row['totalScoreValue'];
 		}
         echo "</tr>";
 		// Add Row for the Alliance Total
