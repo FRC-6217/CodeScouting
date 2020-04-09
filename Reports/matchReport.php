@@ -71,7 +71,7 @@
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
           legend:'left',
-		  title: <?php echo $tableTitle;?>,
+		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
           width: 800,
           height: 600,
