@@ -51,7 +51,7 @@
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
-	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' + number_format($blueScore, 2);
+	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
 ?>
   <head>
     <!--Load the Ajax API-->
