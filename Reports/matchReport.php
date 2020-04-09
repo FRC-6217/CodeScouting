@@ -46,12 +46,13 @@
 		$temp[] = array('v' => (string) $row['TeamNumber']); 
 		$temp[] = array('v' => (float) $row['totalScoreValue']); 
 		$rows[] = array('c' => $temp);
+		if ($row['alliance'] == 'Red') $redScore = $redScore + $row['totalScoreValue'];
+		if ($row['alliance'] == 'Blue') $blueScore = $blueScore + $row['totalScoreValue'];
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
+	$tableTitle = 'Match Score Prediction: Red = ' + number_format($redScore, 2) + ', Blue = ' + number_format($blueScore, 2);
 ?>
-
-<html>
   <head>
     <!--Load the Ajax API-->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -70,7 +71,7 @@
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
           legend:'left',
-		  title: 'Match Score Prediction',
+		  title: <?=$tableTitle?>,
           is3D: 'false',
           width: 800,
           height: 600,
