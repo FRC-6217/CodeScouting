@@ -225,6 +225,11 @@
 			$row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC);
 			$matchId = $row['id'];
 			
+			// Add/update Match Videos
+			for($i=0; $i<count($row['videos']); $i++) {
+				echo "Video is " . $row['videos'][$i]["type"] . ":" . $row['videos'][$i]["key"] . "<BR>";
+			}
+			
 			// Delete from Team/Match, if team not part of the match
 			$tsql = "delete from TeamMatch " .
 			        " where matchId = " . $matchId .
