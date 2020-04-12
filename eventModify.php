@@ -449,20 +449,21 @@
 								    union
 									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
 								    union ";
-							echo $value["score_breakdown"]["red"]["stage2Activated"];
-							if ($value["score_breakdown"]["red"]["stage2Activated"] == "false")
+							if (!$value["score_breakdown"]["red"]["stage2Activated"])
+								echo "Hi";
+							if (!$value["score_breakdown"]["red"]["stage2Activated"])
 								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
 							else
 								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
-							if ($value["score_breakdown"]["blue"]["stage2Activated"] == "false")
+							if (!$value["score_breakdown"]["blue"]["stage2Activated"])
 								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
 							else
 								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
-							if ($value["score_breakdown"]["red"]["stage3Activated"] == "false")
+							if (!$value["score_breakdown"]["red"]["stage3Activated"])
 								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpPosition' objectiveName union ";
 							else
 								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union ";
-							if ($value["score_breakdown"]["blue"]["stage3Activated"] == "false")
+							if (!$value["score_breakdown"]["blue"]["stage3Activated"])
 								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName)";
 							else
 								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
