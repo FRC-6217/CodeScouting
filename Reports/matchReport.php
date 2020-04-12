@@ -513,8 +513,6 @@
 					echo "message: ".$error[ 'message']."<br />";
 				}
 			}
-		echo '<iframe width="560" height="315" src="https://www.thebluealliance.com/match/2020mndu_qm9" frameborder="0" allowfullscreen></iframe>';
-		echo '<p></p>';
 		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         	echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
 			echo '<p></p>';
