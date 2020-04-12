@@ -959,12 +959,18 @@ begin
 	set nocount off
 end
 GO
--- Trigger to maintain last updated value of TeamMatchObjective
-create trigger tr_tmo_LastUpdated on TeamMatchObjective after insert, update
+-- Trigger to maintain last updated and scoreValue after insert/update of TeamMatchObjective
+drop trigger tr_tmo_LastUpdated;
+create trigger tr_tmo_CalcScoreValue on TeamMatchObjective after insert, update
 as
 begin
 	set nocount on
-    update TeamMatchObjective set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+    update TeamMatchObjective
+	   set scoreValue = (select dbo.calcScoreValue(i.objectiveId, i.integerValue, i.decimalValue)
+	                       from inserted i
+						  where i.id = TeamMatchObjective.id)
+		 , lastUpdated = getDate() at time zone 'UTC' at time zone 'Central Standard Time'
+	 where TeamMatchObjective.id in (select i.id from inserted i);
 	set nocount off
 end
 GO

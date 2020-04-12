@@ -72,7 +72,7 @@
 					"using (select '" . str_replace("'", "", $eventValue["name"]) . "', '" . str_replace("'", "", $eventValue["city"]) . ", " . str_replace("'", "", $eventValue["state_prov"]) . "', '" . $eventValue["event_code"] . "') " .
 					"as source (name, location, eventCode) " .
 					"on (target.eventCode = source.eventCode) " .
-					"WHEN matched THEN " .
+					"WHEN matched AND (target.name <> source.name OR target.location <> source.location) THEN " .
 					"UPDATE set name = source.name, location = source.location " .
 					"WHEN not matched THEN " .
 					"INSERT (name, location, eventCode) " .
@@ -180,7 +180,11 @@
  					                   $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "') " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
-					"WHEN matched THEN " .
+					"WHEN matched AND (target.number <> source.number OR target.dateTime <> source.dateTime OR " .
+					                  "target.redScore <> source.redScore OR target.blueScore <> source.blueScore OR " .
+									  "target.redAlliancePoints <> source.redAlliancePoints OR target.redFoulPoints <> source.redFoulPoints OR " .
+									  "target.blueAlliancePoints <> source.blueAlliancePoints OR target.blueFoulPoints <> source.blueFoulPoints OR " .
+									  "target.matchCode <> source.matchCode) THEN " .
 					"UPDATE set number = source.number, dateTime = source.dateTime, " .
 					          " redScore = source.redScore, blueScore = source.blueScore, " .
 					          " redAlliancePoints = source.redAlliancePoints, redFoulPoints = source.redFoulPoints, " .
@@ -789,7 +793,7 @@
 					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . "') " .
 					"as source (teamNumber, teamName, location) " .
 					"on (target.teamNumber = source.teamNumber) " .
-					"WHEN matched THEN " .
+					"WHEN matched AND (target.teamName <> source.teamName OR target.location <> source.location OR target.isActive <> 'Y') THEN " .
 					"UPDATE set teamName = source.teamName, location = source.location, isActive = 'Y' " .
 					"WHEN not matched THEN " .
 					"INSERT (teamNumber, teamName, location, isActive) " .
