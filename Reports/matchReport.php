@@ -73,8 +73,8 @@
           legend:'left',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
-          width: 800,
-          height: 600,
+          width: 400,
+          height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
       // Instantiate and draw our chart, passing in some options.
