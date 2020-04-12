@@ -1070,6 +1070,9 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	 , subquery.datetime
 	 , subquery.redScore
 	 , subquery.blueScore
+     , replace(replace(substring( 
+       (select ',<a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + mv.videoKey + '">V</a>' AS 'data()'
+          from MatchVideo mv FOR XML PATH('')), 2 , 9999), '&lt;', '<'), '&gt;', '>') videos
      , subquery.r1TeamId
      , subquery.r2TeamId
      , subquery.r3TeamId

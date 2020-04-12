@@ -195,6 +195,7 @@
         <th>S</th>
         <th>Red Sc</th>
         <th>Blu Sc</th>
+        <th>Videos</th>
      </tr>
 
     <?php
@@ -276,6 +277,7 @@
             echo $blueTdTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
             echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
             echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
+			echo "<td>" . $row['videos'] . "</td>";
 		   ?>
         </tr>
     <?php
