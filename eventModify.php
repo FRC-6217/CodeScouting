@@ -411,7 +411,6 @@
 					break;
 				}
 			}
-			echo $tsql;
 			$cnt += 1;
 		}
 
