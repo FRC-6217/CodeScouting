@@ -224,6 +224,7 @@
 				  , datetime
 				  , redScore
 				  , blueScore
+				  , videos
 				  , r1TeamId
 				  , r2TeamId
 				  , r3TeamId
