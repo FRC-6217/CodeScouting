@@ -1693,21 +1693,21 @@ select sr.matchId
      , sr.teamId
 	 , sr.gameEventId
      , count(*) cnt
-     , avg(convert(numeric, sr.value1)) value1
-     , avg(convert(numeric, sr.value2)) value2
-     , avg(convert(numeric, sr.value3)) value3
-     , avg(convert(numeric, sr.value4)) value4
-     , avg(convert(numeric, sr.value5)) value5 
-     , avg(convert(numeric, sr.value6)) value6
-     , avg(convert(numeric, sr.value7)) value7
-     , avg(convert(numeric, sr.value8)) value8
-     , avg(convert(numeric, sr.value9)) value9
-     , avg(convert(numeric, sr.value10)) value10
-     , avg(convert(numeric, sr.value11)) value11
-     , avg(convert(numeric, sr.value12)) value12
-     , avg(convert(numeric, sr.value13)) value13
-     , avg(convert(numeric, sr.value14)) value14
-     , avg(convert(numeric, sr.value15)) value15 
+     , avg(convert(numeric(11,3), sr.value1)) value1
+     , avg(convert(numeric(11,3), sr.value2)) value2
+     , avg(convert(numeric(11,3), sr.value3)) value3
+     , avg(convert(numeric(11,3), sr.value4)) value4
+     , avg(convert(numeric(11,3), sr.value5)) value5 
+     , avg(convert(numeric(11,3), sr.value6)) value6
+     , avg(convert(numeric(11,3), sr.value7)) value7
+     , avg(convert(numeric(11,3), sr.value8)) value8
+     , avg(convert(numeric(11,3), sr.value9)) value9
+     , avg(convert(numeric(11,3), sr.value10)) value10
+     , avg(convert(numeric(11,3), sr.value11)) value11
+     , avg(convert(numeric(11,3), sr.value12)) value12
+     , avg(convert(numeric(11,3), sr.value13)) value13
+     , avg(convert(numeric(11,3), sr.value14)) value14
+     , avg(convert(numeric(11,3), sr.value15)) value15 
      , avg(convert(numeric, sr.integerValue1)) integerValue1
      , avg(convert(numeric, sr.integerValue2)) integerValue2
      , avg(convert(numeric, sr.integerValue3)) integerValue3
@@ -1723,38 +1723,21 @@ select sr.matchId
      , avg(convert(numeric, sr.integerValue13)) integerValue13
      , avg(convert(numeric, sr.integerValue14)) integerValue14
      , avg(convert(numeric, sr.integerValue15)) integerValue15 
-/*
-     , avg(convert(numeric, sr.decimalValue1)) decimalValue1
-     , avg(convert(numeric, sr.decimalValue2)) decimalValue2
-     , avg(convert(numeric, sr.decimalValue3)) decimalValue3
-     , avg(convert(numeric, sr.decimalValue4)) decimalValue4
-     , avg(convert(numeric, sr.decimalValue5)) decimalValue5 
-     , avg(convert(numeric, sr.decimalValue6)) decimalValue6
-     , avg(convert(numeric, sr.decimalValue7)) decimalValue7
-     , avg(convert(numeric, sr.decimalValue8)) decimalValue8
-     , avg(convert(numeric, sr.decimalValue9)) decimalValue9
-     , avg(convert(numeric, sr.decimalValue10)) decimalValue10
-     , avg(convert(numeric, sr.decimalValue11)) decimalValue11
-     , avg(convert(numeric, sr.decimalValue12)) decimalValue12
-     , avg(convert(numeric, sr.decimalValue13)) decimalValue13
-     , avg(convert(numeric, sr.decimalValue14)) decimalValue14
-     , avg(convert(numeric, sr.decimalValue15)) decimalValue15 
-*/
-     , avg(convert(numeric, sr.scoreValue1)) scoreValue1
-     , avg(convert(numeric, sr.scoreValue2)) scoreValue2
-     , avg(convert(numeric, sr.scoreValue3)) scoreValue3
-     , avg(convert(numeric, sr.scoreValue4)) scoreValue4
-     , avg(convert(numeric, sr.scoreValue5)) scoreValue5 
-     , avg(convert(numeric, sr.scoreValue6)) scoreValue6
-     , avg(convert(numeric, sr.scoreValue7)) scoreValue7
-     , avg(convert(numeric, sr.scoreValue8)) scoreValue8
-     , avg(convert(numeric, sr.scoreValue9)) scoreValue9
-     , avg(convert(numeric, sr.scoreValue10)) scoreValue10
-     , avg(convert(numeric, sr.scoreValue11)) scoreValue11
-     , avg(convert(numeric, sr.scoreValue12)) scoreValue12
-     , avg(convert(numeric, sr.scoreValue13)) scoreValue13
-     , avg(convert(numeric, sr.scoreValue14)) scoreValue14
-     , avg(convert(numeric, sr.scoreValue15)) scoreValue15 
+     , avg(convert(numeric(11,3), sr.scoreValue1)) scoreValue1
+     , avg(convert(numeric(11,3), sr.scoreValue2)) scoreValue2
+     , avg(convert(numeric(11,3), sr.scoreValue3)) scoreValue3
+     , avg(convert(numeric(11,3), sr.scoreValue4)) scoreValue4
+     , avg(convert(numeric(11,3), sr.scoreValue5)) scoreValue5 
+     , avg(convert(numeric(11,3), sr.scoreValue6)) scoreValue6
+     , avg(convert(numeric(11,3), sr.scoreValue7)) scoreValue7
+     , avg(convert(numeric(11,3), sr.scoreValue8)) scoreValue8
+     , avg(convert(numeric(11,3), sr.scoreValue9)) scoreValue9
+     , avg(convert(numeric(11,3), sr.scoreValue10)) scoreValue10
+     , avg(convert(numeric(11,3), sr.scoreValue11)) scoreValue11
+     , avg(convert(numeric(11,3), sr.scoreValue12)) scoreValue12
+     , avg(convert(numeric(11,3), sr.scoreValue13)) scoreValue13
+     , avg(convert(numeric(11,3), sr.scoreValue14)) scoreValue14
+     , avg(convert(numeric(11,3), sr.scoreValue15)) scoreValue15 
      , avg(convert(integer, objectiveId1)) objectiveId1
      , avg(convert(integer, objectiveId2)) objectiveId2
      , avg(convert(integer, objectiveId3)) objectiveId3
@@ -2187,6 +2170,7 @@ select '----' alliance
 	   on ge.id = m.gameEventId
  where ge.isActive = 'Y'
    and m.isActive = 'Y';
+go
  
 -- View for Match Robot Attributes
 create view v_MatchReportAttributes as
@@ -2371,6 +2355,7 @@ select t.TeamNumber
 	             coalesce(sr.scoreValue13,0) +
 	             coalesce(sr.scoreValue14,0) +
 	             coalesce(sr.scoreValue15,0)),2) totalScoreValue
+     , null videos
      , t.id TeamId
      , null matchId
      , null scoutId
@@ -2420,6 +2405,14 @@ select t.TeamNumber
 	         coalesce(sr.scoreValue13,0) +
 	         coalesce(sr.scoreValue14,0) +
 	         coalesce(sr.scoreValue15,0),2) totalScoreValue
+     , case when m.matchCode is not null
+	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>, '
+			else '' end +
+	   replace(replace(substring(
+       (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+          from MatchVideo mv
+		 where mv.matchId = m.id
+		 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>') videos
      , sr.TeamId
      , sr.matchId
      , sr.scoutId

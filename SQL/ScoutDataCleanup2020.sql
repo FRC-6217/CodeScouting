@@ -1,7 +1,64 @@
+-- Fix Scout Data that can be directly updated based on Blue Alliance Data
+-- 2020 : Auto Line and End Game
+update ScoutObjectiveRecord
+   set integerValue =
+		(select tmo.integervalue
+		   from TeamMatchObjective tmo
+			    inner join TeamMatch tm
+			    on tm.id = tmo.teamMatchId
+			    inner join ScoutRecord sr
+			    on sr.teamId = tm.teamId
+			    and sr.matchId = tm.matchId
+		  where ScoutObjectiveRecord.scoutRecordId = sr.id
+		    and ScoutObjectiveRecord.objectiveId = tmo.objectiveId)
+ where exists
+	  (select 1
+		 from TeamMatchObjective tmo
+			  inner join TeamMatch tm
+			  on tm.id = tmo.teamMatchId
+			  inner join ScoutRecord sr
+			  on sr.teamId = tm.teamId
+			  and sr.matchId = tm.matchId
+			  inner join Match m
+			  on m.id = tm.matchId
+			  inner join GameEvent ge
+			  on ge.id = m.gameEventId
+		where m.isActive = 'Y'
+		  and ge.isActive = 'Y'
+		  and ScoutObjectiveRecord.scoutRecordId = sr.id
+		  and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
+		  and ScoutObjectiveRecord.integerValue <> tmo.integerValue);
+
+-- Compare Scout Data to Blue Alliance
+select m.number matchNumber
+	 , asor.objectiveName
+	 , tm.alliance
+	 , mo.scoreValue
+	 , sum(asor.avgScoreValue) scoutScoreValue
+  from v_AvgScoutObjectiveRecord asor
+       inner join TeamMatch tm
+	   on tm.matchId = asor.matchId
+	   and tm.teamId = asor.teamId
+       inner join MatchObjective mo
+	   on mo.matchId = asor.matchId
+	   and mo.objectiveId = asor.objectiveId
+	   and mo.alliance = tm.alliance
+	   inner join Team t
+	   on t.id = asor.teamId
+	   inner join Match m
+	   on m.id = asor.matchId
+group by m.id
+       , m.number
+       , asor.objectiveName
+	   , tm.alliance
+	   , mo.scoreValue
+having mo.scoreValue <> sum(asor.avgScoreValue)
+order by 1, 2, 3, 4;
+
 -- Scouted Data Accuracy - scout records needing correction
 select subquery.allianceScore
-     , subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints calcAllianceScore
-     , subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints) deltaScore
+     , subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints calcAllianceScore
+     , subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints) deltaScore
      , subquery.*
   from (
 select m.type
@@ -13,14 +70,15 @@ select m.type
 	 , case when tm.alliance = 'R' then m.redScore
 	        when tm.alliance = 'B' then m.blueScore
 	        else 0 end allianceScore
+	 , tm.portionOfAlliancePoints
 	 , asr.scoreValue1 + asr.scoreValue2 + asr.scoreValue3 + asr.scoreValue4 + asr.scoreValue5 +
 	   asr.scoreValue6 + asr.scoreValue7 + asr.scoreValue8 + asr.scoreValue9 + asr.scoreValue10 +
 	   asr.scoreValue11 teamScore
 	 , sum(asr2.scoreValue1 + asr2.scoreValue2 + asr2.scoreValue3 + asr2.scoreValue4 + asr2.scoreValue5 +
 	       asr2.scoreValue6 + asr2.scoreValue7 + asr2.scoreValue8 + asr2.scoreValue9 + asr2.scoreValue10 +
 	       asr2.scoreValue11) partnerScore
-	 , case when tm.alliance = 'R' then coalesce(m.redTeamPoints, 0)
-	        when tm.alliance = 'B' then coalesce(m.blueTeamPoints, 0)
+	 , case when tm.alliance = 'R' then coalesce(m.redAlliancePoints, 0)
+	        when tm.alliance = 'B' then coalesce(m.blueAlliancePoints, 0)
 	        else 0 end allianceTeamPoints
 	 , case when tm.alliance = 'R' then coalesce(m.redFoulPoints, 0)
 	        when tm.alliance = 'B' then coalesce(m.blueFoulPoints, 0)
@@ -63,11 +121,12 @@ group by m.type
 	   , case when tm.alliance = 'R' then m.redScore
 	          when tm.alliance = 'B' then m.blueScore
 	          else 0 end
+	   , tm.portionOfAlliancePoints
 	   , asr.scoreValue1 + asr.scoreValue2 + asr.scoreValue3 + asr.scoreValue4 + asr.scoreValue5 +
 	     asr.scoreValue6 + asr.scoreValue7 + asr.scoreValue8 + asr.scoreValue9 + asr.scoreValue10 +
 	     asr.scoreValue11
-  	   , case when tm.alliance = 'R' then coalesce(m.redTeamPoints, 0)
-	          when tm.alliance = 'B' then coalesce(m.blueTeamPoints, 0)
+  	   , case when tm.alliance = 'R' then coalesce(m.redAlliancePoints, 0)
+	          when tm.alliance = 'B' then coalesce(m.blueAlliancePoints, 0)
 	          else 0 end
 	   , case when tm.alliance = 'R' then coalesce(m.redFoulPoints, 0)
 	          when tm.alliance = 'B' then coalesce(m.blueFoulPoints, 0)
@@ -81,8 +140,9 @@ group by m.type
 	   , asr.integerValue7
 	   , asr.scoreValue8
 	   , asr.matchId) subquery
- where subquery.allianceScore <> subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints
-order by abs(subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceTeamPoints + subquery.allianceFoulPoints)) desc, subquery.alliance
+ where subquery.allianceScore <> subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints
+and subquery.number = 50
+order by abs(subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints)) desc, subquery.alliance
 
 /*
 -- Set objective to counts versus score to make cleanup easier
@@ -96,7 +156,7 @@ select tr.matchNumber
 	 , tr.TeamNumber
 	 , tr.totalScoreValue teamScore
 	 , case when tm.alliance = 'R' then m.redScore else m.blueScore end allianceScore
-	 , case when tm.alliance = 'R' then m.redTeamPoints else m.blueTeamPoints end allianceTeamPoints
+	 , case when tm.alliance = 'R' then m.redAlliancePoints else m.blueAlliancePoints end allianceTeamPoints
 	 , case when tm.alliance = 'R' then m.redFoulPoints else m.blueFoulPoints end allianceFoulPoints
 	 , 'exec sp_ins_scoutRecord ' + convert(varchar, tr.scoutId) +
 	                         ', ' + convert(varchar, tr.matchId) +
