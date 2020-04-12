@@ -474,7 +474,7 @@
         	echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['alliancePos'] . "</td>";
 			echo "<td>" . $row['teamNumber'] . "</td>";
-			if (isset($row['value1']) || $cnt >= 1) echo "<td>" . number_format($row['value1'], 2) . "</td>";
+			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2']) || $cnt >= 2) echo "<td>" . number_format($row['value2'], 2) . "</td>";
 			if (isset($row['value3']) || $cnt >= 3) echo "<td>" . number_format($row['value3'], 2) . "</td>";
 			if (isset($row['value4']) || $cnt >= 4) echo "<td>" . number_format($row['value4'], 2) . "</td>";
