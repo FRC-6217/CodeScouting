@@ -495,6 +495,21 @@ create table MatchVideo(
 create unique index idx_MatchVideo on MatchVideo(matchId, videoKey, videoType);
 alter table MatchVideo add constraint fk_MatchVideo_Match foreign key (matchId) references Match (id);
 
+create table MatchObjective (
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	matchId integer not null,
+	alliance char(1) not null,
+	objectiveId integer not null,
+	integerValue integer null,
+	decimalValue integer null,
+	textValue varchar(4000) null,
+	scoreValue integer null,
+	lastUpdated datetime null);
+create unique index idx_MatchObjective on MatchObjective(matchId, alliance, objectiveId);
+alter table MatchObjective add constraint fk_MatchObjective_Match foreign key (matchId) references Match (id);
+alter table MatchObjective add constraint fk_MatchObjective_Objective foreign key (objectiveId) references Objective (id);
+go
+
 create table TeamMatch(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	matchId integer not null,
@@ -833,6 +848,20 @@ begin
 	set nocount off
 end
 GO
+-- Trigger to maintain last updated and scoreValue after insert/update of MatchObjective
+create trigger tr_mo_CalcScoreValue on MatchObjective after insert, update
+as
+begin
+	set nocount on
+    update MatchObjective
+	   set scoreValue = (select dbo.calcScoreValue(i.objectiveId, i.integerValue, i.decimalValue)
+	                       from inserted i
+						  where i.id = MatchObjective.id)
+		 , lastUpdated = getDate() at time zone 'UTC' at time zone 'Central Standard Time'
+	 where MatchObjective.id in (select i.id from inserted i);
+	set nocount off
+end
+GO
 -- Trigger to maintain last updated value of MatchVideo
 create trigger tr_mv_LastUpdated on MatchVideo after insert, update
 as
@@ -960,7 +989,6 @@ begin
 end
 GO
 -- Trigger to maintain last updated and scoreValue after insert/update of TeamMatchObjective
-drop trigger tr_tmo_LastUpdated;
 create trigger tr_tmo_CalcScoreValue on TeamMatchObjective after insert, update
 as
 begin
