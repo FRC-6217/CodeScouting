@@ -321,7 +321,8 @@ create table ObjectiveValue(
 	sortOrder integer null,
 	scoreValue integer null,
 	lastUpdated datetime null,
-	sameLineAsPrevious char(1) not null);
+	sameLineAsPrevious char(1) not null,
+	tbaValue varchar(64) null);
 create unique index idx_ObjectiveValue on ObjectiveValue(objectiveId, displayValue);
 alter table ObjectiveValue add constraint fk_ObjectiveValue_Objective foreign key (objectiveId) references Objective (id);
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Did Not Leave', 0, 1, 0 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'leaveHAB';
@@ -447,7 +448,8 @@ create table Match(
 	redAlliancePoints integer null,
 	redFoulPoints integer null,
 	blueAlliancePoints integer null,
-	blueFoulPoints integer null);
+	blueFoulPoints integer null,
+	matchCode varchar(16) null);
 create unique index idx_Match on Match(gameEventId, type, number);
 alter table Match add constraint fk_Match_GameEvent foreign key (gameEventId) references GameEvent (id);
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '01', '09/21/2019 08:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
@@ -483,6 +485,15 @@ insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, 
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '31', '09/21/2019 14:45:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '32', '09/21/2019 14:55:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
 insert into Match (gameEventId, number, dateTime, type, isActive) select ge.Id, '33', '09/21/2019 15:05:00', 'QM', 'Y' from gameEvent ge inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event';
+
+create table MatchVideo(
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	matchId integer not null,
+	videoKey varchar(64) not null,
+	videoType varchar(64) not null,
+	lastUpdated datetime null);
+create unique index idx_MatchVideo on MatchVideo(matchId, videoKey, videoType);
+alter table MatchVideo add constraint fk_MatchVideo_Match foreign key (matchId) references Match (id);
 
 create table TeamMatch(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -694,6 +705,20 @@ insert into TeamMatch (matchId, teamId, alliance, alliancePosition) select m.id,
 insert into TeamMatch (matchId, teamId, alliance, alliancePosition) select m.id, t.id, 'B', 3 from Team t, Match m inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event' and t.teamNumber = 2846 and m.type = 'Q' and m.number = '32';
 insert into TeamMatch (matchId, teamId, alliance, alliancePosition) select m.id, t.id, 'B', 3 from Team t, Match m inner join GameEvent ge on ge.Id = m.gameEventId inner join game g on g.id = ge.gameId inner join event e on e.id = ge.eventId where g.name = 'Deep Space' and e.name = 'Test Data Event' and t.teamNumber = 3206 and m.type = 'Q' and m.number = '33';
 
+create table TeamMatchObjective (
+	id int primary key IDENTITY(1, 1) NOT NULL,
+	teamMatchId integer not null,
+	objectiveId integer not null,
+	integerValue integer null,
+	decimalValue integer null,
+	textValue varchar(4000) null,
+	scoreValue integer null,
+	lastUpdated datetime null);
+create unique index idx_TeamMatchObjective on TeamMatchObjective(teamMatchId, objectiveId);
+alter table TeamMatchObjective add constraint fk_TeamMatchObjective_TeamMatch foreign key (teamMatchId) references TeamMatch (id);
+alter table TeamMatchObjective add constraint fk_TeamMatchObjective_Objective foreign key (objectiveId) references Objective (id);
+go
+
 create table ScoutRecord (
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	scoutId integer not null,
@@ -805,6 +830,15 @@ as
 begin
 	set nocount on
     update Match set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
+end
+GO
+-- Trigger to maintain last updated value of MatchVideo
+create trigger tr_mv_LastUpdated on MatchVideo after insert, update
+as
+begin
+	set nocount on
+    update MatchVideo set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
 	set nocount off
 end
 GO
@@ -922,6 +956,15 @@ as
 begin
 	set nocount on
     update TeamMatch set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
+	set nocount off
+end
+GO
+-- Trigger to maintain last updated value of TeamMatchObjective
+create trigger tr_tmo_LastUpdated on TeamMatchObjective after insert, update
+as
+begin
+	set nocount on
+    update TeamMatchObjective set lastUpdated = getdate() at time zone 'UTC' at time zone 'Central Standard Time' where id in (select i.id from inserted i);
 	set nocount off
 end
 GO
