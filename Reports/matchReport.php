@@ -497,7 +497,7 @@
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 	?>
-	<h3>Video</h3>
+	<h1>Video</h1>
 		<iframe width="560" height="315" src="https://www.youtube.com/embed/nS9UdeK05SA" frameborder="0" allowfullscreen></iframe>
 </body>
 </html>
