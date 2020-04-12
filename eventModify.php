@@ -345,7 +345,73 @@
 				}
 				break;
 			}
-			else $cnt += 1;
+
+			// Update TeamMatch Scout Data from TBA for 2020
+			if ($gameYear = 2020) {
+				$tsql = "merge TeamMatchObjective as Target
+							using (
+							select tm.id teamMatchId
+								 , o.id objectiveId
+								 , ov.integerValue
+							  from Team t
+								   inner join TeamMatch tm
+								   on tm.teamId = t.id,
+								   GameEvent ge
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join ObjectiveValue ov
+								   on ov.objectiveId = o.id
+							 where tm.matchId = " . $matchNumber .
+							"  and ge.id = " . $gameEventId .
+							"  and ((t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . 
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["red"]["initLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["red"]["initLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["red"]["initLineRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["blue"]["initLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["blue"]["initLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["alliances"]["blue"]["initLineRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["red"]["endgameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["red"]["endgameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["red"]["endgameRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["blue"]["endgameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["blue"]["endgameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'toEndGame' and ov.tbaValue = '" . $value["alliances"]["blue"]["endgameRobot3"] . "')))
+							     as source (teamMatchId, objectiveId, integerValue)
+							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (teamMatchId, objectiveId, integerValue)
+								 values (source.teamMatchId, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Team Match Scout Records for Match " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+			}
+			$cnt += 1;
 		}
 
 		// Delete from scout objective records created for Team/Matches that do not exist
