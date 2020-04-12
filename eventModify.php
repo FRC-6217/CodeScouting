@@ -226,7 +226,7 @@
 			$matchId = $row['id'];
 			
 			// Add/update Match Videos
-			$obj = json_decode($row, TRUE);
+			$obj = json_decode($value, TRUE);
 			for($i=0; $i<count($obj['videos']); $i++) {
 				echo "Video is " . $matchId . ":" . $obj['videos'][$i]["type"] . ":" . $obj['videos'][$i]["key"] . "<BR>";
 			}
