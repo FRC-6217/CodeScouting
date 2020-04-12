@@ -449,6 +449,7 @@
 								    union
 									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
 								    union ";
+/*
 							if ($value["score_breakdown"]["red"]["stage2Activated"] == "false")
 								@tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union";
 							else
@@ -465,6 +466,7 @@
 								@tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName)";
 							else
 								@tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
+*/
 				@tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
 							"  and ge.id = " . $gameEventId .
