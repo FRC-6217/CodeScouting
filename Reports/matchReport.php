@@ -423,8 +423,10 @@
 						echo "message: ".$error[ 'message']."<br />";
 					}
 				}
+			$cnt = 0;
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 				echo "<th>" . $row['tableHeader'] . "</th>";
+				$cnt = $cnt + 1;
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
@@ -472,21 +474,21 @@
         	echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['alliancePos'] . "</td>";
 			echo "<td>" . $row['teamNumber'] . "</td>";
-			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>";
-			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>";
-			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>";
-			if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>";
-			if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>";
-			if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>";
-			if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>";
-			if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>";
-			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>";
-			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>";
-			if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>";
-			if (isset($row['value12'])) echo "<td>" . number_format($row['value12'], 2) . "</td>";
-			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>";
-			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>";
-			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>";
+			if (isset($row['value1']) || $cnt >= 1) echo "<td>" . number_format($row['value1'], 2) . "</td>";
+			if (isset($row['value2']) || $cnt >= 2) echo "<td>" . number_format($row['value2'], 2) . "</td>";
+			if (isset($row['value3']) || $cnt >= 3) echo "<td>" . number_format($row['value3'], 2) . "</td>";
+			if (isset($row['value4']) || $cnt >= 4) echo "<td>" . number_format($row['value4'], 2) . "</td>";
+			if (isset($row['value5']) || $cnt >= 5) echo "<td>" . number_format($row['value5'], 2) . "</td>";
+			if (isset($row['value6']) || $cnt >= 6) echo "<td>" . number_format($row['value6'], 2) . "</td>";
+			if (isset($row['value7']) || $cnt >= 7) echo "<td>" . number_format($row['value7'], 2) . "</td>";
+			if (isset($row['value8']) || $cnt >= 8) echo "<td>" . number_format($row['value8'], 2) . "</td>";
+			if (isset($row['value9']) || $cnt >= 9) echo "<td>" . number_format($row['value9'], 2) . "</td>";
+			if (isset($row['value10']) || $cnt >= 10) echo "<td>" . number_format($row['value10'], 2) . "</td>";
+			if (isset($row['value11']) || $cnt >= 11) echo "<td>" . number_format($row['value11'], 2) . "</td>";
+			if (isset($row['value12']) || $cnt >= 12) echo "<td>" . number_format($row['value12'], 2) . "</td>";
+			if (isset($row['value13']) || $cnt >= 13) echo "<td>" . number_format($row['value13'], 2) . "</td>";
+			if (isset($row['value14']) || $cnt >= 14) echo "<td>" . number_format($row['value14'], 2) . "</td>";
+			if (isset($row['value15']) || $cnt >= 15) echo "<td>" . number_format($row['value15'], 2) . "</td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
 			if (isset($row['matchFoulPoints'])) echo "<td>" . number_format($row['matchFoulPoints'], 2) . "</td>";
 			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
