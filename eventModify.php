@@ -226,9 +226,47 @@
 			$matchId = $row['id'];
 			
 			// Add/update Match Videos
-			echo "New";
 			for($i=0; $i<count($value['videos']); $i++) {
-				echo "Video is " . $matchId . ":" . $value['videos'][$i]["type"] . ":" . $value['videos'][$i]["key"] . "<BR>";
+				// Does Video Exist
+				$tsql = "select count(*) cnt
+						   from MatchVideo m
+						  where mv.MatchId = " . $matchId .
+						"   and mv.videoKey = '" . $value['videos'][$i]["key"] . "' " .
+						"   and mv.videoType = '" . $value['videos'][$i]["type"] . "';";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Search for Match Video " . $value["comp_level"] . $matchNumber . " failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+				$row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC);
+				$cntMV = $row['cnt'];
+				
+				// If not exist, then add Match Video
+				if ($cntMV == 0) {
+					$tsql = "insert into MatchVideo (matchId, videoKey, videoType)
+							 values (" . $matchId . ", '" . $value['videos'][$i]["key"] . "', '" . $value['videos'][$i]["type"] . "');";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Insert for Match Video " . $value["comp_level"] . $matchNumber . " failed!<br />";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+						break;
+					}
+				}
 			}
 			
 			// Delete from Team/Match, if team not part of the match
