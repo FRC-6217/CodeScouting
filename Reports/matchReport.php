@@ -515,6 +515,7 @@
 			}
 		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         	echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
+			echo '<p></p>';
 		}
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
