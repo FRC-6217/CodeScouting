@@ -226,8 +226,9 @@
 			$matchId = $row['id'];
 			
 			// Add/update Match Videos
-			for($i=0; $i<count($row['videos']); $i++) {
-				echo "Video is " . $row['videos'][$i]["type"] . ":" . $row['videos'][$i]["key"] . "<BR>";
+			$obj = json_decode($row, TRUE);
+			for($i=0; $i<count($obj['videos']); $i++) {
+				echo "Video is " . $matchId . ":" . $obj['videos'][$i]["type"] . ":" . $obj['videos'][$i]["key"] . "<BR>";
 			}
 			
 			// Delete from Team/Match, if team not part of the match
