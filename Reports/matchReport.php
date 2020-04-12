@@ -493,13 +493,32 @@
 			if (isset($row['matchFoulPoints'])) echo "<td>" . number_format($row['matchFoulPoints'], 2) . "</td>";
 			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
         echo "</tr>";
-    }
+		}
+		?>
+    </table>
+	<h1>Video</h1>
+		<?php
+		$tsql = "select case when videoType = 'youtube'
+		                     then 'https://www.youtube.com/embed/'
+							 else videoType end + trim(videoKey) videoUrl
+                   from MatchVideo
+				  where matchId = $match
+				 order by id";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+        	echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
+		}
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 	?>
-    </table>
 	</center>
-	<h1>Video</h1>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/nS9UdeK05SA" frameborder="0" allowfullscreen></iframe>
 </body>
 </html>
