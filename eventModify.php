@@ -227,16 +227,19 @@
 			
 			// Add/update Match Videos
 			for($i=0; $i<count($value['videos']); $i++) {
-				// Does Video Exist
-				$tsql = "select count(*) cnt
-						   from MatchVideo m
-						  where mv.MatchId = " . $matchId .
-						"   and mv.videoKey = '" . $value['videos'][$i]["key"] . "' " .
-						"   and mv.videoType = '" . $value['videos'][$i]["type"] . "';";
+				// If not exist, then add Match Video
+				$tsql = "insert into MatchVideo (matchId, videoKey, videoType)
+						 select " . $matchId . ", '" . $value['videos'][$i]["key"] . "', '" . $value['videos'][$i]["type"] . "'
+						  where not exists
+						        (select 1
+								   from MatchVideo mv
+								  where mv.matchId = " . $matchId .
+								"   and mv.videoKey = '" . $value['videos'][$i]["key"] . "'
+								    and mv.videoType = '" . $value['videos'][$i]["type"] . "');";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
-					echo "Search for Match Video " . $value["comp_level"] . $matchNumber . " failed!<br />";
+					echo "Insert for Match Video " . $value["comp_level"] . $matchNumber . " failed!<br />";
 					if( ($errors = sqlsrv_errors() ) != null) {
 						foreach( $errors as $error ) {
 							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -245,27 +248,6 @@
 						}
 					}
 					break;
-				}
-				$row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC);
-				$cntMV = $row['cnt'];
-				
-				// If not exist, then add Match Video
-				if ($cntMV == 0) {
-					$tsql = "insert into MatchVideo (matchId, videoKey, videoType)
-							 values (" . $matchId . ", '" . $value['videos'][$i]["key"] . "', '" . $value['videos'][$i]["type"] . "');";
-					$results = sqlsrv_query($conn, $tsql);
-					if(!$results) 
-					{
-						echo "Insert for Match Video " . $value["comp_level"] . $matchNumber . " failed!<br />";
-						if( ($errors = sqlsrv_errors() ) != null) {
-							foreach( $errors as $error ) {
-								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-								echo "code: ".$error[ 'code']."<br />";
-								echo "message: ".$error[ 'message']."<br />";
-							}
-						}
-						break;
-					}
 				}
 			}
 			
