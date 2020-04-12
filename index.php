@@ -195,7 +195,7 @@
         <th>S</th>
         <th>Red Sc</th>
         <th>Blu Sc</th>
-        <th>Videos</th>
+        <th>Links</th>
      </tr>
 
     <?php

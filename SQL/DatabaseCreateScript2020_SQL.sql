@@ -1070,9 +1070,14 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	 , subquery.datetime
 	 , subquery.redScore
 	 , subquery.blueScore
-     , replace(replace(substring( 
-       (select ',<a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + mv.videoKey + '">V</a>' AS 'data()'
-          from MatchVideo mv FOR XML PATH('')), 2 , 9999), '&lt;', '<'), '&gt;', '>') videos
+     , case when subquery.matchCode is not null
+	        then '<a href="https://www.thebluealliance.com/match/' + subquery.matchCode + '" target="_blank">tba</a>, '
+			else '' end +
+	   replace(replace(substring(
+       (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+          from MatchVideo mv
+		 where mv.matchId = subquery.matchId
+		 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>') videos
      , subquery.r1TeamId
      , subquery.r2TeamId
      , subquery.r3TeamId
@@ -1090,6 +1095,7 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	 , m.datetime
 	 , m.redScore
 	 , m.blueScore
+	 , m.matchCode
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.teamNumber else null end) r1TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.id else null end) r1TeamId
 	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r1ScoutIndicator
@@ -1126,6 +1132,7 @@ group by m.type
 	   , m.datetime
 	   , m.redScore
 	   , m.blueScore
+	   , m.matchCode
 ) subquery;
 go
 
