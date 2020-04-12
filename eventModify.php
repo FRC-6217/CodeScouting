@@ -450,8 +450,6 @@
 									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
 								    union ";
 							if (!$value["score_breakdown"]["red"]["stage2Activated"])
-								echo "Hi";
-							if (!$value["score_breakdown"]["red"]["stage2Activated"])
 								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
 							else
 								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
@@ -464,7 +462,7 @@
 							else
 								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union ";
 							if (!$value["score_breakdown"]["blue"]["stage3Activated"])
-								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName)";
+								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName) tba";
 							else
 								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
@@ -494,7 +492,6 @@
 			}
 			$cnt += 1;
 		}
-		echo $tsql;
 
 		// Delete from scout objective records created for Team/Matches that do not exist
 		$tsql = "delete from ScoutObjectiveRecord " .
