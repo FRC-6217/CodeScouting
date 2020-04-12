@@ -347,6 +347,7 @@
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2020
+			echo $gameYear;
 			if ($gameYear == 2020) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
@@ -396,6 +397,7 @@
 							when not matched
 							then insert (teamMatchId, objectiveId, integerValue)
 								 values (source.teamMatchId, source.objectiveId, source.integerValue);";
+				echo $tsql;
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
