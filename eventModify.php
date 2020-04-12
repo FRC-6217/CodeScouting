@@ -228,7 +228,7 @@
 			// Add/update Match Videos
 			echo "New";
 			for($i=0; $i<count($value['videos']); $i++) {
-				echo "Video is " . $matchId . ":" . $$value['videos'][$i]["type"] . ":" . $$value['videos'][$i]["key"] . "<BR>";
+				echo "Video is " . $matchId . ":" . $value['videos'][$i]["type"] . ":" . $value['videos'][$i]["key"] . "<BR>";
 			}
 			
 			// Delete from Team/Match, if team not part of the match
