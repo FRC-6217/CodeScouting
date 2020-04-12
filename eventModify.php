@@ -449,25 +449,26 @@
 								    union
 									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
 								    union ";
+									echo $value["score_breakdown"]["red"]["stage2Activated"];
 							if ($value["score_breakdown"]["red"]["stage2Activated"] == "false")
-								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union";
+								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
 							else
-								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union";
+								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
 							if ($value["score_breakdown"]["blue"]["stage2Activated"] == "false")
-								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpRotation' objectiveName union";
+								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
 							else
-								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpRotation' objectiveName union";
+								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
 							if ($value["score_breakdown"]["red"]["stage3Activated"] == "false")
-								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpPosition' objectiveName union";
+								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpPosition' objectiveName union ";
 							else
-								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union";
+								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union ";
 							if ($value["score_breakdown"]["blue"]["stage3Activated"] == "false")
 								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName)";
 							else
 								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
-							"  and ge.id = " . $gameEventId .
+							"  and ge.id = " . $gameEventId . ")"
 							"     as source (matchId, alliance, objectiveId, integerValue)
 							on (target.matchId = source.matchId and target.alliance = source.alliance and target.objectiveId = source.objectiveId)
 							when matched and target.integerValue <> source.integerValue
