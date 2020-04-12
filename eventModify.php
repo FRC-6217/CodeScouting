@@ -347,7 +347,7 @@
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2020
-			if ($gameYear = 2020) {
+			if ($gameYear == 2020) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
 							select tm.id teamMatchId
