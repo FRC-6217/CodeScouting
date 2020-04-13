@@ -1528,7 +1528,8 @@ go
 
 -- View for Scout Record
 create view v_ScoutRecord as
-select sr.matchId
+select sr.id scoutRecordId
+     , sr.matchId
      , sr.teamId
 	 , sr.scoutId
 	 , m.gameEventId
@@ -1786,7 +1787,8 @@ select sr.matchId
 	   and tm.teamId = sr.teamId
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
-group by sr.matchId
+group by sr.id
+       , sr.matchId
        , sr.teamId
 	   , sr.scoutId
 	   , m.gameEventId;
@@ -2465,6 +2467,7 @@ select t.TeamNumber
      , null matchId
      , null scoutId
 	 , sr.gameEventId
+	 , null scoutRecordId
  from Team t
       inner join v_AvgScoutRecord sr
       on sr.TeamId = t.id
@@ -2522,6 +2525,7 @@ select t.TeamNumber
      , sr.matchId
      , sr.scoutId
 	 , sr.gameEventId
+	 , sr.scoutRecordId
  from Team t
       inner join v_ScoutRecord sr
       on sr.TeamId = t.id

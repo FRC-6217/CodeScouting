@@ -205,6 +205,7 @@ $tsql = "select TeamNumber
               , TeamId
               , matchId
               , scoutId
+			  , scoutRecordId
 		   from v_TeamReport
           where TeamId = $team
 		order by matchTime, matchNumber";
@@ -219,7 +220,10 @@ $tsql = "select TeamNumber
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='/Reports/robotReport.php?TeamId=" . $row['TeamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			if (isset($row['scoutRecordId']))
+				echo "<td><a href='/scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			else
+				"<td>" . echo $row['TeamNumber'] . "</td>";
 			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
