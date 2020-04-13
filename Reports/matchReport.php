@@ -457,6 +457,7 @@
 					  , totalScoreValue
 					  , matchFoulPoints
 					  , matchScore
+					  , teamId
                    from v_MatchFinalReport
 				  where matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
@@ -473,7 +474,7 @@
         echo "<tr>";
         	echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['alliancePos'] . "</td>";
-			echo "<td>" . $row['teamNumber'] . "</td>";
+			echo '<td><a href="../Reports/robotReport.php?TeamId=' . $row['teamId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
 			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
