@@ -15,6 +15,7 @@ drop view v_ScoutRecord;
 drop view v_MatchHyperlinks;
 drop view v_ScoutTeamHyperlinks;
 drop view v_EnterScoutRecordHTML;
+drop view v_UpdateScoutRecordHTML;
 drop view v_EnterScoutTeamHTML;
 drop table ScoutObjectiveRecord;
 drop table ScoutRecord;
@@ -1370,6 +1371,110 @@ select distinct
 	   on o.id = ogo.objectiveId
 	   inner join scoringType st
 	   on st.id = o.scoringTypeId
+	   left outer join objectiveValue ov
+	   on ov.objectiveId = o.id
+ where og.groupCode = 'Scout Match'
+   and o.gameId in
+       (select g.id
+	      from game g
+		       inner join gameEvent ge
+			   on ge.gameId = g.id
+		 where ge.isActive = 'Y')
+--order by groupSort, objectiveSort, objectiveValueSort
+go
+
+-- View to get HTML for update of Scout Record
+create view v_UpdateScoutRecordHTML as
+select distinct
+       og.name groupName
+     , null objectiveName      
+	 , null objectiveLabel
+	 , null displayValue
+	 , null integerValue
+     , og.sortOrder groupSort
+	 , null objectiveSort
+	 , null objectiveValueSort
+	 , case when og.sortOrder = 1 then '' else '<br><br>' end + '<b><u>' + og.name + '</u>' scoutRecordHtml
+	 , sr.id scoutRecordId
+  from objectiveGroup og
+       inner join objectiveGroupObjective ogo
+	   on ogo.objectiveGroupId = og.id
+       inner join objective o
+	   on o.id = ogo.objectiveId,
+	   ScoutRecord sr
+ where og.groupCode = 'Scout Match'
+   and o.gameId in
+       (select g.id
+	      from game g
+		       inner join gameEvent ge
+			   on ge.gameId = g.id
+		 where ge.isActive = 'Y')
+union
+select distinct
+       og.name groupName
+     , o.name objectiveName
+	 , o.label objectiveLabel
+	 , ov.displayValue
+	 , ov.integerValue
+     , og.sortOrder groupSort
+	 , o.sortOrder objectiveSort
+	 , ov.sortOrder objectiveValueSort
+	 , case when st.hasValueList = 'N'
+	        then case when o.sameLineAsPrevious = 'Y'
+			          then '&nbsp;&nbsp;'
+					  else case when o.sortOrder = 
+					                (select min(o2.sortOrder)
+                                       from Objective o2
+		                                    inner join ObjectiveGroupObjective ogo2
+			                                on ogo2.objectiveId = o2.id
+			                                inner join ObjectiveGroup og2
+			                                on og2.id = ogo2.objectiveGroupId
+		                              where og2.groupCode = 'Scout Match'
+									    and o2.gameId = o.gameId
+		                                and og2.id = og.id)
+								then '<br>'
+								else '<br><br>' end end +
+				 o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) +
+				 '" value=' + convert(varchar, coalesce(sor.integerValue, 0)) + ' style="width: 40px;">'
+			when ov.sortOrder = 1
+	        then case when o.sortOrder = 
+					      (select min(o2.sortOrder)
+                             from Objective o2
+		                          inner join ObjectiveGroupObjective ogo2
+			                      on ogo2.objectiveId = o2.id
+			                      inner join ObjectiveGroup og2
+			                      on og2.id = ogo2.objectiveGroupId
+		                    where og2.groupCode = 'Scout Match'
+							  and o2.gameId = o.gameId
+		                      and og2.id = og.id)
+						then '<br>'
+						else '<br><br>' end +
+				 o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue +
+				 '<input type="radio" ' +
+				 case when coalesce(sor.integerValue, ov.integerValue) = ov.integerValue
+				      then 'checked="checked" '
+					  else '' end +
+				 'name ="value' + convert(varchar, o.sortOrder) +
+				 '" value=' + convert(varchar, ov.integerValue) + '>'
+			else case when ov.sameLineAsPrevious = 'Y'
+			          then '&nbsp;&nbsp;&nbsp;'
+					  else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue +
+				 '<input type="radio" ' +
+				 case when coalesce(sor.integerValue, -99) = ov.integerValue
+				      then 'checked="checked" '
+					  else '' end +
+				 'name ="value' + convert(varchar, o.sortOrder) +
+				 '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
+	 , sor.scoutRecordId
+  from objectiveGroup og
+       inner join objectiveGroupObjective ogo
+	   on ogo.objectiveGroupId = og.id
+       inner join objective o
+	   on o.id = ogo.objectiveId
+	   inner join scoringType st
+	   on st.id = o.scoringTypeId
+	   inner join ScoutObjectiveRecord sor
+	   on sor.objectiveId = o.id
 	   left outer join objectiveValue ov
 	   on ov.objectiveId = o.id
  where og.groupCode = 'Scout Match'

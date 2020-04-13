@@ -42,12 +42,53 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get Query String Parameters
-	$matchId = "$_GET[matchId]";
-	$matchNumber = "$_GET[matchNumber]";
-	$teamId = "$_GET[teamId]";
-	$teamNumber = "$_GET[teamNumber]";
-	$alliancePosition = "$_GET[alliancePosition]";
-	$scoutId = "$_GET[scoutId]";
+	$scoutRecordId = "$_GET[scoutRecordId]";
+	// Get values for page from database
+	$cntSR = 0;
+	if (isset($scoutRecordId)) {
+		$tsql = "select sr.matchId
+					 , m.type + ' ' + m.number matchNumber
+					 , sr.teamId
+					 , t.teamNumber
+					 , tm.alliance + convert(varchar, tm.alliancePosition) alliancePosition
+					 , sr.scoutId
+				  from ScoutRecord sr
+					   inner join Match m
+					   on m.id = sr.matchId
+					   inner join Team t
+					   on t.id = sr.teamId
+					   inner join TeamMatch tm
+					   on tm.teamId = sr.teamId
+					   and tm.matchId = sr.matchId
+				 where sr.id = " . $scoutRecordId . ";";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+			$cntSR = 1;
+			$matchId = $row['matchId'];
+			$matchNumber = $row['matchNumber'];
+			$teamId = $row['teamId'];
+			$teamNumber = $row['teamNumber'];
+			$alliancePosition = $row['alliancePosition'];
+			$scoutId = $row['scoutId'];
+		}
+	}
+	// Get values for page from query string
+	if ($cntSR == 0) {
+		$matchId = "$_GET[matchId]";
+		$matchNumber = "$_GET[matchNumber]";
+		$teamId = "$_GET[teamId]";
+		$teamNumber = "$_GET[teamNumber]";
+		$alliancePosition = "$_GET[alliancePosition]";
+		$scoutId = "$_GET[scoutId]";
+	}
 	
 ?>
 			<center>				
@@ -152,17 +193,33 @@
 						</select>
 					</p>
 					<?php
-					$tsql = "select groupName
-								  , objectiveName
-								  , objectiveLabel
-								  , displayValue
-								  , integerValue
-								  , groupSort
-								  , objectiveSort
-								  , objectiveValueSort
-								  , scoutRecordHtml
-							   from v_EnterScoutRecordHTML
-							 order by groupSort, objectiveSort, objectiveValueSort";
+					if ($cntSR = 1) {
+						$tsql = "select groupName
+									  , objectiveName
+									  , objectiveLabel
+									  , displayValue
+									  , integerValue
+									  , groupSort
+									  , objectiveSort
+									  , objectiveValueSort
+									  , scoutRecordHtml
+								   from v_UpdateScoutRecordHTML
+								  where scoutRecordId = " . $scoutRecordId . " 
+								 order by groupSort, objectiveSort, objectiveValueSort";
+					}
+					else {
+						$tsql = "select groupName
+									  , objectiveName
+									  , objectiveLabel
+									  , displayValue
+									  , integerValue
+									  , groupSort
+									  , objectiveSort
+									  , objectiveValueSort
+									  , scoutRecordHtml
+								   from v_EnterScoutRecordHTML
+								 order by groupSort, objectiveSort, objectiveValueSort";
+					}
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)
 						if( ($errors = sqlsrv_errors() ) != null) {
