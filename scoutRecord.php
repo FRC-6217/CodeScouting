@@ -45,6 +45,7 @@
 	$scoutRecordId = "$_GET[scoutRecordId]";
 	// Get values for page from database
 	$cntSR = 0;
+	echo "$scoutRecordId=" . $scoutRecordId;
 	if (isset($scoutRecordId)) {
 		$tsql = "select sr.matchId
 					 , m.type + ' ' + m.number matchNumber
