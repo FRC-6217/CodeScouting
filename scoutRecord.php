@@ -193,7 +193,7 @@
 						</select>
 					</p>
 					<?php
-					if ($cntSR = 1)
+					if ($cntSR == 1)
 						$tsql = "select groupName
 									  , objectiveName
 									  , objectiveLabel
