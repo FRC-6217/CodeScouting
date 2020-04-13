@@ -223,7 +223,7 @@ $tsql = "select TeamNumber
 			if (isset($row['scoutRecordId']))
 				echo "<td><a href='/scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			else
-				"<td>" . echo $row['TeamNumber'] . "</td>";
+				echo "<td>" . $row['TeamNumber'] . "</td>";
 			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
