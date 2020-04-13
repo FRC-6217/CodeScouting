@@ -41,12 +41,11 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    // Get Query String Parameters
-	$scoutRecordId = "$_GET[scoutRecordId]";
 	// Get values for page from database
 	$cntSR = 0;
 	echo "$scoutRecordId=" . $scoutRecordId;
-	if (isset($scoutRecordId)) {
+	if (isset($_GET['scoutRecordId'])) {
+		$scoutRecordId = "$_GET[scoutRecordId]";
 		$tsql = "select sr.matchId
 					 , m.type + ' ' + m.number matchNumber
 					 , sr.teamId
