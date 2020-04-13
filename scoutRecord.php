@@ -193,7 +193,7 @@
 						</select>
 					</p>
 					<?php
-					if ($cntSR = 1) {
+					if ($cntSR = 1)
 						$tsql = "select groupName
 									  , objectiveName
 									  , objectiveLabel
@@ -206,8 +206,7 @@
 								   from v_UpdateScoutRecordHTML
 								  where scoutRecordId = " . $scoutRecordId . " 
 								 order by groupSort, objectiveSort, objectiveValueSort";
-					}
-					else {
+					else
 						$tsql = "select groupName
 									  , objectiveName
 									  , objectiveLabel
@@ -217,9 +216,8 @@
 									  , objectiveSort
 									  , objectiveValueSort
 									  , scoutRecordHtml
-								   from v_EnterScoutRecordHTML
+								   from v_EnterScoutRecordHTML 
 								 order by groupSort, objectiveSort, objectiveValueSort";
-					}
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)
 						if( ($errors = sqlsrv_errors() ) != null) {
