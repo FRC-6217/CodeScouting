@@ -480,7 +480,6 @@
 			}
 			else if ($row['alliancePos'] == 99) {
 				echo "<td></td>";
-				echo "<td>" . $row['teamNumber'] . "</td>";
 				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			else {
