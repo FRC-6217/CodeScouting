@@ -437,7 +437,7 @@
 
 		<?php
 		$tsql = "select alliance
-					  , case when alliancePosition = 99 then null else alliancePosition end alliancePos
+					  , alliancePosition alliancePos
 					  , teamNumber
 					  , value1
 					  , value2
@@ -458,6 +458,7 @@
 					  , matchFoulPoints
 					  , matchScore
 					  , teamId
+					  , matchCode
                    from v_MatchFinalReport
 				  where matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
@@ -473,8 +474,21 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
         echo "<tr>";
         	echo "<td>" . $row['alliance'] . "</td>";
-			echo "<td>" . $row['alliancePos'] . "</td>";
-			echo '<td><a href="../Reports/robotReport.php?TeamId=' . $row['teamId'] . '"> ' . $row['teamNumber'] . '</a></td>';
+			if ($row['alliancePos'] == 98) { // Scouted data line
+				echo "<td></td>";
+				echo "<td>" . $row['teamNumber'] . "</td>";
+			}
+			else if ($row['alliancePos'] == 99) {
+				echo "<td></td>";
+				echo "<td>" . $row['teamNumber'] . "</td>";
+				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '"> ' . $row['teamNumber'] . '</a></td>';
+			}
+			else {
+				echo "<td>" . $row['alliancePos'] . "</td>";
+				echo '<td><a href="../Reports/robotReport.php?TeamId=' . $row['teamId'] . '"> ' . $row['teamNumber'] . '</a></td>';
+			}
+				        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>, '
+
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
 			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
