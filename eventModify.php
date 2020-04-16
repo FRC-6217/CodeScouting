@@ -193,6 +193,7 @@
 					"WHEN not matched THEN " .
 					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
 					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode);";
+			echo $tsql . "<br>";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
