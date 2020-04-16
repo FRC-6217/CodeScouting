@@ -96,7 +96,7 @@
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
 							<?php
-							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+							$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' or id = " . $scoutId . " order by lastName, firstName";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
