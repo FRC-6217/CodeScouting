@@ -324,7 +324,11 @@ create table ObjectiveValue(
 	lastUpdated datetime null,
 	sameLineAsPrevious char(1) not null,
 	tbaValue varchar(64) null,
-	tbaValue2 varchar(64) null);
+	tbaValue2 varchar(64) null,
+	tbaValue3 varchar(64) null,
+	tbaValue4 varchar(64) null,
+	tbaValue5 varchar(64) null,
+	tbaValue6 varchar(64) null);
 create unique index idx_ObjectiveValue on ObjectiveValue(objectiveId, displayValue);
 alter table ObjectiveValue add constraint fk_ObjectiveValue_Objective foreign key (objectiveId) references Objective (id);
 insert into ObjectiveValue (objectiveId, displayValue, integerValue, sortOrder, scoreValue) select o.id, 'Did Not Leave', 0, 1, 0 from Objective o inner join Game g on g.id = o.gameId where g.name = 'Deep Space' and o.name = 'leaveHAB';
