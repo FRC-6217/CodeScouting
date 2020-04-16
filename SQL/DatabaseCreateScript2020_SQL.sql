@@ -2873,21 +2873,21 @@ select case when tm.alliance = 'R' then 'Red'
 	 , case when tm.alliance = 'R' then 1
 	        when tm.alliance = 'B' then 3
 	        else 2 end allianceSort
-	 , round(asr.value1,2) value1
-     , round(asr.value2,2) value2
-     , round(asr.value3,2) value3
-     , round(asr.value4,2) value4
-     , round(asr.value5,2) value5
-     , round(asr.value6,2) value6
-     , round(asr.value7,2) value7
-     , round(asr.value8,2) value8
-     , round(asr.value9,2) value9
-     , round(asr.value10,2) value10
-     , round(asr.value11,2) value11
-     , round(asr.value12,2) value12
-     , round(asr.value13,2) value13
-     , round(asr.value14,2) value14
-     , round(asr.value15,2) value15
+	 , round(asr.scoreValue1,2) value1
+     , round(asr.scoreValue2,2) value2
+     , round(asr.scoreValue3,2) value3
+     , round(asr.scoreValue4,2) value4
+     , round(asr.scoreValue5,2) value5
+     , round(asr.scoreValue6,2) value6
+     , round(asr.scoreValue7,2) value7
+     , round(asr.scoreValue8,2) value8
+     , round(asr.scoreValue9,2) value9
+     , round(asr.scoreValue10,2) value10
+     , round(asr.scoreValue11,2) value11
+     , round(asr.scoreValue12,2) value12
+     , round(asr.scoreValue13,2) value13
+     , round(asr.scoreValue14,2) value14
+     , round(asr.scoreValue15,2) value15
 	 , round(coalesce(asr.scoreValue1,0) +
 	         coalesce(asr.scoreValue2,0) +
 	         coalesce(asr.scoreValue3,0) +

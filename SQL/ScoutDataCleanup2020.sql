@@ -1,3 +1,27 @@
+-- 2019 - Clear up non-zero Hatches/Cargo
+update ScoutObjectiveRecord
+   set integerValue = 0
+ where id in (
+select sor.id
+  from MatchObjective mo
+       inner join Match m
+	   on m.id = mo.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+	   inner join TeamMatch tm
+	   on tm.matchId = m.id
+	   and tm.alliance = mo.alliance
+	   inner join ScoutRecord sr
+	   on sr.matchId = tm.matchId
+	   and sr.teamId = tm.teamId
+	   inner join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   and sor.objectiveId in (mo.objectiveId - 2, mo.objectiveId)
+ where m.gameEventId = 2
+   and mo.integerValue = 0
+   and mo.objectiveId in (4, 5)
+   and sor.integerValue <> 0);
+
 -- Fix Scout Data that can be directly updated based on Blue Alliance Data
 -- 2020 : Auto Line and End Game
 update ScoutObjectiveRecord
@@ -53,7 +77,7 @@ group by m.id
 	   , tm.alliance
 	   , mo.scoreValue
 having mo.scoreValue <> sum(asor.avgScoreValue)
-order by 1, 2, 3, 4;
+order by abs(mo.scoreValue - sum(asor.avgScoreValue)) desc, convert(integer, m.number), 2, 3, 4;
 
 -- Scouted Data Accuracy - scout records needing correction
 select subquery.allianceScore
@@ -141,7 +165,7 @@ group by m.type
 	   , asr.scoreValue8
 	   , asr.matchId) subquery
  where subquery.allianceScore <> subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints
-and subquery.number = 50
+--and subquery.number = 50
 order by abs(subquery.allianceScore - (subquery.teamScore + subquery.partnerScore + subquery.allianceFoulPoints)) desc, subquery.alliance
 
 /*
