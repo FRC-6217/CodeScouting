@@ -180,11 +180,11 @@
  					                   $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "') " .
 					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
-					"WHEN matched AND (target.number <> source.number OR target.dateTime <> source.dateTime OR " .
-					                  "target.redScore <> source.redScore OR target.blueScore <> source.blueScore OR " .
-									  "target.redAlliancePoints <> source.redAlliancePoints OR target.redFoulPoints <> source.redFoulPoints OR " .
-									  "target.blueAlliancePoints <> source.blueAlliancePoints OR target.blueFoulPoints <> source.blueFoulPoints OR " .
-									  "target.matchCode <> source.matchCode) THEN " .
+					"WHEN matched AND (target.dateTime <> source.dateTime OR " .
+					                  "coalesce(target.redScore, -1) <> source.redScore OR coalesce(target.blueScore, -1) <> source.blueScore OR " .
+									  "coalesce(target.redAlliancePoints, -1) <> source.redAlliancePoints OR coalesce(target.redFoulPoints, -1) <> source.redFoulPoints OR " .
+									  "coalesce(target.blueAlliancePoints, -1) <> source.blueAlliancePoints OR coalesce(target.blueFoulPoints, -1) <> source.blueFoulPoints OR " .
+									  "coalesce(target.matchCode, 'xxx') <> source.matchCode) THEN " .
 					"UPDATE set number = source.number, dateTime = source.dateTime, " .
 					          " redScore = source.redScore, blueScore = source.blueScore, " .
 					          " redAlliancePoints = source.redAlliancePoints, redFoulPoints = source.redFoulPoints, " .
@@ -193,7 +193,6 @@
 					"WHEN not matched THEN " .
 					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
 					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode);";
-			echo $tsql . "<br>";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
