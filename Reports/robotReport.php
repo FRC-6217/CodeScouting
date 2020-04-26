@@ -23,18 +23,15 @@
 	 array('label' => 'Power Cells', 'type' => 'number'),
 	 array('label' => 'Control Panel', 'type' => 'number'),
 	 array('label' => 'End Game', 'type' => 'number'),
-	);
+	 array('label' => 'Test', 'type' => 'number'));
 	$tsql = "select trlg.matchDateTime
                   , trlg.matchNumber
 	              , totalScoreValue
-                  , max(case when objectiveGroupSortOrder = 1 then trlg.objectiveGroupName else null end) objectiveGroupName1
                   , sum(case when objectiveGroupSortOrder = 1 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue1
-                  , max(case when objectiveGroupSortOrder = 2 then trlg.objectiveGroupName else null end) objectiveGroupName2
                   , sum(case when objectiveGroupSortOrder = 2 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue2
-                  , max(case when objectiveGroupSortOrder = 3 then trlg.objectiveGroupName else null end) objectiveGroupName3
                   , sum(case when objectiveGroupSortOrder = 3 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue3
-                  , max(case when objectiveGroupSortOrder = 4 then trlg.objectiveGroupName else null end) objectiveGroupName4
                   , sum(case when objectiveGroupSortOrder = 4 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue4
+                  , sum(case when objectiveGroupSortOrder = 5 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue5
                from v_TeamReportLineGraph trlg
               where trlg.teamId = $team
              group by trlg.matchDateTime
@@ -58,6 +55,7 @@
 		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
 		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
 		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
+		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue5']); 
 		$rows[] = array('c' => $temp);
 	}
 	$table['rows'] = $rows;
