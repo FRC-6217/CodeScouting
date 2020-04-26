@@ -14,16 +14,39 @@
 
 	// Build data for Line Graph
 	$rows = array();
+	$columns = array();
 	$table = array();
 
-	$table['cols'] = array(
-	 array('label' => 'Match', 'type' => 'string'),
-	 array('label' => 'Total Score', 'type' => 'number'),
-	 array('label' => 'Autonomous', 'type' => 'number'),
-	 array('label' => 'Power Cells', 'type' => 'number'),
-	 array('label' => 'Control Panel', 'type' => 'number'),
-	 array('label' => 'End Game', 'type' => 'number'),
-	 array('label' => 'Test2', 'type' => 'number'));
+	// Build column names
+	$columns = array(array('label' => 'Match', 'type' => 'string'),
+				     array('label' => 'Total Score', 'type' => 'number'));
+	$tsql = "select og.name
+			   from ObjectiveGroup og
+				    inner join ObjectiveGroupObjective ogo
+				    on ogo.objectiveGroupId = og.id
+				    inner join Objective o
+				    on o.id = ogo.objectiveId
+				    inner join GameEvent ge
+				    on ge.gameId = o.gameId
+			  where ge.isActive = 'Y'
+			    and groupCode = 'Report Line Graph'
+			 order by og.sortOrder";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$columns[] = array('label' => (string) $row['name']); 
+		$columns[] = array('type' => 'number');
+	}
+	$table['cols'] = $columns;
+
+	// Build row data
 	$tsql = "select trlg.matchDateTime
                   , trlg.matchNumber
 	              , totalScoreValue
