@@ -41,8 +41,7 @@
 			}
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$columns[] = array('label' => (string) $row['name']); 
-		$columns[] = array('type' => 'number');
+		$columns[] = array('label' => (string) $row['name'], 'type' => 'number');
 	}
 	$table['cols'] = $columns;
 
