@@ -23,7 +23,7 @@
 	 array('label' => 'Power Cells', 'type' => 'number'),
 	 array('label' => 'Control Panel', 'type' => 'number'),
 	 array('label' => 'End Game', 'type' => 'number'),
-	 array('label' => 'Test', 'type' => 'number'));
+	 array('label' => 'Test2', 'type' => 'number'));
 	$tsql = "select trlg.matchDateTime
                   , trlg.matchNumber
 	              , totalScoreValue
@@ -51,11 +51,11 @@
 		$temp = array();
 		$temp[] = array('v' => (string) $row['matchNumber']); 
 		$temp[] = array('v' => (float) $row['totalScoreValue']); 
-		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue1']); 
-		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
-		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
-		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
-		$temp[] = array('v' => (float) $row['objectiveGroupScoreValue5']); 
+		if (isset($row['objectiveGroupScoreValue1'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue1']); 
+		if (isset($row['objectiveGroupScoreValue2'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
+		if (isset($row['objectiveGroupScoreValue3'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
+		if (isset($row['objectiveGroupScoreValue4'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
+		if (isset($row['objectiveGroupScoreValue5'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue5']); 
 		$rows[] = array('c' => $temp);
 	}
 	$table['rows'] = $rows;
