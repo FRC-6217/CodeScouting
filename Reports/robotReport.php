@@ -20,7 +20,7 @@
 	// Build column names
 	$columns = array(array('label' => 'Match', 'type' => 'string'),
 				     array('label' => 'Total Score', 'type' => 'number'));
-	$tsql = "select og.name
+	$tsql = "select distinct og.name, og.sortOrder
 			   from ObjectiveGroup og
 				    inner join ObjectiveGroupObjective ogo
 				    on ogo.objectiveGroupId = og.id
