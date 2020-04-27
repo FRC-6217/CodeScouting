@@ -187,7 +187,7 @@
 					}
 				}
 			$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-			echo "<center><h1>Robot Report: " . $row['teamNumber'] . " - " . $row['teamName'] </h1></center>";
+			echo "<center><h1>Robot Report: " . $row['teamNumber'] . " - " . $row['teamName'] . "</h1></center>";
 			?>
 
 <center><table cellspacing="0" cellpadding="5">
