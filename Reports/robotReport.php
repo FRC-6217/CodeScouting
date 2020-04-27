@@ -172,7 +172,24 @@
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
-<center><h1>Robot Report</h1></center>
+			<?php
+			$tsql = "select t.teamNumber
+			              , t.teamName
+					   from Team t
+					  where t.id = $team";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+			echo "<center><h1>Robot Report: " . $row['teamNumber'] . " - " . $row['teamName'] </h1></center>";
+			?>
+
 <center><table cellspacing="0" cellpadding="5">
     <tr>
             <th>Team</th>
