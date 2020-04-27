@@ -71,6 +71,9 @@ select m.number matchNumber
 	   on t.id = asor.teamId
 	   inner join Match m
 	   on m.id = asor.matchId
+	   inner join GameEvent ge
+	   on ge.id = m.gameEventId
+ where ge.isActive = 'Y'
 group by m.id
        , m.number
        , asor.objectiveName
