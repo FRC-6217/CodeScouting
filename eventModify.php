@@ -420,17 +420,23 @@
 								                           or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["preMatchLevelRobot3"] . "')
 								                           or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["preMatchLevelRobot3"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot1"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot1"] . "')
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot1"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot1"] . "')
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot1"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["habLineRobot1"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot2"] . "')
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot2"] . "')
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot2"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["habLineRobot2"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot3"] . "')
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["red"]["habLineRobot3"] . "')
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["habLineRobot3"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot1"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot1"] . "')
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot1"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot1"] . "')
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot1"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot1"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-							   " and o.name = 'returnToHAB' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
 							     as source (teamMatchId, objectiveId, integerValue)
 							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
 							when matched and target.integerValue <> source.integerValue
