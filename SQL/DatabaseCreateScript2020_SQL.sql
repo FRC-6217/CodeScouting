@@ -3246,13 +3246,20 @@ select t.TeamNumber
 	         coalesce(sr.scoreValue14,0) +
 	         coalesce(sr.scoreValue15,0),2) totalScoreValue
      , case when m.matchCode is not null
-	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>, '
+	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>'
 			else '' end +
-	   replace(replace(substring(
-       (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
-          from MatchVideo mv
-		 where mv.matchId = m.id
-		 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>') videos
+	   case when 
+			   (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+				  from MatchVideo mv
+				 where mv.matchId = m.id
+				 FOR XML PATH('')) is not null
+			then ', ' +
+			   replace(replace(substring(
+			   (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+				  from MatchVideo mv
+				 where mv.matchId = m.id
+				 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>')
+			else '' end videos
      , sr.TeamId
      , sr.matchId
      , sr.scoutId
@@ -3344,7 +3351,7 @@ select objectiveScoutRecordAverages.teamNumber
      , objectiveScoutRecordAverages.teamId
 	 , objectiveScoutRecordAverages.matchId
 	 , round(sum(objectiveScoutRecordAverages.avgScoreValue), 2) objectiveGroupScoreValue
-	 , (select tr.totalScoreValue
+	 , (select avg(tr.totalScoreValue)
 	      from v_TeamReport tr
 		 where tr.teamId = objectiveScoutRecordAverages.teamId
 		   and tr.matchId = objectiveScoutRecordAverages.matchId) totalScoreValue
@@ -4587,6 +4594,46 @@ begin
 			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
 			   and coalesce(ScoutObjectiveRecord.integerValue, -1) <> tmo.integerValue);
 
+	-- If match has been scouted after TBA data added, then remove the TBA scout record
+	delete from scoutObjectiveRecord
+	 where scoutRecordId in (
+		select sr.id
+		  from scoutRecord sr
+			   inner join Scout s
+			   on s.id = sr.scoutId
+			   inner join Match m
+			   on m.id = sr.matchId
+			   inner join GameEvent ge
+			   on ge.id = m.gameEventId
+		 where s.lastName = 'TBA'
+		   and m.isActive = 'Y'
+		   and ge.isActive = 'Y'
+		   and exists
+			   (select 1
+				  from ScoutRecord sr2
+				 where sr2.matchId = sr.matchId
+				   and sr2.teamId = sr.teamId
+				   and sr2.scoutId <> sr.scoutId));
+	delete from scoutRecord
+	 where id in (
+		select sr.id
+		  from scoutRecord sr
+			   inner join Scout s
+			   on s.id = sr.scoutId
+			   inner join Match m
+			   on m.id = sr.matchId
+			   inner join GameEvent ge
+			   on ge.id = m.gameEventId
+		 where s.lastName = 'TBA'
+		   and m.isActive = 'Y'
+		   and ge.isActive = 'Y'
+		   and exists
+			   (select 1
+				  from ScoutRecord sr2
+				 where sr2.matchId = sr.matchId
+				   and sr2.teamId = sr.teamId
+				   and sr2.scoutId <> sr.scoutId));
+
 	-- Add partial scout records for data which comes from TBA
 	insert into ScoutRecord (scoutId, matchId, teamId)
 	select distinct
@@ -4688,4 +4735,5 @@ begin
 			   and sor.objectiveId = mo.objectiveId);
 end
 GO
+
 */
