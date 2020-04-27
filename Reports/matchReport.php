@@ -183,85 +183,22 @@
 		echo "<td>" . $row['alliancePos'] . "</td>";
 		echo "<td>" . $row['teamReportUrl'] . "</td>";
 		echo "<td>" . $row['matchCnt'] . "</td>";
-		if (isset($row['value1'])) {
-			echo "<td>" . number_format($row['value1'], 2) . "</td>";
-			$allianceValue1 = $allianceValue1 + $row['value1'];
-		}
-		elseif ($cnt >= 1) echo "<td></td>";
-		if (isset($row['value2'])) {
-			echo "<td>" . number_format($row['value2'], 2) . "</td>";
-			$allianceValue2 = $allianceValue2 + $row['value2'];
-		}
-		elseif ($cnt >= 2) echo "<td></td>";
-		if (isset($row['value3'])) {
-			echo "<td>" . number_format($row['value3'], 2) . "</td>";
-			$allianceValue3 = $allianceValue3 + $row['value3'];
-		}
-		elseif ($cnt >= 3) echo "<td></td>";
-		if (isset($row['value4'])) {
-			echo "<td>" . number_format($row['value4'], 2) . "</td>";
-			$allianceValue4 = $allianceValue4 + $row['value4'];
-		}
-		elseif ($cnt >= 4) echo "<td></td>";
-		if (isset($row['value5'])) {
-			echo "<td>" . number_format($row['value5'], 2) . "</td>";
-			$allianceValue5 = $allianceValue5 + $row['value5'];
-		}
-		elseif ($cnt >= 5) echo "<td></td>";
-		if (isset($row['value6'])) {
-			echo "<td>" . number_format($row['value6'], 2) . "</td>";
-			$allianceValue6 = $allianceValue6 + $row['value6'];
-		}
-		elseif ($cnt >= 6) echo "<td></td>";
-		if (isset($row['value7'])) {
-			echo "<td>" . number_format($row['value7'], 2) . "</td>";
-			$allianceValue7 = $allianceValue7 + $row['value7'];
-		}
-		elseif ($cnt >= 7) echo "<td></td>";
-		if (isset($row['value8'])) {
-			echo "<td>" . number_format($row['value8'], 2) . "</td>";
-			$allianceValue8 = $allianceValue8 + $row['value8'];
-		}
-		elseif ($cnt >= 8) echo "<td></td>";
-		if (isset($row['value9'])) {
-			echo "<td>" . number_format($row['value9'], 2) . "</td>";
-			$allianceValue9 = $allianceValue9 + $row['value9'];
-		}
-		elseif ($cnt >= 9) echo "<td></td>";
-		if (isset($row['value10'])) {
-			echo "<td>" . number_format($row['value10'], 2) . "</td>";
-			$allianceValue10 = $allianceValue10 + $row['value10'];
-		}
-		elseif ($cnt >= 10) echo "<td></td>";
-		if (isset($row['value11'])) {
-			echo "<td>" . number_format($row['value11'], 2) . "</td>";
-			$allianceValue11 = $allianceValue11 + $row['value11'];
-		}
-		elseif ($cnt >= 11) echo "<td></td>";
-		if (isset($row['value12'])) {
-			echo "<td>" . number_format($row['value12'], 2) . "</td>";
-			$allianceValue12 = $allianceValue12 + $row['value12'];
-		}
-		elseif ($cnt >= 12) echo "<td></td>";
-		if (isset($row['value13'])) {
-			echo "<td>" . number_format($row['value13'], 2) . "</td>";
-			$allianceValue13 = $allianceValue13 + $row['value13'];
-		}
-		elseif ($cnt >= 13) echo "<td></td>";
-		if (isset($row['value14'])) {
-			echo "<td>" . number_format($row['value14'], 2) . "</td>";
-			$allianceValue14 = $allianceValue14 + $row['value14'];
-		}
-		elseif ($cnt >= 14) echo "<td></td>";
-		if (isset($row['value15'])) {
-			echo "<td>" . number_format($row['value15'], 2) . "</td>";
-			$allianceValue15 = $allianceValue15 + $row['value15'];
-		}
-		elseif ($cnt >= 15) echo "<td></td>";
-		if (isset($row['totalScoreValue'])) {
-			echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
-			$allianceTotalScoreValue = $allianceTotalScoreValue + $row['totalScoreValue'];
-		}
+		if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
+		if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
+		if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
+		if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
+		if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
+		if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
+		if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
+		if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
+		if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
+		if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
+		if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>"; elseif ($cnt >= 11) echo "<td></td>";
+		if (isset($row['value12'])) echo "<td>" . number_format($row['value12'], 2) . "</td>"; elseif ($cnt >= 12) echo "<td></td>";
+		if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
+		if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
+		if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
         echo "</tr>";
     }
 	?>
