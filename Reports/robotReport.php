@@ -264,7 +264,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
-			echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
+			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			echo "<td>" . $row['videos'] . "</td>";
 		echo "</tr>";
     }
