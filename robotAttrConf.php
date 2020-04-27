@@ -36,25 +36,25 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, $value1, null";
+    $tsql = "sp_ins_scoutRobot $teamId, '$value1'";
 	if (isset($value2))
-		$tsql .= ", $value2, null";
+		$tsql .= ", '$value2'";
 	if (isset($value3))
-		$tsql .= ", $value3, null";
+		$tsql .= ", '$value3'";
 	if (isset($value4))
-		$tsql .= ", $value4, null";
+		$tsql .= ", '$value4'";
 	if (isset($value5))
-		$tsql .= ", null, '$value5'";
+		$tsql .= ", '$value5'";
 	if (isset($value6))
-		$tsql .= ", $value6, null";
+		$tsql .= ", '$value6'";
 	if (isset($value7))
-		$tsql .= ", $value7, null";
+		$tsql .= ", '$value7'";
 	if (isset($value8))
-		$tsql .= ", $value8, null";
+		$tsql .= ", '$value8'";
 	if (isset($value9))
-		$tsql .= ", $value9, null";
+		$tsql .= ", '$value9'";
 	if (isset($value10))
-		$tsql .= ", $value10, null";
+		$tsql .= ", '$value10'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";

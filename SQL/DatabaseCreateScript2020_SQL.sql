@@ -1350,7 +1350,9 @@ select distinct
      , og.sortOrder groupSort
 	 , o.sortOrder objectiveSort
 	 , ov.sortOrder objectiveValueSort
-	 , case when st.hasValueList = 'N'
+	 , case when st.hasValueList = 'N' and st.name = 'Free Form'
+	        then '<br><br>' + o.label + '<br><input type="text" name ="value' + convert(varchar, o.sortOrder) + '" style="width: 320px"><br>'
+			when st.hasValueList = 'N'
 	        then case when o.sameLineAsPrevious = 'Y'
 			          then '&nbsp;&nbsp;'
 					  else case when o.sortOrder = 
@@ -1434,7 +1436,10 @@ select distinct
      , og.sortOrder groupSort
 	 , o.sortOrder objectiveSort
 	 , ov.sortOrder objectiveValueSort
-	 , case when st.hasValueList = 'N'
+	 , case when st.hasValueList = 'N' and st.name = 'Free Form'
+	        then '<br><br>' + o.label + '<br><input type="text" name ="value' + convert(varchar, o.sortOrder) + '" placeholder="' +
+			     coalesce(sor.textValue, '') + '" style="width: 320px"><br>'
+	        when st.hasValueList = 'N'
 	        then case when o.sameLineAsPrevious = 'Y'
 			          then '&nbsp;&nbsp;'
 					  else case when o.sortOrder = 
