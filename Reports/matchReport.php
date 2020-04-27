@@ -21,13 +21,14 @@
 		array('label' => 'Avg Score', 'type' => 'number')
 	);
 
-	$tsql = "select mr.TeamNumber
+	$tsql = "select mr.teamNumber
+                  , mr.teamName
                   , mr.alliance 
 	              , mr.alliancePosition
 	              , mr.totalScoreValue
                from v_MatchReport mr
               where matchId = $match
-                and mr.TeamNumber is not null
+                and mr.teamNumber is not null
              order by mr.alliance desc
 			        , case when mr.alliance = 'Red' then mr.totalScoreValue
 					       else - mr.totalScoreValue end
@@ -43,7 +44,7 @@
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
-		$temp[] = array('v' => (string) $row['TeamNumber']); 
+		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
 		$temp[] = array('v' => (float) $row['totalScoreValue']); 
 		$rows[] = array('c' => $temp);
 		if ($row['alliance'] == 'Red') $redScore = $redScore + $row['totalScoreValue'];

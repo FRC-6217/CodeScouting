@@ -1923,6 +1923,7 @@ select m.type + ' ' + m.number matchNumber
      , tm.matchId
      , tm.teamId
      , t.TeamNumber
+	 , t.teamName
      , case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
 	        else tm.alliance end alliance
@@ -1981,7 +1982,8 @@ group by m.type + ' ' + m.number
        , tm.matchId
        , tm.teamId
        , t.TeamNumber
-       , tm.alliance
+       , t.teamName
+	   , tm.alliance
        , tm.alliancePosition
 union
 -- Alliance Average Scores
@@ -1989,6 +1991,7 @@ select subquery.matchNumber
      , subquery.matchId
      , null teamId
 	 , null TeamNumber
+	 , null teamName
 	 , subquery.alliance
 	 , 99 alliancePosition
 	 , null teamReportUrl
@@ -2015,6 +2018,7 @@ select m.type + ' ' + m.number matchNumber
      , tm.matchId
      , tm.teamId
      , t.TeamNumber
+     , t.teamName
      , case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
 	        else tm.alliance end alliance
@@ -2073,6 +2077,7 @@ group by m.type + ' ' + m.number
        , tm.matchId
        , tm.teamId
        , t.TeamNumber
+       , t.teamName
        , tm.alliance
        , tm.alliancePosition) subquery
 group by subquery.matchNumber
@@ -2085,6 +2090,7 @@ select m.type + ' ' + m.number matchNumber
      , m.id matchId
      , null teamId
      , null TeamNumber
+     , null TeamName
      , '----' alliance
      , null alliancePosition
      , null teamReportUrl
