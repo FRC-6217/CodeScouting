@@ -1112,13 +1112,20 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	 , subquery.redScore
 	 , subquery.blueScore
      , case when subquery.matchCode is not null
-	        then '<a href="https://www.thebluealliance.com/match/' + subquery.matchCode + '" target="_blank">tba</a>, '
+	        then '<a href="https://www.thebluealliance.com/match/' + subquery.matchCode + '" target="_blank">tba</a>'
 			else '' end +
-	   replace(replace(substring(
-       (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
-          from MatchVideo mv
-		 where mv.matchId = subquery.matchId
-		 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>') videos
+	   case when 
+			   (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+				  from MatchVideo mv
+				 where mv.matchId = subquery.matchId
+				 FOR XML PATH('')) is not null
+			then ', ' +
+			   replace(replace(substring(
+			   (select ', <a href="' + case when mv.videoType = 'youtube' then 'https://youtu.be/' else mv.videoType end + trim(mv.videoKey) + '" target="_blank">v</a>' AS 'data()'
+				  from MatchVideo mv
+				 where mv.matchId = subquery.matchId
+				 FOR XML PATH('')), 3 , 9999), '&lt;', '<'), '&gt;', '>')
+			else '' end videos
      , subquery.r1TeamId
      , subquery.r2TeamId
      , subquery.r3TeamId
@@ -1139,22 +1146,22 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	 , m.matchCode
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.teamNumber else null end) r1TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 1 then t.id else null end) r1TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r1ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 1 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end r1ScoutIndicator
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.teamNumber else null end) r2TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 2 then t.id else null end) r2TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r2ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 2 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end r2ScoutIndicator
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.teamNumber else null end) r3TeamNumber
 	 , max(case when tm.alliance = 'R' and tm.alliancePosition = 3 then t.id else null end) r3TeamId
-	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end r3ScoutIndicator
+	 , case when sum(case when tm.alliance = 'R' and tm.alliancePosition = 3 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end r3ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.teamNumber else null end) b1TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 1 then t.id else null end) b1TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 1 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b1ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 1 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end b1ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.teamNumber else null end) b2TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 2 then t.id else null end) b2TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 2 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b2ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 2 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end b2ScoutIndicator
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.teamNumber else null end) b3TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.id else null end) b3TeamId
-	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null then 1 else 0 end) = 0 then 'S' else 'a' end b3ScoutIndicator
+	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end b3ScoutIndicator
   from Match m
        inner join GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1165,6 +1172,8 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	   left outer join ScoutRecord sr
 	   on sr.matchId = tm.matchId
 	   and sr.teamId = tm.teamId
+	   left outer join Scout s
+	   on s.id = sr.scoutId
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
 group by m.type
