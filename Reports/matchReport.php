@@ -71,11 +71,11 @@
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-          legend:'left',
+          legend: 'left',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
           width: 600,
-          height: 400,
+          height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
       // Instantiate and draw our chart, passing in some options.
