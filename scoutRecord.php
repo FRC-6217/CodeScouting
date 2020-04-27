@@ -96,7 +96,7 @@
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
 							<?php
-							if (isset($_GET['scoutId'])) {
+							if ($scoutId <> "") {
 								$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' or id = " . $scoutId . " order by lastName, firstName";
 							}
 							else {
