@@ -70,15 +70,18 @@
 			}
 		}
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$temp = array();
-		$temp[] = array('v' => (string) $row['matchNumber']); 
-		$temp[] = array('v' => (float) $row['totalScoreValue']); 
-		if (isset($row['objectiveGroupScoreValue1'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue1']); 
-		if (isset($row['objectiveGroupScoreValue2'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
-		if (isset($row['objectiveGroupScoreValue3'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
-		if (isset($row['objectiveGroupScoreValue4'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
-		if (isset($row['objectiveGroupScoreValue5'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue5']); 
-		$rows[] = array('c' => $temp);
+		// Only include data with complete scout records
+		if (isset($row['totalScoreValue'])) { 
+			$temp = array();
+			$temp[] = array('v' => (string) $row['matchNumber']); 
+			$temp[] = array('v' => (float) $row['totalScoreValue']); 
+			if (isset($row['objectiveGroupScoreValue1'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue1']); 
+			if (isset($row['objectiveGroupScoreValue2'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue2']); 
+			if (isset($row['objectiveGroupScoreValue3'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue3']); 
+			if (isset($row['objectiveGroupScoreValue4'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue4']); 
+			if (isset($row['objectiveGroupScoreValue5'])) $temp[] = array('v' => (float) $row['objectiveGroupScoreValue5']); 
+			$rows[] = array('c' => $temp);
+		}
 	}
 	$table['rows'] = $rows;
 	$jsonTableLineGraph = json_encode($table);
@@ -265,7 +268,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
-			echo "<td>" . $row['videos'] . "</td>";
+			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
