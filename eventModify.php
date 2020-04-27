@@ -433,7 +433,7 @@
 							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot1"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot1"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
 							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')
-							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')))
+							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot2"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
 							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
 							                                  or (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
