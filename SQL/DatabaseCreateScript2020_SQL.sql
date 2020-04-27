@@ -3179,21 +3179,21 @@ select t.TeamNumber
      , round(avg(sr.value13),2) value13
      , round(avg(sr.value14),2) value14
      , round(avg(sr.value15),2) value15
-	 , round(avg(coalesce(sr.scoreValue1,0) +
-	             coalesce(sr.scoreValue2,0) +
-	             coalesce(sr.scoreValue3,0) +
-	             coalesce(sr.scoreValue4,0) +
-	             coalesce(sr.scoreValue5,0) +
-	             coalesce(sr.scoreValue6,0) +
-	             coalesce(sr.scoreValue7,0) +
-	             coalesce(sr.scoreValue8,0) +
-	             coalesce(sr.scoreValue9,0) +
-	             coalesce(sr.scoreValue10,0) +
-	             coalesce(sr.scoreValue11,0) +
-	             coalesce(sr.scoreValue12,0) +
-	             coalesce(sr.scoreValue13,0) +
-	             coalesce(sr.scoreValue14,0) +
-	             coalesce(sr.scoreValue15,0)),2) totalScoreValue
+     , coalesce(round(avg(sr.value1),2), 0) +
+       coalesce(round(avg(sr.value2),2), 0) +
+       coalesce(round(avg(sr.value3),2), 0) +
+       coalesce(round(avg(sr.value4),2), 0) +
+       coalesce(round(avg(sr.value5),2), 0) +
+       coalesce(round(avg(sr.value6),2), 0) +
+       coalesce(round(avg(sr.value7),2), 0) +
+       coalesce(round(avg(sr.value8),2), 0) +
+       coalesce(round(avg(sr.value9),2), 0) +
+       coalesce(round(avg(sr.value10),2), 0) +
+       coalesce(round(avg(sr.value11),2), 0) +
+       coalesce(round(avg(sr.value12),2), 0) +
+       coalesce(round(avg(sr.value13),2), 0) +
+       coalesce(round(avg(sr.value14),2), 0) +
+       coalesce(round(avg(sr.value15),2), 0) totalScoreValue
      , null videos
      , t.id TeamId
      , null matchId
@@ -3230,21 +3230,37 @@ select t.TeamNumber
      , sr.value13
      , sr.value14
      , sr.value15
-	 , round(coalesce(sr.scoreValue1,0) +
-	         coalesce(sr.scoreValue2,0) +
-	         coalesce(sr.scoreValue3,0) +
-	         coalesce(sr.scoreValue4,0) +
-	         coalesce(sr.scoreValue5,0) +
-	         coalesce(sr.scoreValue6,0) +
-	         coalesce(sr.scoreValue7,0) +
-	         coalesce(sr.scoreValue8,0) +
-	         coalesce(sr.scoreValue9,0) +
-	         coalesce(sr.scoreValue10,0) +
-	         coalesce(sr.scoreValue11,0) +
-	         coalesce(sr.scoreValue12,0) +
-	         coalesce(sr.scoreValue13,0) +
-	         coalesce(sr.scoreValue14,0) +
-	         coalesce(sr.scoreValue15,0),2) totalScoreValue
+	 , case when (sr.scoreValue1 is null and 1 <= o.cntObjectives) or
+	             (sr.scoreValue2 is null and 2 <= o.cntObjectives) or
+	             (sr.scoreValue3 is null and 3 <= o.cntObjectives) or
+	             (sr.scoreValue4 is null and 4 <= o.cntObjectives) or
+	             (sr.scoreValue5 is null and 5 <= o.cntObjectives) or
+	             (sr.scoreValue6 is null and 6 <= o.cntObjectives) or
+	             (sr.scoreValue7 is null and 7 <= o.cntObjectives) or
+	             (sr.scoreValue8 is null and 8 <= o.cntObjectives) or
+	             (sr.scoreValue9 is null and 9 <= o.cntObjectives) or
+	             (sr.scoreValue10 is null and 10 <= o.cntObjectives) or
+	             (sr.scoreValue11 is null and 11 <= o.cntObjectives) or
+	             (sr.scoreValue12 is null and 12 <= o.cntObjectives) or
+	             (sr.scoreValue13 is null and 13 <= o.cntObjectives) or
+	             (sr.scoreValue14 is null and 14 <= o.cntObjectives) or
+	             (sr.scoreValue15 is null and 15 <= o.cntObjectives)
+	        then null           
+	        else round(coalesce(sr.scoreValue1,0) +
+ 					   coalesce(sr.scoreValue2,0) +
+					   coalesce(sr.scoreValue3,0) +
+					   coalesce(sr.scoreValue4,0) +
+					   coalesce(sr.scoreValue5,0) +
+					   coalesce(sr.scoreValue6,0) +
+					   coalesce(sr.scoreValue7,0) +
+					   coalesce(sr.scoreValue8,0) +
+					   coalesce(sr.scoreValue9,0) +
+					   coalesce(sr.scoreValue10,0) +
+					   coalesce(sr.scoreValue11,0) +
+					   coalesce(sr.scoreValue12,0) +
+					   coalesce(sr.scoreValue13,0) +
+					   coalesce(sr.scoreValue14,0) +
+					   coalesce(sr.scoreValue15,0),2) end totalScoreValue
      , case when m.matchCode is not null
 	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>'
 			else '' end +
@@ -3272,6 +3288,12 @@ select t.TeamNumber
       on m.id = sr.matchId
       inner join scout s
       on s.id = sr.scoutId
+	  inner join GameEvent ge
+	  on ge.id = sr.gameEventId
+	  inner join (select o.gameId, max(sortOrder) cntObjectives
+	                from Objective o
+				  group by o.gameId) o
+      on o.gameId = ge.gameId
  where t.isActive = 'Y'
    and m.isActive = 'Y';
 go
