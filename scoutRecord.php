@@ -209,6 +209,24 @@
 									  , scoutRecordHtml
 								   from v_UpdateScoutRecordHTML
 								  where scoutRecordId = " . $scoutRecordId . " 
+								 union
+								 select esrh.groupName
+									  , esrh.objectiveName
+									  , esrh.objectiveLabel
+									  , esrh.displayValue
+									  , esrh.integerValue
+									  , esrh.groupSort
+									  , esrh.objectiveSort
+									  , esrh.objectiveValueSort
+									  , esrh.scoutRecordHtml
+								   from v_EnterScoutRecordHTML esrh
+								  where not exists
+									   (select 1
+										  from v_UpdateScoutRecordHTML usrh
+										 where usrh.scoutRecordId = " . $scoutRecordId . " 
+										   and usrh.groupName = esrh.groupName
+										   and coalesce(usrh.objectiveName, 'XXXXX') = coalesce(esrh.objectiveName, 'XXXXX')
+										   and coalesce(usrh.objectiveLabel, 'XXXXX') = coalesce(esrh.objectiveLabel, 'XXXXX'))
 								 order by groupSort, objectiveSort, objectiveValueSort";
 					else
 						$tsql = "select groupName
