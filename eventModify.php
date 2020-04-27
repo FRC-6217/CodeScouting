@@ -435,8 +435,8 @@
 							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot2"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')
 							                                  or (ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["habLineRobot2"] . "')))
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
-							                                  or (ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))
+							   " and o.name = 'returnToHAB' and ((ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endgameRobot3"] . "' and coalesce(ov.tbaValue2, 'XXX') <> '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')
+							                                  or (ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["habLineRobot3"] . "')))))
 							     as source (teamMatchId, objectiveId, integerValue)
 							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
 							when matched and target.integerValue <> source.integerValue
