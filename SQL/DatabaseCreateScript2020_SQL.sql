@@ -3,6 +3,7 @@ drop procedure sp_ins_scoutRecord;
 drop procedure sp_ins_scoutRobot;
 drop procedure sp_rpt_rankReport;
 drop procedure sp_upd_portionOfAlliancePoints;
+drop procedure sp_upd_scoutDataFromTba;
 drop trigger tr_SOR_CalcScoreValue;
 drop function calcScoreValue;
 drop view v_AvgTeamRecord;
@@ -4552,4 +4553,139 @@ begin
 end
 GO
 
+CREATE PROCEDURE sp_upd_scoutDataFromTba
+as
+begin
+	-- Update scout record objectives for data specific to a team from TBA
+	update ScoutObjectiveRecord
+	   set integerValue =
+		   (select tmo.integervalue
+			  from TeamMatchObjective tmo
+				   inner join TeamMatch tm
+				   on tm.id = tmo.teamMatchId
+				   inner join ScoutRecord sr
+				   on sr.teamId = tm.teamId
+				   and sr.matchId = tm.matchId
+			 where ScoutObjectiveRecord.scoutRecordId = sr.id
+			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
+			   and tmo.integervalue is not null)
+	 where exists
+		   (select 1
+			  from TeamMatchObjective tmo
+				   inner join TeamMatch tm
+				   on tm.id = tmo.teamMatchId
+				   inner join ScoutRecord sr
+				   on sr.teamId = tm.teamId
+				   and sr.matchId = tm.matchId
+				   inner join Match m
+				   on m.id = tm.matchId
+				   inner join GameEvent ge
+				   on ge.id = m.gameEventId
+			 where m.isActive = 'Y'
+			   and ge.isActive = 'Y'
+			   and ScoutObjectiveRecord.scoutRecordId = sr.id
+			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
+			   and coalesce(ScoutObjectiveRecord.integerValue, -1) <> tmo.integerValue);
+
+	-- Add partial scout records for data which comes from TBA
+	insert into ScoutRecord (scoutId, matchId, teamId)
+	select distinct
+		   s.id scoutId
+		 , tm.matchId
+		 , tm.teamId
+	  from Scout s
+		 , TeamMatch tm
+		   inner join TeamMatchObjective tmo
+		   on tmo.teamMatchId = tm.id
+		   inner join Match m
+		   on m.id = tm.matchId
+		   inner join GameEvent ge
+		   on ge.id = m.gameEventId
+	 where s.lastName = 'TBA'
+	   and m.type = 'QM'
+	   and m.isActive = 'Y'
+	   and ge.isActive = 'Y'
+	   and tmo.integerValue is not null
+	   and not exists
+		   (select 1
+			  from ScoutRecord sr
+			 where sr.matchId = tm.matchId
+			   and sr.teamId = tm.teamId);
+	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+	select sr.id scoutRecordId
+		 , tmo.objectiveId
+		 , tmo.integerValue
+	  from ScoutRecord sr
+		   inner join Scout s
+		   on s.id = sr.scoutId
+		   inner join TeamMatch tm
+		   on tm.matchId = sr.matchId
+		   and tm.teamId = sr.teamId
+		   inner join TeamMatchObjective tmo
+		   on tmo.teamMatchId = tm.id
+		   inner join Match m
+		   on m.id = tm.matchId
+		   inner join GameEvent ge
+		   on ge.id = m.gameEventId
+	 where s.lastName = 'TBA'
+	   and m.type = 'QM'
+	   and m.isActive = 'Y'
+	   and ge.isActive = 'Y'
+	   and tmo.integerValue is not null
+	   and not exists
+		   (select 1
+			  from ScoutObjectiveRecord sor
+			 where sor.scoutRecordId = sr.id
+			   and sor.objectiveId = tmo.objectiveId);
+
+	-- If alliance objective data from TBA is zero, then set all teams in alliance objective to zero
+	update ScoutObjectiveRecord
+	   set integerValue = 0
+	 where id in (
+			select sor.id
+			  from MatchObjective mo
+				   inner join Match m
+				   on m.id = mo.matchId
+				   inner join GameEvent ge
+				   on ge.id = m.gameEventId
+				   inner join TeamMatch tm
+				   on tm.matchId = mo.matchId
+				   and tm.alliance = mo.alliance
+				   inner join ScoutRecord sr
+				   on sr.matchId = tm.matchId
+				   and sr.teamId = tm.teamId
+				   inner join ScoutObjectiveRecord sor
+				   on sor.scoutRecordId = sr.id
+				   and sor.objectiveId = mo.objectiveId
+			 where m.type = 'QM'
+			   and m.isActive = 'Y'
+			   and ge.isActive = 'Y'
+			   and mo.integerValue = 0
+			   and coalesce(sor.integerValue, -999) <> 0);
+	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+	select sr.id scoutRecordId
+		 , mo.objectiveId
+		 , mo.integerValue
+	  from ScoutRecord sr
+		   inner join Match m
+		   on m.id = sr.matchId
+		   inner join MatchObjective mo
+		   on mo.matchId = m.id
+		   inner join GameEvent ge
+		   on ge.id = m.gameEventId
+		   inner join TeamMatch tm
+		   on tm.matchId = sr.matchId
+		   and tm.teamId = sr.teamId
+		   and tm.alliance = mo.alliance
+	 where m.type = 'QM'
+	   and m.isActive = 'Y'
+	   and ge.isActive = 'Y'
+	   and mo.integerValue = 0
+	   and not exists
+		   (select 1
+			  from ScoutObjectiveRecord sor
+			 where sor.scoutRecordId = sr.id
+			   and sor.objectiveId = mo.objectiveId);
+end
+GO
 */

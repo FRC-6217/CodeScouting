@@ -719,34 +719,7 @@
 		}
 
 		// Update scout records based on TBA data
-		$tsql = "update ScoutObjectiveRecord
-				   set integerValue =
-					   (select tmo.integervalue
-						  from TeamMatchObjective tmo
-							   inner join TeamMatch tm
-							   on tm.id = tmo.teamMatchId
-							   inner join ScoutRecord sr
-							   on sr.teamId = tm.teamId
-							   and sr.matchId = tm.matchId
-						 where ScoutObjectiveRecord.scoutRecordId = sr.id
-						   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId)
-				 where exists
-					   (select 1
-						  from TeamMatchObjective tmo
-							   inner join TeamMatch tm
-							   on tm.id = tmo.teamMatchId
-							   inner join ScoutRecord sr
-							   on sr.teamId = tm.teamId
-							   and sr.matchId = tm.matchId
-							   inner join Match m
-							   on m.id = tm.matchId
-							   inner join GameEvent ge
-							   on ge.id = m.gameEventId
-						 where m.isActive = 'Y'
-						   and ge.isActive = 'Y'
-						   and ScoutObjectiveRecord.scoutRecordId = sr.id
-						   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
-						   and ScoutObjectiveRecord.integerValue <> tmo.integerValue);";
+		$tsql = "sp_upd_scoutDataFromTba;";
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
