@@ -74,7 +74,7 @@
           legend: 'right',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
-          width: 700,
+          width: 800,
           height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
