@@ -1793,33 +1793,51 @@ select sr.id scoutRecordId
 	 , max(case when o.sortOrder = 13 then sor.textValue else null end) textValue13
 	 , max(case when o.sortOrder = 14 then sor.textValue else null end) textValue14
 	 , max(case when o.sortOrder = 15 then sor.textValue else null end) textValue15
-	 , sum(case when o.sortOrder = 1 then sor.objectiveId else null end) objectiveId1
-	 , sum(case when o.sortOrder = 2 then sor.objectiveId else null end) objectiveId2
-	 , sum(case when o.sortOrder = 3 then sor.objectiveId else null end) objectiveId3
-	 , sum(case when o.sortOrder = 4 then sor.objectiveId else null end) objectiveId4
-	 , sum(case when o.sortOrder = 5 then sor.objectiveId else null end) objectiveId5
-	 , sum(case when o.sortOrder = 6 then sor.objectiveId else null end) objectiveId6
-	 , sum(case when o.sortOrder = 7 then sor.objectiveId else null end) objectiveId7
-	 , sum(case when o.sortOrder = 8 then sor.objectiveId else null end) objectiveId8
-	 , sum(case when o.sortOrder = 9 then sor.objectiveId else null end) objectiveId9
-	 , sum(case when o.sortOrder = 10 then sor.objectiveId else null end) objectiveId10
-	 , sum(case when o.sortOrder = 11 then sor.objectiveId else null end) objectiveId11
-	 , sum(case when o.sortOrder = 12 then sor.objectiveId else null end) objectiveId12
-	 , sum(case when o.sortOrder = 13 then sor.objectiveId else null end) objectiveId13
-	 , sum(case when o.sortOrder = 14 then sor.objectiveId else null end) objectiveId14
-	 , sum(case when o.sortOrder = 15 then sor.objectiveId else null end) objectiveId15
+	 , sum(case when o.sortOrder = 1 then o.id else null end) objectiveId1
+	 , sum(case when o.sortOrder = 2 then o.id else null end) objectiveId2
+	 , sum(case when o.sortOrder = 3 then o.id else null end) objectiveId3
+	 , sum(case when o.sortOrder = 4 then o.id else null end) objectiveId4
+	 , sum(case when o.sortOrder = 5 then o.id else null end) objectiveId5
+	 , sum(case when o.sortOrder = 6 then o.id else null end) objectiveId6
+	 , sum(case when o.sortOrder = 7 then o.id else null end) objectiveId7
+	 , sum(case when o.sortOrder = 8 then o.id else null end) objectiveId8
+	 , sum(case when o.sortOrder = 9 then o.id else null end) objectiveId9
+	 , sum(case when o.sortOrder = 10 then o.id else null end) objectiveId10
+	 , sum(case when o.sortOrder = 11 then o.id else null end) objectiveId11
+	 , sum(case when o.sortOrder = 12 then o.id else null end) objectiveId12
+	 , sum(case when o.sortOrder = 13 then o.id else null end) objectiveId13
+	 , sum(case when o.sortOrder = 14 then o.id else null end) objectiveId14
+	 , sum(case when o.sortOrder = 15 then o.id else null end) objectiveId15
+	 , max(case when o.sortOrder = 1 then st.name else null end) scoringTypeName1
+	 , max(case when o.sortOrder = 2 then st.name else null end) scoringTypeName2
+	 , max(case when o.sortOrder = 3 then st.name else null end) scoringTypeName3
+	 , max(case when o.sortOrder = 4 then st.name else null end) scoringTypeName4
+	 , max(case when o.sortOrder = 5 then st.name else null end) scoringTypeName5
+	 , max(case when o.sortOrder = 6 then st.name else null end) scoringTypeName6
+	 , max(case when o.sortOrder = 7 then st.name else null end) scoringTypeName7
+	 , max(case when o.sortOrder = 8 then st.name else null end) scoringTypeName8
+	 , max(case when o.sortOrder = 9 then st.name else null end) scoringTypeName9
+	 , max(case when o.sortOrder = 10 then st.name else null end) scoringTypeName10
+	 , max(case when o.sortOrder = 11 then st.name else null end) scoringTypeName11
+	 , max(case when o.sortOrder = 12 then st.name else null end) scoringTypeName12
+	 , max(case when o.sortOrder = 13 then st.name else null end) scoringTypeName13
+	 , max(case when o.sortOrder = 14 then st.name else null end) scoringTypeName14
+	 , max(case when o.sortOrder = 15 then st.name else null end) scoringTypeName15
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
-	   inner join ScoutObjectiveRecord sor
-	   on sor.scoutRecordId = sr.id
 	   inner join Objective o
-	   on o.id = sor.objectiveId
+	   on o.gameId = ge.gameId
+	   inner join ScoringType st
+	   on st.id = o.scoringTypeId
 	   inner join TeamMatch tm
 	   on tm.matchId = sr.matchId
 	   and tm.teamId = sr.teamId
+	   left outer join ScoutObjectiveRecord sor
+	   on sor.scoutRecordId = sr.id
+	   and sor.objectiveId = o.id
  where ge.isActive = 'Y'
    and m.isActive = 'Y'
 group by sr.id
@@ -1894,7 +1912,22 @@ select sr.matchId
      , avg(convert(integer, objectiveId12)) objectiveId12
      , avg(convert(integer, objectiveId13)) objectiveId13
      , avg(convert(integer, objectiveId14)) objectiveId14
-     , avg(convert(integer, objectiveId15)) objectiveId15 
+     , avg(convert(integer, objectiveId15)) objectiveId15
+	 , max(scoringTypeName1) scoringTypeName1
+	 , max(scoringTypeName2) scoringTypeName2
+	 , max(scoringTypeName3) scoringTypeName3
+	 , max(scoringTypeName4) scoringTypeName4
+	 , max(scoringTypeName5) scoringTypeName5
+	 , max(scoringTypeName6) scoringTypeName6
+	 , max(scoringTypeName7) scoringTypeName7
+	 , max(scoringTypeName8) scoringTypeName8
+	 , max(scoringTypeName9) scoringTypeName9
+	 , max(scoringTypeName10) scoringTypeName10
+	 , max(scoringTypeName11) scoringTypeName11
+	 , max(scoringTypeName12) scoringTypeName12
+	 , max(scoringTypeName13) scoringTypeName13
+	 , max(scoringTypeName14) scoringTypeName14
+	 , max(scoringTypeName15) scoringTypeName15
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId
@@ -3280,21 +3313,21 @@ select t.TeamNumber
      , sr.value13
      , sr.value14
      , sr.value15
-	 , case when (sr.scoreValue1 is null and 1 <= o.cntObjectives) or
-	             (sr.scoreValue2 is null and 2 <= o.cntObjectives) or
-	             (sr.scoreValue3 is null and 3 <= o.cntObjectives) or
-	             (sr.scoreValue4 is null and 4 <= o.cntObjectives) or
-	             (sr.scoreValue5 is null and 5 <= o.cntObjectives) or
-	             (sr.scoreValue6 is null and 6 <= o.cntObjectives) or
-	             (sr.scoreValue7 is null and 7 <= o.cntObjectives) or
-	             (sr.scoreValue8 is null and 8 <= o.cntObjectives) or
-	             (sr.scoreValue9 is null and 9 <= o.cntObjectives) or
-	             (sr.scoreValue10 is null and 10 <= o.cntObjectives) or
-	             (sr.scoreValue11 is null and 11 <= o.cntObjectives) or
-	             (sr.scoreValue12 is null and 12 <= o.cntObjectives) or
-	             (sr.scoreValue13 is null and 13 <= o.cntObjectives) or
-	             (sr.scoreValue14 is null and 14 <= o.cntObjectives) or
-	             (sr.scoreValue15 is null and 15 <= o.cntObjectives)
+	 , case when (sr.scoringTypeName1 <> 'Free Form' and sr.scoreValue1 is null and 1 <= o.cntObjectives) or
+	             (sr.scoringTypeName2 <> 'Free Form' and sr.scoreValue2 is null and 2 <= o.cntObjectives) or
+	             (sr.scoringTypeName3 <> 'Free Form' and sr.scoreValue3 is null and 3 <= o.cntObjectives) or
+	             (sr.scoringTypeName4 <> 'Free Form' and sr.scoreValue4 is null and 4 <= o.cntObjectives) or
+	             (sr.scoringTypeName5 <> 'Free Form' and sr.scoreValue5 is null and 5 <= o.cntObjectives) or
+	             (sr.scoringTypeName6 <> 'Free Form' and sr.scoreValue6 is null and 6 <= o.cntObjectives) or
+	             (sr.scoringTypeName7 <> 'Free Form' and sr.scoreValue7 is null and 7 <= o.cntObjectives) or
+	             (sr.scoringTypeName8 <> 'Free Form' and sr.scoreValue8 is null and 8 <= o.cntObjectives) or
+	             (sr.scoringTypeName9 <> 'Free Form' and sr.scoreValue9 is null and 9 <= o.cntObjectives) or
+	             (sr.scoringTypeName10 <> 'Free Form' and sr.scoreValue10 is null and 10 <= o.cntObjectives) or
+	             (sr.scoringTypeName11 <> 'Free Form' and sr.scoreValue11 is null and 11 <= o.cntObjectives) or
+	             (sr.scoringTypeName12 <> 'Free Form' and sr.scoreValue12 is null and 12 <= o.cntObjectives) or
+	             (sr.scoringTypeName13 <> 'Free Form' and sr.scoreValue13 is null and 13 <= o.cntObjectives) or
+	             (sr.scoringTypeName14 <> 'Free Form' and sr.scoreValue14 is null and 14 <= o.cntObjectives) or
+	             (sr.scoringTypeName15 <> 'Free Form' and sr.scoreValue15 is null and 15 <= o.cntObjectives)
 	        then null           
 	        else round(coalesce(sr.scoreValue1,0) +
  					   coalesce(sr.scoreValue2,0) +

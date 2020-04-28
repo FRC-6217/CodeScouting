@@ -284,7 +284,6 @@ $tsql = "select TeamNumber
 			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
-			/*
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif (isset($row['textValue1'])) echo "<td>" . $row['textValue1']) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif (isset($row['textValue2'])) echo "<td>" . $row['textValue2']) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
 			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif (isset($row['textValue3'])) echo "<td>" . $row['textValue3']) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
@@ -300,7 +299,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif (isset($row['textValue13'])) echo "<td>" . $row['textValue13']) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif (isset($row['textValue14'])) echo "<td>" . $row['textValue14']) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif (isset($row['textValue15'])) echo "<td>" . $row['textValue15']) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
-			*/
+			/*
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
 			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
@@ -316,6 +315,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+			*/
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
 		echo "</tr>";
