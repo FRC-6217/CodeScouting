@@ -294,9 +294,9 @@ $tsql = "select TeamNumber
 			if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>"; elseif (isset($row['textValue8'])) echo "<td>8</td>"; elseif ($cnt >= 8) echo "<td></td>";
 			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>"; elseif (isset($row['textValue9'])) echo "<td>9</td>"; elseif ($cnt >= 9) echo "<td></td>";
 			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif (isset($row['textValue10'])) echo "<td>10</td>"; elseif ($cnt >= 10) echo "<td></td>";
-			if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>"; elseif (isset($row['textValue11'])) echo "<td>11</td>"; elseif ($cnt >= 11) echo "<td></td>";
+			if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>"; elseif (isset($row['textValue11'])) echo "<td>" . $row['textValue11'] . "</td>"; elseif ($cnt >= 11) echo "<td></td>";
 			if (isset($row['value12'])) echo "<td>" . number_format($row['value12'], 2) . "</td>"; elseif (isset($row['textValue12'])) echo "<td>" . $row['textValue12'] . "</td>"; elseif ($cnt >= 12) echo "<td></td>";
-			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif (isset($row['textValue13'])) echo "<td>13</td>"; elseif ($cnt >= 13) echo "<td></td>";
+			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif (isset($row['textValue13'])) echo "<td>" . $row['textValue13'] . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif (isset($row['textValue14'])) echo "<td>14</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif (isset($row['textValue15'])) echo "<td>15</td>"; elseif ($cnt >= 15) echo "<td></td>";
 			/*
