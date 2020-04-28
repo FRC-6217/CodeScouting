@@ -118,7 +118,10 @@
 					   from objective o
 							inner join gameEvent ge
 							on ge.gameId = o.gameId
+							inner join ScoringType st
+							on st.id = o.scoringTypeId
 					  where ge.isActive = 'Y'
+					    and st.name <> 'Free Form'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -294,7 +297,10 @@
 					   from objective o
 							inner join gameEvent ge
 							on ge.gameId = o.gameId
+							inner join ScoringType st
+							on st.id = o.scoringTypeId
 					  where ge.isActive = 'Y'
+					    and st.name <> 'Free Form'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
