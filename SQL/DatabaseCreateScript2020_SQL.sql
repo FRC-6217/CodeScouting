@@ -1778,6 +1778,21 @@ select sr.id scoutRecordId
 					      then coalesce(tm.portionOfAlliancePoints, 0)
 						  else 0 end
 				else null end) scoreValue15
+	 , max(case when o.sortOrder = 1 then sor.textValue else null end) textValue1
+	 , max(case when o.sortOrder = 2 then sor.textValue else null end) textValue2
+	 , max(case when o.sortOrder = 3 then sor.textValue else null end) textValue3
+	 , max(case when o.sortOrder = 4 then sor.textValue else null end) textValue4
+	 , max(case when o.sortOrder = 5 then sor.textValue else null end) textValue5
+	 , max(case when o.sortOrder = 6 then sor.textValue else null end) textValue6
+	 , max(case when o.sortOrder = 7 then sor.textValue else null end) textValue7
+	 , max(case when o.sortOrder = 8 then sor.textValue else null end) textValue8
+	 , max(case when o.sortOrder = 9 then sor.textValue else null end) textValue9
+	 , max(case when o.sortOrder = 10 then sor.textValue else null end) textValue10
+	 , max(case when o.sortOrder = 11 then sor.textValue else null end) textValue11
+	 , max(case when o.sortOrder = 12 then sor.textValue else null end) textValue12
+	 , max(case when o.sortOrder = 13 then sor.textValue else null end) textValue13
+	 , max(case when o.sortOrder = 14 then sor.textValue else null end) textValue14
+	 , max(case when o.sortOrder = 15 then sor.textValue else null end) textValue15
 	 , sum(case when o.sortOrder = 1 then sor.objectiveId else null end) objectiveId1
 	 , sum(case when o.sortOrder = 2 then sor.objectiveId else null end) objectiveId2
 	 , sum(case when o.sortOrder = 3 then sor.objectiveId else null end) objectiveId3
@@ -3214,6 +3229,21 @@ select t.TeamNumber
        coalesce(round(avg(sr.value13),2), 0) +
        coalesce(round(avg(sr.value14),2), 0) +
        coalesce(round(avg(sr.value15),2), 0) totalScoreValue
+     , null textValue1
+     , null textValue2
+     , null textValue3
+     , null textValue4
+     , null textValue5
+     , null textValue6
+     , null textValue7
+     , null textValue8
+     , null textValue9
+     , null textValue10
+     , null textValue11
+     , null textValue12
+     , null textValue13
+     , null textValue14
+     , null textValue15
      , null videos
      , t.id TeamId
      , null matchId
@@ -3281,6 +3311,21 @@ select t.TeamNumber
 					   coalesce(sr.scoreValue13,0) +
 					   coalesce(sr.scoreValue14,0) +
 					   coalesce(sr.scoreValue15,0),2) end totalScoreValue
+     , sr.textValue1
+     , sr.textValue2
+     , sr.textValue3
+     , sr.textValue4
+     , sr.textValue5
+     , sr.textValue6
+     , sr.textValue7
+     , sr.textValue8
+     , sr.textValue9
+     , sr.textValue10
+     , sr.textValue11
+     , sr.textValue12
+     , sr.textValue13
+     , sr.textValue14
+     , sr.textValue15
      , case when m.matchCode is not null
 	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>'
 			else '' end +
@@ -3742,535 +3787,65 @@ BEGIN
 		INSERT INTO ScoutRecord (scoutId, matchId, teamId)
 		SELECT @pv_ScoutId, @pv_MatchId, @pv_TeamId;
 		SET @lv_Id = @@IDENTITY;
-
-		-- Add Objective Values
-		if @pv_TextValue01 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue01) end
-				 , case when st.name = 'Free Form' then @pv_TextValue01 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 1;
-
-		-- Add Objective Values
-		if @pv_TextValue02 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue02) end
-				 , case when st.name = 'Free Form' then @pv_TextValue02 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 2;
-
-		-- Add Objective Values
-		if @pv_TextValue03 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue03) end
-				 , case when st.name = 'Free Form' then @pv_TextValue03 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 3;
-
-		-- Add Objective Values
-		if @pv_TextValue04 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue04) end
-				 , case when st.name = 'Free Form' then @pv_TextValue04 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 4;
-
-		-- Add Objective Values
-		if @pv_TextValue05 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue05) end
-				 , case when st.name = 'Free Form' then @pv_TextValue05 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 5;
-
-		-- Add Objective Values
-		if @pv_TextValue06 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue06) end
-				 , case when st.name = 'Free Form' then @pv_TextValue06 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 6;
-
-		-- Add Objective Values
-		if @pv_TextValue07 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue07) end
-				 , case when st.name = 'Free Form' then @pv_TextValue07 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 7;
-
-		-- Add Objective Values
-		if @pv_TextValue08 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue08) end
-				 , case when st.name = 'Free Form' then @pv_TextValue08 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 8;
-
-		-- Add Objective Values
-		if @pv_TextValue09 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue09) end
-				 , case when st.name = 'Free Form' then @pv_TextValue09 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 9;
-
-		-- Add Objective Values
-		if @pv_TextValue10 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue10) end
-				 , case when st.name = 'Free Form' then @pv_TextValue10 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 10;
-
-		-- Add Objective Values
-		if @pv_TextValue11 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue11) end
-				 , case when st.name = 'Free Form' then @pv_TextValue11 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 11;
-
-		-- Add Objective Values
-		if @pv_TextValue12 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue12) end
-				 , case when st.name = 'Free Form' then @pv_TextValue12 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 12;
-
-		-- Add Objective Values
-		if @pv_TextValue13 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue13) end
-				 , case when st.name = 'Free Form' then @pv_TextValue13 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 13;
-
-		-- Add Objective Values
-		if @pv_TextValue14 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue14) end
-				 , case when st.name = 'Free Form' then @pv_TextValue14 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 14;
-
-		-- Add Objective Values
-		if @pv_TextValue15 is not null
-			INSERT INTO ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, textValue)
-			SELECT @lv_Id
-				 , o.id
-				 , case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue15) end
-				 , case when st.name = 'Free Form' then @pv_TextValue15 else null end
-			  FROM Match m
-				   INNER JOIN GameEvent ge
-				   ON ge.id = m.gameEventId
-				   INNER JOIN Objective o
-				   ON o.gameId = ge.gameId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-			 WHERE m.id = @pv_MatchId
-			   AND o.sortOrder = 15;
 	END
-	ELSE
-	BEGIN
-		-- Update Objective Values
-		if @pv_TextValue01 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue01) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue01 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 1;
 
-		-- Update Objective Values
-		if @pv_TextValue02 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue02) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue02 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 2;
-
-		-- Update Objective Values
-		if @pv_TextValue03 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue03) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue03 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 3;
-
-		-- Update Objective Values
-		if @pv_TextValue04 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue04) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue04 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 4;
-
-		-- Update Objective Values
-		if @pv_TextValue05 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue05) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue05 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 5;
-
-		-- Update Objective Values
-		if @pv_TextValue06 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue06) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue06 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 6;
-
-		-- Update Objective Values
-		if @pv_TextValue07 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue07) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue07 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 7;
-
-		-- Update Objective Values
-		if @pv_TextValue08 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue08) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue08 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 8;
-
-		-- Update Objective Values
-		if @pv_TextValue09 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue09) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue09 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 9;
-
-		-- Update Objective Values
-		if @pv_TextValue10 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue10) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue10 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 10;
-
-		-- Update Objective Values
-		if @pv_TextValue11 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue11) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue11 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 11;
-
-		-- Update Objective Values
-		if @pv_TextValue12 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue12) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue12 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 12;
-
-		-- Update Objective Values
-		if @pv_TextValue13 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue13) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue13 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 13;
-
-		-- Update Objective Values
-		if @pv_TextValue14 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue14) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue14 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 14;
-
-		-- Update Objective Values
-		if @pv_TextValue15 is not null
-			UPDATE ScoutObjectiveRecord
-               SET integerValue = case when st.name = 'Free Form' then null else convert(integer, @pv_TextValue15) end
-				 , textValue = case when st.name = 'Free Form' then @pv_TextValue15 else null end
-			  FROM ScoutObjectiveRecord
-			       INNER JOIN Objective o
-				   ON o.id = ScoutObjectiveRecord.objectiveId
-				   INNER JOIN ScoringType st
-				   ON st.id = o.scoringTypeId
-				   INNER JOIN GameEvent ge
-				   ON ge.gameId = o.gameId
-				   INNER JOIN Match m
-				   ON m.gameEventId = ge.id
-             WHERE ScoutObjectiveRecord.scoutRecordId = @lv_Id
-               AND m.id = @pv_MatchId
-			   AND o.sortOrder = 15;
-
-	END
+    -- Insert/Update Scout Objective Record data
+	MERGE ScoutObjectiveRecord AS TARGET
+	USING (
+		SELECT @lv_Id scoutRecordId
+			 , o.id objectiveId
+			 , case when st.name = 'Free Form'
+			        then null
+					else case when o.sortOrder = 1 then convert(integer, @pv_TextValue01)
+					          when o.sortOrder = 2 then convert(integer, @pv_TextValue02)
+					          when o.sortOrder = 3 then convert(integer, @pv_TextValue03)
+					          when o.sortOrder = 4 then convert(integer, @pv_TextValue04)
+					          when o.sortOrder = 5 then convert(integer, @pv_TextValue05)
+					          when o.sortOrder = 6 then convert(integer, @pv_TextValue06)
+					          when o.sortOrder = 7 then convert(integer, @pv_TextValue07)
+					          when o.sortOrder = 8 then convert(integer, @pv_TextValue08)
+					          when o.sortOrder = 9 then convert(integer, @pv_TextValue09)
+					          when o.sortOrder = 10 then convert(integer, @pv_TextValue10)
+					          when o.sortOrder = 11 then convert(integer, @pv_TextValue11)
+					          when o.sortOrder = 12 then convert(integer, @pv_TextValue12)
+					          when o.sortOrder = 13 then convert(integer, @pv_TextValue13)
+					          when o.sortOrder = 14 then convert(integer, @pv_TextValue14)
+					          when o.sortOrder = 15 then convert(integer, @pv_TextValue15)
+					          else null end
+					end integerValue
+			 , case when st.name = 'Free Form'
+			        then case when o.sortOrder = 1 then @pv_TextValue01
+					          when o.sortOrder = 2 then @pv_TextValue02
+					          when o.sortOrder = 3 then @pv_TextValue03
+					          when o.sortOrder = 4 then @pv_TextValue04
+					          when o.sortOrder = 5 then @pv_TextValue05
+					          when o.sortOrder = 6 then @pv_TextValue06
+					          when o.sortOrder = 7 then @pv_TextValue07
+					          when o.sortOrder = 8 then @pv_TextValue08
+					          when o.sortOrder = 9 then @pv_TextValue09
+					          when o.sortOrder = 10 then @pv_TextValue10
+					          when o.sortOrder = 11 then @pv_TextValue11
+					          when o.sortOrder = 12 then @pv_TextValue12
+					          when o.sortOrder = 13 then @pv_TextValue13
+					          when o.sortOrder = 14 then @pv_TextValue14
+					          when o.sortOrder = 15 then @pv_TextValue15
+					          else null end
+					else null end textValue
+		  FROM Match m
+			   INNER JOIN GameEvent ge
+			   ON ge.id = m.gameEventId
+			   INNER JOIN Objective o
+			   ON o.gameId = ge.gameId
+			   INNER JOIN ScoringType st
+			   ON st.id = o.scoringTypeId
+		 WHERE m.id = @pv_MatchId ) AS SOURCE
+	ON (TARGET.scoutRecordId = SOURCE.scoutRecordId
+	AND TARGET.objectiveId = SOURCE.objectiveId)
+    WHEN MATCHED AND (COALESCE(TARGET.integerValue, -999) <> COALESCE(SOURCE.integerValue, -999)
+	               OR COALESCE(TARGET.textValue, '<XXXX>') <> COALESCE(SOURCE.textValue, '<XXXX>'))
+    THEN UPDATE SET TARGET.integerValue = SOURCE.integerValue, TARGET.textValue = SOURCE.textValue
+	WHEN NOT MATCHED
+	THEN INSERT (scoutRecordId, objectiveId, integerValue, textValue) VALUES (SOURCE.scoutRecordId, SOURCE.objectiveId, SOURCE.integerValue, SOURCE.textValue);
 
 	-- Lookup Team Match Record by Alliance/Position
 	SELECT @lv_id = max(id)
