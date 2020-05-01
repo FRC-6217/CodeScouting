@@ -80,7 +80,7 @@
 	 <p></p>
 	 <center><a class="clickme danger" href="index.php">Home</a></center>
 <?php
-    $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, $scoutComment, '$value1'";
+    $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, '$scoutComment', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))
