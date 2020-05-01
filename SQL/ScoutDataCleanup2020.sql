@@ -1,64 +1,54 @@
--- 2019 - Clear up non-zero Hatches/Cargo
-update ScoutObjectiveRecord
-   set integerValue = 0
- where id in (
-select sor.id
-  from MatchObjective mo
-       inner join Match m
-	   on m.id = mo.matchId
+-- Fix Scout Data that can be directly updated based on Blue Alliance Data - this is for currently active Game Event
+exec sp_upd_scoutDataFromTba
+
+-- Compare Total Score Scout Data to Blue Alliance Score
+select m.id matchId
+     , m.number matchNumber
+	 , tm.alliance
+	 , sum(asor.avgScoreValue) scoutScoreValue
+	 , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
+	        else m.blueScore - m.blueFoulPoints end tbaMatchScoreWithoutFouls
+	 , sum(asor.avgScoreValue) -
+	   case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
+	        else m.blueScore - m.blueFoulPoints end matchScoreDelta
+  from v_AvgScoutObjectiveRecord asor
+       inner join TeamMatch tm
+	   on tm.matchId = asor.matchId
+	   and tm.teamId = asor.teamId
+	   inner join Match m
+	   on m.id = asor.matchId
 	   inner join GameEvent ge
 	   on ge.id = m.gameEventId
-	   inner join TeamMatch tm
-	   on tm.matchId = m.id
-	   and tm.alliance = mo.alliance
-	   inner join ScoutRecord sr
-	   on sr.matchId = tm.matchId
-	   and sr.teamId = tm.teamId
-	   inner join ScoutObjectiveRecord sor
-	   on sor.scoutRecordId = sr.id
-	   and sor.objectiveId in (mo.objectiveId - 2, mo.objectiveId)
- where m.gameEventId = 2
-   and mo.integerValue = 0
-   and mo.objectiveId in (4, 5)
-   and sor.integerValue <> 0);
+ where ge.isActive = 'Y'
+   and m.isActive = 'Y'
+   and exists
+       (select 1
+	     from ScoutRecord sr
+		      inner join Scout s
+			  on s.id = sr.scoutId
+		where sr.matchId = tm.matchId
+		  and sr.teamId = tm.teamId
+		  and s.lastName <> 'TBA')
+group by m.id
+	   , m.dateTime
+ 	   , m.number
+	   , tm.alliance
+ 	   , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
+	          else m.blueScore - m.blueFoulPoints end
+having sum(asor.avgScoreValue) <>
+       case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
+	        else m.blueScore - m.blueFoulPoints end
+order by m.datetime, tm.alliance;
 
--- Fix Scout Data that can be directly updated based on Blue Alliance Data
--- 2020 : Auto Line and End Game
-update ScoutObjectiveRecord
-   set integerValue =
-		(select tmo.integervalue
-		   from TeamMatchObjective tmo
-			    inner join TeamMatch tm
-			    on tm.id = tmo.teamMatchId
-			    inner join ScoutRecord sr
-			    on sr.teamId = tm.teamId
-			    and sr.matchId = tm.matchId
-		  where ScoutObjectiveRecord.scoutRecordId = sr.id
-		    and ScoutObjectiveRecord.objectiveId = tmo.objectiveId)
- where exists
-	  (select 1
-		 from TeamMatchObjective tmo
-			  inner join TeamMatch tm
-			  on tm.id = tmo.teamMatchId
-			  inner join ScoutRecord sr
-			  on sr.teamId = tm.teamId
-			  and sr.matchId = tm.matchId
-			  inner join Match m
-			  on m.id = tm.matchId
-			  inner join GameEvent ge
-			  on ge.id = m.gameEventId
-		where m.isActive = 'Y'
-		  and ge.isActive = 'Y'
-		  and ScoutObjectiveRecord.scoutRecordId = sr.id
-		  and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
-		  and ScoutObjectiveRecord.integerValue <> tmo.integerValue);
-
--- Compare Scout Data to Blue Alliance
-select m.number matchNumber
-	 , asor.objectiveName
+-- Compare Total Score Scout Data to Blue Alliance Score
+select m.id matchId
+	 , m.number matchNumber
 	 , tm.alliance
-	 , mo.scoreValue
+     , asor.objectiveName
 	 , sum(asor.avgScoreValue) scoutScoreValue
+	 , mo.scoreValue tbaObjectiveScore
+	 , sum(asor.avgScoreValue) -
+	   mo.scoreValue objectiveScoreDelta
   from v_AvgScoutObjectiveRecord asor
        inner join TeamMatch tm
 	   on tm.matchId = asor.matchId
@@ -76,11 +66,12 @@ select m.number matchNumber
  where ge.isActive = 'Y'
 group by m.id
        , m.number
+	   , m.dateTime
        , asor.objectiveName
 	   , tm.alliance
 	   , mo.scoreValue
 having mo.scoreValue <> sum(asor.avgScoreValue)
-order by abs(mo.scoreValue - sum(asor.avgScoreValue)) desc, convert(integer, m.number), 2, 3, 4;
+order by m.datetime, tm.alliance, asor.objectiveName;
 
 -- Scouted Data Accuracy - scout records needing correction
 select subquery.allianceScore

@@ -50,6 +50,7 @@
 					 , sr.teamId
 					 , t.teamNumber
 					 , tm.alliance + convert(varchar, tm.alliancePosition) alliancePosition
+					 , sr.scoutComment
 					 , sr.scoutId
 				  from ScoutRecord sr
 					   inner join Match m
@@ -76,6 +77,7 @@
 			$teamId = $row['teamId'];
 			$teamNumber = $row['teamNumber'];
 			$alliancePosition = $row['alliancePosition'];
+			$scoutComment = $row['scoutComment'];
 			$scoutId = $row['scoutId'];
 		}
 	}
@@ -238,7 +240,7 @@
 									  , objectiveSort
 									  , objectiveValueSort
 									  , scoutRecordHtml
-								   from v_EnterScoutRecordHTML 
+								   from v_EnterScoutRecordHTML
 								 order by groupSort, objectiveSort, objectiveValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)
@@ -252,6 +254,11 @@
 					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 						echo $row['scoutRecordHtml'];
 					}
+					// Add Scout Comment entry for all Scout Records
+					if ($cntSR == 1)
+						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" placeholder="' . $scoutComment . '" style="width: 320px"><br>';
+					else
+						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" style="width: 320px"><br>';
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
 					?>

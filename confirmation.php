@@ -21,6 +21,7 @@
 	$match = $_POST[match];
 	$team = $_POST[team];
 	$alliancePosition = $_POST[alliancePosition];
+	$scoutComment = $_POST[scoutComment];
 	$value1 = $_POST[value1];
 	$value2 = $_POST[value2];
 	$value3 = $_POST[value3];
@@ -79,7 +80,7 @@
 	 <p></p>
 	 <center><a class="clickme danger" href="index.php">Home</a></center>
 <?php
-    $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, '$value1'";
+    $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, $scoutComment, '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))

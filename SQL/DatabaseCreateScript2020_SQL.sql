@@ -746,7 +746,8 @@ create table ScoutRecord (
 	scoutId integer not null,
 	matchId integer not null,
 	teamId integer not null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	scoutComment varchar(4000) null);
 create unique index idx_ScoutRecord on ScoutRecord(scoutId, matchId, teamId);
 alter table ScoutRecord add constraint fk_ScoutRecord_Scout foreign key (scoutId) references Scout (id);
 alter table ScoutRecord add constraint fk_ScoutRecord_Match foreign key (matchId) references Match (id);
@@ -3787,6 +3788,7 @@ CREATE PROCEDURE sp_ins_scoutRecord (@pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
 								   , @pv_AlliancePosition varchar(64)
+                                   , @pv_ScoutComment varchar(4000)
                                    , @pv_TextValue01 varchar(4000)
                                    , @pv_TextValue02 varchar(4000) = null
                                    , @pv_TextValue03 varchar(4000) = null
@@ -3814,12 +3816,20 @@ BEGIN
 	   AND matchId = @pv_MatchId
 	   AND teamId = @pv_TeamId;
 	   
-	-- Add Scout Header Record
+	-- Add/update Scout Header Record
 	IF @lv_Id is null
 	BEGIN
-		INSERT INTO ScoutRecord (scoutId, matchId, teamId)
-		SELECT @pv_ScoutId, @pv_MatchId, @pv_TeamId;
+		INSERT INTO ScoutRecord (scoutId, matchId, teamId, scoutComment)
+		SELECT @pv_ScoutId, @pv_MatchId, @pv_TeamId, @pv_ScoutComment;
 		SET @lv_Id = @@IDENTITY;
+	END
+	ELSE
+	BEGIN
+		UPDATE ScoutRecord
+		   SET scoutComment = COALESCE(@pv_ScoutComment, scoutComment)
+		WHERE scoutId = @pv_ScoutId
+		  AND matchId = @pv_MatchId
+		  AND teamId = @pv_TeamId;
 	END
 
     -- Insert/Update Scout Objective Record data
@@ -3914,6 +3924,9 @@ BEGIN
 		 where matchId = @pv_MatchId
 		   and alliance = substring(@pv_AlliancePosition, 1, 1)
 		   and alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
+
+    -- Resynch TBA data for all scout records
+	exec sp_upd_scoutDataFromTba;
 END
 GO
 
@@ -4602,6 +4615,44 @@ begin
 			  from ScoutObjectiveRecord sor
 			 where sor.scoutRecordId = sr.id
 			   and sor.objectiveId = mo.objectiveId);
+
+	-- If alliance objective data from TBA is lower than any one team's objective value, then lower the team's objective value to TBA
+	update ScoutObjectiveRecord
+	   set integerValue =
+		  (select mo.integerValue
+			  from MatchObjective mo
+				   inner join Match m
+				   on m.id = mo.matchId
+				   inner join GameEvent ge
+				   on ge.id = m.gameEventId
+				   inner join TeamMatch tm
+				   on tm.matchId = mo.matchId
+				   and tm.alliance = mo.alliance
+				   inner join ScoutRecord sr
+				   on sr.matchId = tm.matchId
+				   and sr.teamId = tm.teamId
+			 where sr.id = ScoutObjectiveRecord.scoutRecordId
+			   and mo.objectiveId = ScoutObjectiveRecord.objectiveId)
+     where id in (
+			select sor.id
+			  from MatchObjective mo
+				   inner join Match m
+				   on m.id = mo.matchId
+				   inner join GameEvent ge
+				   on ge.id = m.gameEventId
+				   inner join TeamMatch tm
+				   on tm.matchId = mo.matchId
+				   and tm.alliance = mo.alliance
+				   inner join ScoutRecord sr
+				   on sr.matchId = tm.matchId
+				   and sr.teamId = tm.teamId
+				   inner join ScoutObjectiveRecord sor
+				   on sor.scoutRecordId = sr.id
+				   and sor.objectiveId = mo.objectiveId
+			 where m.type = 'QM'
+			   and m.isActive = 'Y'
+			   and ge.isActive = 'Y'
+			   and coalesce(sor.integerValue, -999) > mo.integerValue);
 end
 GO
 
