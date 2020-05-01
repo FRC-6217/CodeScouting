@@ -221,6 +221,7 @@
 			?>
 			<th>Scr Imp</th>
 			<th>Links</th>
+			<th>Match Comment</th>
     </tr>
 <?php
 $tsql = "select TeamNumber
@@ -263,6 +264,7 @@ $tsql = "select TeamNumber
               , matchId
               , scoutId
 			  , scoutRecordId
+			  , scoutComment
 		   from v_TeamReport
           where TeamId = $team
 		order by matchTime, matchNumber";
@@ -301,6 +303,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif (isset($row['textValue15'])) echo "<td>" . $row['textValue15'] . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
+			if (isset($row['scoutComment'])) echo "<td>" . $row['scoutComment'] . "</td>"; else echo "<td></td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);

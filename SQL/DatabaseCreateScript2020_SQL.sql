@@ -1553,6 +1553,7 @@ select sr.id scoutRecordId
      , sr.matchId
      , sr.teamId
 	 , sr.scoutId
+	 , sr.scoutComment
 	 , m.gameEventId
 	 , sum(case when o.sortOrder = 1 and o.reportDisplay = 'S'
 	            then sor.scoreValue +
@@ -1845,6 +1846,7 @@ group by sr.id
        , sr.matchId
        , sr.teamId
 	   , sr.scoutId
+	   , sr.scoutComment
 	   , m.gameEventId;
 GO
 
@@ -3284,6 +3286,7 @@ select t.TeamNumber
      , null scoutId
 	 , sr.gameEventId
 	 , null scoutRecordId
+	 , null scoutComment
  from Team t
       inner join v_AvgScoutRecord sr
       on sr.TeamId = t.id
@@ -3380,6 +3383,7 @@ select t.TeamNumber
      , sr.scoutId
 	 , sr.gameEventId
 	 , sr.scoutRecordId
+	 , sr.scoutComment
  from Team t
       inner join v_ScoutRecord sr
       on sr.TeamId = t.id
