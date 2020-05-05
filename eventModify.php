@@ -771,7 +771,8 @@
 		$idx = 0;
 		// Update team information
 		foreach($rankingArray as $key => $valueArray) {
-			if ($idx = 1) {
+			$idx += 1;
+			if ($idx = 2) {
 				var_dump($valueArray);
 				foreach($valueArray as $key => $value) {
 					var_dump($value);

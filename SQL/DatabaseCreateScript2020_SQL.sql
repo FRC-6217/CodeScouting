@@ -3639,7 +3639,7 @@ BEGIN
 							  , rankingPointAverage numeric(10, 3));
 	SET NOCOUNT ON
 	-- Get Sort Order
-	SELECT @lv_SortOrder = coalesce(max(sortOrder), 1)
+	SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
 	  FROM Rank r
 	       inner join GameEvent ge
 		   on ge.gameId = r.gameId
@@ -3782,7 +3782,8 @@ BEGIN
 		   , subquery.cntMatches
  		   , subquery.eventRank
 		   , subquery.rankingPointAverage
-	order by sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end)
+	order by case when @lv_SortOrder = -99 then subquery.eventRank
+	              else sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end) end
 	       , t.teamNumber;
 
 END

@@ -50,8 +50,8 @@
 				$cnt = $cnt + 1;
 			}
 			sqlsrv_free_stmt($getResults);
+			echo "<th><a href='../Reports/rankReport.php?sortOrder=eventRank&rankName=Event Rank'>Event<br/>Rank</a></th>";
 			?>
-			<th>Event<br/>Rank</th>
             <th>Rank<br/>Pts</th>
         </tr>
 <?php
