@@ -772,9 +772,9 @@
 		// Update team information
 		foreach($rankingArray as $key => $valueArray) {
 			$idx += 1;
+			// Second array has the rankings
 			if ($idx == 2) {
 				foreach($valueArray as $key => $value) {
-					var_dump($value);
 					// Update Team/Event Cross-Reference
 					$tsql = "update TeamGameEvent " . 
 							"   set rank = " . $value["rank"] . " " .
