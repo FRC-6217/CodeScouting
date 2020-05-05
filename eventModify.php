@@ -764,6 +764,48 @@
 		}
 
 		// Update Team Rank and Ranking Point Average
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/rankings";
+		$rankingJSON = file_get_contents($sURL, false, $context);
+		$rankings = json_decode($rankingJSON, true);
+		$cnt = 0;
+		// Update team information
+		for($i=0; $i<count($rankings['$rankings']); $i++) {
+			// Update Team/Event Cross-Reference
+			$tsql = "update TeamGameEvent " . 
+					"   set rank = " . $rankings["$rankings"][$i]["rank"] . " " .
+					"     , rankingPointAverage = " . $rankings["$rankings"][$i]["sort_orders"][0] . " " .
+					"  where id = " .
+					"       (select tge.id " .
+					"          from TeamGameEvent tge " .
+					"               inner join Team t " .
+					"               on t.id = tge.teamId " .
+					"			    inner join GameEvent ge " .
+					"			    on ge.id = tge.gameEventId " .
+					"               inner join Game g " .
+					"               on g.id = ge.gameId " .
+					"               inner join Event e " .
+					"               on e.id = ge.eventId " .
+					"         where t.teamNumber = " . substr($rankings["$rankings"][$i]["team_key"], 3) .
+					"           and g.gameYear = " . $gameYear .
+					"           and e.eventCode = '" . $eventCode . "');";
+			$results = sqlsrv_query($conn, $tsql);
+			if(!$results) 
+			{
+				echo "Update of Ranking for Team " . substr($rankings["$rankings"][$i]["team_key"], 3) . " failed!<br />";
+				if( ($errors = sqlsrv_errors() ) != null) {
+					echo $tsql;
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+				break;
+			}
+			else $cnt += 1;
+		}
+/*
+		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
 		$teamsJSON = file_get_contents($sURL, false, $context);
 		$teamsArray = json_decode($teamsJSON, true);
@@ -806,6 +848,7 @@
 				else $cnt += 1;
 			}
 		}
+*/
 		if ($cnt > 0) {
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
