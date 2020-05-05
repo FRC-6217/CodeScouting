@@ -175,7 +175,7 @@
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
-			if $value["alliances"]["red"]["score"] = '' {
+			if $value["alliances"]["red"]["score"] == '' {
 				$matchComplete = 0;
 				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "') ";
 			}
@@ -203,6 +203,7 @@
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
+				echo $tsql;
 				echo "Update of Match " . $value["comp_level"] . $matchNumber . " failed!<br />";
 				if( ($errors = sqlsrv_errors() ) != null) {
 					foreach( $errors as $error ) {
@@ -354,7 +355,7 @@
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2019
-			if ($gameYear == 2019) {
+			if ($gameYear == 2019 && $matchComplete == 1) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
 							select tm.id teamMatchId
