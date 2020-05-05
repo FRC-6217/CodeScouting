@@ -768,43 +768,47 @@
 		$rankingJSON = file_get_contents($sURL, false, $context);
 		$rankingArray = json_decode($rankingJSON, true);
 		$cnt = 0;
+		$idx = 0;
 		// Update team information
-		foreach($rankingArray as $key => $value) {
-var_dump($value);
-			for($i=0; $i<count($value['$rankings']); $i++) {
-				// Update Team/Event Cross-Reference
-				$tsql = "update TeamGameEvent " . 
-						"   set rank = " . $value["$rankings"][$i]["rank"] . " " .
-						"     , rankingPointAverage = " . $value["$rankings"][$i]["sort_orders"][0] . " " .
-						"  where id = " .
-						"       (select tge.id " .
-						"          from TeamGameEvent tge " .
-						"               inner join Team t " .
-						"               on t.id = tge.teamId " .
-						"			    inner join GameEvent ge " .
-						"			    on ge.id = tge.gameEventId " .
-						"               inner join Game g " .
-						"               on g.id = ge.gameId " .
-						"               inner join Event e " .
-						"               on e.id = ge.eventId " .
-						"         where t.teamNumber = " . substr($value["$rankings"][$i]["team_key"], 3) .
-						"           and g.gameYear = " . $gameYear .
-						"           and e.eventCode = '" . $eventCode . "');";
-				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) 
-				{
-					echo "Update of Ranking for Team " . substr($value["$rankings"][$i]["team_key"], 3) . " failed!<br />";
-					if( ($errors = sqlsrv_errors() ) != null) {
-						echo $tsql;
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
+		foreach($rankingArray as $key => $valueArray) {
+			if ($idx = 1) {
+				var_dump($valueArray);
+				foreach($valueArray as $key => $value) {
+					var_dump($value);
+					// Update Team/Event Cross-Reference
+					$tsql = "update TeamGameEvent " . 
+							"   set rank = " . $value["$rankings"][$i]["rank"] . " " .
+							"     , rankingPointAverage = " . $value["$rankings"][$i]["sort_orders"][0] . " " .
+							"  where id = " .
+							"       (select tge.id " .
+							"          from TeamGameEvent tge " .
+							"               inner join Team t " .
+							"               on t.id = tge.teamId " .
+							"			    inner join GameEvent ge " .
+							"			    on ge.id = tge.gameEventId " .
+							"               inner join Game g " .
+							"               on g.id = ge.gameId " .
+							"               inner join Event e " .
+							"               on e.id = ge.eventId " .
+							"         where t.teamNumber = " . substr($value["$rankings"][$i]["team_key"], 3) .
+							"           and g.gameYear = " . $gameYear .
+							"           and e.eventCode = '" . $eventCode . "');";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Update of Ranking for Team " . substr($value["$rankings"][$i]["team_key"], 3) . " failed!<br />";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							echo $tsql;
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
 						}
+						break;
 					}
-					break;
+					else $cnt += 1;
 				}
-				else $cnt += 1;
 			}
 		}
 /*
