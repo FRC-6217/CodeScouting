@@ -768,6 +768,8 @@
 		$rankingJSON = file_get_contents($sURL, false, $context);
 		$rankings = json_decode($rankingJSON, true);
 		$cnt = 0;
+var_dump(json_decode($rankingJSON));
+var_dump(json_decode($rankingJSON, true));
 		// Update team information
 		for($i=0; $i<count($rankings['$rankings']); $i++) {
 			// Update Team/Event Cross-Reference
