@@ -777,8 +777,8 @@
 					var_dump($value);
 					// Update Team/Event Cross-Reference
 					$tsql = "update TeamGameEvent " . 
-							"   set rank = " . $value["$rankings"][$i]["rank"] . " " .
-							"     , rankingPointAverage = " . $value["$rankings"][$i]["sort_orders"][0] . " " .
+							"   set rank = " . $value["rank"] . " " .
+							"     , rankingPointAverage = " . $value["sort_orders"][0] . " " .
 							"  where id = " .
 							"       (select tge.id " .
 							"          from TeamGameEvent tge " .
@@ -790,13 +790,13 @@
 							"               on g.id = ge.gameId " .
 							"               inner join Event e " .
 							"               on e.id = ge.eventId " .
-							"         where t.teamNumber = " . substr($value["$rankings"][$i]["team_key"], 3) .
+							"         where t.teamNumber = " . substr($value["team_key"], 3) .
 							"           and g.gameYear = " . $gameYear .
 							"           and e.eventCode = '" . $eventCode . "');";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
-						echo "Update of Ranking for Team " . substr($value["$rankings"][$i]["team_key"], 3) . " failed!<br />";
+						echo "Update of Ranking for Team " . substr($value["team_key"], 3) . " failed!<br />";
 						if( ($errors = sqlsrv_errors() ) != null) {
 							echo $tsql;
 							foreach( $errors as $error ) {
@@ -811,51 +811,6 @@
 				}
 			}
 		}
-/*
-		// Update Team Rank and Ranking Point Average
-		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/teams/statuses";
-		$teamsJSON = file_get_contents($sURL, false, $context);
-		$teamsArray = json_decode($teamsJSON, true);
-		$cnt = 0;
-		// Update team information
-		foreach($teamsArray as $key => $value) {
-			if (isset($value)) {
-				// Update Team/Event Cross-Reference
-				$tsql = "update TeamGameEvent " . 
-						"   set rank = " . $value["qual"]["ranking"]["rank"] . " " .
-						"     , rankingPointAverage = " . $value["qual"]["ranking"]["sort_orders"][0] . " " .
-						"  where id = " .
-						"       (select tge.id " .
-						"          from TeamGameEvent tge " .
-						"               inner join Team t " .
-						"               on t.id = tge.teamId " .
-						"			    inner join GameEvent ge " .
-						"			    on ge.id = tge.gameEventId " .
-						"               inner join Game g " .
-						"               on g.id = ge.gameId " .
-						"               inner join Event e " .
-						"               on e.id = ge.eventId " .
-						"         where t.teamNumber = " . substr($value["qual"]["ranking"]["team_key"], 3) .
-						"           and g.gameYear = " . $gameYear .
-						"           and e.eventCode = '" . $eventCode . "');";
-				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) 
-				{
-					echo "Update of Team Game Event for Team " . substr($value["qual"].["ranking"].["team_key"], 3) . " failed!<br />";
-					if( ($errors = sqlsrv_errors() ) != null) {
-						echo $tsql;
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
-						}
-					}
-					break;
-				}
-				else $cnt += 1;
-			}
-		}
-*/
 		if ($cnt > 0) {
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
