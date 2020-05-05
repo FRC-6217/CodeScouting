@@ -175,7 +175,7 @@
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
-			if ($value["alliances"]["red"]["score"] == '') {
+			if ($value["alliances"]["red"]["score"] == '-1') {
 				$matchComplete = 0;
 				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "') ";
 			}
@@ -516,7 +516,7 @@
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2020
-			if ($gameYear == 2020) {
+			if ($gameYear == 2020 && $matchComplete == 1) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
 							select tm.id teamMatchId
