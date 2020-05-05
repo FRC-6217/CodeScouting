@@ -175,7 +175,7 @@
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
-			if $value["alliances"]["red"]["score"] == '' {
+			if ($value["alliances"]["red"]["score"] == '') {
 				$matchComplete = 0;
 				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "') ";
 			}
