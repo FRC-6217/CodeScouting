@@ -174,11 +174,18 @@
 			else
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
-		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', " .
- 					                   $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
- 					                   $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
- 					                   $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "') " .
-					"as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
+		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
+			if $value["alliances"]["red"]["score"] = '' {
+				$matchComplete = 0;
+				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "') ";
+			}
+			else {
+				$matchComplete = 1;
+				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
+ 					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
+ 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "') ";
+			}
+			$tsql .= "as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched AND (target.dateTime <> source.dateTime OR " .
 					                  "coalesce(target.redScore, -1) <> source.redScore OR coalesce(target.blueScore, -1) <> source.blueScore OR " .

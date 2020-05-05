@@ -6,11 +6,11 @@ select m.id matchId
      , m.number matchNumber
 	 , tm.alliance
 	 , sum(asor.avgScoreValue) scoutScoreValue
-	 , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
-	        else m.blueScore - m.blueFoulPoints end tbaMatchScoreWithoutFouls
+	 , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end tbaMatchAdjustedScore
 	 , sum(asor.avgScoreValue) -
-	   case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
-	        else m.blueScore - m.blueFoulPoints end matchScoreDelta
+	   case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end matchScoreDelta
   from v_AvgScoutObjectiveRecord asor
        inner join TeamMatch tm
 	   on tm.matchId = asor.matchId
@@ -33,11 +33,11 @@ group by m.id
 	   , m.dateTime
  	   , m.number
 	   , tm.alliance
- 	   , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
-	          else m.blueScore - m.blueFoulPoints end
+ 	   , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+	          else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
 having sum(asor.avgScoreValue) <>
-       case when tm.alliance = 'R' then m.redScore - m.redFoulPoints
-	        else m.blueScore - m.blueFoulPoints end
+       case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
 order by m.datetime, tm.alliance;
 
 -- Compare Total Score Scout Data to Blue Alliance Score
