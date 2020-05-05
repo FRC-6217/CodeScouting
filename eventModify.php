@@ -768,9 +768,9 @@
 		$rankingJSON = file_get_contents($sURL, false, $context);
 		$rankingArray = json_decode($rankingJSON, true);
 		$cnt = 0;
-var_dump($rankingArray);
 		// Update team information
 		foreach($rankingArray as $key => $value) {
+var_dump($value);
 			for($i=0; $i<count($value['$rankings']); $i++) {
 				// Update Team/Event Cross-Reference
 				$tsql = "update TeamGameEvent " . 
