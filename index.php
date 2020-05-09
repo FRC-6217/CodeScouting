@@ -153,7 +153,8 @@
     $tsql = "select buttonHtml
 	              , sortOrder
 			   from v_RankButtons
-			  order by sortOrder";
+			  where scoutEmailAddress = 'golfrat7@gmail.com'
+			 order by sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {

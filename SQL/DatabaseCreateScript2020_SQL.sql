@@ -1314,12 +1314,12 @@ select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNu
 			   and av.integerValue = ta.integerValue
 		 where a.sortOrder = 10
 		   and a.gameId = ge.gameId) attrValue10
+	 , ge.scoutEmailAddress
   from Team t 
        inner join TeamGameEvent tge 
        on tge.teamId = t.id
        inner join v_GameEvent ge 
        on ge.id = tge.gameEventId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 go
 
 create view v_RankButtons as
@@ -1328,6 +1328,7 @@ select distinct
 	 , r.name
 	 , r.queryString
      , r.sortOrder
+     , ge.scoutEmailAddress
   from Rank r
        inner join RankObjective ro
 	   on ro.rankId = r.id
@@ -1337,7 +1338,6 @@ select distinct
 	   on g.id = o.gameId
 	   inner join v_GameEvent ge
 	   on ge.gameId = g.id
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 go
 
 -- View to get HTML for entry of Scout Record
