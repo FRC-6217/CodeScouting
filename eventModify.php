@@ -744,7 +744,7 @@
 		}
 
 		// Update team's portion Of Alliance Points
-		$tsql = "sp_upd_portionOfAlliancePoints $gameYear, $gameEventId";
+		$tsql = "exec sp_upd_portionOfAlliancePoints $gameYear, $gameEventId";
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
