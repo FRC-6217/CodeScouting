@@ -37,7 +37,7 @@ select t.teamNumber
   from v_AvgScoutRecord asr
        inner join Match m
 	   on m.id = asr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join game g
 	   on g.id = ge.gameId

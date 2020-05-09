@@ -18,6 +18,7 @@
     // Get posted variables
 	$submit = $POST[submitToDatabase];
 	$teamId = $_POST[teamId];
+	$loginEmailAddress = 'golfrat7@gmail.com';
 	$value1 = $_POST[value1];
 	$value2 = $_POST[value2];
 	$value3 = $_POST[value3];
@@ -36,7 +37,7 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, '$value1'";
+    $tsql = "sp_ins_scoutRobot $teamId, '$loginEmailAddress', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))

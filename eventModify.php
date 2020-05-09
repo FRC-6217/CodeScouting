@@ -37,6 +37,7 @@
 
     // Get posted variables
 	$submit = $POST['submitToDatabase'];
+	$loginEmailAddress = 'golfrat7@gmail.com';
 	$gameYear = $_POST['gameYear'];
 	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];
@@ -1046,7 +1047,7 @@
 						on g.id = ge.gameId
 						inner join Event e
 						on e.id = ge.eventId
-				  where s.emailAddress = 'golfrat7@gmail.com'
+				  where s.emailAddress = '$loginEmailAddress'
 				    and g.gameYear = $gameYear 
 					and e.eventCode = '$eventCode';";
 		$results = sqlsrv_query($conn, $tsql);

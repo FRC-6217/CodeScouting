@@ -11,6 +11,7 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
+	$loginEmailAddress = 'golfrat7@gmail.com';
 
 	// Build data for Line Graph
 	$rows = array();
@@ -28,7 +29,7 @@
 				    on o.id = ogo.objectiveId
 				    inner join v_GameEvent ge
 				    on ge.gameId = o.gameId
-              where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+              where ge.scoutEmailAddress = '$loginEmailAddress'
 			    and groupCode = 'Report Line Graph'
 			 order by og.sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -55,7 +56,8 @@
                   , sum(case when objectiveGroupSortOrder = 4 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue4
                   , sum(case when objectiveGroupSortOrder = 5 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue5
                from v_TeamReportLineGraph trlg
-              where trlg.teamId = $team
+              where trlg.ScoutEmailAddress = '$loginEmailAddress'
+			    and trlg.teamId = $team
              group by trlg.matchDateTime
                     , trlg.matchNumber
 	                , totalScoreValue
@@ -101,7 +103,8 @@
 				  , trpc.teamId
 				  , trpc.objectiveGroupScoreValue
 			   from v_TeamReportPieChart trpc
-			  where trpc.teamId = $team
+			  where trpc.ScoutEmailAddress = '$loginEmailAddress'
+			    and trpc.teamId = $team
 			 order by objectiveGroupSortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -202,7 +205,7 @@
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
-                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                      where ge.scoutEmailAddress = '$loginEmailAddress'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -266,7 +269,8 @@ $tsql = "select TeamNumber
 			  , scoutRecordId
 			  , scoutComment
 		   from v_TeamReport
-          where TeamId = $team
+          where scoutEmailAddress = '$loginEmailAddress'
+			and teamId = $team
 		order by matchTime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

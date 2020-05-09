@@ -53,6 +53,8 @@
 	$aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
 	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
 	$context = stream_context_create($aHTTP);
+
+	$loginEmailAddress = 'golfrat7@gmail.com';
 ?>
 			<center>				
 				<div class="container" id="event">
@@ -65,7 +67,7 @@
                                      	  , (select ge.isActive
                                      	       from v_GameEvent ge
                                      		  where ge.gameId = g.id
-                                     		    and ge.scoutEmailAddress = 'golfrat7@gmail.com') isActive
+                                     		    and ge.scoutEmailAddress = '$loginEmailAddress') isActive
                                        from game g
                                      group by g.id, g.name, g.gameYear
                                      order by isActive desc, g.gameYear desc";
@@ -100,7 +102,7 @@
 							$tsql = "select e.eventCode
                                        from event e
                                             inner join v_GameEvent ge on ge.eventId = e.id
-                                      where ge.scoutEmailAddress = 'golfrat7@gmail.com' ";
+                                      where ge.scoutEmailAddress = '$loginEmailAddress' ";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {

@@ -118,7 +118,7 @@ select m.type
 	   and tm.teamId = asr.teamId
 	   inner join Match m
 	   on m.id = asr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join TeamGameEvent tge
 	   on tge.gameEventId = ge.id
@@ -129,7 +129,10 @@ select m.type
 	   on tm2.matchId = asr2.matchId
 	   and tm2.teamId = asr2.teamId
 	   and tm2.alliance = tm.alliance
- where asr2.teamId <> asr.teamId
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+   and asr.scoutEmailAddress = 'golfrat7@gmail.com'
+   and asr2.scoutEmailAddress = 'golfrat7@gmail.com'
+   and asr2.teamId <> asr.teamId
 --   and asr.teamId = 101
 group by m.type
        , m.number

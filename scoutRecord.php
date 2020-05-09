@@ -40,6 +40,7 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
+	$loginEmailAddress = 'golfrat7@gmail.com';
 
 	// Get values for page from database
 	$cntSR = 0;
@@ -129,7 +130,7 @@
 							<?php
 							$tsql = "select m.matchId, m.matchNumber
 							           from v_MatchHyperlinks m
-			                          where scoutEmailAddress = 'golfrat7@gmail.com'
+			                          where scoutEmailAddress = '$loginEmailAddress'
 									 order by m.sortOrder, m.matchSort, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
@@ -162,7 +163,7 @@
                                       where ge.id in
                                            (select ge2.id
                                      	     from v_GameEvent ge2
-                                             where ge2.scoutEmailAddress = 'golfrat7@gmail.com')
+                                             where ge2.scoutEmailAddress = '$loginEmailAddress')
                                      order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
@@ -233,7 +234,7 @@
 									  , esrh.objectiveValueSort
 									  , esrh.scoutRecordHtml
 								   from v_EnterScoutRecordHTML esrh
-								  where scoutEmailAddress = 'golfrat7@gmail.com'
+								  where scoutEmailAddress = '$loginEmailAddress'
 								    and not exists
 									   (select 1
 										  from v_UpdateScoutRecordHTML usrh
@@ -253,7 +254,7 @@
 									  , objectiveValueSort
 									  , scoutRecordHtml
 								   from v_EnterScoutRecordHTML
-								  where scoutEmailAddress = 'golfrat7@gmail.com'
+								  where scoutEmailAddress = '$loginEmailAddress'
 								 order by groupSort, objectiveSort, objectiveValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)

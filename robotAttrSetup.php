@@ -45,6 +45,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get Query String Parameters
+	$loginEmailAddress = 'golfrat7@gmail.com';
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
 ?>
@@ -62,7 +63,7 @@
 								  , attributeValueSort
 								  , scoutTeamHtml
 							   from v_EnterScoutTeamHTML
-							  where scoutEmailAddress = 'golfrat7@gmail.com'
+							  where scoutEmailAddress = '$loginEmailAddress'
 							    and teamId = $teamId
 							 order by attributeSort, attributeValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);

@@ -15,6 +15,7 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
+	$loginEmailAddress = 'golfrat7@gmail.com';
 ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
@@ -55,7 +56,7 @@
 					   from Attribute a
 							inner join v_GameEvent ge
 							on ge.gameId = a.gameId
-                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                      where ge.scoutEmailAddress = '$loginEmailAddress'
 					 order by a.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -88,7 +89,7 @@
 				  , attrValue9
 				  , attrValue10
                from v_ScoutTeamHyperlinks
-              where scoutEmailAddress = 'golfrat7@gmail.com'
+              where scoutEmailAddress = '$loginEmailAddress'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

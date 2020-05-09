@@ -11,6 +11,8 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$match = "$_GET[matchId]";
+	$loginEmailAddress = 'golfrat7@gmail.com';
+
 	// Build data for Pie Chart
 	$rows = array();
 	$table = array();
@@ -27,7 +29,8 @@
 	              , mr.alliancePosition
 	              , mr.totalScoreValue
                from v_MatchReport mr
-              where matchId = $match
+              where scoutEmailAddress = '$loginEmailAddress'
+			    and matchId = $match
                 and mr.teamNumber is not null
              order by mr.alliance desc
 			        , case when mr.alliance = 'Red' then mr.totalScoreValue
@@ -120,7 +123,7 @@
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                      where ge.scoutEmailAddress = '$loginEmailAddress'
 					    and st.name <> 'Free Form'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
@@ -168,7 +171,8 @@
 					  , value15
 					  , totalScoreValue
                    from v_MatchReport
-				  where matchId = $match
+				  where scoutEmailAddress = '$loginEmailAddress'
+			        and matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -223,7 +227,7 @@
 						   from Attribute a
 								inner join v_GameEvent ge
 								on ge.gameId = a.gameId
-                          where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                          where ge.scoutEmailAddress = '$loginEmailAddress'
 						 order by a.sortOrder";
 				$getResults = sqlsrv_query($conn, $tsql);
 				if ($getResults == FALSE)
@@ -255,7 +259,8 @@
 				  , attrValue9
 				  , attrValue10
 			   from v_MatchReportAttributes
-			  where matchId = $match
+			  where scoutEmailAddress = '$loginEmailAddress'
+			    and matchId = $match
 			 order by allianceSort, alliance desc, alliancePosition";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -299,7 +304,7 @@
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                      where ge.scoutEmailAddress = '$loginEmailAddress'
 					    and st.name <> 'Free Form'
 					 order by o.sortOrder ";
 			$getResults = sqlsrv_query($conn, $tsql);
@@ -348,7 +353,8 @@
 					  , teamId
 					  , matchCode
                    from v_MatchFinalReport
-				  where matchId = $match
+				  where scoutEmailAddress = '$loginEmailAddress'
+					and matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

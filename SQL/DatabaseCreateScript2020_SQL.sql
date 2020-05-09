@@ -77,6 +77,7 @@ create table Team(
 	lastUpdated datetime null,
 	gameEventId integer null);
 create unique index idx_Team on Team(teamNumber);
+create index idx2_Team on Team(gameEventId);
 insert into Team (teamNumber, teamName, location) values (93, 'NEW Apple Corps', 'Appleton, WI');
 insert into Team (teamNumber, teamName, location) values (167, 'Children of the Corn', 'Iowa City, IA');
 insert into Team (teamNumber, teamName, location) values (171, 'Cheese Curd Herd', 'Platteville, WI');
@@ -257,6 +258,7 @@ create table Scout(
 	isAdmin char(1) not null,
 	scoutGUID uniqueidentifier not null default newid());
 create unique index idx_scout on Scout(lastName, firstName);
+create index idx2_scout on Scout(emailAddress);
 alter table Scout add constraint fk_Scout_Team foreign key (TeamId) references Team (id);
 insert into Scout (lastName, firstName, teamId, isActive) select 'Allen', 'Kristy', id, 'Y' from Team where teamNumber = 6217;
 insert into Scout (lastName, firstName, teamId, isActive) select 'Auger', 'Sam', id, 'Y' from Team where teamNumber = 6217;
@@ -1844,6 +1846,7 @@ select sr.id scoutRecordId
 	 , max(case when o.sortOrder = 13 then st.name else null end) scoringTypeName13
 	 , max(case when o.sortOrder = 14 then st.name else null end) scoringTypeName14
 	 , max(case when o.sortOrder = 15 then st.name else null end) scoringTypeName15
+	 , ge.scoutEmailAddress
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -1859,14 +1862,14 @@ select sr.id scoutRecordId
 	   left outer join ScoutObjectiveRecord sor
 	   on sor.scoutRecordId = sr.id
 	   and sor.objectiveId = o.id
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by sr.id
        , sr.matchId
        , sr.teamId
 	   , sr.scoutId
 	   , sr.scoutComment
-	   , m.gameEventId;
+	   , m.gameEventId
+	   , ge.scoutEmailAddress;
 GO
 
 -- View for average Team report on a match
@@ -1950,10 +1953,12 @@ select sr.matchId
 	 , max(scoringTypeName13) scoringTypeName13
 	 , max(scoringTypeName14) scoringTypeName14
 	 , max(scoringTypeName15) scoringTypeName15
+	 , sr.scoutEmailAddress
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId
-	   , sr.gameEventId;
+	   , sr.gameEventId
+	   , sr.scoutEmailAddress;
 go
 
 create view v_AvgScoutObjectiveRecord as
@@ -2038,6 +2043,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue13,0) +
 	             coalesce(asr.scoreValue14,0) +
 	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
@@ -2051,8 +2057,7 @@ select m.type + ' ' + m.number matchNumber
                      from match m2
                     where m2.id = asr.matchId
                       and m2.isActive = 'Y')
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by m.type + ' ' + m.number
        , tm.matchId
        , tm.teamId
@@ -2060,6 +2065,7 @@ group by m.type + ' ' + m.number
        , t.teamName
 	   , tm.alliance
        , tm.alliancePosition
+	   , ge.scoutEmailAddress
 union
 -- Alliance Average Scores
 select subquery.matchNumber
@@ -2088,6 +2094,7 @@ select subquery.matchNumber
 	 , sum(subquery.value14) value14
 	 , sum(subquery.value15) value15
 	 , sum(subquery.totalScoreValue) totalScoreValue
+	 , subquery.scoutEmailAddress
   from (
 select m.type + ' ' + m.number matchNumber
      , tm.matchId
@@ -2133,6 +2140,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue13,0) +
 	             coalesce(asr.scoreValue14,0) +
 	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
@@ -2146,19 +2154,20 @@ select m.type + ' ' + m.number matchNumber
                      from match m2
                     where m2.id = asr.matchId
                       and m2.isActive = 'Y')
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by m.type + ' ' + m.number
        , tm.matchId
        , tm.teamId
        , t.TeamNumber
        , t.teamName
        , tm.alliance
-       , tm.alliancePosition) subquery
+       , tm.alliancePosition
+       , ge.scoutEmailAddress) subquery
 group by subquery.matchNumber
        , subquery.matchId
 	   , subquery.alliance
 	   , subquery.allianceSort
+       , subquery.scoutEmailAddress
 union
 -- Divider needed in table between alliances
 select m.type + ' ' + m.number matchNumber
@@ -2187,11 +2196,11 @@ select m.type + ' ' + m.number matchNumber
      , null value14
      , null value15
 	 , null totalScoreValue
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y';
+ where m.isActive = 'Y';
 go
 
 create view v_MatchActualScore as
@@ -2260,6 +2269,7 @@ select mo.alliance
 	 , coalesce(mo.objectiveId13, tmo.objectiveId13) objectiveId13
 	 , coalesce(mo.objectiveId14, tmo.objectiveId14) objectiveId14
 	 , coalesce(mo.objectiveId15, tmo.objectiveId15) objectiveId15
+	 , mo.scoutEmailAddress
   from (
 select mo.alliance
      , mo.matchId
@@ -2420,6 +2430,7 @@ select mo.alliance
 	 , max(case when o.sortOrder = 13 then mo.objectiveId else null end) objectiveId13
 	 , max(case when o.sortOrder = 14 then mo.objectiveId else null end) objectiveId14
 	 , max(case when o.sortOrder = 15 then mo.objectiveId else null end) objectiveId15
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join MatchObjective mo
 	   on mo.matchId = m.id
@@ -2427,15 +2438,15 @@ select mo.alliance
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = mo.objectiveId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by mo.alliance
        , mo.matchId
        , m.gameEventId
 	   , m.redFoulPoints
 	   , m.blueFoulPoints
 	   , m.redScore
-	   , m.blueScore) mo
+	   , m.blueScore
+	   , ge.scoutEmailAddress) mo
 inner join (
 select tm.alliance
      , m.id matchId
@@ -2686,6 +2697,7 @@ select tm.alliance
 	 , max(case when o.sortOrder = 13 then tmo.objectiveId else null end) objectiveId13
 	 , max(case when o.sortOrder = 14 then tmo.objectiveId else null end) objectiveId14
 	 , max(case when o.sortOrder = 15 then tmo.objectiveId else null end) objectiveId15
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join TeamMatch tm
 	   on tm.matchId = m.id
@@ -2695,17 +2707,18 @@ select tm.alliance
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = tmo.objectiveId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by tm.alliance
        , m.id
        , m.gameEventId
 	   , m.redFoulPoints
 	   , m.blueFoulPoints
 	   , m.redScore
-	   , m.blueScore) tmo
+	   , m.blueScore
+	   , ge.scoutEmailAddress) tmo
 on tmo.alliance = mo.alliance
 and tmo.matchId = mo.matchId
+and tmo.scoutEmailAddress = mo.scoutEmailAddress
 go
 
 -- View for Match Final Report
@@ -2755,6 +2768,7 @@ select case when tm.alliance = 'R' then 'Red'
      , asr.matchId
      , asr.gameEventId
 	 , m.matchCode
+	 , asr.scoutEmailAddress
  from Team t
       inner join v_AvgScoutRecord asr
       on asr.TeamId = t.id
@@ -2901,6 +2915,7 @@ select case when tm.alliance = 'R' then 'Red'
 	 , tm.matchId
 	 , m.gameEventId
 	 , m.matchCode
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join TeamMatch tm
 	   on tm.matchId = m.id
@@ -2912,8 +2927,7 @@ select case when tm.alliance = 'R' then 'Red'
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = tmo.objectiveId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
    and not exists
        (select 1
 	      from ScoutRecord sr
@@ -2926,6 +2940,7 @@ group by tm.alliance
 	   , tm.matchId
 	   , m.gameEventId
 	   , m.matchCode
+       , ge.scoutEmailAddress
 union
 -- Total Alliance Scores from Scout Data
 select subquery.alliance
@@ -2954,6 +2969,7 @@ select subquery.alliance
 	 , subquery.matchId
 	 , subquery.gameEventId
 	 , subquery.matchCode
+     , subquery.scoutEmailAddress
   from (
 select case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
@@ -2999,6 +3015,7 @@ select case when tm.alliance = 'R' then 'Red'
      , asr.matchId
      , asr.gameEventId
 	 , m.matchCode
+	 , asr.scoutEmailAddress
  from Team t
       inner join v_AvgScoutRecord asr
       on asr.TeamId = t.id
@@ -3015,6 +3032,7 @@ group by subquery.alliance
 	   , subquery.matchId
 	   , subquery.gameEventId
 	   , subquery.matchCode
+	   , subquery.scoutEmailAddress
 union
 -- Divider needed in table between alliances
 select '----' alliance
@@ -3043,11 +3061,11 @@ select '----' alliance
 	 , m.id matchId
 	 , m.gameEventId
 	 , m.matchCode
+	 , ge.scoutEmailAddress
   from Match m
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 union
 -- Total Alliance Scores from The Blue Alliance
 select case when mas.alliance = 'R' then 'Red'
@@ -3094,6 +3112,7 @@ select case when mas.alliance = 'R' then 'Red'
      , mas.matchId
 	 , mas.gameEventId
 	 , m.matchCode
+	 , mas.scoutEmailAddress
   from v_MatchActualScore mas
        inner join Match m
 	   on m.id = mas.matchId;
@@ -3213,6 +3232,7 @@ select '<a href="../robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&tea
 	 , case when tm.alliance = 'R' then 1
 	        when tm.alliance = 'B' then 3
 	        else 2 end allianceSort
+	 , ge.scoutEmailAddress
   from Team t 
        inner join TeamGameEvent tge 
        on tge.teamId = t.id
@@ -3223,7 +3243,6 @@ select '<a href="../robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&tea
 	   inner join TeamMatch tm
 	   on tm.matchId = m.id
 	   and tm.teamId = t.id
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 union
 select null teamUrl
      , null TeamNumber
@@ -3243,7 +3262,10 @@ select null teamUrl
      , null alliancePosition
      , null teamReportUrl
 	 , 2 allianceSort
-  from Match m;
+	 , ge.scoutEmailAddress
+  from Match m
+       inner join v_GameEvent ge
+       on ge.id = m.gameEventId
 go
 
 -- View for Team history and average
@@ -3304,6 +3326,7 @@ select t.TeamNumber
 	 , sr.gameEventId
 	 , null scoutRecordId
 	 , null scoutComment
+	 , sr.scoutEmailAddress
  from Team t
       inner join v_AvgScoutRecord sr
       on sr.TeamId = t.id
@@ -3313,6 +3336,7 @@ select t.TeamNumber
 group by t.TeamNumber
        , t.id
 	   , sr.gameEventId
+	   , sr.scoutEmailAddress
 union
 select t.TeamNumber
      , m.type + ' ' + m.number matchNumber
@@ -3400,6 +3424,7 @@ select t.TeamNumber
 	 , sr.gameEventId
 	 , sr.scoutRecordId
 	 , sr.scoutComment
+	 , sr.scoutEmailAddress
  from Team t
       inner join v_ScoutRecord sr
       on sr.TeamId = t.id
@@ -3422,6 +3447,7 @@ select objectiveScoutRecordAverages.teamNumber
      , objectiveScoutRecordAverages.objectiveGroupName
 	 , objectiveScoutRecordAverages.objectiveGroupSortOrder
      , objectiveScoutRecordAverages.teamId
+	 , objectiveScoutRecordAverages.scoutEmailAddress
 	 , round(sum(objectiveScoutRecordAverages.avgScoreValue), 2) objectiveGroupScoreValue
  from (
 select matchScoutRecordAverages.teamNumber
@@ -3429,6 +3455,7 @@ select matchScoutRecordAverages.teamNumber
 	 , matchScoutRecordAverages.objectiveGroupSortOrder
      , matchScoutRecordAverages.objectiveName
 	 , matchScoutRecordAverages.teamId
+	 , matchScoutRecordAverages.scoutEmailAddress
 	 , avg(matchScoutRecordAverages.scoreValue) avgScoreValue 
   from (
 select t.teamNumber
@@ -3441,6 +3468,7 @@ select t.teamNumber
 	       case when o.addTeamScorePortion = 'Y'
 		        then tm.portionOfAlliancePoints
 				else 0 end) scoreValue
+	 , ge.scoutEmailAddress
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -3459,8 +3487,7 @@ select t.teamNumber
 	   inner join TeamMatch tm
 	   on tm.matchId = sr.matchId
 	   and tm.teamId = sr.teamId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
    and og.groupCode = 'Report Pie Chart'
 group by t.teamNumber
        , og.name
@@ -3468,17 +3495,20 @@ group by t.teamNumber
 	   , o.name
        , sr.matchId
        , sr.teamId
+	   , ge.scoutEmailAddress
 ) matchScoutRecordAverages
 group by matchScoutRecordAverages.teamNumber
        , matchScoutRecordAverages.objectiveGroupName
 	   , matchScoutRecordAverages.objectiveGroupSortOrder
        , matchScoutRecordAverages.objectiveName
 	   , matchScoutRecordAverages.teamId
+	   , matchScoutRecordAverages.scoutEmailAddress
 ) objectiveScoutRecordAverages
 group by objectiveScoutRecordAverages.teamNumber
        , objectiveScoutRecordAverages.objectiveGroupName
 	   , objectiveScoutRecordAverages.objectiveGroupSortOrder
-	   , objectiveScoutRecordAverages.teamId;
+	   , objectiveScoutRecordAverages.teamId
+	   , objectiveScoutRecordAverages.scoutEmailAddress;
 go
 
 -- View for Team Trend Line Chart
@@ -3490,11 +3520,13 @@ select objectiveScoutRecordAverages.teamNumber
 	 , objectiveScoutRecordAverages.objectiveGroupSortOrder
      , objectiveScoutRecordAverages.teamId
 	 , objectiveScoutRecordAverages.matchId
+	 , objectiveScoutRecordAverages.scoutEmailAddress
 	 , round(sum(objectiveScoutRecordAverages.avgScoreValue), 2) objectiveGroupScoreValue
 	 , (select avg(tr.totalScoreValue)
 	      from v_TeamReport tr
 		 where tr.teamId = objectiveScoutRecordAverages.teamId
-		   and tr.matchId = objectiveScoutRecordAverages.matchId) totalScoreValue
+		   and tr.matchId = objectiveScoutRecordAverages.matchId
+		   and tr.scoutEmailAddress = objectiveScoutRecordAverages.scoutEmailAddress) totalScoreValue
  from (
 select matchScoutRecordAverages.teamNumber
      , matchScoutRecordAverages.matchNumber
@@ -3504,6 +3536,7 @@ select matchScoutRecordAverages.teamNumber
      , matchScoutRecordAverages.objectiveName
 	 , matchScoutRecordAverages.teamId
 	 , matchScoutRecordAverages.matchId
+	 , matchScoutRecordAverages.scoutEmailAddress
 	 , avg(matchScoutRecordAverages.scoreValue) avgScoreValue 
   from (
 select t.teamNumber
@@ -3518,6 +3551,7 @@ select t.teamNumber
 	       case when o.addTeamScorePortion = 'Y'
 		        then tm.portionOfAlliancePoints
 				else 0 end) scoreValue
+	 , ge.scoutEmailAddress
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
@@ -3536,8 +3570,7 @@ select t.teamNumber
 	   inner join TeamMatch tm
 	   on tm.matchId = sr.matchId
 	   and tm.teamId = sr.teamId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
    and og.groupCode = 'Report Line Graph'
 group by t.teamNumber
        , m.type + ' ' + convert(varchar, m.number)
@@ -3547,6 +3580,7 @@ group by t.teamNumber
 	   , o.name
        , sr.matchId
        , sr.teamId
+	   , ge.scoutEmailAddress
 ) matchScoutRecordAverages
 group by matchScoutRecordAverages.teamNumber
        , matchScoutRecordAverages.matchNumber
@@ -3556,6 +3590,7 @@ group by matchScoutRecordAverages.teamNumber
        , matchScoutRecordAverages.objectiveName
 	   , matchScoutRecordAverages.teamId
 	   , matchScoutRecordAverages.matchId
+	   , matchScoutRecordAverages.scoutEmailAddress
 ) objectiveScoutRecordAverages
 group by objectiveScoutRecordAverages.teamNumber
        , objectiveScoutRecordAverages.matchNumber
@@ -3563,7 +3598,8 @@ group by objectiveScoutRecordAverages.teamNumber
        , objectiveScoutRecordAverages.objectiveGroupName
 	   , objectiveScoutRecordAverages.objectiveGroupSortOrder
 	   , objectiveScoutRecordAverages.teamId
-	   , objectiveScoutRecordAverages.matchId;
+	   , objectiveScoutRecordAverages.matchId
+	   , objectiveScoutRecordAverages.scoutEmailAddress;
 go
 
 create view v_AvgTeamRecord as
@@ -3614,16 +3650,19 @@ select asr.TeamId
      , avg(asr.scoreValue13) scoreValue13
      , avg(asr.scoreValue14) scoreValue14
      , avg(asr.scoreValue15) scoreValue15
+	 , asr.scoutEmailAddress
   from v_AvgScoutRecord asr
        inner join Match m
 	   on m.id = asr.matchId
  where m.isActive = 'Y'
-group by asr.TeamId;
+group by asr.TeamId
+	   , asr.scoutEmailAddress;
 go
 
 /*
 -- Rank Query (as a stored procedure to improve query performance
-CREATE PROCEDURE sp_rpt_rankReport (@pv_QueryString varchar(64))
+CREATE PROCEDURE sp_rpt_rankReport (@pv_QueryString varchar(64)
+                                   ,@pv_scoutEmailAddress varchar(128))
 AS
 DECLARE @lv_SortOrder int;
 BEGIN
@@ -3641,7 +3680,7 @@ BEGIN
 	  FROM Rank r
 	       inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
-	 WHERE ge.scoutEmailAddress = 'golfrat7@gmail.com'
+	 WHERE ge.scoutEmailAddress = @pv_scoutEmailAddress
 	   AND r.queryString = @pv_QueryString;
 
 	-- Populate local temporary table of team average scores.  This improves overall query performance
@@ -3697,7 +3736,8 @@ BEGIN
 		   on ge.id = tge.gameEventId
 		   inner join v_AvgTeamRecord atr
 		   on atr.teamId = tge.teamId
-	 where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+		   and atr.scoutEmailAddress = ge.scoutEmailAddress
+	 where ge.scoutEmailAddress = @pv_scoutEmailAddress
 	group by atr.teamId
 		   , r.gameId
 		   , r.name
@@ -3720,7 +3760,7 @@ BEGIN
 		   on ge.gameId = r.gameId
 		   inner join TeamGameEvent tge
 		   on tge.gameEventId = ge.id
-	 where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+	 where ge.scoutEmailAddress = @pv_scoutEmailAddress
 	   and not exists
 	       (select 1
 		      from #AvgTeamRecord atr
@@ -3933,6 +3973,7 @@ END
 GO
 
 CREATE PROCEDURE sp_ins_scoutRobot  (@pv_TeamId integer
+								   , @pv_ScoutEmailAddress varchar(128)
                                    , @pv_TextValue01 varchar(4000) = null
                                    , @pv_TextValue02 varchar(4000) = null
                                    , @pv_TextValue03 varchar(4000) = null
@@ -3966,7 +4007,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 1
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4008,7 +4049,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 2
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4050,7 +4091,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 3
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4092,7 +4133,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 4
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4134,7 +4175,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 5
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4176,7 +4217,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 6
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4218,7 +4259,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 7
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4260,7 +4301,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 8
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4302,7 +4343,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 9
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4344,7 +4385,7 @@ BEGIN
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 10
-		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
+		   AND ge.scoutEmailAddress = @pv_ScoutEmailAddress;
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
@@ -4444,7 +4485,7 @@ begin
 end
 GO
 
-CREATE PROCEDURE sp_upd_scoutDataFromTba
+ALTER PROCEDURE sp_upd_scoutDataFromTba (@pv_ScoutEmailAddress varchar(128))
 as
 begin
 	-- Update scout record objectives for data specific to a team from TBA
@@ -4473,7 +4514,7 @@ begin
 				   inner join v_GameEvent ge
 				   on ge.id = m.gameEventId
 			 where m.isActive = 'Y'
-			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+			   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 			   and ScoutObjectiveRecord.scoutRecordId = sr.id
 			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
 			   and coalesce(ScoutObjectiveRecord.integerValue, -1) <> tmo.integerValue);
@@ -4491,7 +4532,7 @@ begin
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
 		   and m.isActive = 'Y'
-		   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+		   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 		   and exists
 			   (select 1
 				  from ScoutRecord sr2
@@ -4510,7 +4551,7 @@ begin
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
 		   and m.isActive = 'Y'
-		   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+		   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 		   and exists
 			   (select 1
 				  from ScoutRecord sr2
@@ -4535,7 +4576,7 @@ begin
 	 where s.lastName = 'TBA'
 	   and m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+	   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 	   and tmo.integerValue is not null
 	   and not exists
 		   (select 1
@@ -4561,7 +4602,7 @@ begin
 	 where s.lastName = 'TBA'
 	   and m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+	   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 	   and tmo.integerValue is not null
 	   and not exists
 		   (select 1
@@ -4590,7 +4631,7 @@ begin
 				   and sor.objectiveId = mo.objectiveId
 			 where m.type = 'QM'
 			   and m.isActive = 'Y'
-			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+			   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 			   and mo.integerValue = 0
 			   and coalesce(sor.integerValue, -999) <> 0);
 	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
@@ -4610,7 +4651,7 @@ begin
 		   and tm.alliance = mo.alliance
 	 where m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+	   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 	   and mo.integerValue = 0
 	   and not exists
 		   (select 1
@@ -4653,7 +4694,7 @@ begin
 				   and sor.objectiveId = mo.objectiveId
 			 where m.type = 'QM'
 			   and m.isActive = 'Y'
-			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
+			   and ge.scoutEmailAddress = @pv_ScoutEmailAddress
 			   and coalesce(sor.integerValue, -999) > mo.integerValue);
 end
 GO

@@ -17,6 +17,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 	$rankName = "$_GET[rankName]";
+	$loginEmailAddress = 'golfrat7@gmail.com';
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 ?>
 <center>
@@ -32,7 +33,7 @@
 					   from Rank r
 							inner join v_GameEvent ge
 							on ge.gameId = r.gameId
-                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                      where ge.scoutEmailAddress = '$loginEmailAddress'
 					 order by r.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -56,7 +57,7 @@
         </tr>
 <?php
 $sortOrder = "$_GET[sortOrder]";
-$tsql = "execute sp_rpt_rankReport '$sortOrder'";
+$tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
