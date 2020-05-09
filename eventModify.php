@@ -728,7 +728,7 @@
 		}
 
 		// Update scout records based on TBA data
-		$tsql = "sp_upd_scoutDataFromTba;";
+		$tsql = "sp_upd_scoutDataFromTba '$loginEmailAddress';";
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
