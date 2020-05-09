@@ -27,7 +27,7 @@
 				  , blueScore
 				  , redScore + blueScore totalScore
 			   from v_MatchHyperlinks
-			  where scoutEmailAddress = 'golfrat7@gmail'
+			  where scoutEmailAddress = 'golfrat7@gmail.com'
 			 order by datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -232,7 +232,7 @@
 				  , b2TeamId
 				  , b3TeamId
 			   from v_MatchHyperlinks
-			  where scoutEmailAddress = 'golfrat7@gmail'
+			  where scoutEmailAddress = 'golfrat7@gmail.com'
 			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

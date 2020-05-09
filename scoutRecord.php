@@ -129,7 +129,7 @@
 							<?php
 							$tsql = "select m.matchId, m.matchNumber
 							           from v_MatchHyperlinks m
-			                          where scoutEmailAddress = 'golfrat7@gmail'
+			                          where scoutEmailAddress = 'golfrat7@gmail.com'
 									 order by m.sortOrder, m.matchSort, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
