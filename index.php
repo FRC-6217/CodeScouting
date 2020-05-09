@@ -116,14 +116,12 @@
 		<?php
 		$tsql = "select g.name game_name
                       , e.name event_name
-	                  , ge.eventDate
-                   from GameEvent ge
-                        inner join Game g
-	                    on g.id = ge.gameId
-	                    inner join Event e
-	                    on e.id = ge.eventId
-                  where ge.isActive = 'Y'
-                 order by ge.eventDate";
+                      , ge.eventDate
+                   from v_GameEvent ge
+                        inner join Game g on g.id = ge.gameId
+                 	   inner join Event e on e.id = ge.eventId
+                  where ge.scoutEmailAddress = 'golfrat7@gmail.com'
+                 order by ge.eventDate ";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {

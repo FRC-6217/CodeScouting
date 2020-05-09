@@ -7,9 +7,11 @@ select tr.teamNumber
 	                from TeamMatch tm
 					     inner join Match m
 						 on m.id = tm.matchId
+                         inner join v_GameEvent ge
+	                     on ge.id = m.gameEventId
 						 inner join GameEvent ge
 						 on ge.id = m.gameEventId
-				   where ge.isActive = 'Y'
+				   where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 				     and m.isActive = 'Y'
 					 and m.type <> 'QM'
 					 and tm.teamId = tr.TeamId) > 0 then 'Y'
@@ -25,9 +27,9 @@ select t.teamNumber
 	                from TeamMatch tm
 					     inner join Match m
 						 on m.id = tm.matchId
-						 inner join GameEvent ge
+						 inner join v_GameEvent ge
 						 on ge.id = m.gameEventId
-				   where ge.isActive = 'Y'
+				   where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 				     and m.isActive = 'Y'
 					 and m.type <> 'QM'
 					 and tm.teamId = asr.TeamId) > 0 then 'Y'
@@ -270,7 +272,7 @@ select m.type
 	 , case when alliance = 'R' then redFoulPoints else blueFoulPoints end foulPoints
 	 , coalesce(tm.portionOfAlliancePoints, 0) robotPortionOfAlliancePoints
 	 , case when tm.alliance = 'R' then convert(decimal(18,3), m.redFoulPoints) else convert(decimal(18,3), m.blueFoulPoints) end / 3.0 robotPortionOfFoulPoints
-  from GameEvent ge
+  from v_GameEvent ge
        inner join Match m
 	   on m.gameEventId = ge.id
 	   inner join TeamMatch tm
@@ -281,7 +283,7 @@ select m.type
 	   on tr.gameEventId = ge.id
 	   and tr.matchId = m.id
 	   and tr.teamId = t.id
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 --order by m.type, convert(integer, m.number), tm.alliance, tm.alliancePosition, t.teamNumber
 ) subquery
 group by subquery.teamNumber
@@ -361,9 +363,9 @@ select m.type + ' ' + m.number matchNumber
 			then 'Y'
             else 'N' end foulsAffectedWinner
   from Match m
-       inner join GameEvent ge
+       inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 --order by case when redFoulPoints > blueFoulPoints then redFoulPoints else blueFoulPoints end desc, m.dateTime
 order by case when m.redScore > m.blueScore

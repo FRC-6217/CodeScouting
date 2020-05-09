@@ -116,11 +116,11 @@
 			<?php
 			$tsql = "select o.tableHeader
 					   from objective o
-							inner join gameEvent ge
+							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-					  where ge.isActive = 'Y'
+                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 					    and st.name <> 'Free Form'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
@@ -221,9 +221,9 @@
 				// Display table headers for robot attributes
 				$tsql = "select a.tableheader
 						   from Attribute a
-								inner join gameEvent ge
+								inner join v_GameEvent ge
 								on ge.gameId = a.gameId
-						  where ge.isActive = 'Y'
+                          where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 						 order by a.sortOrder";
 				$getResults = sqlsrv_query($conn, $tsql);
 				if ($getResults == FALSE)
@@ -295,13 +295,13 @@
 			<?php
 			$tsql = "select o.tableHeader
 					   from objective o
-							inner join gameEvent ge
+							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-					  where ge.isActive = 'Y'
+                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 					    and st.name <> 'Free Form'
-					 order by o.sortOrder";
+					 order by o.sortOrder ";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {

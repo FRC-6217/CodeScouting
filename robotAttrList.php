@@ -53,9 +53,9 @@
 			// Display table headers for robot attributes
 			$tsql = "select a.tableheader
 					   from Attribute a
-							inner join gameEvent ge
+							inner join v_GameEvent ge
 							on ge.gameId = a.gameId
-					  where ge.isActive = 'Y'
+                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 					 order by a.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)

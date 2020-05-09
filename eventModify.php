@@ -90,8 +90,8 @@
 				}
 			}		
 			if($results) {
-				$tsql = "insert into GameEvent (eventId, gameId, eventDate, isActive) " . 
-						"select e.id, g.id, '" . $eventValue["start_date"] . "', 'N' " .
+				$tsql = "insert into GameEvent (eventId, gameId, eventDate) " . 
+						"select e.id, g.id, '" . $eventValue["start_date"] . "' " .
 						"  from Event e, Game g " .
 						" where e.eventCode = '" . $eventCode . "' " .
 						"   and g.gameYear = " . $gameYear .
@@ -1033,45 +1033,22 @@
 		}
 	}	
 
-	// Set Game Event active and inactivate all others
+	// Set Game Event active
 	if ($option == "A") {
-		// Inactivate all game events
-		$tsql = "update GameEvent " .
-		        "   set isActive = 'N' " .
-		        " where isActive = 'Y' " .
-				"   and id not in " .
-				"       (select ge.id " .
-				"          from GameEvent ge " .
-				"               inner join Game g on g.id = ge.gameId " .
-				"               inner join Event e on e.id = ge.eventId " .
-				"         where g.gameYear = " . $gameYear .
-				"           and e.eventCode = '" . $eventCode . "');";
-		$results = sqlsrv_query($conn, $tsql);
-		// Check for errors
-		if(!$results) 
-		{
-			echo "Inactivate of Game Events failed!<br />";
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
-			}
-		}
-		if($results) sqlsrv_free_stmt($results);
-		
-		// Inactivate all game events
-		$tsql = "update GameEvent " .
-		        "   set isActive = 'Y' " .
-		        " where isActive = 'N' " .
-				"   and id in " .
-				"       (select ge.id " .
-				"          from GameEvent ge " .
-				"               inner join Game g on g.id = ge.gameId " .
-				"               inner join Event e on e.id = ge.eventId " .
-				"         where g.gameYear = " . $gameYear .
-				"           and e.eventCode = '" . $eventCode . "');";
+		// Activate game event for the Team associated with the scout
+		$tsql = "update t
+                    set t.gameEventId = ge.id
+				   from Team t
+				        inner join Scout s
+						on s.teamId = t.id,
+						GameEvent ge
+						inner join Game g
+						on g.id = ge.gameId
+						inner join Event e
+						on e.id = ge.eventId
+				  where s.emailAddress = 'golfrat7@gmail.com'
+				    and g.gameYear = $gameYear 
+					and e.eventCode = '$eventCode';";
 		$results = sqlsrv_query($conn, $tsql);
 		// Check for errors
 		if(!$results) 
@@ -1128,11 +1105,11 @@
 					"using (select " . $value["team_number"] . ", '" . str_replace("'", "", $value["nickname"]) . "', '" . str_replace("'", "", $value["city"]) . ", " . str_replace("'", "", $value["state_prov"]) . "') " .
 					"as source (teamNumber, teamName, location) " .
 					"on (target.teamNumber = source.teamNumber) " .
-					"WHEN matched AND (target.teamName <> source.teamName OR target.location <> source.location OR target.isActive <> 'Y') THEN " .
-					"UPDATE set teamName = source.teamName, location = source.location, isActive = 'Y' " .
+					"WHEN matched AND (target.teamName <> source.teamName OR target.location <> source.location) THEN " .
+					"UPDATE set teamName = source.teamName, location = source.location " .
 					"WHEN not matched THEN " .
-					"INSERT (teamNumber, teamName, location, isActive) " .
-					"VALUES (source.teamNumber, source.teamName, source.location, 'Y');";
+					"INSERT (teamNumber, teamName, location) " .
+					"VALUES (source.teamNumber, source.teamName, source.location);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{

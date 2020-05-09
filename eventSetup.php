@@ -59,11 +59,16 @@
 					<p><u><b>Event Setup / Configuration</b></u></p>
 					<p>Game:
 							<?php
-							$tsql = "select g.id, g.name, g.gameYear, max(ge.isActive) isActive " .
-							        "  from game g " .
-									"       inner join gameEvent ge on ge.gameId = g.id " .
-									"group by g.id, g.name, g.gameYear " .
-									"order by max(ge.isActive) desc, g.gameYear desc";
+							$tsql = "select g.id
+                                          , g.name
+                                          , g.gameYear
+                                     	  , (select ge.isActive
+                                     	       from v_GameEvent ge
+                                     		  where ge.gameId = g.id
+                                     		    and ge.scoutEmailAddress = 'golfrat7@gmail.com') isActive
+                                       from game g
+                                     group by g.id, g.name, g.gameYear
+                                     order by isActive desc, g.gameYear desc";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {
@@ -92,7 +97,10 @@
 					
 					<p>Event:
 							<?php
-							$tsql = "select e.eventCode from event e inner join gameEvent ge on ge.eventId = e.id where ge.isActive = 'Y' ";
+							$tsql = "select e.eventCode
+                                       from event e
+                                            inner join v_GameEvent ge on ge.eventId = e.id
+                                      where ge.scoutEmailAddress = 'golfrat7@gmail.com' ";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {

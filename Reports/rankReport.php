@@ -30,9 +30,9 @@
 			$tsql = "select r.name
 			              , r.queryString
 					   from Rank r
-							inner join gameEvent ge
+							inner join v_GameEvent ge
 							on ge.gameId = r.gameId
-					  where ge.isActive = 'Y'
+                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 					 order by r.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)

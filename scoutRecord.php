@@ -152,7 +152,15 @@
 								echo "<option value=''></option>";
 							else
 								echo "<option value=" . $teamId . " selected>" . $teamNumber . "</option>";
-							$tsql = "select t.id, t.teamNumber, t.teamName from Team t inner join TeamGameEvent tge on tge.teamId = t.id inner join GameEvent ge on ge.id = tge.gameEventId where t.isActive = 'Y' and ge.isActive = 'Y' order by t.teamNumber";
+							$tsql = "select t.id, t.teamNumber, t.teamName
+                                       from Team t
+                                            inner join TeamGameEvent tge on tge.teamId = t.id
+                                     	   inner join GameEvent ge on ge.id = tge.gameEventId
+                                      where ge.id in
+                                           (select ge2.id
+                                     	     from v_GameEvent ge2
+                                             where ge2.scoutEmailAddress = 'golfrat7@gmail.com')
+                                     order by t.teamNumber";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {

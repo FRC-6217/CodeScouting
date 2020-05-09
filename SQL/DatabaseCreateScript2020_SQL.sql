@@ -59,154 +59,153 @@ create table GameEvent(
 	eventId integer not null,
 	gameId integer not null,
 	eventDate date not null,
-	isActive char(1) not null,
 	lastUpdated datetime null);
 create unique index idx_GameEvent on GameEvent(eventId, eventDate);
 alter table GameEvent add constraint fk_GameEvent_Team foreign key (eventId) references Event (id);
 alter table GameEvent add constraint fk_GameEvent_Game foreign key (gameId) references Game (id);
-insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '03/07/2019', 'N' from event e, game g where e.Name = 'Lake Superior Regional' and g.name = 'Deep Space';
-insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '03/21/2019', 'N' from event e, game g where e.Name = 'Iowa Regional' and g.name = 'Deep Space';
-insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '09/21/2019', 'Y' from event e, game g where e.Name = 'EMCC Off-Season' and g.name = 'Deep Space';
-insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '12/31/2099', 'N' from event e, game g where e.Name = 'Test Data Event' and g.name = 'Deep Space';
-insert into GameEvent (eventId, gameId, eventDate, isActive) select e.Id, g.Id, '02/15/2020', 'Y' from event e, game g where e.Name = 'Week Zero - Eagan' and g.name = 'Infinite Recharge';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '03/07/2019' from event e, game g where e.Name = 'Lake Superior Regional' and g.name = 'Deep Space';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '03/21/2019' from event e, game g where e.Name = 'Iowa Regional' and g.name = 'Deep Space';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '09/21/2019' from event e, game g where e.Name = 'EMCC Off-Season' and g.name = 'Deep Space';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '12/31/2099' from event e, game g where e.Name = 'Test Data Event' and g.name = 'Deep Space';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '02/15/2020' from event e, game g where e.Name = 'Week Zero - Eagan' and g.name = 'Infinite Recharge';
 
 create table Team(
 	id int primary key IDENTITY(1, 1) NOT NULL,
 	teamNumber integer not null,
 	teamName varchar(128) not null,
 	location varchar(128) null,
-	isActive char(1) not null,
-	lastUpdated datetime null);
+	lastUpdated datetime null,
+	gameEventId integer null);
 create unique index idx_Team on Team(teamNumber);
-insert into Team (teamNumber, teamName, location, isActive) values (93, 'NEW Apple Corps', 'Appleton, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (167, 'Children of the Corn', 'Iowa City, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (171, 'Cheese Curd Herd', 'Platteville, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (469, 'Las Guerrillas', 'Bloomfield Hills, MI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (525, 'Swartdogs', 'Cedar Falls, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (648, 'QC ELITE - Flaming Squirrels', 'Quad Cities, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (904, 'D Cubed', 'Grand Rapids, MI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (930, 'Mukwonago BEARs', 'Mukwonago, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (967, 'Iron Lions', 'Marion, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (1622, 'Team Spyder', 'Poway, CA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (1625, 'Winnovation', 'Winnebago, IL', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (1732, 'Hilltoppers', 'Milwaukee, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (1816, 'The Green Machine', 'Edina, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (1985, 'Robohawks', 'Florissant, MO', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2175, 'The Fighting Calculators', 'St. Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2220, 'Blue Twilight', 'Eagan, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2264, 'Wayzata Teamics', 'Plymouth, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2450, 'Team 2450', 'St. Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2502, 'Talon Teamics', 'Eden Prairie, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2503, 'Warrior Teamics', 'Brainerd, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2506, 'Saber Teamics', 'Franklin, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2508, 'Armada', 'Stillwater, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2526, 'Crimson Teamics', 'Osseo, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2530, 'Inconceivable', 'Rochester, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2531, 'RoboHawks', 'Chaska, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2538, 'The Plaid Pillagers', 'Morris, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2549, 'Millerbots', 'Minneapolis, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2574, 'RoboHuskie', 'St. Anthony, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2846, 'FireBears', 'St. Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2957, 'Knights', 'Alden, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (2977, 'Sir Lancer Bots', 'La Crescent, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3008, 'Team Magma', 'Honolulu, HI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3026, 'Orange Crush Teamics', 'Delano, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3082, 'Chicken Bot Pie', 'Minnetonka, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3100, 'Lightning Turtles', 'Mendota Heights, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3102, 'Tech-No-Tigers', 'Nevis, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3130, 'The ERRORS', 'Woodbury , MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3134, 'The Accelerators', 'Cass Lake, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3184, 'Blaze Teamics', 'Burnsville, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3206, 'Royal T-Wrecks', 'Woodbury , MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3275, 'The Regulators', 'Cass Lake, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3276, 'TOOLCATS', 'New London, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3277, 'ProDigi', 'Thief River Falls, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3291, 'Au Pirates (AKA Golden Pirates)', 'Brooklyn Park, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3294, 'Backwoods Engineers', 'Pine River, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3352, 'Flaming Monkeys 4-H Teamics Club', 'Belvidere, IL', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3381, 'Droid Rage', 'Valders, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3633, 'Catalyst 3633', 'Albert Lea, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3740, 'Storm Teamics', 'Sauk Rapids, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3750, 'Gator Teamics', 'Badger, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3755, 'Dragon Teamics', 'Litchfield, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3883, 'Data Bits', 'Cottage Grove, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (3928, 'Team Neutrino', 'Ames, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4009, 'Denfeld DNA Teamics', 'Duluth, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4021, 'igKnightion', 'Onalaska, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4166, 'Robostang', 'Mora, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4198, 'RoboCats', 'Waconia, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4207, 'PyTeamics', 'Victoria, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4215, 'Tritons', 'St. Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4217, 'Scitobors', 'Nashwauk, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4230, 'TopperBots', 'Duluth, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4238, 'BBE Resistance Teamics', 'Belgrade, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4239, 'WARPSPEED', 'Wilmar, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4260, 'BEAR Bucs', 'Blue Earth Area, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4480, 'UC-Botics', 'Upsala, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4511, 'Power Amplified', 'Plymouth, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4536, 'MinuteBots', 'Saint Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4539, 'KAOTIC Teamics', 'Frazee, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4549, 'Iron Bulls', 'South St. Paul, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4674, 'Robojacks', 'Bemidji, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4728, 'Rocori Rench Reckers', 'Cold Spring, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4741, 'WingNuts', 'Redwood Falls, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (4845, 'Lions Pride', 'Duluth, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5013, 'TTeams', 'Kansas City, MO', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5041, 'CyBears', 'West Branch, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5253, 'Bigfork Backwoods Bots', 'Bigfork, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5290, 'Mechanical Howl', 'Forest Lake, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5299, 'Winger Tech', 'Red Wing, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5348, 'Charger Teamics', 'Cokato, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5464, 'Bluejacket Teamics', 'Cambridge, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5542, 'RoboHerd', 'Buffalo, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5576, 'Team Terminator', 'Spirit Lake, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5586, 'Bond Brigade', 'Kiel, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5638, 'LQPV Teamics', 'Madison, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5653, 'Iron Mosquitos', 'Babbitt, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5690, 'SubZero Teamics', 'Esko, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5837, 'Unity4Tech', 'Waterloo, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5906, 'Titanium Badgers', 'Bennington, NE', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5913, 'Patriotics', 'Pequot Lakes, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5914, 'Teamic Warriors', 'Caledonia, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5935, 'Tech Tigers', 'Grinnell, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5991, 'Chargers', 'Westbrook, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (5999, 'Byte Force', 'Milaca, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6022, 'Wrench Warmers', 'Blooming Prairie, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6045, 'Sabre Teamics', 'Sartell, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6047, 'Proctor Frostbyte', 'Proctor, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6146, 'Blackjacks', 'Dawson, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6160, 'Bombatrons', 'Barnum, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6164, 'Moonshot Slaybots', 'Dike, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6166, 'ThoTeamics', 'Holmen, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6217, 'Bomb-Botz', 'Cannon Falls, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6317, 'Disruptive Innovation', 'Davenport, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6318, 'FE Freedom Engineers', 'Freedom, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6379, 'Terabyte of Ram', 'Pleasant Hill, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6391, 'Ursuline Bearbotics', 'Saint Louis, MO', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6420, 'Fire Island Teamics', 'Muscatine, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6424, 'Stealth Panther Teamics', 'Knob Noster, MO', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6453, 'Bog Bots!', 'Kelliher, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6455, 'The Coded Collective', 'Waterloo, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6628, 'KMS BOTKICKERS', 'Kerkhoven, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6630, 'F.U.N. (Fiercely Uknighted Nation)', 'La Porte City, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6732, 'BHS RoboRaiders', 'Bruce, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (6889, 'DC Current', 'Bloomfield, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7021, 'TC Teamics', 'Arcadia, WI', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7028, 'Binary Battalion', 'St. Michael, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7041, 'Doomsday Dogs', 'Carlton, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7068, 'Mechanical Masterminds', 'Saint Francis, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7142, 'Vulcan Eagles', 'Des Moines, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7235, 'Red Lake Ogichidaag', 'Redlake, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7309, 'Green Lightning', 'Storm Lake, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7411, 'CrossThreaded', 'Cedar Falls, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7432, 'NOS', 'Loretto, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7531, 'Servos Strike Back', 'Dubuque, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7541, 'Maple River Teamics', 'Mapleton, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7646, 'Cadets', 'Cresco, IA', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7797, 'Cloquets RipSaw Teamics', 'Cloquet, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7864, 'North Woods Teamics', 'Cook, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (7893, 'Maple Lake High School', 'Maple Lake, MN', 'Y');
-insert into Team (teamNumber, teamName, location, isActive) values (9992, 'EMCC Sub', 'Woodbury, MN', 'Y');
+insert into Team (teamNumber, teamName, location) values (93, 'NEW Apple Corps', 'Appleton, WI');
+insert into Team (teamNumber, teamName, location) values (167, 'Children of the Corn', 'Iowa City, IA');
+insert into Team (teamNumber, teamName, location) values (171, 'Cheese Curd Herd', 'Platteville, WI');
+insert into Team (teamNumber, teamName, location) values (469, 'Las Guerrillas', 'Bloomfield Hills, MI');
+insert into Team (teamNumber, teamName, location) values (525, 'Swartdogs', 'Cedar Falls, IA');
+insert into Team (teamNumber, teamName, location) values (648, 'QC ELITE - Flaming Squirrels', 'Quad Cities, IA');
+insert into Team (teamNumber, teamName, location) values (904, 'D Cubed', 'Grand Rapids, MI');
+insert into Team (teamNumber, teamName, location) values (930, 'Mukwonago BEARs', 'Mukwonago, WI');
+insert into Team (teamNumber, teamName, location) values (967, 'Iron Lions', 'Marion, IA');
+insert into Team (teamNumber, teamName, location) values (1622, 'Team Spyder', 'Poway, CA');
+insert into Team (teamNumber, teamName, location) values (1625, 'Winnovation', 'Winnebago, IL');
+insert into Team (teamNumber, teamName, location) values (1732, 'Hilltoppers', 'Milwaukee, WI');
+insert into Team (teamNumber, teamName, location) values (1816, 'The Green Machine', 'Edina, MN');
+insert into Team (teamNumber, teamName, location) values (1985, 'Robohawks', 'Florissant, MO');
+insert into Team (teamNumber, teamName, location) values (2175, 'The Fighting Calculators', 'St. Paul, MN');
+insert into Team (teamNumber, teamName, location) values (2220, 'Blue Twilight', 'Eagan, MN');
+insert into Team (teamNumber, teamName, location) values (2264, 'Wayzata Teamics', 'Plymouth, MN');
+insert into Team (teamNumber, teamName, location) values (2450, 'Team 2450', 'St. Paul, MN');
+insert into Team (teamNumber, teamName, location) values (2502, 'Talon Teamics', 'Eden Prairie, MN');
+insert into Team (teamNumber, teamName, location) values (2503, 'Warrior Teamics', 'Brainerd, MN');
+insert into Team (teamNumber, teamName, location) values (2506, 'Saber Teamics', 'Franklin, WI');
+insert into Team (teamNumber, teamName, location) values (2508, 'Armada', 'Stillwater, MN');
+insert into Team (teamNumber, teamName, location) values (2526, 'Crimson Teamics', 'Osseo, MN');
+insert into Team (teamNumber, teamName, location) values (2530, 'Inconceivable', 'Rochester, MN');
+insert into Team (teamNumber, teamName, location) values (2531, 'RoboHawks', 'Chaska, MN');
+insert into Team (teamNumber, teamName, location) values (2538, 'The Plaid Pillagers', 'Morris, MN');
+insert into Team (teamNumber, teamName, location) values (2549, 'Millerbots', 'Minneapolis, MN');
+insert into Team (teamNumber, teamName, location) values (2574, 'RoboHuskie', 'St. Anthony, MN');
+insert into Team (teamNumber, teamName, location) values (2846, 'FireBears', 'St. Paul, MN');
+insert into Team (teamNumber, teamName, location) values (2957, 'Knights', 'Alden, MN');
+insert into Team (teamNumber, teamName, location) values (2977, 'Sir Lancer Bots', 'La Crescent, MN');
+insert into Team (teamNumber, teamName, location) values (3008, 'Team Magma', 'Honolulu, HI');
+insert into Team (teamNumber, teamName, location) values (3026, 'Orange Crush Teamics', 'Delano, MN');
+insert into Team (teamNumber, teamName, location) values (3082, 'Chicken Bot Pie', 'Minnetonka, MN');
+insert into Team (teamNumber, teamName, location) values (3100, 'Lightning Turtles', 'Mendota Heights, MN');
+insert into Team (teamNumber, teamName, location) values (3102, 'Tech-No-Tigers', 'Nevis, MN');
+insert into Team (teamNumber, teamName, location) values (3130, 'The ERRORS', 'Woodbury , MN');
+insert into Team (teamNumber, teamName, location) values (3134, 'The Accelerators', 'Cass Lake, MN');
+insert into Team (teamNumber, teamName, location) values (3184, 'Blaze Teamics', 'Burnsville, MN');
+insert into Team (teamNumber, teamName, location) values (3206, 'Royal T-Wrecks', 'Woodbury , MN');
+insert into Team (teamNumber, teamName, location) values (3275, 'The Regulators', 'Cass Lake, MN');
+insert into Team (teamNumber, teamName, location) values (3276, 'TOOLCATS', 'New London, MN');
+insert into Team (teamNumber, teamName, location) values (3277, 'ProDigi', 'Thief River Falls, MN');
+insert into Team (teamNumber, teamName, location) values (3291, 'Au Pirates (AKA Golden Pirates)', 'Brooklyn Park, MN');
+insert into Team (teamNumber, teamName, location) values (3294, 'Backwoods Engineers', 'Pine River, MN');
+insert into Team (teamNumber, teamName, location) values (3352, 'Flaming Monkeys 4-H Teamics Club', 'Belvidere, IL');
+insert into Team (teamNumber, teamName, location) values (3381, 'Droid Rage', 'Valders, WI');
+insert into Team (teamNumber, teamName, location) values (3633, 'Catalyst 3633', 'Albert Lea, MN');
+insert into Team (teamNumber, teamName, location) values (3740, 'Storm Teamics', 'Sauk Rapids, MN');
+insert into Team (teamNumber, teamName, location) values (3750, 'Gator Teamics', 'Badger, MN');
+insert into Team (teamNumber, teamName, location) values (3755, 'Dragon Teamics', 'Litchfield, MN');
+insert into Team (teamNumber, teamName, location) values (3883, 'Data Bits', 'Cottage Grove, MN');
+insert into Team (teamNumber, teamName, location) values (3928, 'Team Neutrino', 'Ames, IA');
+insert into Team (teamNumber, teamName, location) values (4009, 'Denfeld DNA Teamics', 'Duluth, MN');
+insert into Team (teamNumber, teamName, location) values (4021, 'igKnightion', 'Onalaska, WI');
+insert into Team (teamNumber, teamName, location) values (4166, 'Robostang', 'Mora, MN');
+insert into Team (teamNumber, teamName, location) values (4198, 'RoboCats', 'Waconia, MN');
+insert into Team (teamNumber, teamName, location) values (4207, 'PyTeamics', 'Victoria, MN');
+insert into Team (teamNumber, teamName, location) values (4215, 'Tritons', 'St. Paul, MN');
+insert into Team (teamNumber, teamName, location) values (4217, 'Scitobors', 'Nashwauk, MN');
+insert into Team (teamNumber, teamName, location) values (4230, 'TopperBots', 'Duluth, MN');
+insert into Team (teamNumber, teamName, location) values (4238, 'BBE Resistance Teamics', 'Belgrade, MN');
+insert into Team (teamNumber, teamName, location) values (4239, 'WARPSPEED', 'Wilmar, MN');
+insert into Team (teamNumber, teamName, location) values (4260, 'BEAR Bucs', 'Blue Earth Area, MN');
+insert into Team (teamNumber, teamName, location) values (4480, 'UC-Botics', 'Upsala, MN');
+insert into Team (teamNumber, teamName, location) values (4511, 'Power Amplified', 'Plymouth, MN');
+insert into Team (teamNumber, teamName, location) values (4536, 'MinuteBots', 'Saint Paul, MN');
+insert into Team (teamNumber, teamName, location) values (4539, 'KAOTIC Teamics', 'Frazee, MN');
+insert into Team (teamNumber, teamName, location) values (4549, 'Iron Bulls', 'South St. Paul, MN');
+insert into Team (teamNumber, teamName, location) values (4674, 'Robojacks', 'Bemidji, MN');
+insert into Team (teamNumber, teamName, location) values (4728, 'Rocori Rench Reckers', 'Cold Spring, MN');
+insert into Team (teamNumber, teamName, location) values (4741, 'WingNuts', 'Redwood Falls, MN');
+insert into Team (teamNumber, teamName, location) values (4845, 'Lions Pride', 'Duluth, MN');
+insert into Team (teamNumber, teamName, location) values (5013, 'TTeams', 'Kansas City, MO');
+insert into Team (teamNumber, teamName, location) values (5041, 'CyBears', 'West Branch, IA');
+insert into Team (teamNumber, teamName, location) values (5253, 'Bigfork Backwoods Bots', 'Bigfork, MN');
+insert into Team (teamNumber, teamName, location) values (5290, 'Mechanical Howl', 'Forest Lake, MN');
+insert into Team (teamNumber, teamName, location) values (5299, 'Winger Tech', 'Red Wing, MN');
+insert into Team (teamNumber, teamName, location) values (5348, 'Charger Teamics', 'Cokato, MN');
+insert into Team (teamNumber, teamName, location) values (5464, 'Bluejacket Teamics', 'Cambridge, MN');
+insert into Team (teamNumber, teamName, location) values (5542, 'RoboHerd', 'Buffalo, MN');
+insert into Team (teamNumber, teamName, location) values (5576, 'Team Terminator', 'Spirit Lake, IA');
+insert into Team (teamNumber, teamName, location) values (5586, 'Bond Brigade', 'Kiel, WI');
+insert into Team (teamNumber, teamName, location) values (5638, 'LQPV Teamics', 'Madison, MN');
+insert into Team (teamNumber, teamName, location) values (5653, 'Iron Mosquitos', 'Babbitt, MN');
+insert into Team (teamNumber, teamName, location) values (5690, 'SubZero Teamics', 'Esko, MN');
+insert into Team (teamNumber, teamName, location) values (5837, 'Unity4Tech', 'Waterloo, IA');
+insert into Team (teamNumber, teamName, location) values (5906, 'Titanium Badgers', 'Bennington, NE');
+insert into Team (teamNumber, teamName, location) values (5913, 'Patriotics', 'Pequot Lakes, MN');
+insert into Team (teamNumber, teamName, location) values (5914, 'Teamic Warriors', 'Caledonia, MN');
+insert into Team (teamNumber, teamName, location) values (5935, 'Tech Tigers', 'Grinnell, IA');
+insert into Team (teamNumber, teamName, location) values (5991, 'Chargers', 'Westbrook, MN');
+insert into Team (teamNumber, teamName, location) values (5999, 'Byte Force', 'Milaca, MN');
+insert into Team (teamNumber, teamName, location) values (6022, 'Wrench Warmers', 'Blooming Prairie, MN');
+insert into Team (teamNumber, teamName, location) values (6045, 'Sabre Teamics', 'Sartell, MN');
+insert into Team (teamNumber, teamName, location) values (6047, 'Proctor Frostbyte', 'Proctor, MN');
+insert into Team (teamNumber, teamName, location) values (6146, 'Blackjacks', 'Dawson, MN');
+insert into Team (teamNumber, teamName, location) values (6160, 'Bombatrons', 'Barnum, MN');
+insert into Team (teamNumber, teamName, location) values (6164, 'Moonshot Slaybots', 'Dike, IA');
+insert into Team (teamNumber, teamName, location) values (6166, 'ThoTeamics', 'Holmen, WI');
+insert into Team (teamNumber, teamName, location) values (6217, 'Bomb-Botz', 'Cannon Falls, MN');
+insert into Team (teamNumber, teamName, location) values (6317, 'Disruptive Innovation', 'Davenport, IA');
+insert into Team (teamNumber, teamName, location) values (6318, 'FE Freedom Engineers', 'Freedom, WI');
+insert into Team (teamNumber, teamName, location) values (6379, 'Terabyte of Ram', 'Pleasant Hill, IA');
+insert into Team (teamNumber, teamName, location) values (6391, 'Ursuline Bearbotics', 'Saint Louis, MO');
+insert into Team (teamNumber, teamName, location) values (6420, 'Fire Island Teamics', 'Muscatine, IA');
+insert into Team (teamNumber, teamName, location) values (6424, 'Stealth Panther Teamics', 'Knob Noster, MO');
+insert into Team (teamNumber, teamName, location) values (6453, 'Bog Bots!', 'Kelliher, MN');
+insert into Team (teamNumber, teamName, location) values (6455, 'The Coded Collective', 'Waterloo, IA');
+insert into Team (teamNumber, teamName, location) values (6628, 'KMS BOTKICKERS', 'Kerkhoven, MN');
+insert into Team (teamNumber, teamName, location) values (6630, 'F.U.N. (Fiercely Uknighted Nation)', 'La Porte City, IA');
+insert into Team (teamNumber, teamName, location) values (6732, 'BHS RoboRaiders', 'Bruce, WI');
+insert into Team (teamNumber, teamName, location) values (6889, 'DC Current', 'Bloomfield, IA');
+insert into Team (teamNumber, teamName, location) values (7021, 'TC Teamics', 'Arcadia, WI');
+insert into Team (teamNumber, teamName, location) values (7028, 'Binary Battalion', 'St. Michael, MN');
+insert into Team (teamNumber, teamName, location) values (7041, 'Doomsday Dogs', 'Carlton, MN');
+insert into Team (teamNumber, teamName, location) values (7068, 'Mechanical Masterminds', 'Saint Francis, MN');
+insert into Team (teamNumber, teamName, location) values (7142, 'Vulcan Eagles', 'Des Moines, IA');
+insert into Team (teamNumber, teamName, location) values (7235, 'Red Lake Ogichidaag', 'Redlake, MN');
+insert into Team (teamNumber, teamName, location) values (7309, 'Green Lightning', 'Storm Lake, IA');
+insert into Team (teamNumber, teamName, location) values (7411, 'CrossThreaded', 'Cedar Falls, IA');
+insert into Team (teamNumber, teamName, location) values (7432, 'NOS', 'Loretto, MN');
+insert into Team (teamNumber, teamName, location) values (7531, 'Servos Strike Back', 'Dubuque, IA');
+insert into Team (teamNumber, teamName, location) values (7541, 'Maple River Teamics', 'Mapleton, MN');
+insert into Team (teamNumber, teamName, location) values (7646, 'Cadets', 'Cresco, IA');
+insert into Team (teamNumber, teamName, location) values (7797, 'Cloquets RipSaw Teamics', 'Cloquet, MN');
+insert into Team (teamNumber, teamName, location) values (7864, 'North Woods Teamics', 'Cook, MN');
+insert into Team (teamNumber, teamName, location) values (7893, 'Maple Lake High School', 'Maple Lake, MN');
+insert into Team (teamNumber, teamName, location) values (9992, 'EMCC Sub', 'Woodbury, MN');
 
 create table TeamGameEvent(
 	id int primary key IDENTITY(1, 1) NOT NULL,
@@ -254,6 +253,8 @@ create table Scout(
 	teamId integer not null,
 	isActive char(1) not null,
 	lastUpdated datetime null,
+	emailAddress varchar(128) not null,
+	isAdmin char(1) not null,
 	scoutGUID uniqueidentifier not null default newid());
 create unique index idx_scout on Scout(lastName, firstName);
 alter table Scout add constraint fk_Scout_Team foreign key (TeamId) references Team (id);
@@ -1164,7 +1165,7 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.id else null end) b3TeamId
 	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end b3ScoutIndicator
   from Match m
-       inner join GameEvent ge
+       inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   left outer join TeamMatch tm
 	   on tm.matchId = m.id
@@ -1175,7 +1176,7 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	   and sr.teamId = tm.teamId
 	   left outer join Scout s
 	   on s.id = sr.scoutId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by m.type
        , m.id
@@ -1185,6 +1186,26 @@ group by m.type
 	   , m.blueScore
 	   , m.matchCode
 ) subquery;
+go
+
+create view v_GameEvent as
+select ge.id
+     , ge.eventId
+	 , ge.gameId
+	 , ge.eventDate
+	 , (select coalesce(max(case when s2.id is null then 'N' else 'Y' end), 'N')
+	      from Team t2
+		       inner join Scout s2
+			   on s2.teamId = t2.id
+		 where s2.emailAddress = s.emailAddress
+		   and t2.gameEventId = ge.id) isActive
+	 , ge.lastUpdated
+	 , s.emailAddress scoutEmailAddress
+  from GameEvent ge
+	   left outer join Team t
+	   on t.gameEventId = ge.id
+	   left outer join Scout s
+       on s.teamId = t.id
 go
 
 create view v_ScoutTeamHyperlinks as
@@ -1294,9 +1315,9 @@ select '<a href="robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&teamNu
   from Team t 
        inner join TeamGameEvent tge 
        on tge.teamId = t.id
-       inner join GameEvent ge 
+       inner join v_GameEvent ge 
        on ge.id = tge.gameEventId
- where ge.isActive = 'Y';
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 go
 
 create view v_RankButtons as
@@ -1312,9 +1333,9 @@ select distinct
 	   on o.id = ro.objectiveId
 	   inner join Game g
 	   on g.id = o.gameId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.gameId = g.id
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 go
 
 -- View to get HTML for entry of Scout Record
@@ -1338,9 +1359,9 @@ select distinct
    and o.gameId in
        (select g.id
 	      from game g
-		       inner join gameEvent ge
+		       inner join v_GameEvent ge
 			   on ge.gameId = g.id
-		 where ge.isActive = 'Y')
+         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 union
 select distinct
        og.name groupName
@@ -1395,9 +1416,9 @@ select distinct
    and o.gameId in
        (select g.id
 	      from game g
-		       inner join gameEvent ge
+		       inner join v_GameEvent ge
 			   on ge.gameId = g.id
-		 where ge.isActive = 'Y')
+         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 --order by groupSort, objectiveSort, objectiveValueSort
 go
 
@@ -1424,9 +1445,9 @@ select distinct
    and o.gameId in
        (select g.id
 	      from game g
-		       inner join gameEvent ge
+		       inner join v_GameEvent ge
 			   on ge.gameId = g.id
-		 where ge.isActive = 'Y')
+         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 union
 select distinct
        og.name groupName
@@ -1502,9 +1523,9 @@ select distinct
    and o.gameId in
        (select g.id
 	      from game g
-		       inner join gameEvent ge
+		       inner join v_GameEvent ge
 			   on ge.gameId = g.id
-		 where ge.isActive = 'Y')
+         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 --order by groupSort, objectiveSort, objectiveValueSort
 go
 
@@ -1540,9 +1561,9 @@ select a.name attributeName
 	   team t
 	   inner join TeamGameEvent tge
 	   on tge.teamId = t.id
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = tge.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and a.gameId = ge.gameId
 --order by attributeSort, attributeValueSort
 go
@@ -1828,7 +1849,7 @@ select sr.id scoutRecordId
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.gameId = ge.gameId
@@ -1840,7 +1861,7 @@ select sr.id scoutRecordId
 	   left outer join ScoutObjectiveRecord sor
 	   on sor.scoutRecordId = sr.id
 	   and sor.objectiveId = o.id
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by sr.id
        , sr.matchId
@@ -1960,7 +1981,7 @@ select sr.teamId
 	   on o.id = sor.objectiveId
 	   inner join Match m
 	   on m.id = sr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 group by sr.teamId
 	   , sr.matchId
@@ -2020,7 +2041,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue14,0) +
 	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
   from Match m
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
        inner join TeamMatch tm
        on tm.matchId = m.id
@@ -2032,7 +2053,7 @@ select m.type + ' ' + m.number matchNumber
                      from match m2
                     where m2.id = asr.matchId
                       and m2.isActive = 'Y')
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by m.type + ' ' + m.number
        , tm.matchId
@@ -2115,7 +2136,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue14,0) +
 	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
   from Match m
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
        inner join TeamMatch tm
        on tm.matchId = m.id
@@ -2127,7 +2148,7 @@ select m.type + ' ' + m.number matchNumber
                      from match m2
                     where m2.id = asr.matchId
                       and m2.isActive = 'Y')
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by m.type + ' ' + m.number
        , tm.matchId
@@ -2169,9 +2190,9 @@ select m.type + ' ' + m.number matchNumber
      , null value15
 	 , null totalScoreValue
   from Match m
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y';
 go
 
@@ -2404,11 +2425,11 @@ select mo.alliance
   from Match m
 	   inner join MatchObjective mo
 	   on mo.matchId = m.id
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = mo.objectiveId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by mo.alliance
        , mo.matchId
@@ -2672,11 +2693,11 @@ select tm.alliance
 	   on tm.matchId = m.id
 	   inner join TeamMatchObjective tmo
 	   on tmo.teamMatchId = tm.id
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = tmo.objectiveId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 group by tm.alliance
        , m.id
@@ -2744,8 +2765,7 @@ select case when tm.alliance = 'R' then 'Red'
 	  inner join TeamMatch tm
 	  on tm.matchId = asr.matchId
 	  and tm.teamId = asr.teamId
- where t.isActive = 'Y'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 union
 -- Team Scores from  The Blue Alliance if no scout data
 select case when tm.alliance = 'R' then 'Red'
@@ -2890,11 +2910,11 @@ select case when tm.alliance = 'R' then 'Red'
 	   on tmo.teamMatchId = tm.id
 	   inner join Team t
 	   on t.id = tm.teamId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join Objective o
 	   on o.id = tmo.objectiveId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
    and not exists
        (select 1
@@ -2989,8 +3009,7 @@ select case when tm.alliance = 'R' then 'Red'
 	  inner join TeamMatch tm
 	  on tm.matchId = asr.matchId
 	  and tm.teamId = asr.teamId
- where t.isActive = 'Y'
-   and m.isActive = 'Y') subquery
+ where m.isActive = 'Y') subquery
 group by subquery.alliance
        , subquery.allianceSort
 	   , subquery.matchFoulPoints
@@ -3027,9 +3046,9 @@ select '----' alliance
 	 , m.gameEventId
 	 , m.matchCode
   from Match m
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
 union
 -- Total Alliance Scores from The Blue Alliance
@@ -3199,14 +3218,14 @@ select '<a href="../robotAttrSetup.php?teamId=' + convert(varchar, t.id) + '&tea
   from Team t 
        inner join TeamGameEvent tge 
        on tge.teamId = t.id
-       inner join GameEvent ge 
+       inner join v_GameEvent ge 
        on ge.id = tge.gameEventId
        inner join Match m
 	   on m.gameEventId = ge.id
 	   inner join TeamMatch tm
 	   on tm.matchId = m.id
 	   and tm.teamId = t.id
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 union
 select null teamUrl
      , null TeamNumber
@@ -3292,8 +3311,7 @@ select t.TeamNumber
       on sr.TeamId = t.id
       inner join Match m
       on m.id = sr.matchId
- where t.isActive = 'Y'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by t.TeamNumber
        , t.id
 	   , sr.gameEventId
@@ -3397,8 +3415,7 @@ select t.TeamNumber
 	                from Objective o
 				  group by o.gameId) o
       on o.gameId = ge.gameId
- where t.isActive = 'Y'
-   and m.isActive = 'Y';
+ where m.isActive = 'Y';
 go
 
 -- View for Team Average Pie Chart
@@ -3429,7 +3446,7 @@ select t.teamNumber
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join ScoutObjectiveRecord sor
 	   on sor.scoutRecordId = sr.id
@@ -3444,7 +3461,7 @@ select t.teamNumber
 	   inner join TeamMatch tm
 	   on tm.matchId = sr.matchId
 	   and tm.teamId = sr.teamId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
    and og.groupCode = 'Report Pie Chart'
 group by t.teamNumber
@@ -3506,7 +3523,7 @@ select t.teamNumber
   from ScoutRecord sr
        inner join Match m
 	   on m.id = sr.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
 	   inner join ScoutObjectiveRecord sor
 	   on sor.scoutRecordId = sr.id
@@ -3521,7 +3538,7 @@ select t.teamNumber
 	   inner join TeamMatch tm
 	   on tm.matchId = sr.matchId
 	   and tm.teamId = sr.teamId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
    and og.groupCode = 'Report Line Graph'
 group by t.teamNumber
@@ -3584,23 +3601,6 @@ select asr.TeamId
      , avg(asr.integerValue13) integerValue13
      , avg(asr.integerValue14) integerValue14
      , avg(asr.integerValue15) integerValue15
-/*
-     , avg(asr.decimalValue1) decimalValue1
-     , avg(asr.decimalValue2) decimalValue2
-     , avg(asr.decimalValue3) decimalValue3
-     , avg(asr.decimalValue4) decimalValue4
-     , avg(asr.decimalValue5) decimalValue5
-     , avg(asr.decimalValue6) decimalValue6
-     , avg(asr.decimalValue7) decimalValue7
-     , avg(asr.decimalValue8) decimalValue8
-     , avg(asr.decimalValue9) decimalValue9
-     , avg(asr.decimalValue10) decimalValue10
-     , avg(asr.decimalValue11) decimalValue11
-     , avg(asr.decimalValue12) decimalValue12
-     , avg(asr.decimalValue13) decimalValue13
-     , avg(asr.decimalValue14) decimalValue14
-     , avg(asr.decimalValue15) decimalValue15
-*/
      , avg(asr.scoreValue1) scoreValue1
      , avg(asr.scoreValue2) scoreValue2
      , avg(asr.scoreValue3) scoreValue3
@@ -3641,9 +3641,9 @@ BEGIN
 	-- Get Sort Order
 	SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
 	  FROM Rank r
-	       inner join GameEvent ge
+	       inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
-	 WHERE ge.isActive = 'Y'
+	 WHERE ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	   AND r.queryString = @pv_QueryString;
 
 	-- Populate local temporary table of team average scores.  This improves overall query performance
@@ -3693,13 +3693,13 @@ BEGIN
 		   on ro.rankId = r.id
 		   inner join Objective o
 		   on o.id = ro.objectiveId
-		   inner join GameEvent ge
+		   inner join v_GameEvent ge
 		   on ge.gameId = o.gameId
 		   inner join TeamGameEvent tge
 		   on ge.id = tge.gameEventId
 		   inner join v_AvgTeamRecord atr
 		   on atr.teamId = tge.teamId
-	 where ge.isActive = 'Y'
+	 where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	group by atr.teamId
 		   , r.gameId
 		   , r.name
@@ -3718,11 +3718,11 @@ BEGIN
 		 , tge.rank
 		 , tge.rankingPointAverage
       from rank r
-		   inner join GameEvent ge
+		   inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
 		   inner join TeamGameEvent tge
 		   on tge.gameEventId = ge.id
-	 where ge.isActive = 'Y'
+	 where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	   and not exists
 	       (select 1
 		      from #AvgTeamRecord atr
@@ -3774,7 +3774,6 @@ BEGIN
       from #AvgTeamRecord atr) subquery
 	       inner join Team t
 		   on t.id = subquery.teamId
-	 where t.isActive = 'Y'
 	group by subquery.teamId
 	       , t.TeamNumber
 		   , t.TeamName
@@ -3963,22 +3962,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 1
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue01);
-			@pv_TextValue01 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue01);
+			SET @pv_TextValue01 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4005,22 +4004,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 2
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue02);
-			@pv_TextValue02 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue02);
+			SET @pv_TextValue02 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4047,22 +4046,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 3
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue03);
-			@pv_TextValue03 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue03);
+			SET @pv_TextValue03 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4089,22 +4088,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 4
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue04);
-			@pv_TextValue04 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue04);
+			SET @pv_TextValue04 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4131,22 +4130,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 5
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue05);
-			@pv_TextValue05 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue05);
+			SET @pv_TextValue05 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4173,22 +4172,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 6
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue06);
-			@pv_TextValue06 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue06);
+			SET @pv_TextValue06 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4215,22 +4214,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 7
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue07);
-			@pv_TextValue07 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue07);
+			SET @pv_TextValue07 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4257,22 +4256,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 8
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue08);
-			@pv_TextValue08 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue08);
+			SET @pv_TextValue08 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4299,22 +4298,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 9
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue09);
-			@pv_TextValue09 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue09);
+			SET @pv_TextValue09 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4341,22 +4340,22 @@ BEGIN
 		  FROM Attribute a
 		       INNER JOIN scoringType st
 			   ON st.id = a.scoringTypeId
-			   INNER JOIN GameEvent ge
+			   INNER JOIN v_GameEvent ge
 			   ON ge.gameId = a.gameId
 			   LEFT OUTER JOIN TeamAttribute ta
 			   ON ta.attributeId = a.id
 			   AND ta.teamId = @pv_TeamId
 		 WHERE a.sortOrder = 10
-		   AND ge.isActive = 'Y';
+		   AND ge.scoutEmailAddress = 'golfrat7@gmail.com';
 		-- Decide if integer or text submitted
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
-			@lv_IntegerValue = NULL;
+			SET @lv_IntegerValue = NULL;
 			END
 		ELSE
 			BEGIN
-			@lv_IntegerValue = convert(integer, @pv_TextValue10);
-			@pv_TextValue10 = NULL;
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue10);
+			SET @pv_TextValue10 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
@@ -4473,10 +4472,10 @@ begin
 				   and sr.matchId = tm.matchId
 				   inner join Match m
 				   on m.id = tm.matchId
-				   inner join GameEvent ge
+				   inner join v_GameEvent ge
 				   on ge.id = m.gameEventId
 			 where m.isActive = 'Y'
-			   and ge.isActive = 'Y'
+			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 			   and ScoutObjectiveRecord.scoutRecordId = sr.id
 			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
 			   and coalesce(ScoutObjectiveRecord.integerValue, -1) <> tmo.integerValue);
@@ -4490,11 +4489,11 @@ begin
 			   on s.id = sr.scoutId
 			   inner join Match m
 			   on m.id = sr.matchId
-			   inner join GameEvent ge
+			   inner join v_GameEvent ge
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
 		   and m.isActive = 'Y'
-		   and ge.isActive = 'Y'
+		   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 		   and exists
 			   (select 1
 				  from ScoutRecord sr2
@@ -4509,11 +4508,11 @@ begin
 			   on s.id = sr.scoutId
 			   inner join Match m
 			   on m.id = sr.matchId
-			   inner join GameEvent ge
+			   inner join v_GameEvent ge
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
 		   and m.isActive = 'Y'
-		   and ge.isActive = 'Y'
+		   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 		   and exists
 			   (select 1
 				  from ScoutRecord sr2
@@ -4533,12 +4532,12 @@ begin
 		   on tmo.teamMatchId = tm.id
 		   inner join Match m
 		   on m.id = tm.matchId
-		   inner join GameEvent ge
+		   inner join v_GameEvent ge
 		   on ge.id = m.gameEventId
 	 where s.lastName = 'TBA'
 	   and m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.isActive = 'Y'
+	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	   and tmo.integerValue is not null
 	   and not exists
 		   (select 1
@@ -4559,12 +4558,12 @@ begin
 		   on tmo.teamMatchId = tm.id
 		   inner join Match m
 		   on m.id = tm.matchId
-		   inner join GameEvent ge
+		   inner join v_GameEvent ge
 		   on ge.id = m.gameEventId
 	 where s.lastName = 'TBA'
 	   and m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.isActive = 'Y'
+	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	   and tmo.integerValue is not null
 	   and not exists
 		   (select 1
@@ -4580,7 +4579,7 @@ begin
 			  from MatchObjective mo
 				   inner join Match m
 				   on m.id = mo.matchId
-				   inner join GameEvent ge
+				   inner join v_GameEvent ge
 				   on ge.id = m.gameEventId
 				   inner join TeamMatch tm
 				   on tm.matchId = mo.matchId
@@ -4593,7 +4592,7 @@ begin
 				   and sor.objectiveId = mo.objectiveId
 			 where m.type = 'QM'
 			   and m.isActive = 'Y'
-			   and ge.isActive = 'Y'
+			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 			   and mo.integerValue = 0
 			   and coalesce(sor.integerValue, -999) <> 0);
 	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
@@ -4605,7 +4604,7 @@ begin
 		   on m.id = sr.matchId
 		   inner join MatchObjective mo
 		   on mo.matchId = m.id
-		   inner join GameEvent ge
+		   inner join v_GameEvent ge
 		   on ge.id = m.gameEventId
 		   inner join TeamMatch tm
 		   on tm.matchId = sr.matchId
@@ -4613,7 +4612,7 @@ begin
 		   and tm.alliance = mo.alliance
 	 where m.type = 'QM'
 	   and m.isActive = 'Y'
-	   and ge.isActive = 'Y'
+	   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 	   and mo.integerValue = 0
 	   and not exists
 		   (select 1
@@ -4643,7 +4642,7 @@ begin
 			  from MatchObjective mo
 				   inner join Match m
 				   on m.id = mo.matchId
-				   inner join GameEvent ge
+				   inner join v_GameEvent ge
 				   on ge.id = m.gameEventId
 				   inner join TeamMatch tm
 				   on tm.matchId = mo.matchId
@@ -4656,7 +4655,7 @@ begin
 				   and sor.objectiveId = mo.objectiveId
 			 where m.type = 'QM'
 			   and m.isActive = 'Y'
-			   and ge.isActive = 'Y'
+			   and ge.scoutEmailAddress = 'golfrat7@gmail.com'
 			   and coalesce(sor.integerValue, -999) > mo.integerValue);
 end
 GO

@@ -17,9 +17,9 @@ select m.id matchId
 	   and tm.teamId = asor.teamId
 	   inner join Match m
 	   on m.id = asor.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
    and m.isActive = 'Y'
    and exists
        (select 1
@@ -61,9 +61,9 @@ select m.id matchId
 	   on t.id = asor.teamId
 	   inner join Match m
 	   on m.id = asor.matchId
-	   inner join GameEvent ge
+	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.isActive = 'Y'
+ where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 group by m.id
        , m.number
 	   , m.dateTime

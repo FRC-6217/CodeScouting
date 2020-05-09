@@ -26,9 +26,9 @@
 				    on ogo.objectiveGroupId = og.id
 				    inner join Objective o
 				    on o.id = ogo.objectiveId
-				    inner join GameEvent ge
+				    inner join v_GameEvent ge
 				    on ge.gameId = o.gameId
-			  where ge.isActive = 'Y'
+              where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 			    and groupCode = 'Report Line Graph'
 			 order by og.sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -200,9 +200,9 @@
 			$cnt = 0;
 			$tsql = "select o.tableHeader
 					   from objective o
-							inner join gameEvent ge
+							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
-					  where ge.isActive = 'Y'
+                      where ge.scoutEmailAddress = 'golfrat7@gmail.com'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
