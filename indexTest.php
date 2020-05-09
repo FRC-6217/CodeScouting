@@ -160,7 +160,8 @@
 				  , b2TeamId
 				  , b3TeamId
 			   from v_MatchHyperlinks
-			  order by sortOrder, datetime, matchNumber";
+			  where scoutEmailAddress = 'golfrat7@gmail'
+			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {

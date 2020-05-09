@@ -1137,6 +1137,7 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
 	 , case when isnumeric(subquery.number) = 1
 	        then convert(numeric, subquery.number)
 			else 1000 end matchSort
+	 , subquery.scoutEmailAddress
   from (
 select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (6.0 / 24.0 / 60.0) < 0 then 1 else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
@@ -1164,6 +1165,7 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.teamNumber else null end) b3TeamNumber
 	 , max(case when tm.alliance = 'B' and tm.alliancePosition = 3 then t.id else null end) b3TeamId
 	 , case when sum(case when tm.alliance = 'B' and tm.alliancePosition = 3 and sr.id is not null and s.lastName <> 'TBA' then 1 else 0 end) = 0 then 'S' else 'a' end b3ScoutIndicator
+	 , ge.scoutEmailAddress
   from Match m
        inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
@@ -1176,8 +1178,7 @@ select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATE
 	   and sr.teamId = tm.teamId
 	   left outer join Scout s
 	   on s.id = sr.scoutId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and m.isActive = 'Y'
+ where m.isActive = 'Y'
 group by m.type
        , m.id
 	   , m.number
@@ -1185,6 +1186,7 @@ group by m.type
 	   , m.redScore
 	   , m.blueScore
 	   , m.matchCode
+	   , ge.scoutEmailAddress
 ) subquery;
 go
 
