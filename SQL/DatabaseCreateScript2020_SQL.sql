@@ -1352,18 +1352,17 @@ select distinct
 	 , null objectiveSort
 	 , null objectiveValueSort
 	 , case when og.sortOrder = 1 then '' else '<br><br>' end + '<b><u>' + og.name + '</u>' scoutRecordHtml
+	 , ge.scoutEmailAddress
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
        inner join objective o
 	   on o.id = ogo.objectiveId
+	   inner join game g
+	   on g.id = o.gameId
+	   inner join v_GameEvent ge
+	   on ge.gameId = g.id
  where og.groupCode = 'Scout Match'
-   and o.gameId in
-       (select g.id
-	      from game g
-		       inner join v_GameEvent ge
-			   on ge.gameId = g.id
-         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 union
 select distinct
        og.name groupName
@@ -1405,6 +1404,7 @@ select distinct
 						then '<br>'
 						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>'
 			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
+     , ge.scoutEmailAddress
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
@@ -1412,15 +1412,13 @@ select distinct
 	   on o.id = ogo.objectiveId
 	   inner join scoringType st
 	   on st.id = o.scoringTypeId
+	   inner join game g
+	   on g.id = o.gameId
+	   inner join v_GameEvent ge
+	   on ge.gameId = g.id
 	   left outer join objectiveValue ov
 	   on ov.objectiveId = o.id
  where og.groupCode = 'Scout Match'
-   and o.gameId in
-       (select g.id
-	      from game g
-		       inner join v_GameEvent ge
-			   on ge.gameId = g.id
-         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 --order by groupSort, objectiveSort, objectiveValueSort
 go
 

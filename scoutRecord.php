@@ -233,7 +233,8 @@
 									  , esrh.objectiveValueSort
 									  , esrh.scoutRecordHtml
 								   from v_EnterScoutRecordHTML esrh
-								  where not exists
+								  where scoutEmailAddress = 'golfrat7@gmail.com'
+								    and not exists
 									   (select 1
 										  from v_UpdateScoutRecordHTML usrh
 										 where usrh.scoutRecordId = " . $scoutRecordId . " 
@@ -252,6 +253,7 @@
 									  , objectiveValueSort
 									  , scoutRecordHtml
 								   from v_EnterScoutRecordHTML
+								  where scoutEmailAddress = 'golfrat7@gmail.com'
 								 order by groupSort, objectiveSort, objectiveValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)
