@@ -62,7 +62,8 @@
 								  , attributeValueSort
 								  , scoutTeamHtml
 							   from v_EnterScoutTeamHTML
-							  where teamId = $teamId
+							  where scoutEmailAddress = 'golfrat7@gmail.com'
+							    and teamId = $teamId
 							 order by attributeSort, attributeValueSort";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE)

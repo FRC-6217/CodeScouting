@@ -1435,19 +1435,18 @@ select distinct
 	 , null objectiveValueSort
 	 , case when og.sortOrder = 1 then '' else '<br><br>' end + '<b><u>' + og.name + '</u>' scoutRecordHtml
 	 , sr.id scoutRecordId
+	 , ge.scoutEmailAddress
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
        inner join objective o
-	   on o.id = ogo.objectiveId,
+	   on o.id = ogo.objectiveId
+	   inner join game g
+	   on g.id = o.gameId
+	   inner join v_GameEvent ge
+	   on ge.gameId = g.id,
 	   ScoutRecord sr
  where og.groupCode = 'Scout Match'
-   and o.gameId in
-       (select g.id
-	      from game g
-		       inner join v_GameEvent ge
-			   on ge.gameId = g.id
-         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 union
 select distinct
        og.name groupName
@@ -1508,6 +1507,7 @@ select distinct
 				 'name ="value' + convert(varchar, o.sortOrder) +
 				 '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
 	 , sor.scoutRecordId
+	 , ge.scoutEmailAddress
   from objectiveGroup og
        inner join objectiveGroupObjective ogo
 	   on ogo.objectiveGroupId = og.id
@@ -1517,15 +1517,13 @@ select distinct
 	   on st.id = o.scoringTypeId
 	   inner join ScoutObjectiveRecord sor
 	   on sor.objectiveId = o.id
+	   inner join game g
+	   on g.id = o.gameId
+	   inner join v_GameEvent ge
+	   on ge.gameId = g.id
 	   left outer join objectiveValue ov
 	   on ov.objectiveId = o.id
  where og.groupCode = 'Scout Match'
-   and o.gameId in
-       (select g.id
-	      from game g
-		       inner join v_GameEvent ge
-			   on ge.gameId = g.id
-         where ge.scoutEmailAddress = 'golfrat7@gmail.com')
 --order by groupSort, objectiveSort, objectiveValueSort
 go
 
@@ -1553,6 +1551,7 @@ select a.name attributeName
 			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>' end scoutTeamHtml
 	 , t.id teamId
 	 , t.teamNumber
+	 , ge.scoutEmailAddress
   from attribute a
 	   inner join scoringType st
 	   on st.id = a.scoringTypeId
@@ -1563,8 +1562,7 @@ select a.name attributeName
 	   on tge.teamId = t.id
 	   inner join v_GameEvent ge
 	   on ge.id = tge.gameEventId
- where ge.scoutEmailAddress = 'golfrat7@gmail.com'
-   and a.gameId = ge.gameId
+ where a.gameId = ge.gameId
 --order by attributeSort, attributeValueSort
 go
 
