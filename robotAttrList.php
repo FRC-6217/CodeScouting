@@ -88,6 +88,7 @@
 				  , attrValue9
 				  , attrValue10
                from v_ScoutTeamHyperlinks
+              where scoutEmailAddress = 'golfrat7@gmail.com'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
