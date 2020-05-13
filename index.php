@@ -11,6 +11,18 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = 'golfrat7@gmail.com';
+	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
 
 	// Build data for Line Graph
 	$rows = array();
@@ -28,7 +40,7 @@
 				  , blueScore
 				  , redScore + blueScore totalScore
 			   from v_MatchHyperlinks
-			  where scoutEmailAddress = '$loginEmailAddress'
+			  where loginGUID = '$loginGUID'
 			 order by datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -122,7 +134,7 @@
                    from v_GameEvent ge
                         inner join Game g on g.id = ge.gameId
                  	   inner join Event e on e.id = ge.eventId
-                  where ge.scoutEmailAddress = '$loginEmailAddress'
+                  where ge.loginGUID = '$loginGUID'
                  order by ge.eventDate ";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
@@ -154,7 +166,7 @@
     $tsql = "select buttonHtml
 	              , sortOrder
 			   from v_RankButtons
-			  where scoutEmailAddress = '$loginEmailAddress'
+			  where loginGUID = '$loginGUID'
 			 order by sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -234,7 +246,7 @@
 				  , b2TeamId
 				  , b3TeamId
 			   from v_MatchHyperlinks
-			  where scoutEmailAddress = '$loginEmailAddress'
+			  where loginGUID = '$loginGUID'
 			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

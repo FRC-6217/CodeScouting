@@ -984,4 +984,4 @@ delete from ScoutRecord
 update GameEvent set isActive = 'N' where isActive <> 'N';
 update GameEvent set isActive = 'Y' where id in (select ge.id from GameEvent ge inner join Event e on e.id = ge.eventId inner join Game g on g.id = ge.gameId where e.name = 'Iowa Regional' and g.name = 'Deep Space');
 update Match set isActive = 'N' where isActive <> 'N';
-update Match set isActive = 'Y' where id in (select m.id from match m inner join v_GameEvent ge on ge.id = m.gameEventId where ge.scoutEmailAddress = 'golfrat7@gmail.com');
+update Match set isActive = 'Y' where id in (select m.id from match m inner join v_GameEvent ge on ge.id = m.gameEventId where ge.loginEmailAddress = 'golfrat7@gmail.com');
