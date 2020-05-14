@@ -17,7 +17,19 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 	$rankName = "$_GET[rankName]";
-	$loginEmailAddress = 'golfrat7@gmail.com';
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 ?>
 <center>
@@ -33,7 +45,7 @@
 					   from Rank r
 							inner join v_GameEvent ge
 							on ge.gameId = r.gameId
-                      where ge.scoutEmailAddress = '$loginEmailAddress'
+                      where ge.loginGUID = '$loginGUID'
 					 order by r.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)

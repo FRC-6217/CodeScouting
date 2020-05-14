@@ -11,7 +11,7 @@ select tr.teamNumber
 	                     on ge.id = m.gameEventId
 						 inner join GameEvent ge
 						 on ge.id = m.gameEventId
-				   where ge.loginEmailAddress = 'golfrat7@gmail.com'
+				   where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 				     and m.isActive = 'Y'
 					 and m.type <> 'QM'
 					 and tm.teamId = tr.TeamId) > 0 then 'Y'
@@ -29,7 +29,7 @@ select t.teamNumber
 						 on m.id = tm.matchId
 						 inner join v_GameEvent ge
 						 on ge.id = m.gameEventId
-				   where ge.loginEmailAddress = 'golfrat7@gmail.com'
+				   where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 				     and m.isActive = 'Y'
 					 and m.type <> 'QM'
 					 and tm.teamId = asr.TeamId) > 0 then 'Y'
@@ -283,7 +283,7 @@ select m.type
 	   on tr.gameEventId = ge.id
 	   and tr.matchId = m.id
 	   and tr.teamId = t.id
- where ge.loginEmailAddress = 'golfrat7@gmail.com'
+ where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 --order by m.type, convert(integer, m.number), tm.alliance, tm.alliancePosition, t.teamNumber
 ) subquery
 group by subquery.teamNumber
@@ -365,7 +365,7 @@ select m.type + ' ' + m.number matchNumber
   from Match m
        inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.loginEmailAddress = 'golfrat7@gmail.com'
+ where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
    and m.isActive = 'Y'
 --order by case when redFoulPoints > blueFoulPoints then redFoulPoints else blueFoulPoints end desc, m.dateTime
 order by case when m.redScore > m.blueScore

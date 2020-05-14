@@ -15,7 +15,20 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$loginEmailAddress = 'golfrat7@gmail.com';
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
+
 ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
@@ -56,7 +69,7 @@
 					   from Attribute a
 							inner join v_GameEvent ge
 							on ge.gameId = a.gameId
-                      where ge.scoutEmailAddress = '$loginEmailAddress'
+                      where ge.loginGUID = '$loginGUID'
 					 order by a.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -89,7 +102,7 @@
 				  , attrValue9
 				  , attrValue10
                from v_ScoutTeamHyperlinks
-              where scoutEmailAddress = '$loginEmailAddress'
+              where loginGUID = '$loginGUID'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

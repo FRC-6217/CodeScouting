@@ -11,7 +11,19 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
-	$loginEmailAddress = 'golfrat7@gmail.com';
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
 
 	// Build data for Line Graph
 	$rows = array();
@@ -29,7 +41,7 @@
 				    on o.id = ogo.objectiveId
 				    inner join v_GameEvent ge
 				    on ge.gameId = o.gameId
-              where ge.scoutEmailAddress = '$loginEmailAddress'
+              where ge.loginGUID = '$loginGUID'
 			    and groupCode = 'Report Line Graph'
 			 order by og.sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -56,7 +68,7 @@
                   , sum(case when objectiveGroupSortOrder = 4 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue4
                   , sum(case when objectiveGroupSortOrder = 5 then objectiveGroupScoreValue else null end) objectiveGroupScoreValue5
                from v_TeamReportLineGraph trlg
-              where trlg.ScoutEmailAddress = '$loginEmailAddress'
+              where trlg.loginGUID = '$loginGUID'
 			    and trlg.teamId = $team
              group by trlg.matchDateTime
                     , trlg.matchNumber
@@ -103,7 +115,7 @@
 				  , trpc.teamId
 				  , trpc.objectiveGroupScoreValue
 			   from v_TeamReportPieChart trpc
-			  where trpc.ScoutEmailAddress = '$loginEmailAddress'
+			  where trpc.loginGUID = '$loginGUID'
 			    and trpc.teamId = $team
 			 order by objectiveGroupSortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -205,7 +217,7 @@
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
-                      where ge.scoutEmailAddress = '$loginEmailAddress'
+                      where ge.loginGUID = '$loginGUID'
 					 order by o.sortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -269,7 +281,7 @@ $tsql = "select TeamNumber
 			  , scoutRecordId
 			  , scoutComment
 		   from v_TeamReport
-          where scoutEmailAddress = '$loginEmailAddress'
+          where loginGUID = '$loginGUID'
 			and teamId = $team
 		order by matchTime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);

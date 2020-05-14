@@ -54,7 +54,19 @@
 	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
 	$context = stream_context_create($aHTTP);
 
-	$loginEmailAddress = 'golfrat7@gmail.com';
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
 ?>
 			<center>				
 				<div class="container" id="event">
@@ -67,7 +79,7 @@
                                      	  , (select ge.isActive
                                      	       from v_GameEvent ge
                                      		  where ge.gameId = g.id
-                                     		    and ge.scoutEmailAddress = '$loginEmailAddress') isActive
+                                     		    and ge.loginGUID = '$loginGUID') isActive
                                        from game g
                                      group by g.id, g.name, g.gameYear
                                      order by isActive desc, g.gameYear desc";
@@ -102,7 +114,7 @@
 							$tsql = "select e.eventCode
                                        from event e
                                             inner join v_GameEvent ge on ge.eventId = e.id
-                                      where ge.scoutEmailAddress = '$loginEmailAddress' ";
+                                      where ge.loginGUID = '$loginGUID' ";
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
 								if( ($errors = sqlsrv_errors() ) != null) {

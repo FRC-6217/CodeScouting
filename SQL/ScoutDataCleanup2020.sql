@@ -19,7 +19,7 @@ select m.id matchId
 	   on m.id = asor.matchId
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.loginEmailAddress = 'golfrat7@gmail.com'
+ where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
    and m.isActive = 'Y'
    and exists
        (select 1
@@ -63,7 +63,7 @@ select m.id matchId
 	   on m.id = asor.matchId
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
- where ge.loginEmailAddress = 'golfrat7@gmail.com'
+ where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 group by m.id
        , m.number
 	   , m.dateTime
@@ -129,9 +129,9 @@ select m.type
 	   on tm2.matchId = asr2.matchId
 	   and tm2.teamId = asr2.teamId
 	   and tm2.alliance = tm.alliance
- where ge.loginEmailAddress = 'golfrat7@gmail.com'
-   and asr.loginEmailAddress = 'golfrat7@gmail.com'
-   and asr2.loginEmailAddress = 'golfrat7@gmail.com'
+ where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
+   and asr.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
+   and asr2.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
    and asr2.teamId <> asr.teamId
 --   and asr.teamId = 101
 group by m.type
