@@ -740,7 +740,7 @@
 		}
 
 		// Update scout records based on TBA data
-		$tsql = "exec sp_upd_scoutDataFromTba '$loginEmailAddress';";
+		$tsql = "exec sp_upd_scoutDataFromTba '$loginGUID';";
 		$results = sqlsrv_query($conn, $tsql);
 		if(!$results) 
 		{
@@ -1059,7 +1059,7 @@
 						on g.id = ge.gameId
 						inner join Event e
 						on e.id = ge.eventId
-				  where s.emailAddress = '$loginEmailAddress'
+				  where s.scoutGUID = '$loginGUID'
 				    and g.gameYear = $gameYear 
 					and e.eventCode = '$eventCode';";
 		$results = sqlsrv_query($conn, $tsql);

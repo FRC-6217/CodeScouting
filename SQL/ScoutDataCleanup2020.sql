@@ -1,5 +1,5 @@
 -- Fix Scout Data that can be directly updated based on Blue Alliance Data - this is for currently active Game Event
-exec sp_upd_scoutDataFromTba
+exec sp_upd_scoutDataFromTba 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 
 -- Compare Total Score Scout Data to Blue Alliance Score
 select m.id matchId

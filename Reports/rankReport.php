@@ -69,7 +69,7 @@
         </tr>
 <?php
 $sortOrder = "$_GET[sortOrder]";
-$tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginEmailAddress'";
+$tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {

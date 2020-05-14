@@ -49,7 +49,7 @@
 	</h2>
 	<p></p>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, '$loginEmailAddress', '$value1'";
+    $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))
