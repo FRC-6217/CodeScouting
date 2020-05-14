@@ -3274,7 +3274,7 @@ create view v_TeamReport as
 select t.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 1) matchTime
-     , 'Average Score' scoutName
+     , 'QM Avg Score' scoutName
      , round(avg(sr.value1),2) value1
      , round(avg(sr.value2),2) value2
      , round(avg(sr.value3),2) value3
@@ -3334,6 +3334,7 @@ select t.TeamNumber
       inner join Match m
       on m.id = sr.matchId
  where m.isActive = 'Y'
+   and m.type in ('QM','PR')
 group by t.TeamNumber
        , t.id
 	   , sr.gameEventId
@@ -3656,6 +3657,7 @@ select asr.TeamId
        inner join Match m
 	   on m.id = asr.matchId
  where m.isActive = 'Y'
+   and m.type in ('QM','PR')
 group by asr.TeamId
 	   , asr.loginGUID;
 go
@@ -3855,8 +3857,7 @@ begin
 				   on m.id = tm.matchId
 				   inner join v_GameEvent ge
 				   on ge.id = m.gameEventId
-			 where m.isActive = 'Y'
-			   and ge.loginGUID = @pv_loginGUID
+			 where ge.loginGUID = @pv_loginGUID
 			   and ScoutObjectiveRecord.scoutRecordId = sr.id
 			   and ScoutObjectiveRecord.objectiveId = tmo.objectiveId
 			   and coalesce(ScoutObjectiveRecord.integerValue, -1) <> tmo.integerValue);
@@ -3873,7 +3874,6 @@ begin
 			   inner join v_GameEvent ge
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
-		   and m.isActive = 'Y'
 		   and ge.loginGUID = @pv_loginGUID
 		   and exists
 			   (select 1
@@ -3892,7 +3892,6 @@ begin
 			   inner join v_GameEvent ge
 			   on ge.id = m.gameEventId
 		 where s.lastName = 'TBA'
-		   and m.isActive = 'Y'
 		   and ge.loginGUID = @pv_loginGUID
 		   and exists
 			   (select 1
@@ -3916,8 +3915,6 @@ begin
 		   inner join v_GameEvent ge
 		   on ge.id = m.gameEventId
 	 where s.lastName = 'TBA'
-	   and m.type = 'QM'
-	   and m.isActive = 'Y'
 	   and ge.loginGUID = @pv_loginGUID
 	   and tmo.integerValue is not null
 	   and not exists
@@ -3942,8 +3939,6 @@ begin
 		   inner join v_GameEvent ge
 		   on ge.id = m.gameEventId
 	 where s.lastName = 'TBA'
-	   and m.type = 'QM'
-	   and m.isActive = 'Y'
 	   and ge.loginGUID = @pv_loginGUID
 	   and tmo.integerValue is not null
 	   and not exists
@@ -3971,9 +3966,7 @@ begin
 				   inner join ScoutObjectiveRecord sor
 				   on sor.scoutRecordId = sr.id
 				   and sor.objectiveId = mo.objectiveId
-			 where m.type = 'QM'
-			   and m.isActive = 'Y'
-			   and ge.loginGUID = @pv_loginGUID
+			 where ge.loginGUID = @pv_loginGUID
 			   and mo.integerValue = 0
 			   and coalesce(sor.integerValue, -999) <> 0);
 	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
@@ -3991,9 +3984,7 @@ begin
 		   on tm.matchId = sr.matchId
 		   and tm.teamId = sr.teamId
 		   and tm.alliance = mo.alliance
-	 where m.type = 'QM'
-	   and m.isActive = 'Y'
-	   and ge.loginGUID = @pv_loginGUID
+	 where ge.loginGUID = @pv_loginGUID
 	   and mo.integerValue = 0
 	   and not exists
 		   (select 1
@@ -4034,9 +4025,7 @@ begin
 				   inner join ScoutObjectiveRecord sor
 				   on sor.scoutRecordId = sr.id
 				   and sor.objectiveId = mo.objectiveId
-			 where m.type = 'QM'
-			   and m.isActive = 'Y'
-			   and ge.loginGUID = @pv_loginGUID
+			 where ge.loginGUID = @pv_loginGUID
 			   and coalesce(sor.integerValue, -999) > mo.integerValue);
 end
 GO
