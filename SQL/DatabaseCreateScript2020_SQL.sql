@@ -1978,6 +1978,7 @@ select sr.teamId
 	 , min(sor.scoreValue) minScoreValue
 	 , max(sor.scoreValue) maxScoreValue
 	 , count(*) cntScoutRecord
+	 , ge.loginGUID
   from ScoutRecord sr
        inner join ScoutObjectiveRecord sor
 	   on sor.scoutRecordId = sr.id
@@ -1987,6 +1988,7 @@ select sr.teamId
 	   on m.id = sr.matchId
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
+where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 group by sr.teamId
 	   , sr.matchId
        , m.isActive
