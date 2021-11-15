@@ -181,8 +181,9 @@
 						</select>
 					</p>
 					<p></p>
-					<input type="file" name="csv" />
-					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
+					<center><input type="file" name="csv" />
+					<p></p>
+					<input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
             </center>
 			<?php
