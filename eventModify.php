@@ -1170,14 +1170,16 @@
 	}	
 
 	// Import Match CSV File
-	if ($option == "I" && $_FILES['csv']['error'] == 0))
-	{
-		$name = $_FILES['csv']['name'];
-		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
-		$type = $_FILES['csv']['type'];
-		$tmpName = $_FILES['csv']['tmp_name'];
+//	if ($option == "I" && $_FILES['csv']['error'] == 0))
+	if ($option == "I") {
+//		$name = $_FILES['csv']['name'];
+//		$tmpName = $_FILES['csv']['tmp_name'];
+		$name = "Test";
+		$tmpName = "Test Temp";
 		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
 /*	
+		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
+		$type = $_FILES['csv']['type'];
 		// Check the file is a csv
 		if($ext === 'csv'){
 			// Create array of data from the file
