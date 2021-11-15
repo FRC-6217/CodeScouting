@@ -1172,6 +1172,14 @@
 	// Import Match CSV File
 //	if ($option == "I" && $_FILES['csv']['error'] == 0))
 	if ($option == "I") {
+
+		if (isset($_POST['submit'])) {
+			echo "<center>Submit</center><br>";
+		}
+		else {
+			echo "<center>Not Submit</center><br>";
+		}
+
 		if (isset($_FILES['csv'])) {
 			$name = $_FILES['csv']['name'];
 			$tmpName = $_FILES['csv']['tmp_name'];
