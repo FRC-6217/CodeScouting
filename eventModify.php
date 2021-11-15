@@ -1177,13 +1177,16 @@
 		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
 		$type = $_FILES['csv']['type'];
 		$tmpName = $_FILES['csv']['tmp_name'];
-	
+
+		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
+/*	
 		// Check the file is a csv
 		if($ext === 'csv'){
 			// Create array of data from the file
 			$csvAsArray = array_map('str_getcsv', file($tmpName));
 			print_r ($csvAsArray);
 		}	
+*/
 	}	
 
 	sqlsrv_close($conn);
