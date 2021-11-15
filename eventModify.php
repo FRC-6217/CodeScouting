@@ -1172,7 +1172,15 @@
 
 	// Import Match CSV File
 	if ($option == "I") {
-		echo $file;
+		if (isset($_FILES[$file])) {
+			$name = $_FILES[$file]['name'];
+			$tmpName = $_FILES[$file]['tmp_name'];
+		}
+		else {
+			$name = "No File Name";
+			$tmpName = "No Temp File Name";
+		}
+		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
 /*	
 		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
 		$type = $_FILES['csv']['type'];
