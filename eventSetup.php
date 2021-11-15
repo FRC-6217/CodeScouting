@@ -181,6 +181,7 @@
 						</select>
 					</p>
 					<p></p>
+					<input type="file" name="csv" />
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
             </center>
