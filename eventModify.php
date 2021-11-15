@@ -1184,8 +1184,8 @@
 			$csvAsArray = array_map('str_getcsv', file($tmpName));
 			print_r ($csvAsArray);
 		}	
-*/
 	}	
+*/
 
 	sqlsrv_close($conn);
 ?>
