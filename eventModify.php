@@ -53,6 +53,10 @@
 	$gameYear = $_POST['gameYear'];
 	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];
+	$file = $_POST['csv'];
+	if (isset($file)) {
+		echo "<center>Hello</center><br/>";
+	}
 
 	// Options
 	// M = Update Match Schedule
@@ -1185,8 +1189,8 @@
 			$tmpName = $_FILES['csv']['tmp_name'];
 		}
 		else {
-			$name = "Test a";
-			$tmpName = "Test Temp a";
+			$name = "No File Name";
+			$tmpName = "No Temp File Name";
 		}
 		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
 /*	
