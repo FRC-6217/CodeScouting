@@ -54,9 +54,6 @@
 	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];
 	$file = $_POST['csv'];
-	if (isset($file)) {
-		echo "<center>Hello</center><br/>";
-	}
 
 	// Options
 	// M = Update Match Schedule
@@ -1174,19 +1171,10 @@
 	}	
 
 	// Import Match CSV File
-//	if ($option == "I" && $_FILES['csv']['error'] == 0))
 	if ($option == "I") {
-
-		if (isset($_POST['Submit'])) {
-			echo "<center>Submit</center><br>";
-		}
-		else {
-			echo "<center>Not Submit</center><br>";
-		}
-
-		if (isset($_FILES['csv'])) {
-			$name = $_FILES['csv']['name'];
-			$tmpName = $_FILES['csv']['tmp_name'];
+		if (isset($file)) {
+			$name = $file['name'];
+			$tmpName = $file['tmp_name'];
 		}
 		else {
 			$name = "No File Name";
