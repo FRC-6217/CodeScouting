@@ -1173,7 +1173,7 @@
 //	if ($option == "I" && $_FILES['csv']['error'] == 0))
 	if ($option == "I") {
 
-		if (isset($_POST['submit'])) {
+		if (isset($_POST['Submit'])) {
 			echo "<center>Submit</center><br>";
 		}
 		else {
