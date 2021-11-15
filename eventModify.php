@@ -61,6 +61,7 @@
 	// L = Activate Playoff Matches
 	// A = Activate Game Event
 	// T = Update Team List
+	// I = Import Match CSV File
 
     // Determine if event exists in TBA
 	$sURL = $TBAURL. "events/" . $gameYear . "/simple";
@@ -1167,6 +1168,24 @@
 			sqlsrv_free_stmt($results);
 		}
 	}	
+
+	// Import Match CSV File
+	if ($option == "I" &&
+		$_FILES['csv']['error'] == 0))
+	{
+		$name = $_FILES['csv']['name'];
+		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
+		$type = $_FILES['csv']['type'];
+		$tmpName = $_FILES['csv']['tmp_name'];
+	
+		// Check the file is a csv
+		if($ext === 'csv'){
+			// Create array of data from the file
+			$csvAsArray = array_map('str_getcsv', file($tmpName));
+			print_r ($csvAsArray);
+		}	
+	}	
+
 	sqlsrv_close($conn);
 ?>
 </html>

@@ -178,6 +178,7 @@
 							<option value="L">Activate Playoff Matches</option>';
 							<option value="A">Activate Game Event</option>';
 							<option value="T">Update Team List</option>';
+							<option value="I">Import Match CSV File</option>';
 						</select>
 					</p>
 					<p></p>
