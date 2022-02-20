@@ -6,6 +6,7 @@ insert into Attribute select g.id, 'preferredStart', 'What is preferred start lo
 insert into Attribute select g.id, 'flexibleStart', 'Does your autonomous allow for flexible start location?', st.id, null, null, 2, getdate(), 'Flex Start', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'movementDescription', 'Describe autonomous movement?', st.id, null, null, 3, getdate(), 'Move Desc', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Free Form'
 insert into Attribute select g.id, 'ballPickup', 'How does your robot attain cargo?', st.id, null, null, 4, getdate(), 'Cargo Pickup', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'hangDescription', 'Describe your hang plan and how long to complete?', st.id, null, null, 3, getdate(), 'Hang Desc', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Free Form'
 -- Attribute Values
 insert into attributeValue select a.id, 'Hangar Side - Left', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rapid React' and a.name = 'preferredStart';
 insert into attributeValue select a.id, 'Hangar Side - Right', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rapid React' and a.name = 'preferredStart';
@@ -20,13 +21,15 @@ insert into attributeValue select a.id, 'Both', 2, 3, getdate() from Game g inne
 insert into attributeValue select a.id, 'Neither', 3, 4, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rapid React' and a.name = 'ballPickup';
 -- Objectives
 insert into Objective select g.id, 'aMove', 'Move out of Tarmac:', st.id, null, null, null, 1, getdate(), 'aMove', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aCLower', 'Auto Lwr:', st.id, 0, 5, 2, 2, getdate(), 'aLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
-insert into Objective select g.id, 'aCUpper', 'Upper:', st.id, 0, 5, 4, 3, getdate(), 'aUpper', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
-insert into Objective select g.id, 'toCLower', 'T/O Lwr:', st.id, 0, 20, 1, 4, getdate(), 'toLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
-insert into Objective select g.id, 'toCUpper', 'Upper:', st.id, 0, 20, 2, 5, getdate(), 'toUpper', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 6, getdate(), 'Defense', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toHang', 'Hang:', st.id, null, null, null, 7, getdate(), 'Hang', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aHP', 'Human Player Shot:', st.id, null, null, null, 2, getdate(), 'HPShot', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aCLower', 'Auto Lwr:', st.id, 0, 5, 2, 3, getdate(), 'aLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
+insert into Objective select g.id, 'aCUpper', 'Upper:', st.id, 0, 5, 4, 4, getdate(), 'aUpper', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
+insert into Objective select g.id, 'toCLower', 'T/O Lwr:', st.id, 0, 20, 1, 5, getdate(), 'toLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
+insert into Objective select g.id, 'toCUpper', 'Upper:', st.id, 0, 20, 2, 6, getdate(), 'toUpper', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 7, getdate(), 'Defense', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toHang', 'Hang:', st.id, null, null, null, 8, getdate(), 'Hang', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
 -- Objective Group Objectives
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rapid React' and o.name = 'aHP' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rapid React' and o.name = 'aMove' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rapid React' and o.name = 'aCLower' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rapid React' and o.name = 'aCUpper' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
@@ -52,8 +55,11 @@ insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g in
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rapid React' and o.name = 'toHang' and og.name = 'End Game' and og.groupCode = 'Report Line Graph'
 
 -- Objective Value
-insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aMove'
-insert into ObjectiveValue select o.id, 'Yes', 1, 2, 2, getdate(), 'Y', 'Exited', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 2, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aMove'
+insert into ObjectiveValue select o.id, 'No Shot', 0, 1, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aHP'
+insert into ObjectiveValue select o.id, 'Missed Shot', -1, 2, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aHP'
+insert into ObjectiveValue select o.id, 'Made Shot', 1, 3, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'aHP'
 insert into ObjectiveValue select o.id, 'No Defense', 0, 1, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, 'Poor Defense', -1, 2, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, 'Good Defense', 1, 3, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toDefense'
@@ -62,7 +68,7 @@ insert into ObjectiveValue select o.id, 'No Hang', 0, 1, 0, getdate(), 'N', 'Non
 insert into ObjectiveValue select o.id, 'Low Rung', 1, 2, 4, getdate(), 'N', 'Low', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang'
 insert into ObjectiveValue select o.id, 'Mid Rung', 2, 3, 6, getdate(), 'Y', 'Mid', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang'
 insert into ObjectiveValue select o.id, 'High Rung', 3, 4, 10, getdate(), 'N', 'High', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang'
-insert into ObjectiveValue select o.id, 'Traverse', 4, 5, 15, getdate(), 'Y', 'Travers', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang'
+insert into ObjectiveValue select o.id, 'Traverse', 4, 5, 15, getdate(), 'Y', 'Traversal', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang'
 
 -- Ranks
 insert into Rank select 'Auto', 'rankAuto', 'S', 1, getdate(), g.id from Game g where g.name = 'Rapid React'
@@ -70,6 +76,7 @@ insert into Rank select 'Cargo', 'rankC', 'S', 2, getdate(), g.id from Game g wh
 insert into Rank select 'End Game', 'rankFinish', 'S', 3, getdate(), g.id from Game g where g.name = 'Rapid React'
 insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 5, getdate(), g.id from Game g where g.name = 'Rapid React'
 insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 4, getdate(), g.id from Game g where g.name = 'Rapid React'
+insert into Rank select 'HP', 'rankHP', 'V', 6, getdate(), g.id from Game g where g.name = 'Rapid React'
 
 -- Rank Objective
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rapid React' and o.name = 'aMove' and r.name = 'Auto'
@@ -87,6 +94,7 @@ insert into RankObjective select r.id, o.id, getdate() from Game g inner join Ob
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rapid React' and o.name = 'toCLower' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rapid React' and o.name = 'toCUpper' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rapid React' and o.name = 'toHang' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rapid React' and o.name = 'aHP' and r.name = 'HP'
 
 -- Scout
 update Scout set isActive = 'N' where teamId in (select id from Team where teamNumber = 6217) and lastname + firstname not in ('CoyleJoe', 'EngebretsenDave', 'BuchheitRiley' ,'TBA');
