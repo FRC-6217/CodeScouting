@@ -2,17 +2,42 @@
 insert into Game (name, gameYear) values ('Infinite Recharge 2', 2021);
 
 -- Events
-insert into Event (name, location, eventCode) values ('Minne-Mini Offseason', 'Prior Lake High School', 'mmr');
+insert into Event (name, location, eventCode) values ('Minne Mini Offseason', 'Prior Lake High School', 'mmr');
 
 -- Game Events
-insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '11/20/2021' from event e, game g where e.Name = 'Minne-Mini Offseason' and g.name = 'Infinite Recharge 2';
+insert into GameEvent (eventId, gameId, eventDate) select e.Id, g.Id, '11/20/2021' from event e, game g where e.Name = 'Minne Mini Offseason' and g.name = 'Infinite Recharge 2';
+
+exec sp_ins_teamMatches 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3', 37, 3883, 3042, 1816, 9898, 6217, 2264, 'QM', '11/20/2021 15:25:00'
+exec sp_ins_teamMatches 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3', 45, 6166, 9902, 2052, 3042, 2667, 6217, 'QM', '11/20/2021 15:14:00'
 
 -- Teams
 insert into Team (teamNumber, teamName, location) select 3023, 'Stark Industries', 'Elk River MN' where not exists (select 1 from Team where teamNumber = 3023);
 insert into Team (teamNumber, teamName, location) select 4277, 'Thingamajiggers', 'New Hope MN' where not exists (select 1 from Team where teamNumber = 4277);
 insert into Team (teamNumber, teamName, location) select 8516, 'Wired up', 'Andover MN' where not exists (select 1 from Team where teamNumber = 8516);
+-- Add 2nd Robot Teams for off-season events
+insert into Team (teamNumber, teamName, location) select 9898, '9898 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9898);
+insert into Team (teamNumber, teamName, location) select 9990, '9990 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9990);
+insert into Team (teamNumber, teamName, location) select 9991, '9991 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9991);
+update Team set teamName = '9992 - Team 2nd Robot', location = 'N/A' where teamNumber = 9992
+insert into Team (teamNumber, teamName, location) select 9993, '9993 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9993);
+insert into Team (teamNumber, teamName, location) select 9994, '9994 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9994);
+insert into Team (teamNumber, teamName, location) select 9995, '9995 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9995);
+insert into Team (teamNumber, teamName, location) select 9996, '9996 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9996);
+insert into Team (teamNumber, teamName, location) select 9997, '9997 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9997);
+insert into Team (teamNumber, teamName, location) select 9998, '9998 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9998);
+insert into Team (teamNumber, teamName, location) select 9999, '9999 - Team 2nd Robot', 'N/A' where not exists (select 1 from Team where teamNumber = 9999);
 
 -- Team Game Events
+delete from TeamGameEvent
+ where gameEventId =
+      (select ge.id
+	     from gameEvent ge
+			   inner join game g
+				  on g.id = ge.gameId
+			   inner join event e
+				  on e.id = ge.eventId
+		 where g.name = 'Infinite Recharge 2'
+		   and e.name = 'Minne Mini Offseason');
 insert into TeamGameEvent (teamId, gameEventId)
 select t.id, ge.id
   from team t
@@ -22,9 +47,9 @@ select t.id, ge.id
 	   inner join event e
 	      on e.id = ge.eventId
  where g.name = 'Infinite Recharge 2'
-   and e.name = 'Minne-Mini Offseason'
-   and t.teamNumber in (1816,2052,2129,2169,2175,2227,2264,2472,2502,2512,2531,2574,2667,2823,2846,2847,3023,3042,3058,3184
-                       ,3630,3848,3883,3926,4198,4239,4277,4607,5275,5690,6166,6217,7021,7028,7068,8516);
+   and e.name = 'Minne Mini Offseason'
+   and t.teamNumber in (1816,2052,2129,2169,2175,2227,2264,2472,2502,2512,2531,2574,2667,2823,2846,3023,3042,3058,3184
+                       ,3630,3848,3883,3926,4198,4239,4277,4607,5275,5690,6166,6217,7021,7028,8516,9992,9999);
 
 -- Scout
 select * from scout order by isactive desc, 2, 3
@@ -111,6 +136,17 @@ select o2.id objectiveId, ov.displayValue, ov.integerValue, ov.sortOrder, ov.sco
    and g2.Name = 'Infinite Recharge 2'
    and o.name = o2.name
 
+update ov
+   set ov.scoreValue = 15
+  from ObjectiveValue ov
+       inner join Objective o
+	      on o.id = ov.objectiveId
+       inner join Game g
+	      on g.id = o.GameId
+ where g.Name = 'Infinite Recharge 2'
+   and o.name = 'toCpRotation'
+   and ov.displayValue = 'Yes'
+
 -- Objective Group Objective
 insert into ObjectiveGroupObjective
       (objectiveGroupId, objectiveId)
@@ -186,59 +222,56 @@ select a2.id attributeId, av.displayValue, av.integerValue, av.sortOrder
    and g2.Name = 'Infinite Recharge 2'
    and a.name = a2.name
 
-select *
-  from AttributeValue
-
 -- Match
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 1, '11/20/2021 08:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 2, '11/20/2021 08:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 3, '11/20/2021 09:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 4, '11/20/2021 09:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 5, '11/20/2021 09:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 6, '11/20/2021 09:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 7, '11/20/2021 09:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 8, '11/20/2021 09:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 9, '11/20/2021 10:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 10, '11/20/2021 10:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 11, '11/20/2021 10:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 12, '11/20/2021 10:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 13, '11/20/2021 10:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 14, '11/20/2021 10:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 15, '11/20/2021 11:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 16, '11/20/2021 11:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 17, '11/20/2021 11:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 18, '11/20/2021 11:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 19, '11/20/2021 11:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 20, '11/20/2021 11:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 21, '11/20/2021 12:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 22, '11/20/2021 12:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 23, '11/20/2021 12:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 24, '11/20/2021 13:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 25, '11/20/2021 13:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 26, '11/20/2021 13:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 27, '11/20/2021 13:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 28, '11/20/2021 13:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 29, '11/20/2021 14:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 30, '11/20/2021 14:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 31, '11/20/2021 14:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 32, '11/20/2021 14:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 33, '11/20/2021 14:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 34, '11/20/2021 14:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 35, '11/20/2021 15:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 36, '11/20/2021 15:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 37, '11/20/2021 15:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 38, '11/20/2021 15:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 39, '11/20/2021 15:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 1, '11/20/2021 08:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 2, '11/20/2021 08:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 3, '11/20/2021 09:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 4, '11/20/2021 09:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 5, '11/20/2021 09:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 6, '11/20/2021 09:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 7, '11/20/2021 09:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 8, '11/20/2021 09:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 9, '11/20/2021 10:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 10, '11/20/2021 10:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 11, '11/20/2021 10:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 12, '11/20/2021 10:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 13, '11/20/2021 10:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 14, '11/20/2021 10:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 15, '11/20/2021 11:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 16, '11/20/2021 11:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 17, '11/20/2021 11:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 18, '11/20/2021 11:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 19, '11/20/2021 11:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 20, '11/20/2021 11:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 21, '11/20/2021 12:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 22, '11/20/2021 12:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 23, '11/20/2021 12:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 24, '11/20/2021 13:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 25, '11/20/2021 13:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 26, '11/20/2021 13:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 27, '11/20/2021 13:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 28, '11/20/2021 13:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 29, '11/20/2021 14:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 30, '11/20/2021 14:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 31, '11/20/2021 14:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 32, '11/20/2021 14:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 33, '11/20/2021 14:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 34, '11/20/2021 14:55', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 35, '11/20/2021 15:05', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 36, '11/20/2021 15:15', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 37, '11/20/2021 15:25', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 38, '11/20/2021 15:35', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, 39, '11/20/2021 15:45', 'QM', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
 
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-1', '11/20/2021 16:20', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-1', '11/20/2021 16:27', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-2', '11/20/2021 16:34', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-2', '11/20/2021 16:41', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-3', '11/20/2021 16:48', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-3', '11/20/2021 16:55', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-1', '11/20/2021 17:02', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-2', '11/20/2021 17:09', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
-insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-3', '11/20/2021 17:16', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne-Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-1', '11/20/2021 16:20', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-1', '11/20/2021 16:27', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-2', '11/20/2021 16:34', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-2', '11/20/2021 16:41', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-3', '11/20/2021 16:48', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '2-3', '11/20/2021 16:55', 'QF', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-1', '11/20/2021 17:02', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-2', '11/20/2021 17:09', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
+insert into Match (gameEventId, number, dateTime, type, isActive) select ge.id, '1-3', '11/20/2021 17:16', 'F', 'Y' from game g inner join gameEvent ge on ge.gameId = g.id inner join Event e on e.id = ge.eventId where g.name = 'Infinite Recharge 2' and e.name = 'Minne Mini Offseason'
 
 -- Team Match
 select * from teamMatch
@@ -252,28 +285,44 @@ select * from teamMatch
 						  inner join event e
 							 on e.id = ge.eventId
 					where g.name = 'Infinite Recharge 2'
-					  and e.name = 'Minne-Mini Offseason')
+					  and e.name = 'Minne Mini Offseason')
 
-insert into teamMatch (matchId, teamId, alliance, alliancePosition)
-select m.id matchId
-     , (select t.id
-	      from Team t
-		 where t.teamNumber = subquery.teamNumber) teamId
-	 , subquery.alliance
-	 , subquery.position
-  from (
-select '1' matchNumber, 1816 teamNumber, 'R' alliance, 1 position union select '1' matchNumber, 2823 teamNumber, 'R' alliance, 2 position union select '1' matchNumber, 3883 teamNumber, 'R' alliance, 3 position union select '1' matchNumber, 4239 teamNumber, 'B' alliance, 1 position union select '1' matchNumber, 6217 teamNumber, 'B' alliance, 2 position union select '1' matchNumber, 8516 teamNumber, 'B' alliance, 3 position
-) subquery
-  inner join match m
-     on m.number = subquery.matchNumber
-  inner join gameEvent ge
-	 on ge.id = m.gameEventId
-  inner join game g
-	 on g.id = ge.gameId
-  inner join event e
-	 on e.id = ge.eventId
- where g.name = 'Infinite Recharge 2'
-   and e.name = 'Minne-Mini Offseason'
+exec sp_ins_teamMatches 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3', 1, 1816, 2823, 3883, 4239, 6217, 8516, 'QM', '11/20/2021 08:45:00'
 
 -- Scout Records
---insert into ScoutRecord (scoutId, matchId, teamId) select 20, m.id, t.id from match m, team t where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 104, 1 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 101, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 102, 1 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 103, 2 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 105, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 106, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 107, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 108, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 110, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 112, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue) select sr.id, 113, 0 from scoutRecord sr inner join match m on m.id = sr.matchId inner join team t on t.id = sr.teamId where t.teamNumber = 6022 and m.gameEventId = 7 and m.number = '1' and m.type = 'PR';
+delete from ScoutObjectiveRecord
+  where scoutRecordId in (select sr.id from ScoutRecord sr
+ where matchId in
+      (select m.id
+	     from match m
+		      inner join  gameEvent ge
+			  on ge.id = m.gameEventId
+			   inner join game g
+				  on g.id = ge.gameId
+			   inner join event e
+				  on e.id = ge.eventId
+		 where g.name = 'Infinite Recharge 2'
+		   and e.name = 'Minne Mini Offseason'));
+delete from ScoutRecord
+ where matchId in
+      (select m.id
+	     from match m
+		      inner join  gameEvent ge
+			  on ge.id = m.gameEventId
+			   inner join game g
+				  on g.id = ge.gameId
+			   inner join event e
+				  on e.id = ge.eventId
+		 where g.name = 'Infinite Recharge 2'
+		   and e.name = 'Minne Mini Offseason');
+
+-- Attributes
+select *
+  from TeamAttribute
+ where attributeId in 
+      (select a.id
+	     from Attribute a
+			   inner join game g
+				  on g.id = a.gameId
+		 where g.name = 'Infinite Recharge 2');
+
