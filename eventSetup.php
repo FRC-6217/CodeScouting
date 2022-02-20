@@ -30,7 +30,7 @@
           <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
           <p></p>
 		</h2>
-		<form action='eventModify.php' method='post'>
+		<form enctype="multipart/form-data" action='eventModify.php' method='post'>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -182,9 +182,12 @@
 						</select>
 					</p>
 					<p></p>
-					<center><input type="file" name="csv" />
-					<p></p>
-					<input type="submit" value="Submit" name="submitToDatabase"></center>
+					<center>
+						<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+						<input name="userfile" type="file" />
+						<p></p>
+						<input type="submit" value="Submit" name="submitToDatabase">
+					</center>
 				</div>
             </center>
 			<?php
