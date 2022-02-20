@@ -1293,9 +1293,9 @@
 
 	// Import Match CSV File
 	if ($option == "I") {
-		if (isset($_FILES[$file])) {
-			$name = $_FILES[$file]['name'];
-			$tmpName = $_FILES[$file]['tmp_name'];
+		if (isset($_FILES[$csv])) {
+			$name = $_FILES[$csv]['name'];
+			$tmpName = $_FILES[$csv]['tmp_name'];
 		}
 		else {
 			$name = "No File Name";
