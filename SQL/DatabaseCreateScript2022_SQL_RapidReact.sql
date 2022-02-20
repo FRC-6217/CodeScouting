@@ -6,7 +6,7 @@ insert into Attribute select g.id, 'preferredStart', 'What is preferred start lo
 insert into Attribute select g.id, 'flexibleStart', 'Does your autonomous allow for flexible start location?', st.id, null, null, 2, getdate(), 'Flex Start', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'movementDescription', 'Describe autonomous movement?', st.id, null, null, 3, getdate(), 'Move Desc', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Free Form'
 insert into Attribute select g.id, 'ballPickup', 'How does your robot attain cargo?', st.id, null, null, 4, getdate(), 'Cargo Pickup', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'hangDescription', 'Describe your hang plan and how long to complete?', st.id, null, null, 3, getdate(), 'Hang Desc', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Free Form'
+insert into Attribute select g.id, 'hangDescription', 'Describe your hang plan and how long to complete?', st.id, null, null, 5, getdate(), 'Hang Desc', 'N' from Game g, ScoringType st where g.name = 'Rapid React' and st.name = 'Free Form'
 -- Attribute Values
 insert into attributeValue select a.id, 'Hangar Side - Left', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rapid React' and a.name = 'preferredStart';
 insert into attributeValue select a.id, 'Hangar Side - Right', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rapid React' and a.name = 'preferredStart';
