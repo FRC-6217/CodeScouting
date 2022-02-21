@@ -1396,7 +1396,7 @@
 				if (is_numeric($line[8])) {
 					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[8] . " teamNumber, 'B' alliance, 3 alliancePosition ";
 				}
-				$tsql = $tsql + ") csv " .
+				$tsql = $tsql . ") csv " .
 						"	  on csv.teamNumber = t.teamNumber " .
 						"	  and csv.typ = m.type " .
 						"	  and csv.nbr = m.number " .
