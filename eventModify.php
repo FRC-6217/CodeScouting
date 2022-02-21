@@ -1391,7 +1391,7 @@
 					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[6] . " teamNumber, 'B' alliance, 1 alliancePosition ";
 				}
 				if (is_numeric($line[7])) {
-					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[7] . " teamNumber, 'B' alliance, 3 alliancePosition ";
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[7] . " teamNumber, 'B' alliance, 2 alliancePosition ";
 				}
 				if (is_numeric($line[8])) {
 					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[8] . " teamNumber, 'B' alliance, 3 alliancePosition ";
