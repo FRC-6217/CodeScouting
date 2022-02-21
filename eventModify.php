@@ -1293,14 +1293,14 @@
 
 	// Import Match CSV File
 	if ($option == "I") {
-		print_r($_FILES);
 		if (isset($_FILES['userfile'])) {
 			$name = $_FILES['userfile']['name'];
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
-			$name = "No File Name";
-			$tmpName = "No Temp File Name";
+			echo "Import Match CSV File failed!<br />";
+			echo "File upload failed or no file selected<br />";
+			break;
 		}
 		$file = fopen($tmpName, 'r');
 		if (($line = fgetcsv($file)) !== FALSE) {
@@ -1310,6 +1310,7 @@
 		while (($line = fgetcsv($file)) !== FALSE) {
 		  //$line is an array of the csv elements
 		  print_r($line);
+		  echo "<br>";
 		}
 		fclose($file);
 		/*	
