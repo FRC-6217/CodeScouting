@@ -1322,61 +1322,6 @@
 */
 	}	
 	
-	if ($option == "X") {
-		print_r($_FILES);
-		if (isset($_FILES['userfile'])) {
-			$name = $_FILES['userfile']['name'];
-			$tmpName = $_FILES['userfile']['tmp_name'];
-		}
-		else {
-			echo "Import of Match CSV File failed!<br />";
-			echo "Filename not specified<br />";
-			break;
-		}
-
-		$file = fopen($tmpName, 'r');
-		// Check header line matches expected
-/*
-		if (($line = fgetcsv($file)) !== FALSE) {
-			print_r($line);
-			echo "<br />";
-			if ($line[0] != "typ" ||
-				$line[1] != "number" ||
-				$line[2] != "dateTime" ||
-				$line[3] != "r1" ||
-				$line[4] != "r2" ||
-				$line[5] != "r3" ||
-				$line[6] != "b1" ||
-				$line[7] != "b2" ||
-				$line[8] != "b3") {
-				echo "Import of Match CSV File failed!<br />";
-				echo "File header not correct<br />";
-				break;
-			}
-		}
-		else {
-			echo "Import of Match CSV File failed!<br />";
-			echo "Empty file or invalid file type<br />";
-			break;
-		}
-*/
-		while (($line = fgetcsv($file)) !== FALSE) {
-		  	print_r($line);
-//		  	echo "<br />";
-		}
-		fclose($file);
-		/*	
-		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
-		$type = $_FILES['csv']['type'];
-		// Check the file is a csv
-		if($ext === 'csv'){
-			// Create array of data from the file
-			$csvAsArray = array_map('str_getcsv', file($tmpName));
-			print_r ($csvAsArray);
-		}	
-*/
-	}	
-
 	sqlsrv_close($conn);
 ?>
 </html>
