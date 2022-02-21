@@ -1308,12 +1308,12 @@
 				if ($line[0] != "type" ||
 				    $line[1] != "number" ||
 					$line[2] != "datetime" ||
-					$line[2] != "r1" ||
-					$line[2] != "r2" ||
-					$line[2] != "r3" ||
-					$line[2] != "b1" ||
-					$line[2] != "b2" ||
-					$line[2] != "b3") {
+					$line[3] != "r1" ||
+					$line[4] != "r2" ||
+					$line[5] != "r3" ||
+					$line[6] != "b1" ||
+					$line[7] != "b2" ||
+					$line[8] != "b3") {
 					$continue = "N";
 					echo "Import Match CSV File failed!<br />";
 					echo "File header line does not match expected<br />";
@@ -1325,6 +1325,7 @@
 			while (($line = fgetcsv($file)) !== FALSE) {
 //				print_r($line);
 //				echo "<br>";
+				// Update/insert matches
 				$tsql = "merge Match as Target " .
 				        "using (select '" . $line[0] . "', " . $line[1] . ", '" . $line[2] . "', ge.id " .
 				        "from gameEvent ge " .
@@ -1362,9 +1363,8 @@
 			}
 			fclose($file);
 		}
-		if ($continue = "Y") {
+		if ($continue == "Y") {
 			echo "<center>Imported " . $cnt . " Matches from CSV File Successfully!</center><br>";
-			sqlsrv_free_stmt($results);
 		}
 	}	
 	
