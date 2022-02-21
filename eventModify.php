@@ -1293,24 +1293,69 @@
 
 	// Import Match CSV File
 	if ($option == "I") {
+		$continue = "Y";
 		if (isset($_FILES['userfile'])) {
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
-			$tmpName = "No Temp File Name";
+			$continue = "0";
 			echo "Import Match CSV File failed!<br />";
 			echo "File upload error or file not selected<br />";
 		}
-		if ($tmpName != "No Temp File Name") {
+		if ($continue == "1") {
 			$file = fopen($tmpName, 'r');
 			if (($line = fgetcsv($file)) !== FALSE) {
+				if ($line[0] != "type" ||
+				    $line[1] != "number" ||
+					$line[2] != "datetime" ||
+					$line[2] != "r1" ||
+					$line[2] != "r2" ||
+					$line[2] != "r3" ||
+					$line[2] != "b1" ||
+					$line[2] != "b2" ||
+					$line[2] != "b3") {
+					$continue = "0";
+					echo "Import Match CSV File failed!<br />";
+					echo "File header line does not match expected<br />";
+				}
+			}
+		}
+		if ($continue == "1") {
+			while (($line = fgetcsv($file)) !== FALSE) {
 				print_r($line);
 				echo "<br>";
-			}
-			while (($line = fgetcsv($file)) !== FALSE) {
-			//$line is an array of the csv elements
-			print_r($line);
-			echo "<br>";
+				$tsql = "merge Match as Target " .
+				        "using (select '" . $line[0] . "', " . $line[1] . ", '" . $line[2] . "', ge.id " .
+				        "from gameEvent ge " .
+				        "	  inner join game g " .
+				        "	  on g.id = ge.gameId " .
+				        "	  inner join event e " .
+				        "	  on e.id = ge.eventId " .
+				        "where g.gameYear = " . $gameYear .
+				        " and e.eventCode = '" . $eventCode . "') " .
+				        "as source (typ, nbr, dt, gameEventId) " .
+						"on (target.gameEventId = source.gameEventId " .
+						"and target.type = source.typ " .
+						"and target.number = source.nbr) " .
+		   				"when matched and (target.dateTime <> source.dt or isActive <> 'Y') " .
+		   				"then update set dateTime = source.dt, isActive = 'Y' " .
+		   				"when not matched " .
+		   				"then insert (gameEventId, number, dateTime, type, isActive) " .
+						"values (source.gameEventId, source.nbr, source.dt, source.typ, 'Y'); ";
+				$results = sqlsrv_query($conn, $tsql);
+				// Check for errors
+				if(!$results) 
+				{
+					echo "Delete of Team Game Events failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+				}
+		  
 			}
 			fclose($file);
 		}
