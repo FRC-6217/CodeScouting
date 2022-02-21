@@ -1318,7 +1318,7 @@
 				$line[5] != "r3" ||
 				$line[6] != "b1" ||
 				$line[7] != "b2" ||
-				$line[9] != "b3") {
+				$line[8] != "b3") {
 				echo "Import of Match CSV File failed!<br />";
 				echo "File header not correct<br />";
 				break;
@@ -1332,7 +1332,7 @@
 */
 		while (($line = fgetcsv($file)) !== FALSE) {
 		  	print_r($line);
-		  	echo "<br />";
+//		  	echo "<br />";
 		}
 		fclose($file);
 		/*	
