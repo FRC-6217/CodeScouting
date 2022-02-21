@@ -1298,11 +1298,11 @@
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
-			$continue = "0";
+			$continue = "N";
 			echo "Import Match CSV File failed!<br />";
 			echo "File upload error or file not selected<br />";
 		}
-		if ($continue == "1") {
+		if ($continue == "Y") {
 			$file = fopen($tmpName, 'r');
 			if (($line = fgetcsv($file)) !== FALSE) {
 				if ($line[0] != "type" ||
@@ -1314,16 +1314,17 @@
 					$line[2] != "b1" ||
 					$line[2] != "b2" ||
 					$line[2] != "b3") {
-					$continue = "0";
+					$continue = "N";
 					echo "Import Match CSV File failed!<br />";
 					echo "File header line does not match expected<br />";
 				}
 			}
 		}
-		if ($continue == "1") {
+		$cnt = 0;
+		if ($continue == "Y") {
 			while (($line = fgetcsv($file)) !== FALSE) {
-				print_r($line);
-				echo "<br>";
+//				print_r($line);
+//				echo "<br>";
 				$tsql = "merge Match as Target " .
 				        "using (select '" . $line[0] . "', " . $line[1] . ", '" . $line[2] . "', ge.id " .
 				        "from gameEvent ge " .
@@ -1346,18 +1347,24 @@
 				// Check for errors
 				if(!$results) 
 				{
-					echo "Delete of Team Game Events failed!<br />";
+					echo "Update of match data failed!<br />";
 					if( ($errors = sqlsrv_errors() ) != null) {
 						foreach( $errors as $error ) {
 							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
 							echo "code: ".$error[ 'code']."<br />";
 							echo "message: ".$error[ 'message']."<br />";
+							$continue = "N";
+							break;
 						}
 					}
 				}
-		  
+				$cnt += 1;
 			}
 			fclose($file);
+		}
+		if ($continue = "Y") {
+			echo "<center>Imported " . $cnt . " Matches from CSV File Successfully!</center><br>";
+			sqlsrv_free_stmt($results);
 		}
 	}	
 	
