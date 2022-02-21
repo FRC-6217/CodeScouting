@@ -1302,9 +1302,11 @@
 			$name = "No File Name";
 			$tmpName = "No Temp File Name";
 		}
-		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
-
 		$file = fopen($tmpName, 'r');
+		if (($line = fgetcsv($file)) !== FALSE) {
+			print_r($line);
+			echo "<br>";
+		}
 		while (($line = fgetcsv($file)) !== FALSE) {
 		  //$line is an array of the csv elements
 		  print_r($line);
