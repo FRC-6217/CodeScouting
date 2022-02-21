@@ -1327,7 +1327,7 @@
 			while (($line = fgetcsv($file)) !== FALSE) {
 				// Update/insert matches
 				$tsql = "merge Match as Target " .
-				        "using (select '" . $line[0] . "', " . $line[1] . ", '" . $line[2] . "', ge.id " .
+				        "using (select '" . $line[0] . "', '" . $line[1] . "', '" . $line[2] . "', ge.id " .
 				        "from gameEvent ge " .
 				        "	  inner join game g " .
 				        "	  on g.id = ge.gameId " .
@@ -1361,6 +1361,73 @@
 						}
 					}
 				}
+
+				// Update/insert team matches
+				$tsql = "merge TeamMatch as Target " .
+				        "using (select m.id matchId, t.id teamId, csv.alliance, csv.alliancePosition " .
+						"		 from gameEvent ge " .
+						"        inner join match m " .
+						"	  on m.gameEventId = ge.id " .
+						"	  inner join game g " .
+						"	  on g.id = ge.gameId " .
+						"	  inner join event e " .
+						"	  on e.id = ge.eventId " .
+						"	  inner join TeamGameEvent tge " .
+						"	  on tge.gameEventId = ge.id " .
+						"	  inner join Team t " .
+						"	  on t.id = tge.teamId " .
+						"	  inner join ( " .
+						"				  select 'XX' typ, '0' nbr, -99 teamNumber, 'X' alliance, 0 alliancePosition ";
+				if (is_numeric($line[3])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[3] . " teamNumber, 'R' alliance, 1 alliancePosition ";
+				}
+				if (is_numeric($line[4])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[4] . " teamNumber, 'R' alliance, 2 alliancePosition ";
+				}
+				if (is_numeric($line[5])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[5] . " teamNumber, 'R' alliance, 3 alliancePosition ";
+				}
+				if (is_numeric($line[6])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[6] . " teamNumber, 'B' alliance, 1 alliancePosition ";
+				}
+				if (is_numeric($line[7])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[7] . " teamNumber, 'B' alliance, 3 alliancePosition ";
+				}
+				if (is_numeric($line[8])) {
+					$tsql = $tsql . " union select '" . $line[0] . "' typ, '" . $line[1] . "' nbr, " . $line[8] . " teamNumber, 'B' alliance, 3 alliancePosition ";
+				}
+				$tsql = $tsql + ") csv " .
+						"	  on csv.teamNumber = t.teamNumber " .
+						"	  and csv.typ = m.type " .
+						"	  and csv.nbr = m.number " .
+				        "where g.gameYear = " . $gameYear .
+				        " and e.eventCode = '" . $eventCode . "') " .
+						"as source (matchId, teamId, alliance, alliancePosition) " .
+						"on (target.matchId = source.matchId " .
+						"and target.teamId = source.teamId) " .
+						"when matched and (target.alliance <> source.alliance or target.alliancePosition <> source.alliancePosition) " .
+						"then update set alliance = source.alliance, alliancePosition = source.alliancePosition " .
+						"when not matched " .
+						"then insert (matchId, teamId, alliance, alliancePosition) " .
+						"	values (source.matchId, source.teamId, source.alliance, source.alliancePosition);";
+				$results = sqlsrv_query($conn, $tsql);
+				// Check for errors
+				if(!$results) 
+				{
+					print_r($line);
+					echo "<br>";
+					echo "Update of team match data failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+							$continue = "N";
+							break;
+						}
+					}
+				}
+		  
 				$cnt += 1;
 			}
 			fclose($file);
