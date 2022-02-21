@@ -122,15 +122,6 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
-		<script>
-			function start() {
-			gapi.load('auth2', function() {
-				auth2 = gapi.auth2.init({
-				client_id: '521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com',
-				});
-			});
-			}
-		</script>
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -199,15 +190,6 @@
      </h2>
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
-
-	<button id="signinButton">Sign in with Google</button>
-	<script>
-	$('#signinButton').click(function() {
-		// signInCallback defined in step 6.
-		auth2.grantOfflineAccess().then(signInCallback);
-	});
-	</script>
-
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
@@ -318,11 +300,6 @@
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
-
-	$userId = getallheaders()['X-Goog-Authenticated-User-Id'] ?? null;
-	print_r("User Id: " . $userId);
-	echo "<br>";
-
     ?>
     </table>
 	</center>
@@ -330,34 +307,4 @@
 		<!--this is the div that will hold the pie chart-->
 		<div id="line_chart_div" style="width: 70%"></div>
     </center>
-	<script>
-		function signInCallback(authResult) {
-			if (authResult['code']) {
-
-				// Hide the sign-in button now that the user is authorized, for example:
-				$('#signinButton').attr('style', 'display: none');
-
-				// Send the code to the server
-				$.ajax({
-				type: 'POST',
-				url: 'http://example.com/storeauthcode',
-				// Always include an `X-Requested-With` header in every AJAX request,
-				// to protect against CSRF attacks.
-				headers: {
-					'X-Requested-With': 'XMLHttpRequest'
-				},
-				contentType: 'application/octet-stream; charset=utf-8',
-				success: function(result) {
-					// Handle or verify the server response.
-				},
-				processData: false,
-				data: authResult['code']
-				});
-			}
-			else {
-				// There was an error.
-			}
-		}
-	</script>
-
 </html> 
