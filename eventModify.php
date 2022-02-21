@@ -1029,7 +1029,7 @@
 				"   and not exists (select 1 " .
 				"                     from Match m " .
 				"                    where m.gameEventId = ge.id " .
-				"                      and m.datetime = dateadd(mi, 2160 + (10 * (t.number - 1)), convert(datetime, ge.eventDate)))";
+				"                      and m.number = t.number)";
 		$results = sqlsrv_query($conn, $tsql);
 		// Check for errors
 		if(!$results) 
@@ -1325,8 +1325,6 @@
 		$cnt = 0;
 		if ($continue == "Y") {
 			while (($line = fgetcsv($file)) !== FALSE) {
-//				print_r($line);
-//				echo "<br>";
 				// Update/insert matches
 				$tsql = "merge Match as Target " .
 				        "using (select '" . $line[0] . "', " . $line[1] . ", '" . $line[2] . "', ge.id " .
@@ -1350,6 +1348,8 @@
 				// Check for errors
 				if(!$results) 
 				{
+					print_r($line);
+					echo "<br>";
 					echo "Update of match data failed!<br />";
 					if( ($errors = sqlsrv_errors() ) != null) {
 						foreach( $errors as $error ) {
