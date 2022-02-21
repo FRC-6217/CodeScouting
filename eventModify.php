@@ -1307,7 +1307,7 @@
 			if (($line = fgetcsv($file)) !== FALSE) {
 				if ($line[0] != "type" ||
 				    $line[1] != "number" ||
-					$line[2] != "datetime" ||
+					$line[2] != "dateTime" ||
 					$line[3] != "r1" ||
 					$line[4] != "r2" ||
 					$line[5] != "r3" ||
