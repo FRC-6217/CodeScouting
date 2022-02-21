@@ -1294,12 +1294,12 @@
 	// Import Match CSV File
 	if ($option == "I") {
 		if (isset($_FILES['userfile'])) {
-			$name = $_FILES['userfile']['name'];
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
+			$tmpName = "No Temp File Name";
 			echo "Import Match CSV File failed!<br />";
-			echo "File upload failed or no file selected<br />";
+			echo "File upload error or file not selected<br />";
 			break;
 		}
 		$file = fopen($tmpName, 'r');
