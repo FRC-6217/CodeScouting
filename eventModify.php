@@ -1307,8 +1307,17 @@
 		$file = fopen($tmpName, 'r');
 		// Check header line matches expected
 		if (($line = fgetcsv($file)) !== FALSE) {
+			print_r($line);
+			echo "<br />";
 			if ($line[0] != "typ" ||
-			    $line[0] != "number") {
+				$line[1] != "number" ||
+				$line[2] != "dateTime" ||
+				$line[3] != "r1" ||
+				$line[4] != "r2" ||
+				$line[5] != "r3" ||
+				$line[6] != "b1" ||
+				$line[7] != "b2" ||
+				$line[9] != "b3") {
 				echo "Import of Match CSV File failed!<br />";
 				echo "File header not correct<br />";
 				break;
