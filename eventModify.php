@@ -1315,6 +1315,8 @@
 					$line[7] != "b2" ||
 					$line[8] != "b3") {
 					$continue = "N";
+					print_r($line);
+					echo "<br>";
 					echo "Import Match CSV File failed!<br />";
 					echo "File header line does not match expected<br />";
 				}
