@@ -300,6 +300,11 @@
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
+
+	$userId = getallheaders()['X-Goog-Authenticated-User-Id'] ?? null;
+	print_r("User Id: " . $userId);
+	echo "<br>";
+
     ?>
     </table>
 	</center>
