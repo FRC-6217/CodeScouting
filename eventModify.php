@@ -1300,7 +1300,7 @@
 			$tmpName = "No Temp File Name";
 //			echo "Import Match CSV File failed!<br />";
 //			echo "File upload error or file not selected<br />";
-//			break;
+			break;
 		}
 		$file = fopen($tmpName, 'r');
 		if (($line = fgetcsv($file)) !== FALSE) {
