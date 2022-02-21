@@ -1414,8 +1414,9 @@
 				// Check for errors
 				if(!$results) 
 				{
-					print_r($line);
+					print_r($tsql);
 					echo "<br>";
+					print_r($line);
 					echo "Update of team match data failed!<br />";
 					if( ($errors = sqlsrv_errors() ) != null) {
 						foreach( $errors as $error ) {
