@@ -1299,15 +1299,29 @@
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
-			$name = "No File Name";
-			$tmpName = "No Temp File Name";
+			echo "Import of Match CSV File failed!<br />";
+			echo "Filename not specified<br />";
+			break;
 		}
-		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
 
 		$file = fopen($tmpName, 'r');
+		// Check header line matches expected
+		if (($line = fgetcsv($file)) !== FALSE) {
+			if ($line[0] != "typ" ||
+			    $line[0] != "number") {
+				echo "Import of Match CSV File failed!<br />";
+				echo "File header not correct<br />";
+				break;
+			}
+		}
+		else {
+			echo "Import of Match CSV File failed!<br />";
+			echo "Empty file or invalid file type<br />";
+			break;
+		}
 		while (($line = fgetcsv($file)) !== FALSE) {
-		  //$line is an array of the csv elements
 		  print_r($line);
+		  echo "<br />";
 		}
 		fclose($file);
 		/*	
