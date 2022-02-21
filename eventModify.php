@@ -1299,6 +1299,36 @@
 			$tmpName = $_FILES['userfile']['tmp_name'];
 		}
 		else {
+			$name = "No File Name";
+			$tmpName = "No Temp File Name";
+		}
+		echo "<center>Match CSV File = " . $name . " and Temp File = " . $tmpName . "</center><br>";
+
+		$file = fopen($tmpName, 'r');
+		while (($line = fgetcsv($file)) !== FALSE) {
+		  //$line is an array of the csv elements
+		  print_r($line);
+		}
+		fclose($file);
+		/*	
+		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
+		$type = $_FILES['csv']['type'];
+		// Check the file is a csv
+		if($ext === 'csv'){
+			// Create array of data from the file
+			$csvAsArray = array_map('str_getcsv', file($tmpName));
+			print_r ($csvAsArray);
+		}	
+*/
+	}	
+	
+	if ($option == "X") {
+		print_r($_FILES);
+		if (isset($_FILES['userfile'])) {
+			$name = $_FILES['userfile']['name'];
+			$tmpName = $_FILES['userfile']['tmp_name'];
+		}
+		else {
 			echo "Import of Match CSV File failed!<br />";
 			echo "Filename not specified<br />";
 			break;
