@@ -1298,31 +1298,22 @@
 		}
 		else {
 			$tmpName = "No Temp File Name";
-//			echo "Import Match CSV File failed!<br />";
-//			echo "File upload error or file not selected<br />";
-			break;
+			echo "Import Match CSV File failed!<br />";
+			echo "File upload error or file not selected<br />";
 		}
-		$file = fopen($tmpName, 'r');
-		if (($line = fgetcsv($file)) !== FALSE) {
+		if ($tmpName != "No Temp File Name") {
+			$file = fopen($tmpName, 'r');
+			if (($line = fgetcsv($file)) !== FALSE) {
+				print_r($line);
+				echo "<br>";
+			}
+			while (($line = fgetcsv($file)) !== FALSE) {
+			//$line is an array of the csv elements
 			print_r($line);
 			echo "<br>";
+			}
+			fclose($file);
 		}
-		while (($line = fgetcsv($file)) !== FALSE) {
-		  //$line is an array of the csv elements
-		  print_r($line);
-		  echo "<br>";
-		}
-		fclose($file);
-		/*	
-		$ext = strtolower(end(explode('.', $_FILES['csv']['name'])));
-		$type = $_FILES['csv']['type'];
-		// Check the file is a csv
-		if($ext === 'csv'){
-			// Create array of data from the file
-			$csvAsArray = array_map('str_getcsv', file($tmpName));
-			print_r ($csvAsArray);
-		}	
-*/
 	}	
 	
 	sqlsrv_close($conn);
