@@ -1306,10 +1306,10 @@
 
 		$file = fopen($tmpName, 'r');
 		// Check header line matches expected
+/*
 		if (($line = fgetcsv($file)) !== FALSE) {
 			print_r($line);
 			echo "<br />";
-/*
 			if ($line[0] != "typ" ||
 				$line[1] != "number" ||
 				$line[2] != "dateTime" ||
@@ -1323,16 +1323,16 @@
 				echo "File header not correct<br />";
 				break;
 			}
-*/
-			}
+		}
 		else {
 			echo "Import of Match CSV File failed!<br />";
 			echo "Empty file or invalid file type<br />";
 			break;
 		}
+*/
 		while (($line = fgetcsv($file)) !== FALSE) {
-		  print_r($line);
-		  echo "<br />";
+		  	print_r($line);
+		  	echo "<br />";
 		}
 		fclose($file);
 		/*	
