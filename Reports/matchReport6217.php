@@ -182,7 +182,7 @@
 					  , value14
 					  , value15
 					  , totalScoreValue
-                   from v_MatchReport
+                   from v_MatchReport6217
 				  where loginGUID = '$loginGUID'
 			        and matchId = $match
 				 order by allianceSort, alliance desc, alliancePosition";
