@@ -121,7 +121,6 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
-		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,8 +155,7 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
-		  <a id="mainpage" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
+          <center><a id="mainpage" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
           <p></p>
      </h2>
 	 
@@ -183,30 +181,17 @@
     sqlsrv_free_stmt($getResults);
 	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
     ?>
-     </center> </h2>
-    <h2>
-          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
-          <p></p>
-     </h2>
-    <br>
-	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Match </th>
         <th>Time</th>
         <th>Red 1</th>
-        <th>S</th>
         <th>Red 2</th>
-        <th>S</th>
         <th>Red 3</th>
-        <th>S</th>
         <th>Blu 1</th>
-        <th>S</th>
         <th>Blu 2</th>
-        <th>S</th>
         <th>Blu 3</th>
-        <th>S</th>
         <th>Red Sc</th>
         <th>Blu Sc</th>
         <th>Links</th>
@@ -280,17 +265,11 @@
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
             echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r2TeamScoutUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r3TeamScoutUrl']) . $redTdTagEnd;
             echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b1TeamScoutUrl']) . $blueTdTagEnd;
             echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b2TeamScoutUrl']) . $blueTdTagEnd;
             echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
             echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
             echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
 			echo "<td>" . $row['videos'] . "</td>";
