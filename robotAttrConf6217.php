@@ -44,8 +44,8 @@
 ?>
 	<p></p>
 	<h2>
-		<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			    <a id="buttons" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
+		<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
+			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Scout Robot</a></center>
 	</h2>
 	<p></p>
 <?php

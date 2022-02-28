@@ -50,7 +50,7 @@
     </head>
 
     <h2>
-          <center><a class="clickme danger" href="index.php">Home</a></center>
+          <center><a class="clickme danger" href="index6217.php">Home</a></center>
           <p></p>
      </h2>
 	 
@@ -101,7 +101,7 @@
 				  , attrValue8
 				  , attrValue9
 				  , attrValue10
-               from v_ScoutTeamHyperlinks
+               from v_ScoutTeamHyperlinks6217
               where loginGUID = '$loginGUID'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);

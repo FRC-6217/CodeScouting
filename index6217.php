@@ -157,7 +157,7 @@
     <p></p>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
-		  <a id="mainpage" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
+		  <a id="mainpage" class="clickme danger" href="robotAttrList6217.php">Scout Robot</a></center>
           <p></p>
      </h2>
 	 
@@ -165,7 +165,7 @@
     <?php
     $tsql = "select buttonHtml
 	              , sortOrder
-			   from v_RankButtons
+			   from v_RankButtons6217
 			  where loginGUID = '$loginGUID'
 			 order by sortOrder";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -181,7 +181,7 @@
 		echo ($row['buttonHtml']);
     }
     sqlsrv_free_stmt($getResults);
-	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
+	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
     ?>
      </center> </h2>
     <h2>

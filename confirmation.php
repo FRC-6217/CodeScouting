@@ -91,7 +91,7 @@
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
 ?>
 	 <p></p>
-	 <center><a class="clickme danger" href="index.php">Home</a></center>
+	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
 <?php
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
 	if (isset($value2))
