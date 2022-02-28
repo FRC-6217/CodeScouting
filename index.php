@@ -246,7 +246,7 @@
         ?>
        <tr>
 			<?php
-			if ($row['redScore'] > $row['blueScore']) {
+			if (isset($row['redScore']) && $row['redScore'] > $row['blueScore']) {
 				$redTdTag = "<td><b>";
 				$redTdTagEnd = "</b></td>";
 			}
@@ -254,7 +254,7 @@
 				$redTdTag = "<td>";
 				$redTdTagEnd = "</td>";
 			}
-			if ($row['blueScore'] > $row['redScore']) {
+			if (isset($row['blueScore']) && $row['blueScore'] > $row['redScore']) {
 				$blueTdTag = "<td><b>";
 				$blueTdTagEnd = "</b></td>";
 			}
