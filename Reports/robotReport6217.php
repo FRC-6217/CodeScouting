@@ -299,7 +299,7 @@ $tsql = "select TeamNumber
 				echo "<td><a href='/scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			else
 				echo "<td>" . $row['TeamNumber'] . "</td>";
-			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
+			echo "<td><a href='/Reports/matchReport6217.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif (isset($row['textValue1'])) echo "<td>" . $row['textValue1'] . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
