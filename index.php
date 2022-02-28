@@ -181,6 +181,7 @@
     sqlsrv_free_stmt($getResults);
 	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
     ?>
+    </center> </h2>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
