@@ -27,7 +27,7 @@
 		</body>
 		<p></p>
 		<h2>
-          <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
+          <center><a id="home" class="clickme danger" href="index6217.php">Home</a></center>
           <p></p>
 		</h2>
 		<form enctype="multipart/form-data" action='eventModify.php' method='post'>

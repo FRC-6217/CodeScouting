@@ -245,7 +245,7 @@
 				  , b1TeamId
 				  , b2TeamId
 				  , b3TeamId
-			   from v_MatchHyperlinks
+			   from v_MatchHyperlinks6217
 			  where loginGUID = '$loginGUID'
 			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);

@@ -141,7 +141,7 @@
 							<option value="<?php echo ($matchId);?>" selected><?php echo ($matchNumber);?></option>
 							<?php
 							$tsql = "select m.matchId, m.matchNumber
-							           from v_MatchHyperlinks m
+							           from v_MatchHyperlinks6217 m
 			                          where loginGUID = '$loginGUID'
 									 order by m.sortOrder, m.matchSort, m.matchNumber";
 							$getResults = sqlsrv_query($conn, $tsql);

@@ -7,7 +7,7 @@
 	</body>
 	<p></p>
 	<h2>
-		<center><a id="home" class="clickme danger" href="index.php">Home</a></center>
+		<center><a id="home" class="clickme danger" href="index6217.php">Home</a></center>
 		<p></p>
 		<center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
 		<p></p>
