@@ -754,21 +754,21 @@
 								   inner join Objective o
 								   on o.gameId = g.id
 								   inner join 
-								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCargoLowerRed"] . " integerValue, 'aCLower' objectiveName
+								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCargoLowerBlue"] . " + " . $value["score_breakdown"]["red"]["autoCargoLowerFar"] . " + " . $value["score_breakdown"]["red"]["autoCargoLowerNear"] . " + " . $value["score_breakdown"]["red"]["autoCargoLowerRed"] . " integerValue, 'aCLower' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCargoUpperRed"] . " integerValue, 'aCUpper' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCargoUpperBlue"] . " + " . $value["score_breakdown"]["red"]["autoCargoUpperFar"] . " + " . $value["score_breakdown"]["red"]["autoCargoUpperNear"] . " + " . $value["score_breakdown"]["red"]["autoCargoUpperRed"] . " integerValue, 'aCUpper' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCargoLowerBlue"] . " integerValue, 'aCLower' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCargoLowerBlue"] . " + " . $value["score_breakdown"]["blue"]["autoCargoLowerFar"] . " + " . $value["score_breakdown"]["blue"]["autoCargoLowerNear"] . " + " . $value["score_breakdown"]["blue"]["autoCargoLowerRed"] . " integerValue, 'aCLower' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCargoUpperBlue"] . " integerValue, 'aCUpper' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCargoUpperBlue"] . " + " . $value["score_breakdown"]["blue"]["autoCargoUpperFar"] . " + " . $value["score_breakdown"]["blue"]["autoCargoUpperNear"] . " + " . $value["score_breakdown"]["blue"]["autoCargoUpperRed"] . " integerValue, 'aCUpper' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCargoLowerRed"] . " integerValue, 'toCLower' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCargoLowerBlue"] . " + " . $value["score_breakdown"]["red"]["teleopCargoLowerFar"] . " + " . $value["score_breakdown"]["red"]["teleopCargoLowerNear"] . " + " . $value["score_breakdown"]["red"]["teleopCargoLowerRed"] . " integerValue, 'toCLower' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCargoUpperRed"] . " integerValue, 'toCUpper' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCargoUpperBlue"] . " + " . $value["score_breakdown"]["red"]["teleopCargoUpperFar"] . " + " . $value["score_breakdown"]["red"]["teleopCargoUpperNear"] . " + " . $value["score_breakdown"]["red"]["teleopCargoUpperRed"] . " integerValue, 'toCUpper' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCargoLowerBlue"] . " integerValue, 'toCLower' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCargoLowerBlue"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoLowerFar"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoLowerNear"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoLowerRed"] . " integerValue, 'toCLower' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCargoUpperBlue"] . " integerValue, 'toCUpper' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCargoUpperBlue"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoUpperFar"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoUpperNear"] . " + " . $value["score_breakdown"]["blue"]["teleopCargoUpperRed"] . " integerValue, 'toCUpper' objectiveName
 								    ) tba ";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
