@@ -695,17 +695,17 @@
 							 where tm.matchId = " . $matchId .
 							"  and ge.id = " . $gameEventId .
 							"  and ((t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . 
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot1"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot1"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot2"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot2"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot3"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["taxiRobot3"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot1"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot1"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot2"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot2"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot3"] . "')
+							   " and o.name = 'aTaxi' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["taxiRobot3"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
 							   " and o.name = 'toHang' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endgameRobot1"] . "')
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
