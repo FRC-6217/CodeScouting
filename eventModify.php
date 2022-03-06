@@ -799,24 +799,96 @@
 				   $value["score_breakdown"]["red"]["autoCargoPoints"] > 0)
 				{
 					echo "TBA data inconsistent for Red Auto Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+					$tsql = "delete from MatchObjective 
+					          where matchId = " . $matchId .
+						    "   and alliance = 'R'
+							    and objectiveId = (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Delete of Red Auto Cargo Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+						echo "SQL " . $tsql . "<br>";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+						break;
+					}
 				}
 				// Log problem with TBA data -- Red Teleop Cargo
 				if($value["score_breakdown"]["red"]["teleopCargoTotal"] == 0 &&
 				   $value["score_breakdown"]["red"]["teleopCargoPoints"] > 0)
 				{
 					echo "TBA data inconsistent for Red Teleop Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+					$tsql = "delete from MatchObjective 
+					          where matchId = " . $matchId .
+						    "   and alliance = 'R'
+							    and objectiveId = (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Delete of Red TeleOp Cargo Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+						echo "SQL " . $tsql . "<br>";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+						break;
+					}
 				}
 				// Log problem with TBA data -- Blue Auto Cargo
 				if($value["score_breakdown"]["blue"]["autoCargoTotal"] == 0 &&
 				   $value["score_breakdown"]["blue"]["autoCargoPoints"] > 0)
 				{
 					echo "TBA data inconsistent for Blue Auto Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+					$tsql = "delete from MatchObjective 
+					          where matchId = " . $matchId .
+						    "   and alliance = 'B'
+							    and objectiveId = (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Delete of Blue Auto Cargo Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["blue"]["team_keys"][0], 3) . " failed!<br />";
+						echo "SQL " . $tsql . "<br>";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+						break;
+					}
 				}
 				// Log problem with TBA data -- Blue Teleop Cargo
 				if($value["score_breakdown"]["blue"]["teleopCargoTotal"] == 0 &&
 				   $value["score_breakdown"]["blue"]["teleopCargoPoints"] > 0)
 				{
 					echo "TBA data inconsistent for Blue Teleop Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+					$tsql = "delete from MatchObjective 
+					          where matchId = " . $matchId .
+						    "   and alliance = 'B'
+							    and objectiveId = (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
+					$results = sqlsrv_query($conn, $tsql);
+					if(!$results) 
+					{
+						echo "Delete of Blue TeleOp Cargo Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["blue"]["team_keys"][0], 3) . " failed!<br />";
+						echo "SQL " . $tsql . "<br>";
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+						break;
+					}
 				}
 			}
 			$cnt += 1;
