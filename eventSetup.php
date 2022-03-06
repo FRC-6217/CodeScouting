@@ -193,6 +193,10 @@
 			<?php
 			sqlsrv_close($conn);
 			?>
+		<p></p>
+		<h2>
+          <center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Match Audit</a></center>
+		</h2>
         </form>
     </head>
 </html> 

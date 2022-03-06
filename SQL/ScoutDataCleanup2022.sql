@@ -11,6 +11,12 @@ select m.id matchId
 	 , sum(asor.avgScoreValue) -
 	   case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end matchScoreDelta
+	 , (select count(*)
+	      from scoutRecord sr
+		       inner join teamMatch tm2
+			   on tm2.matchId = sr.matchId
+		 where sr.matchId = m.id
+		   and tm2.alliance = tm.alliance) nbrSRs
   from v_AvgScoutObjectiveRecord asor
        inner join TeamMatch tm
 	   on tm.matchId = asor.matchId
