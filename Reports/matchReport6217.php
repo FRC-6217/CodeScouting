@@ -446,7 +446,7 @@
 	</center>
 	<p></p>
 	<h2>
-		<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Match Audit</a></center>
+		<center><a id="audit" class="clickme danger" href="matchAuditReport.php">Report to Audit Matches</a></center>
 	</h2>
 </body>
 </html>
