@@ -444,5 +444,9 @@
 	sqlsrv_close($conn);
 	?>
 	</center>
+	<p></p>
+	<h2>
+		<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Match Audit</a></center>
+	</h2>
 </body>
 </html>
