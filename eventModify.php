@@ -802,7 +802,7 @@
 					$tsql = "delete from MatchObjective 
 					          where matchId = " . $matchId .
 						    "   and alliance = 'R'
-							    and objectiveId = (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
+							    and objectiveId in (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
@@ -826,7 +826,7 @@
 					$tsql = "delete from MatchObjective 
 					          where matchId = " . $matchId .
 						    "   and alliance = 'R'
-							    and objectiveId = (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
+							    and objectiveId in (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
@@ -850,7 +850,7 @@
 					$tsql = "delete from MatchObjective 
 					          where matchId = " . $matchId .
 						    "   and alliance = 'B'
-							    and objectiveId = (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
+							    and objectiveId in (select o.id from objective o where o.name in ('aCLower', 'aCUpper'));";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
@@ -874,7 +874,7 @@
 					$tsql = "delete from MatchObjective 
 					          where matchId = " . $matchId .
 						    "   and alliance = 'B'
-							    and objectiveId = (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
+							    and objectiveId in (select o.id from objective o where o.name in ('toCLower', 'toCUpper'));";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
