@@ -89,9 +89,10 @@
 	}
 	if ($cnt == 0)
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
-?>
+		echo "<p></p>";
+		echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . ">Match Report</a></center>";
+   ?>
 	 <p></p>
-	 <center><a class="clickme danger" href="Reports/matchReport6217.php?matchId=" . $match>Match Report</a></center>
 	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
 <?php
     $tsql = "sp_ins_scoutRecord $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
