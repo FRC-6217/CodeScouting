@@ -94,7 +94,8 @@ $tsql = "select m.id matchId
 					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
 		having sum(asor.avgScoreValue) <>
 			case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
-					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end";
+					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
+		order by 6, m.datetime, tm.alliance;";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -106,8 +107,8 @@ $tsql = "select m.id matchId
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
-			echo "<td>" . $row['Alliance'] . "</td>";
+			echo "<td><a href='/Reports/matchReport6217.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
+			echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['scoutScoreValue'] . "</td>";
 			echo "<td>" . $row['tbaMatchAdjustedScore'] . "</td>";
 			echo "<td>" . $row['matchScoreDelta'] . "</td>";
