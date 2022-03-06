@@ -87,10 +87,11 @@
 		echo "<center><a class='clickme danger' href='scoutRecord.php?matchId=" . $row['matchId'] . "&matchNumber=" . $row['matchNumber'] . "&teamId=" . $row['teamId'] . "&teamNumber=" . $row['teamNumber'] .  "&alliancePosition=" . $alliancePosition . "&scoutId=" . $scout . "'>Another Scout Record</a></center>";
 		$cnt += 1;
 	}
-	if ($cnt == 0)
+	if ($cnt == 0) {
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
-		echo "<p></p>";
-		echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . ">Match Report</a></center>";
+	}
+	echo "<p></p>";
+	echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . "'>Match Report</a></center>";
    ?>
 	 <p></p>
 	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
