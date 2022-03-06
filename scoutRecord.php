@@ -285,8 +285,6 @@
 						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" placeholder="' . $scoutComment . '" style="width: 320px"><br>';
 					else
 						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" style="width: 320px"><br>';
-					sqlsrv_free_stmt($getResults);
-					sqlsrv_close($conn);
 					?>
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
