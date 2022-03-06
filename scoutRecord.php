@@ -291,13 +291,13 @@
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
-				<h1>Video</h1>
 				<?php
+				$cntVideo = 0;
 				$tsql = "select case when videoType = 'youtube'
 									then 'https://www.youtube.com/embed/'
 									else videoType end + trim(videoKey) videoUrl
 						from MatchVideo
-						where matchId = $match
+						where matchId = $matchId
 						order by id";
 				$getResults = sqlsrv_query($conn, $tsql);
 				if ($getResults == FALSE)
@@ -309,6 +309,10 @@
 						}
 					}
 				while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+					if ($cntVideo == 0) {
+						echo '<h1>Video</h1>';
+					}
+					$cntVideo += 1;
 					echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
 					echo '<p></p>';
 				}
