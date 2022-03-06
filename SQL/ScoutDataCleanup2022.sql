@@ -38,7 +38,7 @@ group by m.id
 having sum(asor.avgScoreValue) <>
        case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
-order by m.datetime, tm.alliance;
+order by 6, m.datetime, tm.alliance;
 
 -- Compare Objective Score Scout Data to Blue Alliance Score
 select m.id matchId
@@ -72,6 +72,19 @@ group by m.id
 	   , mo.scoreValue
 having mo.scoreValue <> sum(asor.avgScoreValue)
 order by m.datetime, tm.alliance, asor.objectiveName;
+
+-- Check on matches with multiple scout records
+select *
+  from v_ScoutRecord vsr
+       inner join (select matchId, teamId
+                     from ScoutRecord
+                    where matchid in (select m.id from match m where gameEventId = 35)
+                   group by matchId, teamId
+                   having count(*) > 1) sr
+	   on sr.matchId = vsr.matchId
+	   and sr.teamId = vsr.teamId
+ where vsr.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
+order by 2,3,4
 
 -- Scouted Data Accuracy - scout records needing correction
 select subquery.allianceScore
@@ -221,7 +234,7 @@ select tr.matchNumber
 
 -- SQL used to cleanup data after viewing video of match
 -- parameters to sp_ins_scoutRecord - scoutId, matchId, teamId, alliancePosition, scoutComment, loginGUID, value1, value2, ... value15
--- 2022 Value fields - 1 aMove, 2 aHP, 3 aLower, 4 aUpper, 5 tLower, 6 tUpper, 7 tDefense, 8 tHang
+-- 2022 Value fields - 1 aTaxi, 2 aHP, 3 aLower, 4 aUpper, 5 tLower, 6 tUpper, 7 tDefense, 8 tHang
 exec sp_ins_scoutRecord 65, 2696, 25, 'R1', 'Test sp_ins_scoutRecord', 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3', 0, -1, 2, 3, 4, 5, 2, 2
 
 */

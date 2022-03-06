@@ -794,6 +794,12 @@
 					}
 					break;
 				}
+				// Log problem with TBA data -- Red Auto Cargo
+				if($value["score_breakdown"]["red"]["autoCargoTotal"] == 0 &&
+				   $value["score_breakdown"]["red"]["autoCargoPoints"] > 0)
+				{
+					echo "TBA data inconsistent for Auto Cargo Count and Total - " . $matchNumber . ", skipping import<br />";
+				}
 			}
 			$cnt += 1;
 		}
