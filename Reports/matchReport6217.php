@@ -364,6 +364,7 @@
 					  , matchScore
 					  , teamId
 					  , matchCode
+					  , scoutRecordId
                    from v_MatchFinalReport
 				  where loginGUID = '$loginGUID'
 					and matchId = $match
@@ -387,6 +388,10 @@
 			else if ($row['alliancePos'] == 99) {
 				echo "<td></td>";
 				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '" target="_blank"> ' . $row['teamNumber'] . '</a></td>';
+			}
+			else if (isset($row['scoutRecordId'])) {
+				echo "<td>" . $row['alliancePos'] . "</td>";
+				echo '<td><a href="../scoutRecord.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			else {
 				echo "<td>" . $row['alliancePos'] . "</td>";

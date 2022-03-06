@@ -798,7 +798,25 @@
 				if($value["score_breakdown"]["red"]["autoCargoTotal"] == 0 &&
 				   $value["score_breakdown"]["red"]["autoCargoPoints"] > 0)
 				{
-					echo "TBA data inconsistent for Auto Cargo Count and Total - " . $matchNumber . ", skipping import<br />";
+					echo "TBA data inconsistent for Red Auto Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+				}
+				// Log problem with TBA data -- Red Teleop Cargo
+				if($value["score_breakdown"]["red"]["teleopCargoTotal"] == 0 &&
+				   $value["score_breakdown"]["red"]["teleopCargoPoints"] > 0)
+				{
+					echo "TBA data inconsistent for Red Teleop Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+				}
+				// Log problem with TBA data -- Blue Auto Cargo
+				if($value["score_breakdown"]["blue"]["autoCargoTotal"] == 0 &&
+				   $value["score_breakdown"]["blue"]["autoCargoPoints"] > 0)
+				{
+					echo "TBA data inconsistent for Blue Auto Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
+				}
+				// Log problem with TBA data -- Blue Teleop Cargo
+				if($value["score_breakdown"]["blue"]["teleopCargoTotal"] == 0 &&
+				   $value["score_breakdown"]["blue"]["teleopCargoPoints"] > 0)
+				{
+					echo "TBA data inconsistent for Blue Teleop Cargo Count and Total - Match " . $matchNumber . ", skipping import<br />";
 				}
 			}
 			$cnt += 1;
