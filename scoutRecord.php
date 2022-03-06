@@ -290,29 +290,31 @@
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
 				<?php
-				$cntVideo = 0;
-				$tsql = "select case when videoType = 'youtube'
-									then 'https://www.youtube.com/embed/'
-									else videoType end + trim(videoKey) videoUrl
-						from MatchVideo
-						where matchId = $matchId
-						order by id";
-				$getResults = sqlsrv_query($conn, $tsql);
-				if ($getResults == FALSE)
-					if( ($errors = sqlsrv_errors() ) != null) {
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
+				if (isset($matchId)) {
+					$cntVideo = 0;
+					$tsql = "select case when videoType = 'youtube'
+										then 'https://www.youtube.com/embed/'
+										else videoType end + trim(videoKey) videoUrl
+							from MatchVideo
+							where matchId = $matchId
+							order by id";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
 						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						if ($cntVideo == 0) {
+							echo '<h1>Video</h1>';
+						}
+						$cntVideo += 1;
+						echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
+						echo '<p></p>';
 					}
-				while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-					if ($cntVideo == 0) {
-						echo '<h1>Video</h1>';
-					}
-					$cntVideo += 1;
-					echo '<iframe width="560" height="315" src="' . $row['videoUrl'] . '" frameborder="0" allowfullscreen></iframe>';
-					echo '<p></p>';
 				}
 				sqlsrv_free_stmt($getResults);
 				sqlsrv_close($conn);
