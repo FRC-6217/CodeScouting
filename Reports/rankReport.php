@@ -6,7 +6,6 @@
 		<style>
 			.fixTableHead {
 			overflow-y: auto;
-			height: 110px;
 			}
 			.fixTableHead thead th {
 			position: sticky;
