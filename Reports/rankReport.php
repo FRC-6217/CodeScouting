@@ -2,6 +2,22 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
+	 <head>
+		<style>
+			.fixTableHead {
+				overflow-y: auto;
+				height: 1100px;
+			}
+			.fixTableHead thead th {
+				position: sticky;
+				top: 0;
+			}
+			.sticky-col {
+				position: sticky;
+				background-color: grey;
+			}
+		</style>
+	</head>
 	<body>
  	<center><a class="clickme danger" href="..\index.php">Home</a></center>
 <?php
@@ -86,7 +102,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td class='sticky-col'><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			echo "<td>" . $row['cntMatches'] . "</td>";
 			echo "<td>" . $row['avgRank'] . "</td>";
 			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>"; elseif ($cnt >= 1) echo "<td></td>";

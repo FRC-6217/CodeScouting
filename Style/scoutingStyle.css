@@ -76,21 +76,6 @@ th{
   margin: 0 auto;
 }
 
-.fixTableHead {
-    overflow-y: auto;
-    height: 1100px;
-    }
-
-.fixTableHead thead th {
-    position: sticky;
-    top: 0;
-}
-
-.sticky-col {
-    position: sticky;
-    background-color: grey;
-}
-
 .view {
     margin: auto;
     width: 600px;
