@@ -13,13 +13,6 @@
 				position: sticky;
 				top: 0;
 			}
-			.sticky-col {
-				position: sticky;
-				width: 100px;
-				min-width: 100px;
-				max-width: 100px;
-				left: 0px;
-			}
 		</style>
 	</head>
 	<body>
@@ -58,7 +51,7 @@
     <table cellspacing="0" cellpadding="5">
 		<thead>
         <tr>
-            <th class='sticky-col'>Team</th>
+            <th>Team</th>
 			<th>Scouted<br/>Matches</th>
             <th>Avg<br/>Rank</th>
 			<?php
@@ -106,7 +99,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td class='sticky-col'><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			echo "<td>" . $row['cntMatches'] . "</td>";
 			echo "<td>" . $row['avgRank'] . "</td>";
 			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
