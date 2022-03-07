@@ -5,8 +5,7 @@
 	 <head>
 		<style>
 			.fixTableHead {
-				position: relative;
-				overflow: auto;
+				overflow-y: auto;
 				height: 1100px;
 				border: 1px solid black;
 			}
