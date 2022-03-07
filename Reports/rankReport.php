@@ -12,18 +12,6 @@
 			position: sticky;
 			top: 0;
 			}
-			table {
-			border-collapse: collapse;        
-			width: 100%;
-			}
-			th,
-			td {
-			padding: 8px 15px;
-			border: 2px solid #529432;
-			}
-			th {
-			background: #ABDD93;
-			}
 		</style>
 	</head>
 	<body>
@@ -60,6 +48,7 @@
 	<div class="fixTableHead">
 	<center>
     <table cellspacing="0" cellpadding="5">
+		<thead>
         <tr>
             <th>Team</th>
 			<th>Scouted<br/>Matches</th>
@@ -93,6 +82,8 @@
 			?>
             <th>Rank<br/>Pts</th>
         </tr>
+		</thead>
+		<tbody>
 <?php
 $sortOrder = "$_GET[sortOrder]";
 $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
@@ -137,6 +128,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 	?>
+	</tbody>
     </table>
 	</center>
 	</div>
