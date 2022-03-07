@@ -5,8 +5,10 @@
 	 <head>
 		<style>
 			.fixTableHead {
-				overflow-y: auto;
+				position: relative;
+				overflow: auto;
 				height: 1100px;
+				border: 1px solid black;
 			}
 			.fixTableHead thead th {
 				position: sticky;
@@ -14,7 +16,10 @@
 			}
 			.sticky-col {
 				position: sticky;
-				background-color: grey;
+				width: 100px;
+				min-width: 100px;
+				max-width: 100px;
+				left: 0px;
 			}
 		</style>
 	</head>
