@@ -58,7 +58,7 @@
     <table cellspacing="0" cellpadding="5">
 		<thead>
         <tr>
-            <th>Team</th>
+            <th class='sticky-col'>Team</th>
 			<th>Scouted<br/>Matches</th>
             <th>Avg<br/>Rank</th>
 			<?php
