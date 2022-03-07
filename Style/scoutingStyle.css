@@ -75,3 +75,19 @@ th{
 .g-signin2 > div{
   margin: 0 auto;
 }
+
+.fixTableHead {
+    overflow-y: auto;
+    height: 1100px;
+    }
+
+.fixTableHead thead th {
+    position: sticky;
+    top: 0;
+}
+
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    background-color: grey;
+}

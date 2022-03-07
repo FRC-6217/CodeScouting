@@ -13,7 +13,7 @@
     </RootPath>
     <RootNamespace>BBScout</RootNamespace>
     <AssemblyName>BBScout</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -22,6 +22,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,5 +58,66 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\GameEventJSON.sql" />
+    <Build Include="dbo\Tables\MatchObjective.sql" />
+    <Build Include="dbo\Tables\ObjectiveGroup.sql" />
+    <Build Include="dbo\Tables\Attribute.sql" />
+    <Build Include="dbo\Tables\AttributeValue.sql" />
+    <Build Include="dbo\Tables\TeamAttribute.sql" />
+    <Build Include="dbo\Tables\Rank.sql" />
+    <Build Include="dbo\Tables\RankObjective.sql" />
+    <Build Include="dbo\Tables\ObjectiveGroupObjective.sql" />
+    <Build Include="dbo\Tables\Event.sql" />
+    <Build Include="dbo\Tables\Game.sql" />
+    <Build Include="dbo\Tables\GameEvent.sql" />
+    <Build Include="dbo\Tables\Team.sql" />
+    <Build Include="dbo\Tables\TeamGameEvent.sql" />
+    <Build Include="dbo\Tables\Scout.sql" />
+    <Build Include="dbo\Tables\ScoringType.sql" />
+    <Build Include="dbo\Tables\MatchVideo.sql" />
+    <Build Include="dbo\Tables\Objective.sql" />
+    <Build Include="dbo\Tables\ObjectiveValue.sql" />
+    <Build Include="dbo\Tables\Match.sql" />
+    <Build Include="dbo\Tables\TeamMatch.sql" />
+    <Build Include="dbo\Tables\ScoutRecord.sql" />
+    <Build Include="dbo\Tables\ScoutObjectiveRecord.sql" />
+    <Build Include="dbo\Tables\TeamMatchObjective.sql" />
+    <Build Include="dbo\Views\v_MatchHyperlinks.sql" />
+    <Build Include="dbo\Views\v_ScoutRecord.sql" />
+    <Build Include="dbo\Views\v_AvgScoutRecord.sql" />
+    <Build Include="dbo\Views\v_MatchReport.sql" />
+    <Build Include="dbo\Views\v_TeamReport.sql" />
+    <Build Include="dbo\Views\v_AvgTeamRecord.sql" />
+    <Build Include="dbo\Views\v_UpdateScoutRecordHTML.sql" />
+    <Build Include="dbo\Views\v_AvgScoutObjectiveRecord.sql" />
+    <Build Include="dbo\Views\v_ScoutTeamHyperlinks.sql" />
+    <Build Include="dbo\Views\v_EnterScoutTeamHTML.sql" />
+    <Build Include="dbo\Views\v_MatchActualScore.sql" />
+    <Build Include="dbo\Views\v_RankButtons.sql" />
+    <Build Include="dbo\Views\v_MatchReportAttributes.sql" />
+    <Build Include="dbo\Views\v_EnterScoutRecordHTML.sql" />
+    <Build Include="dbo\Views\v_TeamReportPieChart.sql" />
+    <Build Include="dbo\Views\v_GameEvent.sql" />
+    <Build Include="dbo\Views\v_TeamReportLineGraph.sql" />
+    <Build Include="dbo\Views\v_MatchFinalReport.sql" />
+    <Build Include="dbo\Views\v_ScoutTeamHyperlinks6217.sql" />
+    <Build Include="dbo\Views\v_RankButtons6217.sql" />
+    <Build Include="dbo\Views\v_MatchReportAttributes6217.sql" />
+    <Build Include="dbo\Views\v_MatchHyperlinks6217.sql" />
+    <Build Include="dbo\Views\v_MatchReport6217.sql" />
+    <Build Include="dbo\Functions\calcScoreValue.sql" />
+    <Build Include="dbo\Stored Procedures\sp_rpt_rankReport.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_scoutRecord.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_scoutRobot.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_teamMatches.sql" />
   </ItemGroup>
 </Project>
