@@ -1,0 +1,83 @@
+3/7/2022 2:01:58 PM	This log contains information about the import schema operation into project 'BBScout' on computer 'STC-900834' by user 'jcoyle'.
+3/7/2022 2:01:59 PM	Import of database schema has started.
+3/7/2022 2:02:05 PM	Gathering logins
+3/7/2022 2:02:43 PM	Gathering database credentials
+3/7/2022 2:02:43 PM	Gathering database options
+3/7/2022 2:02:43 PM	Gathering generic database scoped configuration option
+3/7/2022 2:02:43 PM	Gathering users
+3/7/2022 2:02:43 PM	Gathering roles
+3/7/2022 2:02:44 PM	Gathering application roles
+3/7/2022 2:02:44 PM	Gathering role memberships
+3/7/2022 2:02:44 PM	Gathering filegroups
+3/7/2022 2:02:44 PM	Gathering full-text catalogs
+3/7/2022 2:02:44 PM	Gathering assemblies
+3/7/2022 2:02:44 PM	Gathering certificates
+3/7/2022 2:02:44 PM	Gathering symmetric keys
+3/7/2022 2:02:44 PM	Gathering encrypted symmetric keys
+3/7/2022 2:02:44 PM	Gathering schemas
+3/7/2022 2:02:44 PM	Gathering XML schema collections
+3/7/2022 2:02:44 PM	Gathering user-defined data types
+3/7/2022 2:02:44 PM	Gathering user-defined types
+3/7/2022 2:02:44 PM	Gathering table types
+3/7/2022 2:02:44 PM	Gathering unique keys for table types
+3/7/2022 2:02:44 PM	Gathering primary keys for table types
+3/7/2022 2:02:44 PM	Gathering indexes for table types
+3/7/2022 2:02:46 PM	Gathering check constraints for table types
+3/7/2022 2:02:46 PM	Gathering default constraints for table types
+3/7/2022 2:02:46 PM	Gathering partition functions
+3/7/2022 2:02:46 PM	Gathering partition schemes
+3/7/2022 2:02:46 PM	Gathering functions
+3/7/2022 2:02:46 PM	Gathering encrypted functions
+3/7/2022 2:02:46 PM	Gathering aggregates
+3/7/2022 2:02:46 PM	Gathering procedures
+3/7/2022 2:02:46 PM	Gathering encrypted procedures
+3/7/2022 2:02:48 PM	Gathering tables
+3/7/2022 2:02:48 PM	Gathering primary keys
+3/7/2022 2:02:48 PM	Gathering unique constraints
+3/7/2022 2:02:48 PM	Gathering foreign keys
+3/7/2022 2:02:48 PM	Gathering default constraints
+3/7/2022 2:02:48 PM	Gathering check constraints
+3/7/2022 2:02:48 PM	Gathering views
+3/7/2022 2:02:48 PM	Gathering encrypted views
+3/7/2022 2:02:48 PM	Gathering indexes
+3/7/2022 2:02:49 PM	Gathering statistics
+3/7/2022 2:02:49 PM	Gathering full-text index stoplists
+3/7/2022 2:02:49 PM	Gathering search property lists
+3/7/2022 2:02:49 PM	Gathering search properties
+3/7/2022 2:02:49 PM	Gathering full-text indexes
+3/7/2022 2:02:49 PM	Gathering column store indexes
+3/7/2022 2:02:49 PM	Gathering spatial indexes
+3/7/2022 2:02:49 PM	Gathering XML indexes
+3/7/2022 2:02:49 PM	Gathering Selective XML indexes
+3/7/2022 2:02:49 PM	Gathering encrypted triggers
+3/7/2022 2:02:49 PM	Gathering triggers
+3/7/2022 2:02:49 PM	Gathering encrypted and clr ddl triggers
+3/7/2022 2:02:49 PM	Gathering ddl triggers
+3/7/2022 2:02:49 PM	Creating edge constraints
+3/7/2022 2:02:49 PM	Gathering synonyms
+3/7/2022 2:02:49 PM	Gathering defaults
+3/7/2022 2:02:49 PM	Gathering data constraint uddt bindings
+3/7/2022 2:02:49 PM	Gathering rules
+3/7/2022 2:02:49 PM	Gathering data constraint uddt bindings
+3/7/2022 2:02:49 PM	Gathering message types
+3/7/2022 2:02:49 PM	Gathering queues
+3/7/2022 2:02:49 PM	Gathering contracts
+3/7/2022 2:02:49 PM	Gathering services
+3/7/2022 2:02:49 PM	Gathering event notifications
+3/7/2022 2:02:49 PM	Gathering remote service bindings
+3/7/2022 2:02:49 PM	Gathering broker priorities
+3/7/2022 2:02:49 PM	Gathering signatures
+3/7/2022 2:02:49 PM	Gathering data compression options
+3/7/2022 2:02:49 PM	Gathering sequence types
+3/7/2022 2:02:49 PM	Gathering security policies
+3/7/2022 2:02:49 PM	Gather column encryption keys
+3/7/2022 2:02:49 PM	Gathering column master keys
+3/7/2022 2:02:49 PM	Gathering external data sources
+3/7/2022 2:02:49 PM	Gathering external tables
+3/7/2022 2:02:49 PM	Gathering extended properties
+3/7/2022 2:02:51 PM	Gathering logins
+3/7/2022 2:02:52 PM	Scanning project for duplicate elements
+3/7/2022 2:02:52 PM	Finished duplicate element processing
+3/7/2022 2:02:53 PM	Finished importing database.
+3/7/2022 2:02:53 PM	A summary of the import was saved to the following location: C:\git\CodeScouting\DBProject\BBScout\Import Schema Logs\BBScout_20220307080158.log
+3/7/2022 2:02:53 PM	Click Finish to continue...
