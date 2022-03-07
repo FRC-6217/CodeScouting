@@ -82,13 +82,23 @@ th{
     }
 
 .fixTableHead thead th {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
 }
 
 .sticky-col {
-    position: -webkit-sticky;
     position: sticky;
     background-color: grey;
+}
+
+.view {
+    margin: auto;
+    width: 600px;
+  }
+  
+.wrapper {
+    position: relative;
+    overflow: auto;
+    border: 1px solid black;
+    white-space: nowrap;
 }
