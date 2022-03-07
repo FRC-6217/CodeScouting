@@ -4,7 +4,7 @@ exec sp_upd_scoutDataFromTba 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
 -- Compare Total Score Scout Data to Blue Alliance Score
 select m.id matchId
      , m.number matchNumber
-	 , tm.alliance
+	 , case tm.alliance when 'R' then 'Red' else 'Blue' end alliance
 	 , sum(asor.avgScoreValue) scoutScoreValue
 	 , case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 	        else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end tbaMatchAdjustedScore
@@ -15,8 +15,12 @@ select m.id matchId
 	      from scoutRecord sr
 		       inner join teamMatch tm2
 			   on tm2.matchId = sr.matchId
+			   and tm2.teamId = sr.teamId
+			   inner join scout s
+			   on s.id = sr.scoutId
 		 where sr.matchId = m.id
-		   and tm2.alliance = tm.alliance) nbrSRs
+		   and tm2.alliance = tm.alliance
+		   and s.lastName <> 'TBA') nbrSRs
   from v_AvgScoutObjectiveRecord asor
        inner join TeamMatch tm
 	   on tm.matchId = asor.matchId

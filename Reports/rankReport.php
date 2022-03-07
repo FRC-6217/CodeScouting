@@ -2,7 +2,32 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
+	 <head>
+		<style>
+			.fixTableHead {
+			overflow-y: auto;
+			height: 110px;
+			}
+			.fixTableHead thead th {
+			position: sticky;
+			top: 0;
+			}
+			table {
+			border-collapse: collapse;        
+			width: 100%;
+			}
+			th,
+			td {
+			padding: 8px 15px;
+			border: 2px solid #529432;
+			}
+			th {
+			background: #ABDD93;
+			}
+		</style>
+	</head>
+	<body>
+ 	<center><a class="clickme danger" href="..\index.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -32,7 +57,8 @@
 	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 ?>
-<center>
+	<div class="fixTableHead">
+	<center>
     <table cellspacing="0" cellpadding="5">
         <tr>
             <th>Team</th>
@@ -112,5 +138,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 	sqlsrv_close($conn);
 	?>
     </table>
-</center>
+	</center>
+	</div>
+</body>
 </html>
