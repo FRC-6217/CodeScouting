@@ -2,7 +2,21 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index6217.php">Home</a></center>
+	 <head>
+		<style>
+			.fixTableHead {
+				overflow-y: auto;
+				height: 1100px;
+				border: 1px solid black;
+			}
+			.fixTableHead thead th {
+				position: sticky;
+				top: 0;
+			}
+		</style>
+	</head>
+	<body>
+ 	<center><a class="clickme danger" href="..\index6217.php">Home</a></center>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -32,8 +46,10 @@
 	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 ?>
+<div class="fixTableHead">
 <center>
     <table cellspacing="0" cellpadding="5">
+		<thead>
         <tr>
             <th>Team</th>
 			<th>Scouted<br/>Matches</th>
@@ -67,6 +83,8 @@
 			?>
             <th>Rank<br/>Pts</th>
         </tr>
+		</thead>
+		<tbody>
 <?php
 $sortOrder = "$_GET[sortOrder]";
 $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
@@ -111,6 +129,9 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 	?>
+	</tbody>
     </table>
-</center>
+	</center>
+	</div>
+</body>
 </html>
