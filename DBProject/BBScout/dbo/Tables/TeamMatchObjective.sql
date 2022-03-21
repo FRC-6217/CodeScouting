@@ -9,8 +9,10 @@
     [lastUpdated]  DATETIME       NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_TeamMatchObjective_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id]),
-    CONSTRAINT [fk_TeamMatchObjective_TeamMatch] FOREIGN KEY ([teamMatchId]) REFERENCES [dbo].[TeamMatch] ([id])
+    CONSTRAINT [fk_TeamMatchObjective_TeamMatch] FOREIGN KEY ([teamMatchId]) REFERENCES [dbo].[TeamMatch] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 GO

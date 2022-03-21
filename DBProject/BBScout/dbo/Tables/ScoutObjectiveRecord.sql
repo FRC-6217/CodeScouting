@@ -9,8 +9,10 @@
     [lastUpdated]   DATETIME       NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_ScoutObjectiveRecord_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id]),
-    CONSTRAINT [fk_ScoutObjectiveRecord_ScoutRecord] FOREIGN KEY ([scoutRecordId]) REFERENCES [dbo].[ScoutRecord] ([id])
+    CONSTRAINT [fk_ScoutObjectiveRecord_ScoutRecord] FOREIGN KEY ([scoutRecordId]) REFERENCES [dbo].[ScoutRecord] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 GO
