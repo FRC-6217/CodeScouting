@@ -1,6 +1,6 @@
 <?php
 	$page = $_SERVER['PHP_SELF'];
-	$sec = "10";
+	$sec = "120";
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
