@@ -1,4 +1,6 @@
 <?php
+	$page = $_SERVER['PHP_SELF'];
+	$sec = "10";
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
@@ -69,6 +71,7 @@
      <title>Team 6217 Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
     <head>
+	    <meta http-equiv="refresh" content="<?php echo $sec?>;URL='<?php echo $page?>'">
 		<!--Load the Ajax API-->
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
