@@ -276,7 +276,7 @@
 				, -50 sortOrder
 				, null matchNumber
 				, null matchId
-				, datetime
+				, null datetime
 				, null redScore
 				, null blueScore
 				, null videos
