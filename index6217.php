@@ -217,6 +217,84 @@
 
     <?php
     $tsql = "select matchReportUrl
+				 , r1TeamNumber
+				 , r1TeamReportUrl
+				 , r1TeamScoutUrl
+				 , r2TeamNumber
+				 , r2TeamReportUrl
+				 , r2TeamScoutUrl
+				 , r3TeamNumber
+				 , r3TeamReportUrl
+				 , r3TeamScoutUrl
+				 , b1TeamNumber
+				 , b1TeamReportUrl
+				 , b1TeamScoutUrl
+				 , b2TeamNumber
+				 , b2TeamReportUrl
+				 , b2TeamScoutUrl
+				 , b3TeamNumber
+				 , b3TeamReportUrl
+				 , b3TeamScoutUrl
+				 , sortOrder - 100 sortOrder
+				 , matchNumber
+				 , matchId
+				 , datetime
+				 , redScore
+				 , blueScore
+				 , videos
+				 , r1TeamId
+				 , r2TeamId
+				 , r3TeamId
+				 , b1TeamId
+				 , b2TeamId
+				 , b3TeamId
+			 from v_MatchHyperlinks6217
+			      inner join Scout s
+			      on s.scoutGUID = v_MatchHyperlinks6217.loginGUID
+  		    where loginGUID = '$loginGUID'
+		      and (r1TeamId = s.teamId or r2TeamId = s.teamId or r3TeamId = s.teamId or b1TeamId = s.teamId or b2TeamId = s.teamId or b3TeamId = s.teamId)
+			union
+			select null matchReportUrl
+				, null r1TeamNumber
+				, null r1TeamReportUrl
+				, null r1TeamScoutUrl
+				, null r2TeamNumber
+				, null r2TeamReportUrl
+				, null r2TeamScoutUrl
+				, null r3TeamNumber
+				, null r3TeamReportUrl
+				, null r3TeamScoutUrl
+				, null b1TeamNumber
+				, null b1TeamReportUrl
+				, null b1TeamScoutUrl
+				, null b2TeamNumber
+				, null b2TeamReportUrl
+				, null b2TeamScoutUrl
+				, null b3TeamNumber
+				, null b3TeamReportUrl
+				, null b3TeamScoutUrl
+				, -50 sortOrder
+				, null matchNumber
+				, null matchId
+				, null datetime
+				, null redScore
+				, null blueScore
+				, null videos
+				, null r1TeamId
+				, null r2TeamId
+				, null r3TeamId
+				, null b1TeamId
+				, null b2TeamId
+				, null b3TeamId
+			from v_GameEvent ge
+				inner join Scout s
+				on scoutGUID = ge.loginGUID
+				inner join TeamGameEvent tge
+				on tge.gameEventId = ge.id
+				and tge.teamId = s.teamId
+			where loginGUID = '$loginGUID'
+			union
+             select matchReportUrl
 	              , r1TeamNumber
 				  , r1TeamReportUrl
 				  , r1TeamScoutUrl
