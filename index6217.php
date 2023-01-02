@@ -276,7 +276,7 @@
 				, -50 sortOrder
 				, null matchNumber
 				, null matchId
-				, getdate() datetime
+				, datetime
 				, null redScore
 				, null blueScore
 				, null videos
@@ -359,7 +359,7 @@
 				$blueTdTagEnd = "</td>";
 			}
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
-			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
+			if isset($row['datetime']) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
             echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
