@@ -129,7 +129,6 @@
 	if (isset($value15))
 		$tsql .= ", '$value15'";
 	$results = sqlsrv_query($conn, $tsql);
-	echo "SQL: ".$tsql."<br />";
 	if($results) 
 		echo "<center>Submission Succeeded!</center>";
 	
