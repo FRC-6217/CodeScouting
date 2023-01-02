@@ -6,10 +6,12 @@
     [lastUpdated]  DATETIME       NULL,
     [scoutComment] VARCHAR (4000) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_ScoutRecord_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]),
+    CONSTRAINT [fk_ScoutRecord_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]) ON DELETE CASCADE,
     CONSTRAINT [fk_ScoutRecord_Scout] FOREIGN KEY ([scoutId]) REFERENCES [dbo].[Scout] ([id]),
     CONSTRAINT [fk_ScoutRecord_Team] FOREIGN KEY ([teamId]) REFERENCES [dbo].[Team] ([id])
 );
+
+
 
 
 GO

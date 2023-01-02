@@ -5,8 +5,10 @@
     [videoType]   VARCHAR (64) NOT NULL,
     [lastUpdated] DATETIME     NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_MatchVideo_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id])
+    CONSTRAINT [fk_MatchVideo_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 GO

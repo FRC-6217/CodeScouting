@@ -5,10 +5,14 @@
     [lastUpdated]         DATETIME        NULL,
     [rank]                INT             NULL,
     [rankingPointAverage] NUMERIC (10, 3) NULL,
+    [scoringRank]         INT             NULL,
+    [scoringAverage]      NUMERIC (10, 3) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_TeamGameEvent_GameEvent] FOREIGN KEY ([gameEventId]) REFERENCES [dbo].[GameEvent] ([id]),
+    CONSTRAINT [fk_TeamGameEvent_GameEvent] FOREIGN KEY ([gameEventId]) REFERENCES [dbo].[GameEvent] ([id]) ON DELETE CASCADE,
     CONSTRAINT [fk_TeamGameEvent_Team] FOREIGN KEY ([teamId]) REFERENCES [dbo].[Team] ([id])
 );
+
+
 
 
 GO

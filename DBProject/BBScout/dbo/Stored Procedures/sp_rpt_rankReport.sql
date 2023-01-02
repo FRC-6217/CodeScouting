@@ -1,5 +1,6 @@
-﻿-- Rank Query (as a stored procedure to improve query performance
-CREATE PROCEDURE sp_rpt_rankReport (@pv_QueryString varchar(64)
+﻿
+-- Rank Query (as a stored procedure to improve query performance
+CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
 AS
 DECLARE @lv_SortOrder int;
@@ -11,7 +12,8 @@ BEGIN
 							  , cntMatches int
 	                          , value numeric(38, 6)
 							  , rank integer
-							  , rankingPointAverage numeric(10, 3));
+							  , rankingPointAverage numeric(10, 3)
+							  , teamGameEventId int);
 	SET NOCOUNT ON
 	-- Get Sort Order
 	SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
@@ -63,6 +65,7 @@ BEGIN
 					else null end) value
 		 , tge.rank
 		 , tge.rankingPointAverage
+		 , tge.id teamGameEventId
 	  from rank r
 		   inner join RankObjective ro
 		   on ro.rankId = r.id
@@ -82,7 +85,9 @@ BEGIN
 		   , r.sortOrder
 		   , atr.cntMatches
 		   , tge.rank
-		   , tge.rankingPointAverage;
+		   , tge.rankingPointAverage
+		   , tge.id;
+
 	-- Add teams that do not have a scout record yet
 	INSERT INTO #AvgTeamRecord
 	select tge.teamId
@@ -93,6 +98,7 @@ BEGIN
 		 , 0 value
 		 , tge.rank
 		 , tge.rankingPointAverage
+		 , tge.id teamGameEventId
       from rank r
 		   inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
@@ -103,6 +109,26 @@ BEGIN
 	       (select 1
 		      from #AvgTeamRecord atr
 			 where atr.TeamId = tge.teamId);
+
+/* Causes data to not display on website?
+    -- Update Scoring Impact for Teams
+	update tge
+	   set scoringRank = subquery.rank
+	     , scoringAverage = subquery.value
+	  from TeamGameEvent tge
+	       inner join
+	       (select atr.teamGameEventId
+                 , atr.value
+                 , (select count(*)
+                      from #AvgTeamRecord atr2
+                     where atr2.gameId = atr.gameId
+                       and atr2.rankName = atr.rankName
+                       and atr2.sortOrder = atr.sortOrder
+                       and atr2.value > atr.value) + 1 rank
+              from #AvgTeamRecord atr
+             where atr.rankName = 'Scr Imp') subquery
+		   on subquery.teamGameEventId = tge.id;
+*/
 
     -- Use temporary table to return rankings and average values
 	select subquery.teamId
@@ -132,6 +158,7 @@ BEGIN
 		 , sum(case when subquery.sortOrder = 10 then subquery.value else null end) value10
 		 , subquery.eventRank
 		 , subquery.rankingPointAverage
+		 , subquery.teamGameEventId
 	  from (
 	select atr.teamId
 		 , atr.gameId
@@ -147,6 +174,7 @@ BEGIN
 			   and atr2.value > atr.value) + 1 rank
 		 , atr.rank eventRank
 		 , atr.rankingPointAverage
+		 , atr.teamGameEventId
       from #AvgTeamRecord atr) subquery
 	       inner join Team t
 		   on t.id = subquery.teamId
@@ -157,6 +185,7 @@ BEGIN
 		   , subquery.cntMatches
  		   , subquery.eventRank
 		   , subquery.rankingPointAverage
+		   , subquery.teamGameEventId
 	order by case when @lv_SortOrder = -99 then subquery.eventRank
 	              else sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end) end
 	       , t.teamNumber;

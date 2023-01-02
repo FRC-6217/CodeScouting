@@ -14,8 +14,10 @@
     [blueFoulPoints]     INT          NULL,
     [matchCode]          VARCHAR (16) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_Match_GameEvent] FOREIGN KEY ([gameEventId]) REFERENCES [dbo].[GameEvent] ([id])
+    CONSTRAINT [fk_Match_GameEvent] FOREIGN KEY ([gameEventId]) REFERENCES [dbo].[GameEvent] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 GO

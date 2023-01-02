@@ -9,9 +9,11 @@
     [scoreValue]   INT            NULL,
     [lastUpdated]  DATETIME       NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_MatchObjective_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]),
+    CONSTRAINT [fk_MatchObjective_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]) ON DELETE CASCADE,
     CONSTRAINT [fk_MatchObjective_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id])
 );
+
+
 
 
 GO

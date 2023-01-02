@@ -7,9 +7,11 @@
     [lastUpdated]             DATETIME        NULL,
     [portionOfAlliancePoints] NUMERIC (11, 3) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [fk_TeamMatch_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]),
+    CONSTRAINT [fk_TeamMatch_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]) ON DELETE CASCADE,
     CONSTRAINT [fk_TeamMatch_Team] FOREIGN KEY ([teamId]) REFERENCES [dbo].[Team] ([id])
 );
+
+
 
 
 GO
