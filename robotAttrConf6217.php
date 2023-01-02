@@ -26,8 +26,7 @@
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
 	echo "Team: ".$loginEmailAddress."<br />";
 	echo "Email: ".$team."<br />";
-	echo "SQL: ".$$tsql."<br />";
-/*
+	echo "SQL: ".$tsql."<br />";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -49,7 +48,6 @@
 	$value8 = $_POST[value8];
 	$value9 = $_POST[value9];
 	$value10 = $_POST[value10];
-*/
 ?>
 	<p></p>
 	<h2>
