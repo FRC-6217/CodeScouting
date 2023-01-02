@@ -20,7 +20,6 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
-	//$submit = $POST[submitToDatabase];
 	$scout = $_POST['scout'];
 	$match = $_POST['match'];
 	$team = $_POST['team'];
@@ -130,6 +129,7 @@
 	if (isset($value15))
 		$tsql .= ", '$value15'";
 	$results = sqlsrv_query($conn, $tsql);
+	echo "SQL: ".$tsql."<br />";
 	if($results) 
 		echo "<center>Submission Succeeded!</center>";
 	
