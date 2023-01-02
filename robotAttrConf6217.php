@@ -24,9 +24,6 @@
 	$teamId = $_POST['teamId'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
-	echo "Team: ".$teamId."<br />";
-	echo "Email: ".$loginEmailAddress."<br />";
-	echo "SQL: ".$tsql."<br />";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -38,18 +35,21 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-/*
-	$value1 = $_POST[value1];
-	$value2 = $_POST[value2];
-	$value3 = $_POST[value3];
-	$value4 = $_POST[value4];
-	$value5 = $_POST[value5];
-	$value6 = $_POST[value6];
-	$value7 = $_POST[value7];
-	$value8 = $_POST[value8];
-	$value9 = $_POST[value9];
-	$value10 = $_POST[value10];
-*/
+	echo "Team: ".$teamId."<br />";
+	echo "Email: ".$loginEmailAddress."<br />";
+	echo "SQL: ".$tsql."<br />";
+	$value1 = $_POST['value1'];
+	$value2 = $_POST['value2'];
+	$value3 = $_POST['value3'];
+	$value4 = $_POST['value4'];
+	$value5 = $_POST['value5'];
+	$value6 = $_POST['value6'];
+	$value7 = $_POST['value7'];
+	$value8 = $_POST['value8'];
+	$value9 = $_POST['value9'];
+	$value10 = $_POST['value10'];
+	echo "Value 1: ".$value1."<br />";
+	echo "Value 9: ".$value9."<br />";
 ?>
 	<p></p>
 	<h2>
