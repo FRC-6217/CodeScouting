@@ -20,7 +20,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
-	$submit = $POST[submitToDatabase];
+	//$submit = $POST[submitToDatabase];
 	$scout = $_POST[scout];
 	$match = $_POST[match];
 	$team = $_POST[team];

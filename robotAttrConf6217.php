@@ -2,6 +2,10 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
+	 <body>
+		<h1><center>Bomb Botz Scouting App</center></h1>
+	</body>
+	<p></p>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -16,7 +20,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
-	$submit = $POST[submitToDatabase];
+	//$submit = $POST[submitToDatabase];
 	$teamId = $_POST[teamId];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
