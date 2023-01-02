@@ -27,7 +27,7 @@
 		</body>
 		<center><a class="clickme danger" href="index6217.php">Home</a></center>
 		
-		<form action='confirmation.php' method='post'>
+		<form enctype="multipart/form-data" action='confirmation.php' method='post'>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
