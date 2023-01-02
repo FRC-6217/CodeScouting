@@ -196,7 +196,7 @@
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
-	    <th>   </th>
+	    <th> </th>
         <th>Match </th>
         <th>Time</th>
         <th>Red 1</th>
@@ -250,8 +250,8 @@
 				  , b2TeamId
 				  , b3TeamId
 				  , case when r1TeamId = s.teamId or r2TeamId = s.teamId or r3TeamId = s.teamId or b1TeamId = s.teamId or b2TeamId = s.teamId or b3TeamId = s.teamId
-				         then 'Y'
-						 else 'N' end teamIndicator
+				         then '*'
+						 else ' ' end teamIndicator
 			   from v_MatchHyperlinks6217
 			        inner join Scout s
 			        on s.scoutGUID = v_MatchHyperlinks6217.loginGUID
@@ -286,7 +286,7 @@
 				$blueTdTag = "<td>";
 				$blueTdTagEnd = "</td>";
 			}
-			if ($row['teamIndicator'] == 'Y') echo "<td>***</td>";else echo "<td></td>";
+			echo "<td>" . ($row['teamIndicator']) . "</td>";
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			if (isset($row['datetime'])) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
             echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
