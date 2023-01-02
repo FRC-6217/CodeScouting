@@ -36,7 +36,6 @@
 	$context = stream_context_create($aHTTP);
 
     // Get posted variables
-	$submit = $POST['submitToDatabase'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -53,7 +52,6 @@
 	$gameYear = $_POST['gameYear'];
 	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];
-	$file = $_POST['csv'];
 
 	// Options
 	// M = Update Match Schedule
