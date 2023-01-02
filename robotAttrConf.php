@@ -20,8 +20,7 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
-	//$submit = $POST[submitToDatabase];
-	$teamId = $_POST[teamId];
+	$teamId = $_POST['teamId'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -35,16 +34,16 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$value1 = $_POST[value1];
-	$value2 = $_POST[value2];
-	$value3 = $_POST[value3];
-	$value4 = $_POST[value4];
-	$value5 = $_POST[value5];
-	$value6 = $_POST[value6];
-	$value7 = $_POST[value7];
-	$value8 = $_POST[value8];
-	$value9 = $_POST[value9];
-	$value10 = $_POST[value10];
+	$value1 = $_POST['value1'];
+	$value2 = $_POST['value2'];
+	$value3 = $_POST['value3'];
+	$value4 = $_POST['value4'];
+	$value5 = $_POST['value5'];
+	$value6 = $_POST['value6'];
+	$value7 = $_POST['value7'];
+	$value8 = $_POST['value8'];
+	$value9 = $_POST['value9'];
+	$value10 = $_POST['value10'];
 ?>
 	<p></p>
 	<h2>

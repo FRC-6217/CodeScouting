@@ -20,7 +20,6 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
-	//$submit = $POST[submitToDatabase];
 	$teamId = $_POST['teamId'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
@@ -35,9 +34,6 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	echo "Team: ".$teamId."<br />";
-	echo "Email: ".$loginEmailAddress."<br />";
-	echo "SQL: ".$tsql."<br />";
 	$value1 = $_POST['value1'];
 	$value2 = $_POST['value2'];
 	$value3 = $_POST['value3'];
@@ -48,8 +44,6 @@
 	$value8 = $_POST['value8'];
 	$value9 = $_POST['value9'];
 	$value10 = $_POST['value10'];
-	echo "Value 1: ".$value1."<br />";
-	echo "Value 9: ".$value9."<br />";
 ?>
 	<p></p>
 	<h2>
@@ -58,7 +52,6 @@
 	</h2>
 	<p></p>
 <?php
-/*
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
@@ -93,7 +86,6 @@
 			}
 		}
 	}		
-*/
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
