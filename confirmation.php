@@ -12,7 +12,7 @@
         "Uid" => "$userName",
         "PWD" => "$password"
     );
-    //Establishes the connection
+    //Establishes the connection to database
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
     // Get posted variables
