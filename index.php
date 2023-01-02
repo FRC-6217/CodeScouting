@@ -188,6 +188,7 @@
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
+        <th> </th>
         <th>Match </th>
         <th>Time</th>
         <th>Red 1</th>
@@ -234,8 +235,13 @@
 				  , b1TeamId
 				  , b2TeamId
 				  , b3TeamId
+				  , case when r1TeamId = s.teamId or r2TeamId = s.teamId or r3TeamId = s.teamId or b1TeamId = s.teamId or b2TeamId = s.teamId or b3TeamId = s.teamId
+				         then '*'
+						 else ' ' end teamIndicator
 			   from v_MatchHyperlinks
-			  where loginGUID = '$loginGUID'
+			        inner join Scout s
+			        on s.scoutGUID = v_MatchHyperlinks6217.loginGUID
+		      where loginGUID = '$loginGUID'
 			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -266,8 +272,9 @@
 				$blueTdTag = "<td>";
 				$blueTdTagEnd = "</td>";
 			}
+			echo "<td>" . ($row['teamIndicator']) . "</td>";
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
-			echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";
+			if (isset($row['datetime'])) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
             echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
             echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
