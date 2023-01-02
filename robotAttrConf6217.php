@@ -21,7 +21,7 @@
 
     // Get posted variables
 	//$submit = $POST[submitToDatabase];
-	$teamId = $_POST[teamId];
+	$teamId = $_POST['teamId'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
 	echo "Team: ".$teamId."<br />";
