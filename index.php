@@ -240,7 +240,7 @@
 						 else ' ' end teamIndicator
 			   from v_MatchHyperlinks
 			        inner join Scout s
-			        on s.scoutGUID = v_MatchHyperlinks6217.loginGUID
+			        on s.scoutGUID = v_MatchHyperlinks.loginGUID
 		      where loginGUID = '$loginGUID'
 			 order by sortOrder, datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
