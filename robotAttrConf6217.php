@@ -38,6 +38,7 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+/*
 	$value1 = $_POST[value1];
 	$value2 = $_POST[value2];
 	$value3 = $_POST[value3];
@@ -48,6 +49,7 @@
 	$value8 = $_POST[value8];
 	$value9 = $_POST[value9];
 	$value10 = $_POST[value10];
+*/
 ?>
 	<p></p>
 	<h2>
