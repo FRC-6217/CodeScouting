@@ -30,7 +30,7 @@
 			<a id="buttons" class="clickme danger" href="robotAttrList6217.php">Scout Robot</a></center>
 		</h2>
 		
-		<form action='robotAttrConf6217.php' method='post'>
+		<form enctype="multipart/form-data" action='robotAttrConf6217.php' method='post'>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");

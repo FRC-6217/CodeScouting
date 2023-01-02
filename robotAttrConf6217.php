@@ -21,6 +21,7 @@
 
     // Get posted variables
 	//$submit = $POST[submitToDatabase];
+/*
 	$teamId = $_POST[teamId];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
@@ -45,6 +46,7 @@
 	$value8 = $_POST[value8];
 	$value9 = $_POST[value9];
 	$value10 = $_POST[value10];
+*/
 ?>
 	<p></p>
 	<h2>
@@ -53,6 +55,7 @@
 	</h2>
 	<p></p>
 <?php
+/*
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
@@ -87,7 +90,7 @@
 			}
 		}
 	}		
-
+*/
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
