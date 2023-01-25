@@ -1,9 +1,16 @@
-select o.*
-     , g.*
-  from game g
-       inner join objective o
-	   on o.gameId = g.id
- where g.gameYear = 2020
+/* Clear data
+delete from AttributeValue where attributeId in (select a.id from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Charged Up');
+delete from Attribute where gameId in (select g.id from Game g where g.name = 'Charged Up');
+
+delete from RankObjective where rankId in (select r.id from Rank r inner join Game g on g.id = r.gameId where g.name = 'Charged Up');
+delete from Rank where gameId in (select g.id from Game g where g.name = 'Charged Up');
+
+delete from ObjectiveGroupObjective where objectiveId in (select o.id from Objective o inner join Game g on g.id = o.gameId where g.name = 'Charged Up');
+delete from ObjectiveValue where objectiveId in (select o.id from Objective o inner join Game g on g.id = o.gameId where g.name = 'Charged Up');
+delete from Objective where gameId in (select g.id from Game g where g.name = 'Charged Up');
+
+delete from game where name = 'Charged Up';
+*/
 
 -- Game
 insert into Game (name, gameYear) values ('Charged Up', 2023);
@@ -19,33 +26,39 @@ insert into Attribute select g.id, 'gamePiecePickup', 'How does your robot attai
 insert into Attribute select g.id, 'chargeStationDescription', 'Describe your charge station end game plan?', st.id, null, null, 8, getdate(), 'Chg Stat', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
 
 -- Attribute Values
-insert into attributeValue select a.id, 'No', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
-insert into attributeValue select a.id, 'Yes - Docked', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
-insert into attributeValue select a.id, 'Yes - Engaged', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
-insert into attributeValue select a.id, 'Above Charge Station', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
-insert into attributeValue select a.id, 'Behind Charge Station', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
-insert into attributeValue select a.id, 'Below Charge Station', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
-insert into attributeValue select a.id, 'No Preference', 3, 4, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
-insert into attributeValue select a.id, 'No', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'flexibleStart';
-insert into attributeValue select a.id, 'Yes', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'flexibleStart';
-insert into attributeValue select a.id, 'Off Floor', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
-insert into attributeValue select a.id, 'Substation Shelf', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
-insert into attributeValue select a.id, 'Both', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
-insert into attributeValue select a.id, 'Neither', 3, 4, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
+insert into AttributeValue select a.id, 'No', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
+insert into AttributeValue select a.id, 'Yes - Docked', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
+insert into AttributeValue select a.id, 'Yes - Engaged', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
+insert into AttributeValue select a.id, 'Above Charge Station', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
+insert into AttributeValue select a.id, 'Behind Charge Station', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
+insert into AttributeValue select a.id, 'Below Charge Station', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
+insert into AttributeValue select a.id, 'No Preference', 3, 4, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
+insert into AttributeValue select a.id, 'No', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'flexibleStart';
+insert into AttributeValue select a.id, 'Yes', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'flexibleStart';
+insert into AttributeValue select a.id, 'Off Floor', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
+insert into AttributeValue select a.id, 'Substation Shelf', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
+insert into AttributeValue select a.id, 'Both', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
+insert into AttributeValue select a.id, 'Neither', 3, 4, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePiecePickup';
 
 -- Objectives
 insert into Objective select g.id, 'aMove', 'Move out of Community:', st.id, null, null, null, 1, getdate(), 'aMove', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aGPLower', 'Auto Lwr:', st.id, 0, 3, 3, 2, getdate(), 'aLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aGPMiddle', 'Mdl:', st.id, 0, 3, 4, 3, getdate(), 'aMiddle', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aGPTop', 'Top:', st.id, 0, 3, 6, 4, getdate(), 'aTop', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCS', 'Charge Station:', st.id, null, null, null, 5, getdate(), 'aCS', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toGPLower', 'T/O Lwr:', st.id, 0, 15, 2, 6, getdate(), 'toLower', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toGPMiddle', 'Mdl:', st.id, 0, 15, 3, 7, getdate(), 'toMiddle', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toGPTop', 'Top:', st.id, 0, 15, 5, 7, getdate(), 'toTop', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 9, getdate(), 'Def', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toHP', 'Human Player Perf:', st.id, null, null, null, 10, getdate(), 'HP', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toEnd', 'End Game:', st.id, null, null, null, 11, getdate(), 'End', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'links', 'Links:', st.id, null, null, null, 12, getdate(), 'Links', 'S', 'N', 'Y' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Decimal'
+insert into Objective select g.id, 'aCoLow', 'Cone Low:', st.id, 0, 3, 3, 2, getdate(), 'aCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCoMid', 'Mid:', st.id, 0, 3, 4, 3, getdate(), 'aCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCoHi', 'Hi:', st.id, 0, 3, 6, 4, getdate(), 'aCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuLow', 'Cube Low:', st.id, 0, 3, 3, 5, getdate(), 'aCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuMid', 'Mid:', st.id, 0, 2, 4, 6, getdate(), 'aCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuHi', 'Hi:', st.id, 0, 2, 6, 7, getdate(), 'aCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCS', 'Charge Station:', st.id, null, null, null, 8, getdate(), 'aCS', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toCoLow', 'Cone Low:', st.id, 0, 9, 3, 9, getdate(), 'toCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCoMid', 'Mid:', st.id, 0, 6, 4, 10, getdate(), 'toCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCoHi', 'Hi:', st.id, 0, 6, 6, 11, getdate(), 'toCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuLow', 'Cube Low:', st.id, 0, 9, 3, 12, getdate(), 'toCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuMid', 'Mid:', st.id, 0, 3, 4, 13, getdate(), 'toCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuHi', 'Hi:', st.id, 0, 3, 6, 14, getdate(), 'toCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 15, getdate(), 'Def', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toHP', 'Human Player Perf:', st.id, null, null, null, 16, getdate(), 'HP', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toEnd', 'End Game:', st.id, null, null, null, 17, getdate(), 'End', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'links', 'Links:', st.id, null, null, null, 18, getdate(), 'Links', 'S', 'N', 'Y' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Decimal'
 
 -- Objective Value
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aMove'
@@ -67,71 +80,109 @@ insert into ObjectiveValue select o.id, 'Docked', 2, 3, 6, getdate(), 'N', 'Dock
 insert into ObjectiveValue select o.id, 'Engaged', 3, 4, 10, getdate(), 'Y', 'Engaged', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
 
 -- Objective Group Objectives
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aMove' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPLower' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPMiddle' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPTop' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCS' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPLower' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPMiddle' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPTop' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoLow' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoMid' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoHi' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuLow' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuMid' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuHi' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoLow' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoMid' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoHi' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuLow' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuMid' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuHi' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toDefense' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toHP' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toEnd' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aMove' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPLower' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPMiddle' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPTop' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoLow' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoMid' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoHi' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuLow' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuMid' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuHi' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCS' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPLower' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPMiddle' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPTop' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoLow' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoMid' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoHi' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuLow' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuMid' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuHi' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'links' and og.name = 'TeleOp' and og.groupCode = 'Report Pie Chart'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toEnd' and og.name = 'End Game' and og.groupCode = 'Report Pie Chart'
 
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aMove' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPLower' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPMiddle' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aGPTop' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoLow' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoMid' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoHi' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuLow' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuMid' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCuHi' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCS' and og.name = 'Autonomous' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPLower' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPMiddle' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toGPTop' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoLow' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoMid' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCoHi' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuLow' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuMid' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toCuHi' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'links' and og.name = 'TeleOp' and og.groupCode = 'Report Line Graph'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'toEnd' and og.name = 'End Game' and og.groupCode = 'Report Line Graph'
 
 -- Ranks
 insert into Rank select 'Auto', 'rankAuto', 'S', 1, getdate(), g.id from Game g where g.name = 'Charged Up'
-insert into Rank select 'ConeCube', 'rankCC', 'S', 2, getdate(), g.id from Game g where g.name = 'Charged Up'
-insert into Rank select 'End Game', 'rankFinish', 'S', 3, getdate(), g.id from Game g where g.name = 'Charged Up'
-insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 5, getdate(), g.id from Game g where g.name = 'Charged Up'
-insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 4, getdate(), g.id from Game g where g.name = 'Charged Up'
-insert into Rank select 'HP', 'rankHP', 'V', 6, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'Cone', 'rankCone', 'S', 2, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'Cube', 'rankCube', 'S', 3, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'Chg St', 'rankCS', 'S', 4, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 5, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 6, getdate(), g.id from Game g where g.name = 'Charged Up'
+insert into Rank select 'HP', 'rankHP', 'V', 7, getdate(), g.id from Game g where g.name = 'Charged Up'
 
 -- Rank Objective
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aMove' and r.name = 'Auto'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPLower' and r.name = 'Auto'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPMiddle' and r.name = 'Auto'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPTop' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoLow' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoMid' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoHi' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuLow' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuMid' and r.name = 'Auto'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuHi' and r.name = 'Auto'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCS' and r.name = 'Auto'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPLower' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPMiddle' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPTop' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPLower' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPMiddle' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPTop' and r.name = 'ConeCube'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd' and r.name = 'End Game'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toDefense' and r.name = 'Defense'
+
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoLow' and r.name = 'Cone'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoMid' and r.name = 'Cone'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoHi' and r.name = 'Cone'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoLow' and r.name = 'Cone'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoMid' and r.name = 'Cone'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoHi' and r.name = 'Cone'
+
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuLow' and r.name = 'Cube'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuMid' and r.name = 'Cube'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuHi' and r.name = 'Cube'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuLow' and r.name = 'Cube'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuMid' and r.name = 'Cube'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuHi' and r.name = 'Cube'
+
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCS' and r.name = 'Chg St'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd' and r.name = 'Chg St'
+
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aMove' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPLower' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPMiddle' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aGPTop' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoLow' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoMid' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCoHi' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuLow' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuMid' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCuHi' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCS' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPLower' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPMiddle' and r.name = 'Scr Imp'
-insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toGPTop' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoLow' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoMid' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCoHi' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuLow' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuMid' and r.name = 'Scr Imp'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toCuHi' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd' and r.name = 'Scr Imp'
+
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toDefense' and r.name = 'Defense'
+
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Charged Up' and o.name = 'toHP' and r.name = 'HP'
 
 -- Scout
