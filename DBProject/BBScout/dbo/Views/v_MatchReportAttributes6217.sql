@@ -1,5 +1,5 @@
 ﻿-- View for Match Robot Attributes
-CREATE view v_MatchReportAttributes6217 as
+CREATE view [dbo].[v_MatchReportAttributes6217] as
 select '<a href="../robotAttrSetup6217.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
      , t.teamNumber
 	 , t.id teamId
@@ -103,6 +103,56 @@ select '<a href="../robotAttrSetup6217.php?teamId=' + convert(varchar, t.id) + '
 			   and av.integerValue = ta.integerValue
 		 where a.sortOrder = 10
 		   and a.gameId = ge.gameId) attrValue10
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 11
+		   and a.gameId = ge.gameId) attrValue11
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 12
+		   and a.gameId = ge.gameId) attrValue12
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 13
+		   and a.gameId = ge.gameId) attrValue13
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 14
+		   and a.gameId = ge.gameId) attrValue14
+     , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
+	      from Attribute a
+		       left outer join TeamAttribute ta
+			   on ta.attributeId = a.id
+			   and ta.teamId = t.id
+			   left outer join AttributeValue av
+			   on av.attributeId = a.id
+			   and av.integerValue = ta.integerValue
+		 where a.sortOrder = 15
+		   and a.gameId = ge.gameId) attrValue15
 	 , tm.matchId
      , case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
@@ -137,6 +187,11 @@ select null teamUrl
      , null attrValue8
      , null attrValue9
      , null attrValue10
+     , null attrValue11
+     , null attrValue12
+     , null attrValue13
+     , null attrValue14
+     , null attrValue15
      , m.id matchId
      , '----' alliance
      , null alliancePosition

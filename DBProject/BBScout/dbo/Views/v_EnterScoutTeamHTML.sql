@@ -1,5 +1,6 @@
 ﻿
-CREATE view v_EnterScoutTeamHTML as
+
+CREATE view [dbo].[v_EnterScoutTeamHTML] as
 select a.name attributeName
 	 , a.label attributeLabel
 	 , av.displayValue
@@ -8,7 +9,7 @@ select a.name attributeName
 	 , av.sortOrder attributeValueSort
      , case when st.hasValueList = 'N' and st.name = 'Free Form'
 	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) + '" placeholder="' +
-			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'Drive Straight 5 feet') +
+			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '<Enter Text Here>') +
 			'" style="width: 320px"><br>'
 			when st.hasValueList = 'N'
 	        then case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
