@@ -44,6 +44,11 @@
 	$value8 = $_POST['value8'];
 	$value9 = $_POST['value9'];
 	$value10 = $_POST['value10'];
+	$value11 = $_POST['value11'];
+	$value12 = $_POST['value12'];
+	$value13 = $_POST['value13'];
+	$value14 = $_POST['value14'];
+	$value15 = $_POST['value15'];
 ?>
 	<p></p>
 	<h2>
@@ -71,6 +76,16 @@
 		$tsql .= ", '$value9'";
 	if (isset($value10))
 		$tsql .= ", '$value10'";
+	if (isset($value11))
+		$tsql .= ", '$value11'";
+	if (isset($value12))
+		$tsql .= ", '$value12'";
+	if (isset($value13))
+		$tsql .= ", '$value13'";
+	if (isset($value14))
+		$tsql .= ", '$value14'";
+	if (isset($value15))
+		$tsql .= ", '$value15'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
