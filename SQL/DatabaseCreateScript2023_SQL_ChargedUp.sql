@@ -18,17 +18,17 @@ insert into Game (name, gameYear) values ('Charged Up', 2023);
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
 insert into Attribute select g.id, 'role', 'What''s your role on the team?', st.id, null, null, 2, getdate(), 'Role', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
-insert into Attribute select g.id, 'driveTrain', 'What drivetrain is your robot using?', st.id, null, null, 3, getdate(), 'Drive Train', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'robotWidth', 'Width of your robot with bumpers (inches)?', st.id, null, null, 4, getdate(), 'Width', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Attribute select g.id, 'driveTrain', 'What drivetrain is robot using?', st.id, null, null, 3, getdate(), 'Drive Train', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'robotWidth', 'Width of robot with bumpers (inches)?', st.id, null, null, 4, getdate(), 'Width', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
 insert into Attribute select g.id, 'autoChargeStation', 'Do you have an auto charge station program?', st.id, null, null, 5, getdate(), 'Charge Stat', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'preferredStart', 'What is preferred start location?', st.id, null, null, 6, getdate(), 'Pref Start', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'flexibleStart', 'Does your autonomous allow for flexible start location?', st.id, null, null, 7, getdate(), 'Flex Start', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'autoNow', 'Describe your current autonomous program movment?', st.id, null, null, 8, getdate(), 'Auto Now', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
-insert into Attribute select g.id, 'AutoPlan', 'Describe any plans you have for changes to autonomous movement?', st.id, null, null, 9, getdate(), 'Auto Plan', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
-insert into Attribute select g.id, 'gamePiecePickup', 'How does your robot attain game pieces?', st.id, null, null, 10, getdate(), 'Pickup', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'gamePieces', 'Which game pieces does your robot work with?', st.id, null, null, 11, getdate(), 'Game Pieces', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'gamePieceLevel', 'Which levels can your robot place game pieces?', st.id, null, null, 12, getdate(), 'Game Piece Levels', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'chargeStationDescription', 'Describe your charge station end game plan?', st.id, null, null, 13, getdate(), 'Chg Stat', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
+insert into Attribute select g.id, 'flexibleStart', 'Does autonomous program allow for flexible start location?', st.id, null, null, 7, getdate(), 'Flex Start', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'autoNow', 'Describe current autonomous program movment?', st.id, null, null, 8, getdate(), 'Auto Now', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
+insert into Attribute select g.id, 'AutoPlan', 'Describe any plans for changes to autonomous movement?', st.id, null, null, 9, getdate(), 'Auto Plan', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
+insert into Attribute select g.id, 'gamePiecePickup', 'How does robot attain game pieces?', st.id, null, null, 10, getdate(), 'Pickup', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'gamePieces', 'Which game pieces does robot work with?', st.id, null, null, 11, getdate(), 'Game Pieces', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'gamePieceLevel', 'Which levels can robot place game pieces?', st.id, null, null, 12, getdate(), 'Game Piece Levels', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'chargeStationDescription', 'Describe the charge station end game plan?', st.id, null, null, 13, getdate(), 'Chg Stat', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
 
 -- Attribute Values
 insert into AttributeValue select a.id, 'Tank', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'driveTrain';
@@ -39,7 +39,7 @@ insert into AttributeValue select a.id, 'Kiwi', 4, 5, getdate() from Game g inne
 insert into AttributeValue select a.id, 'Other', 5, 6, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'driveTrain';
 insert into AttributeValue select a.id, 'No', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
 insert into AttributeValue select a.id, 'Yes - Docked', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
-insert into AttributeValue select a.id, 'Yes - Engaged', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
+insert into AttributeValue select a.id, 'Yes - Engaged', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'autoChargeStation';
 insert into AttributeValue select a.id, 'No Preference', 0, 1, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
 insert into AttributeValue select a.id, 'Above Charge Station', 1, 2, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
 insert into AttributeValue select a.id, 'Behind Charge Station', 2, 3, getdate() from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'preferredStart';
