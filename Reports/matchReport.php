@@ -270,6 +270,11 @@
 				  , attrValue8
 				  , attrValue9
 				  , attrValue10
+				  , attrValue11
+				  , attrValue12
+				  , attrValue13
+				  , attrValue14
+				  , attrValue15
 			   from v_MatchReportAttributes
 			  where loginGUID = '$loginGUID'
 			    and matchId = $match
@@ -298,6 +303,11 @@
 			if (isset($row['attrValue8'])) echo "<td>" . $row['attrValue8'] . "</td>";
 			if (isset($row['attrValue9'])) echo "<td>" . $row['attrValue9'] . "</td>";
 			if (isset($row['attrValue10'])) echo "<td>" . $row['attrValue10'] . "</td>";
+			if (isset($row['attrValue11'])) echo "<td>" . $row['attrValue11'] . "</td>";
+			if (isset($row['attrValue12'])) echo "<td>" . $row['attrValue12'] . "</td>";
+			if (isset($row['attrValue13'])) echo "<td>" . $row['attrValue13'] . "</td>";
+			if (isset($row['attrValue14'])) echo "<td>" . $row['attrValue14'] . "</td>";
+			if (isset($row['attrValue15'])) echo "<td>" . $row['attrValue15'] . "</td>";
        echo "</tr>";
     }
     ?>
