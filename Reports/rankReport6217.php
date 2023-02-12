@@ -45,7 +45,7 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
-	echo "<center><h2>Note: Teams already selected for Playoffs are mved to the bottom of the list.</h2></center>";
+	echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 ?>
 <div class="fixTableHead">
 <center>
@@ -81,9 +81,9 @@
 			}
 			sqlsrv_free_stmt($getResults);
 			echo "<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>";
+            echo "<th>Rank<br/>Pts</th>";
 			echo "<th>Playoff<br/>Selected?</th>";
 			?>
-            <th>Rank<br/>Pts</th>
         </tr>
 		</thead>
 		<tbody>
