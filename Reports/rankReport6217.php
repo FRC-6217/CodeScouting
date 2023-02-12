@@ -47,6 +47,7 @@
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 
+/*
 	//Update playoff selected for team if passed to the page
 	if (isset("$_GET[teamGameEventId]")) {
 		$teamGameEventId = "$_GET[teamGameEventId]";
@@ -61,6 +62,7 @@
 				}
 			}
 	}
+*/
 ?>
 <div class="fixTableHead">
 <center>
