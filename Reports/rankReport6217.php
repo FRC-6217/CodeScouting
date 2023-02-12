@@ -46,6 +46,21 @@
 	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
+
+	//Update playoff selected for team if passed to the page
+	if (isset($_GET[teamGameEventId])) {
+		$teamGameEventId = "$_GET[teamGameEventId]";
+		$tsql = "execute sp_upd_TeamPlayoffSelection $teamGameEventId";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+	}
 ?>
 <div class="fixTableHead">
 <center>
