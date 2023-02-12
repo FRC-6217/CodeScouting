@@ -48,10 +48,10 @@
 	echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 
 	//Update playoff selected for team if passed to the page
-	if (isset($_GET['teamGameEventId'])) {
-		$teamGameEventId = $_GET['teamGameEventId'];
-		echo "<center><h2>Found teamGameEventId " . $teamGameEventId . "</h2></center>";
-		$tsql = "execute sp_upd_TeamPlayoffSelection $teamGameEventId";
+	if (isset($_GET['toggleSelectedForPlayoff'])) {
+		$teamGameEventId = $_GET['toggleSelectedForPlayoff'];
+		echo "<center><h2>Found toggleSelectedForPlayoff " . $toggleSelectedForPlayoff . "</h2></center>";
+		$tsql = "execute sp_upd_TeamPlayoffSelection $toggleSelectedForPlayoff";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
