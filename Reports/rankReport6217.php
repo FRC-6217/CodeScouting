@@ -97,8 +97,8 @@
 			}
 			sqlsrv_free_stmt($getResults);
 			echo "<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>";
-            echo "<th>Rank<br/>Pts</th>";
 			?>
+            <th>Rank<br/>Pts</th>
         </tr>
 		</thead>
 		<tbody>
