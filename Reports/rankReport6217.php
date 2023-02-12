@@ -127,9 +127,9 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		echo "<td>" . $row['eventRank'] . "</td>";
 		echo "<td>" . $row['rankingPointAverage'] . "</td>";
 		if ($row['selectedForPlayoff'] =='Y') 
-			echo '<td><input type="checkbox" id="selectedForPlayoff" name="selectedForPlayoff" checked />';
+			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>Yes</a></td>";
 		else
-			echo '<td><input type="checkbox" id="selectedForPlayoff" name="selectedForPlayoff" />';
+			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>No</a></td>";
 		echo "</tr>";
 	}
 	sqlsrv_free_stmt($getResults);
