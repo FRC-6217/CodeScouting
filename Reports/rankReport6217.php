@@ -45,6 +45,7 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
+	echo "<center><h2>Note: Teams already selected for Playoffs are mved to the bottom of the list.</h2></center>";
 ?>
 <div class="fixTableHead">
 <center>
