@@ -52,6 +52,7 @@
     <table cellspacing="0" cellpadding="5">
 		<thead>
         <tr>
+			<th>Playoff<br/>Selected?</th>;
             <th>Team</th>
 			<th>Scouted<br/>Matches</th>
             <th>Avg<br/>Rank</th>
@@ -82,7 +83,6 @@
 			sqlsrv_free_stmt($getResults);
 			echo "<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>";
             echo "<th>Rank<br/>Pts</th>";
-			echo "<th>Playoff<br/>Selected?</th>";
 			?>
         </tr>
 		</thead>
@@ -101,6 +101,10 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
+		if ($row['selectedForPlayoff'] =='Y') 
+			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>Yes</a></td>";
+		else
+			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>No</a></td>";
 		echo "<td><a href='../Reports/robotReport6217.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 		echo "<td>" . $row['cntMatches'] . "</td>";
 		echo "<td>" . $row['avgRank'] . "</td>";
@@ -126,10 +130,6 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
 		echo "<td>" . $row['eventRank'] . "</td>";
 		echo "<td>" . $row['rankingPointAverage'] . "</td>";
-		if ($row['selectedForPlayoff'] =='Y') 
-			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>Yes</a></td>";
-		else
-			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>No</a></td>";
 		echo "</tr>";
 	}
 	sqlsrv_free_stmt($getResults);
