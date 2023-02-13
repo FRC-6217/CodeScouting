@@ -53,6 +53,11 @@
 	$value13 = $_POST['value13'];
 	$value14 = $_POST['value14'];
 	$value15 = $_POST['value15'];
+	$value16 = $_POST['value16'];
+	$value17 = $_POST['value17'];
+	$value18 = $_POST['value18'];
+	$value19 = $_POST['value19'];
+	$value20 = $_POST['value20'];
 	$alliance = substr($alliancePosition, 0, 1);
 	$position = substr($alliancePosition, 1, 1);
 
@@ -128,6 +133,16 @@
 		$tsql .= ", '$value14'";
 	if (isset($value15))
 		$tsql .= ", '$value15'";
+	if (isset($value16))
+		$tsql .= ", '$value16'";
+	if (isset($value17))
+		$tsql .= ", '$value17'";
+	if (isset($value18))
+		$tsql .= ", '$value18'";
+	if (isset($value19))
+		$tsql .= ", '$value19'";
+	if (isset($value20))
+		$tsql .= ", '$value20'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<center>Submission Succeeded!</center>";
