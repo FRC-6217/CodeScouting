@@ -44,7 +44,7 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$playoffStarted = $rom['playoffStarted'];
+	$playoffStarted = $row['playoffStarted'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	if ($playoffStarted == 1)
 		echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
