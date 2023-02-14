@@ -1,5 +1,4 @@
-﻿
--- Rank Query (as a stored procedure to improve query performance
+﻿-- Rank Query (as a stored procedure to improve query performance
 CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
 AS
@@ -13,7 +12,8 @@ BEGIN
 	                          , value numeric(38, 6)
 							  , rank integer
 							  , rankingPointAverage numeric(10, 3)
-							  , teamGameEventId int);
+							  , teamGameEventId int
+							  , selectedForPlayoff char(1));
 	SET NOCOUNT ON
 	-- Get Sort Order
 	SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
@@ -66,6 +66,7 @@ BEGIN
 		 , tge.rank
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
+		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
 	  from rank r
 		   inner join RankObjective ro
 		   on ro.rankId = r.id
@@ -86,7 +87,8 @@ BEGIN
 		   , atr.cntMatches
 		   , tge.rank
 		   , tge.rankingPointAverage
-		   , tge.id;
+		   , tge.id
+		   , tge.selectedForPlayoff;
 
 	-- Add teams that do not have a scout record yet
 	INSERT INTO #AvgTeamRecord
@@ -99,6 +101,7 @@ BEGIN
 		 , tge.rank
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
+		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
       from rank r
 		   inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
@@ -159,6 +162,7 @@ BEGIN
 		 , subquery.eventRank
 		 , subquery.rankingPointAverage
 		 , subquery.teamGameEventId
+		 , subquery.selectedForPlayoff
 	  from (
 	select atr.teamId
 		 , atr.gameId
@@ -175,6 +179,7 @@ BEGIN
 		 , atr.rank eventRank
 		 , atr.rankingPointAverage
 		 , atr.teamGameEventId
+		 , atr.selectedForPlayoff
       from #AvgTeamRecord atr) subquery
 	       inner join Team t
 		   on t.id = subquery.teamId
@@ -186,7 +191,9 @@ BEGIN
  		   , subquery.eventRank
 		   , subquery.rankingPointAverage
 		   , subquery.teamGameEventId
-	order by case when @lv_SortOrder = -99 then subquery.eventRank
+		   , subquery.selectedForPlayoff
+	order by subquery.selectedForPlayoff
+	       , case when @lv_SortOrder = -99 then subquery.eventRank
 	              else sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end) end
 	       , t.teamNumber;
 

@@ -121,5 +121,7 @@
     <Build Include="dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_teamMatches.sql" />
     <Build Include="dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql" />
+    <Build Include="dbo\Views\v_PlayoffStarted.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_TeamPlayoffSelection.sql" />
   </ItemGroup>
 </Project>

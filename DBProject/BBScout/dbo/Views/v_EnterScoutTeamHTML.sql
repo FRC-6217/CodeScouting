@@ -1,6 +1,4 @@
-﻿
-
-CREATE view [dbo].[v_EnterScoutTeamHTML] as
+﻿CREATE view [dbo].[v_EnterScoutTeamHTML] as
 select a.name attributeName
 	 , a.label attributeLabel
 	 , av.displayValue
@@ -9,7 +7,7 @@ select a.name attributeName
 	 , av.sortOrder attributeValueSort
      , case when st.hasValueList = 'N' and st.name = 'Free Form'
 	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) + '" placeholder="' +
-			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '<Enter Text Here>') +
+			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), a.defaultText) +
 			'" style="width: 320px"><br>'
 			when st.hasValueList = 'N'
 	        then case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
@@ -18,10 +16,10 @@ select a.name attributeName
 			when av.sortOrder = 1
 	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
 			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'checked="checked"') +
-			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>'
-			else                        '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
+			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '>'
+			else case when av.sameLineAsPrevious = 'Y' then '' else '<br>' end + '&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
 			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '') +
-			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '><br>' end scoutTeamHtml
+			' name ="value' + convert(varchar, a.sortOrder) + '" value=' + convert(varchar, av.integerValue) + '>' + case when av.lastValue = 'Y' then '<br>' else '' end end scoutTeamHtml
 	 , t.id teamId
 	 , t.teamNumber
 	 , ge.loginGUID

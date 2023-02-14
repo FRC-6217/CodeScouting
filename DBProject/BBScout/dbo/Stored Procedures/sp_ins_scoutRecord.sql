@@ -18,7 +18,12 @@
                                    , @pv_TextValue12 varchar(4000) = null
                                    , @pv_TextValue13 varchar(4000) = null
                                    , @pv_TextValue14 varchar(4000) = null
-                                   , @pv_TextValue15 varchar(4000) = null)
+                                   , @pv_TextValue15 varchar(4000) = null
+                                   , @pv_TextValue16 varchar(4000) = null
+                                   , @pv_TextValue17 varchar(4000) = null
+                                   , @pv_TextValue18 varchar(4000) = null
+                                   , @pv_TextValue19 varchar(4000) = null
+                                   , @pv_TextValue20 varchar(4000) = null)
 AS
 declare @lv_Id integer;
 
@@ -69,6 +74,11 @@ BEGIN
 					          when o.sortOrder = 13 then convert(integer, @pv_TextValue13)
 					          when o.sortOrder = 14 then convert(integer, @pv_TextValue14)
 					          when o.sortOrder = 15 then convert(integer, @pv_TextValue15)
+					          when o.sortOrder = 16 then convert(integer, @pv_TextValue16)
+					          when o.sortOrder = 17 then convert(integer, @pv_TextValue17)
+					          when o.sortOrder = 18 then convert(integer, @pv_TextValue18)
+					          when o.sortOrder = 19 then convert(integer, @pv_TextValue19)
+					          when o.sortOrder = 20 then convert(integer, @pv_TextValue20)
 					          else null end
 					end integerValue
 			 , case when st.name = 'Free Form'
@@ -87,6 +97,11 @@ BEGIN
 					          when o.sortOrder = 13 then @pv_TextValue13
 					          when o.sortOrder = 14 then @pv_TextValue14
 					          when o.sortOrder = 15 then @pv_TextValue15
+					          when o.sortOrder = 16 then @pv_TextValue16
+					          when o.sortOrder = 17 then @pv_TextValue17
+					          when o.sortOrder = 18 then @pv_TextValue18
+					          when o.sortOrder = 19 then @pv_TextValue19
+					          when o.sortOrder = 20 then @pv_TextValue20
 					          else null end
 					else null end textValue
 		  FROM Match m

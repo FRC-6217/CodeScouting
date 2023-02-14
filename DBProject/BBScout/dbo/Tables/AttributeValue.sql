@@ -1,13 +1,17 @@
 ﻿CREATE TABLE [dbo].[AttributeValue] (
-    [id]           INT          IDENTITY (1, 1) NOT NULL,
-    [attributeId]  INT          NOT NULL,
-    [displayValue] VARCHAR (64) NOT NULL,
-    [integerValue] INT          NULL,
-    [sortOrder]    INT          NULL,
-    [lastUpdated]  DATETIME     NULL,
+    [id]                 INT          IDENTITY (1, 1) NOT NULL,
+    [attributeId]        INT          NOT NULL,
+    [displayValue]       VARCHAR (64) NOT NULL,
+    [integerValue]       INT          NULL,
+    [sortOrder]          INT          NULL,
+    [lastUpdated]        DATETIME     NULL,
+    [sameLineAsPrevious] CHAR (1)     NOT NULL,
+    [lastValue]          CHAR (1)     NOT NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_AttributeValue_Attribute] FOREIGN KEY ([attributeId]) REFERENCES [dbo].[Attribute] ([id])
 );
+
+
 
 
 GO
