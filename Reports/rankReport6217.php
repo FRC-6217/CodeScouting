@@ -32,7 +32,7 @@
 
 	$rankName = "$_GET[rankName]";
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select scoutGUID, playoffStarted from v_PlayoffStarted where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -44,8 +44,10 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$playoffStarted = $rom['playoffStarted'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
-	echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
+	if ($playoffStarted == 1)
+		echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 
 	//Update playoff selected for team if passed to the page
 	if (isset($_GET['toggleSelectedForPlayoff'])) {
@@ -67,7 +69,10 @@
     <table cellspacing="0" cellpadding="5">
 		<thead>
         <tr>
-			<th>Playoff<br/>Selected?</th>;
+<?php
+		if ($playoffStarted == 1)
+			echo "<th>Playoff<br/>Selected?</th>";
+?>
             <th>Team</th>
 			<th>Scouted<br/>Matches</th>
             <th>Avg<br/>Rank</th>
@@ -116,10 +121,13 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-		if ($row['selectedForPlayoff'] =='Y') 
-			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>Yes</a></td>";
-		else
-			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "'>No</a></td>";
+		if ($playoffStarted == 1) {
+			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'];
+			if ($row['selectedForPlayoff'] =='Y') 
+				echo "'>Yes</a></td>";
+			else
+				echo "'>No</a></td>";
+		}
 		echo "<td><a href='../Reports/robotReport6217.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 		echo "<td>" . $row['cntMatches'] . "</td>";
 		echo "<td>" . $row['avgRank'] . "</td>";
