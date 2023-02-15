@@ -63,26 +63,29 @@ insert into AttributeValue select a.id, 'Hi Only', 5, 6, getdate(), 'N', 'N' fro
 insert into AttributeValue select a.id, 'Floor, Mid & Hi', 6, 7, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Charged Up' and a.name = 'gamePieceLevel';
 
 -- Objectives
-insert into Objective select g.id, 'aCoLow', 'Cone Low:', st.id, 0, 3, 3, 1, getdate(), 'aCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCoMid', 'Mid:', st.id, 0, 3, 4, 2, getdate(), 'aCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCoHi', 'Hi:', st.id, 0, 3, 6, 3, getdate(), 'aCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCuLow', 'Cube Low:', st.id, 0, 3, 3, 4, getdate(), 'aCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCuMid', 'Mid:', st.id, 0, 2, 4, 5, getdate(), 'aCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'aCuHi', 'Hi:', st.id, 0, 2, 6, 6, getdate(), 'aCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCoLow', 'Cone Low:', st.id, 0, 9, 3, 7, getdate(), 'toCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCoMid', 'Mid:', st.id, 0, 6, 4, 8, getdate(), 'toCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCoHi', 'Hi:', st.id, 0, 6, 6, 9, getdate(), 'toCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCuLow', 'Cube Low:', st.id, 0, 9, 3, 10, getdate(), 'toCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCuMid', 'Mid:', st.id, 0, 3, 4, 11, getdate(), 'toCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toCuHi', 'Hi:', st.id, 0, 3, 6, 12, getdate(), 'toCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 13, getdate(), 'Def', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toHP', 'Human Player Perf:', st.id, null, null, null, 14, getdate(), 'HP', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aMove', 'Move out of Community:', st.id, null, null, null, 15, getdate(), 'aMove', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aCS', 'Charge Station:', st.id, null, null, null, 16, getdate(), 'aCS', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toEnd', 'End Game:', st.id, null, null, null, 17, getdate(), 'End', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
-insert into Objective select g.id, 'links', 'Links:', st.id, null, null, null, 18, getdate(), 'Links', 'S', 'N', 'Y' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Decimal'
+insert into Objective select g.id, 'aAtmptCS', 'Attempt Chg Stat:', st.id, null, null, null, 1, getdate(), 'aAtmptCS', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aCoLow', 'Cone Low:', st.id, 0, 3, 3, 2, getdate(), 'aCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCoMid', 'Mid:', st.id, 0, 3, 4, 3, getdate(), 'aCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCoHi', 'Hi:', st.id, 0, 3, 6, 4, getdate(), 'aCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuLow', 'Cube Low:', st.id, 0, 3, 3, 5, getdate(), 'aCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuMid', 'Mid:', st.id, 0, 2, 4, 6, getdate(), 'aCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'aCuHi', 'Hi:', st.id, 0, 2, 6, 7, getdate(), 'aCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCoLow', 'Cone Low:', st.id, 0, 9, 3, 8, getdate(), 'toCoLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCoMid', 'Mid:', st.id, 0, 6, 4, 9, getdate(), 'toCoMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCoHi', 'Hi:', st.id, 0, 6, 6, 10, getdate(), 'toCoHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuLow', 'Cube Low:', st.id, 0, 9, 3, 11, getdate(), 'toCuLow', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuMid', 'Mid:', st.id, 0, 3, 4, 12, getdate(), 'toCuMid', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toCuHi', 'Hi:', st.id, 0, 3, 6, 13, getdate(), 'toCuHi', 'I', 'Y', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense:', st.id, null, null, null, 14, getdate(), 'Def', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toHP', 'Human Player Perf:', st.id, null, null, null, 15, getdate(), 'HP', 'I', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aMove', 'Move out of Community:', st.id, null, null, null, 16, getdate(), 'aMove', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aCS', 'Charge Station:', st.id, null, null, null, 17, getdate(), 'aCS', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toEnd', 'End Game:', st.id, null, null, null, 18, getdate(), 'End', 'S', 'N', 'N' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Radio Button'
+insert into Objective select g.id, 'links', 'Links:', st.id, null, null, null, 19, getdate(), 'Links', 'S', 'N', 'Y' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Decimal'
 
 -- Objective Value
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'Y', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aAtmptCS'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 0, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aAtmptCS'
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aMove'
 insert into ObjectiveValue select o.id, 'Yes', 1, 2, 3, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aMove'
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'aCS'
@@ -102,6 +105,7 @@ insert into ObjectiveValue select o.id, 'Docked', 2, 3, 6, getdate(), 'N', 'Dock
 insert into ObjectiveValue select o.id, 'Engaged', 3, 4, 10, getdate(), 'Y', 'Engaged', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
 
 -- Objective Group Objectives
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aAtmptCS' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoLow' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoMid' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Charged Up' and o.name = 'aCoHi' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
@@ -229,7 +233,8 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'McGeough', 'Riley', t.id, 'Y', 'riley.mcgeough@icloud.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'McGeough' and s.firstName = 'Riley' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'McGuire', 'Tyler', t.id, 'Y', '24tm01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'McGuire' and s.firstName = 'Tyler' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Olson', 'Maddie', t.id, 'Y', '27mo01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Olson' and s.firstName = 'Maddie' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rapp', 'Isaac', t.id, 'Y', '26ar01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rapp' and s.firstName = 'Isaac' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rapp', 'Axel', t.id, 'Y', '26ar01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rapp' and s.firstName = 'Axel' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rapp', 'Isaac', t.id, 'Y', '25ir01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rapp' and s.firstName = 'Isaac' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rapp', 'Tyler', t.id, 'Y', '23tr01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rapp' and s.firstName = 'Tyler' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Strecker', 'Teagan', t.id, 'Y', '23ts01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Strecker' and s.firstName = 'Teagan' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Strecker', 'Torin', t.id, 'Y', '26ts01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Strecker' and s.firstName = 'Torin' and s.teamId = t.id);
@@ -252,6 +257,7 @@ update Scout set isActive = 'Y' where lastName = 'McGeough' and firstName = 'And
 update Scout set isActive = 'Y' where lastName = 'McGeough' and firstName = 'Riley' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where lastName = 'McGuire' and firstName = 'Tyler' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where lastName = 'Olson' and firstName = 'Maddie' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where lastName = 'Rapp' and firstName = 'Axel' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where lastName = 'Rapp' and firstName = 'Isaac' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where lastName = 'Rapp' and firstName = 'Tyler' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where lastName = 'Strecker' and firstName = 'Teagan' and teamId = (select id from Team where teamNumber = 6217);

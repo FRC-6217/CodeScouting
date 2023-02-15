@@ -258,6 +258,11 @@ $tsql = "select TeamNumber
               , value13
               , value14
               , value15
+              , value16
+              , value17
+              , value18
+              , value19
+              , value20
 			  , totalScoreValue
 			  , textValue1
               , textValue2
@@ -274,6 +279,11 @@ $tsql = "select TeamNumber
               , textValue13
               , textValue14
               , textValue15
+              , textValue16
+              , textValue17
+              , textValue18
+              , textValue19
+              , textValue20
 			  , videos
               , TeamId
               , matchId
@@ -317,6 +327,11 @@ $tsql = "select TeamNumber
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif (isset($row['textValue13'])) echo "<td>" . $row['textValue13'] . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif (isset($row['textValue14'])) echo "<td>" . $row['textValue14'] . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif (isset($row['textValue15'])) echo "<td>" . $row['textValue15'] . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+			if (isset($row['value16'])) echo "<td>" . number_format($row['value16'], 2) . "</td>"; elseif (isset($row['textValue16'])) echo "<td>" . $row['textValue16'] . "</td>"; elseif ($cnt >= 16) echo "<td></td>";
+			if (isset($row['value17'])) echo "<td>" . number_format($row['value17'], 2) . "</td>"; elseif (isset($row['textValue17'])) echo "<td>" . $row['textValue17'] . "</td>"; elseif ($cnt >= 17) echo "<td></td>";
+			if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif (isset($row['textValue18'])) echo "<td>" . $row['textValue18'] . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
+			if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif (isset($row['textValue19'])) echo "<td>" . $row['textValue19'] . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
+			if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif (isset($row['textValue20'])) echo "<td>" . $row['textValue20'] . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
 			if (isset($row['scoutComment'])) echo "<td>" . $row['scoutComment'] . "</td>"; else echo "<td></td>";
