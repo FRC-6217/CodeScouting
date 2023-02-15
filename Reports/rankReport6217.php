@@ -48,7 +48,7 @@
 	$cntPlayoffSelected = $row['cntPlayoffSelected'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	if ($playoffStarted == 1)
-		echo "<center><h2>Note: " . &cntPlayoffSelected . " Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
+		echo "<center><h2>Note: " . $cntPlayoffSelected . " Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 
 	//Update playoff selected for team if passed to the page
 	if (isset($_GET['toggleSelectedForPlayoff'])) {
