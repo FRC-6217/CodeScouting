@@ -32,7 +32,7 @@
 
 	$rankName = "$_GET[rankName]";
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID, playoffStarted from v_PlayoffStarted where emailAddress = '$loginEmailAddress'";
+	$tsql = "select scoutGUID, playoffStarted, cntPlayoffSelected from v_PlayoffStarted where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -45,9 +45,10 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$playoffStarted = $row['playoffStarted'];
+	$cntPlayoffSelected = $row['cntPlayoffSelected'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	if ($playoffStarted == 1)
-		echo "<center><h2>Note: Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
+		echo "<center><h2>Note: " . &cntPlayoffSelected . " Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
 
 	//Update playoff selected for team if passed to the page
 	if (isset($_GET['toggleSelectedForPlayoff'])) {
