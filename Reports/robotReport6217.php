@@ -235,7 +235,7 @@
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
-			<th>Links</th>
+			<th>URLs</th>
 			<th>Match Comment</th>
     </tr>
 <?php
