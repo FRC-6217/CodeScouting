@@ -379,6 +379,11 @@
 					  , value13
 					  , value14
 					  , value15
+					  , value16
+					  , value17
+					  , value18
+					  , value19
+					  , value20
 					  , totalScoreValue
 					  , matchFoulPoints
 					  , matchScore
@@ -432,6 +437,11 @@
 			if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 			if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 			if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+			if (isset($row['value16'])) echo "<td>" . number_format($row['value16'], 2) . "</td>"; elseif ($cnt >= 16) echo "<td></td>";
+			if (isset($row['value17'])) echo "<td>" . number_format($row['value17'], 2) . "</td>"; elseif ($cnt >= 17) echo "<td></td>";
+			if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
+			if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
+			if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
 			if (isset($row['matchFoulPoints'])) echo "<td>" . number_format($row['matchFoulPoints'], 2) . "</td>";
 			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
