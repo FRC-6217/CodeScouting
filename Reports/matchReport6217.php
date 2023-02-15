@@ -137,7 +137,7 @@
 							on st.id = o.scoringTypeId
                       where ge.loginGUID = '$loginGUID'
 					    and st.name <> 'Free Form'
-					 order by o.sortOrder";
+					 order by o.reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
@@ -338,7 +338,7 @@
 							on st.id = o.scoringTypeId
                       where ge.loginGUID = '$loginGUID'
 					    and st.name <> 'Free Form'
-					 order by o.sortOrder ";
+					 order by o.reportSortOrder ";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {

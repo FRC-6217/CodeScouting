@@ -218,7 +218,7 @@
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
                       where ge.loginGUID = '$loginGUID'
-					 order by o.sortOrder";
+					 order by o.reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
