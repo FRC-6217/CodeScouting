@@ -234,7 +234,8 @@
 									  , objectiveValueSort
 									  , scoutRecordHtml
 								   from v_UpdateScoutRecordHTML
-								  where scoutRecordId = " . $scoutRecordId . " 
+								  where loginGUID = '$loginGUID'
+								    and scoutRecordId = " . $scoutRecordId . " 
 								 union
 								 select esrh.groupName
 									  , esrh.objectiveName
