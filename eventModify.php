@@ -937,17 +937,17 @@
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
 							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["autoChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
 							     or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot1"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot2"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)
 								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot3"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot1"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot2"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)
 								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)))
+							   " and o.name = 'toEnd' and ov.tbaValue = case '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot3"] . "' when 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end when 'Park' then 'Park' else 'None' end)))
 							     as source (teamMatchId, objectiveId, integerValue)
 							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
 							when matched and target.integerValue <> source.integerValue
@@ -985,46 +985,29 @@
 								   inner join Objective o
 								   on o.gameId = g.id
 								   inner join 
-								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsBottom"] . " integerValue, 'aPcLower' objectiveName
+								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsBottom"] . " integerValue, 'aCoLow' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsOuter"] . " integerValue, 'aPcOuter' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsOuter"] . " integerValue, 'aCoMid' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsInner"] . " integerValue, 'aPcInner' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsInner"] . " integerValue, 'aCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsBottom"] . " integerValue, 'aPcLower' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsBottom"] . " integerValue, 'aCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsOuter"] . " integerValue, 'aPcOuter' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsOuter"] . " integerValue, 'aCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsInner"] . " integerValue, 'aPcInner' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsInner"] . " integerValue, 'aCuHi' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsBottom"] . " integerValue, 'toPcLower' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsBottom"] . " integerValue, 'toCoLow' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsOuter"] . " integerValue, 'toPcOuter' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsOuter"] . " integerValue, 'toCoMid' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsInner"] . " integerValue, 'toCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsBottom"] . " integerValue, 'toPcLower' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsBottom"] . " integerValue, 'toCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsOuter"] . " integerValue, 'toPcOuter' objectiveName
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsOuter"] . " integerValue, 'toCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
-								    union ";
-							if (!$value["score_breakdown"]["red"]["stage2Activated"])
-								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
-							else
-								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
-							if (!$value["score_breakdown"]["blue"]["stage2Activated"])
-								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
-							else
-								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
-							if (!$value["score_breakdown"]["red"]["stage3Activated"])
-								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpPosition' objectiveName union ";
-							else
-								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union ";
-							if (!$value["score_breakdown"]["blue"]["stage3Activated"])
-								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName) tba";
-							else
-								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toCuHi' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
 							"  and ge.id = " . $gameEventId . ")" .

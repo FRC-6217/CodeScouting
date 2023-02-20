@@ -100,7 +100,7 @@ insert into ObjectiveValue select o.id, 'Poor HP', -1, 2, 0, getdate(), 'Y', nul
 insert into ObjectiveValue select o.id, 'Good HP', 1, 3, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toHP'
 insert into ObjectiveValue select o.id, 'Excellent HP', 2, 4, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toHP'
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'Parked', 1, 2, 2, getdate(), 'Y', 'Parked', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'Parked', 1, 2, 2, getdate(), 'Y', 'Park', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'Docked', 2, 3, 6, getdate(), 'N', 'Docked', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'Engaged', 3, 4, 10, getdate(), 'Y', 'Engaged', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Charged Up' and o.name = 'toEnd'
 
