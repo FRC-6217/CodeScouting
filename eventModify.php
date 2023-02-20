@@ -1134,7 +1134,7 @@
 								    union
 									select 'R' alliance, " . $toCuHiR . " integerValue, 'toCuHi' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["linkPoints"] . " integerValue, 'links' objectiveName
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["linkPoints"] . " / 5 integerValue, 'links' objectiveName
 								    union
 									select 'B' alliance, " . $aCoLowB . " integerValue, 'aCoLow' objectiveName
 								    union
@@ -1160,7 +1160,7 @@
 								    union
 									select 'B' alliance, " . $toCuHiB . " integerValue, 'toCuHi' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["linkPoints"] . " integerValue, 'links' objectiveName) tba";
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["linkPoints"] . " / 5 integerValue, 'links' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
 							"  and ge.id = " . $gameEventId . ")" .
