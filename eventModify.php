@@ -178,12 +178,16 @@
 			    $value["score_breakdown"]["red"]["endgameRungIsLevel"] == "IsLevel" &&
 			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40)
 				$redAlliancePoints = 15;
+			elseif ($gameYear == 2023)
+				$redAlliancePoints = $value["score_breakdown"]["red"]["linkPoints"];
 			else
 				$redAlliancePoints = 0;
 			if ($gameYear == 2020 &&
 				$value["score_breakdown"]["blue"]["endgameRungIsLevel"] == "IsLevel" &&
 			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40)
 				$blueAlliancePoints = 15;
+			elseif ($gameYear == 2023)
+				$blueAlliancePoints = $value["score_breakdown"]["blue"]["linkPoints"];
 			else
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
@@ -889,6 +893,165 @@
 					}
 				}
 			}
+			// Update TeamMatch Scout Data from TBA for 2023 - Charged Up
+			if ($gameYear == 2023 && $matchComplete == 1) {
+				$tsql = "merge TeamMatchObjective as Target
+							using (
+							select tm.id teamMatchId
+								 , o.id objectiveId
+								 , ov.integerValue
+							  from Team t
+								   inner join TeamMatch tm
+								   on tm.teamId = t.id,
+								   GameEvent ge
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join ObjectiveValue ov
+								   on ov.objectiveId = o.id
+							 where tm.matchId = " . $matchId .
+							"  and ge.id = " . $gameEventId .
+							"  and ((t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . 
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["mobilityRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["mobilityRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["mobilityRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["mobilityRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["mobilityRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'aMove' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["mobilityRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["autoChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["autoChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["autoChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["autoChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["autoChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'aCS' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["autoChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["autoBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+							     or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["red"]["endGameChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["red"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot1"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot2"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = case when '" . $value["score_breakdown"]["blue"]["endGameChargeStationRobot3"] . "' = 'Docked' then case when '" . $value["score_breakdown"]["blue"]["endGameBridgeState"] . "' = 'Level' then 'Engaged' else 'Docked' end else 'None' end)))
+							     as source (teamMatchId, objectiveId, integerValue)
+							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (teamMatchId, objectiveId, integerValue)
+								 values (source.teamMatchId, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Team Match Scout Records for Match " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+/*
+				// Update Match objective data not tied to a Team for 2023
+				$tsql = "merge MatchObjective as Target
+							using (
+							select m.id matchId
+							     , tba.alliance
+								 , o.id objectiveId
+								 , tba.integerValue
+							  from Match m
+							       inner join GameEvent ge
+								   on ge.id = m.gameEventId
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join 
+								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsBottom"] . " integerValue, 'aPcLower' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsOuter"] . " integerValue, 'aPcOuter' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsInner"] . " integerValue, 'aPcInner' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsBottom"] . " integerValue, 'aPcLower' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsOuter"] . " integerValue, 'aPcOuter' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsInner"] . " integerValue, 'aPcInner' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsBottom"] . " integerValue, 'toPcLower' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsOuter"] . " integerValue, 'toPcOuter' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsBottom"] . " integerValue, 'toPcLower' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsOuter"] . " integerValue, 'toPcOuter' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toPcInner' objectiveName
+								    union ";
+							if (!$value["score_breakdown"]["red"]["stage2Activated"])
+								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
+							else
+								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
+							if (!$value["score_breakdown"]["blue"]["stage2Activated"])
+								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpRotation' objectiveName union ";
+							else
+								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpRotation' objectiveName union ";
+							if (!$value["score_breakdown"]["red"]["stage3Activated"])
+								$tsql .= "select 'R' alliance, 0 integerValue, 'toCpPosition' objectiveName union ";
+							else
+								$tsql .= "select 'R' alliance, 1 integerValue, 'toCpPosition' objectiveName union ";
+							if (!$value["score_breakdown"]["blue"]["stage3Activated"])
+								$tsql .= "select 'B' alliance, 0 integerValue, 'toCpPosition' objectiveName) tba";
+							else
+								$tsql .= "select 'B' alliance, 1 integerValue, 'toCpPosition' objectiveName) tba";
+				$tsql .= " on tba.objectiveName = o.name
+							 where m.id = " . $matchId .
+							"  and ge.id = " . $gameEventId . ")" .
+							"     as source (matchId, alliance, objectiveId, integerValue)
+							on (target.matchId = source.matchId and target.alliance = source.alliance and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (matchId, alliance, objectiveId, integerValue)
+								 values (source.matchId, source.alliance, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Match Alliance Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+*/
+			}
+
 			$cnt += 1;
 		}
 
