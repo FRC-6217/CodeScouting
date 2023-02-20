@@ -995,6 +995,107 @@
 				$toCuLowB = 0;
 				$toCuMidB = 0;
 				$toCuHiB = 0;
+				// Loop through arrays for counts of Cubes/Cones on Auto Red
+				$arr = $value["score_breakdown"]["red"]["autoCommunity"]["B"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoLowR = $aCoLowR + 1;
+					if ($gamePiece == "Cube")
+						$aCuLowR = $aCuLowR + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["red"]["autoCommunity"]["M"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoMidR = $aCoMidR + 1;
+					if ($gamePiece == "Cube")
+						$aCuMidR = $aCuMidR + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["red"]["autoCommunity"]["T"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoHiR = $aCoHiR + 1;
+					if ($gamePiece == "Cube")
+						$aCuHiR = $aCuHiR + 1;
+				}
+				unset($gamePiece);
+				// Loop through arrays for counts of Cubes/Cones on TeleOp Red
+				$arr = $value["score_breakdown"]["red"]["teleopCommunity"]["B"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoLowR = $toCoLowR + 1;
+					if ($gamePiece == "Cube")
+						$toCuLowR = $toCuLowR + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["red"]["teleopCommunity"]["M"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoMidR = $toCoMidR + 1;
+					if ($gamePiece == "Cube")
+						$toCuMidR = $toCuMidR + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["red"]["teleopCommunity"]["T"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoHiR = $toCoHiR + 1;
+					if ($gamePiece == "Cube")
+						$toCuHiR = $toCuHiR + 1;
+				}
+				unset($gamePiece);
+				// Loop through arrays for counts of Cubes/Cones on Auto Blue
+				$arr = $value["score_breakdown"]["blue"]["autoCommunity"]["B"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoLowB = $aCoLowB + 1;
+					if ($gamePiece == "Cube")
+						$aCuLowB = $aCuLowB + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["blue"]["autoCommunity"]["M"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoMidB = $aCoMidB + 1;
+					if ($gamePiece == "Cube")
+						$aCuMidB = $aCuMidB + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["blue"]["autoCommunity"]["T"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$aCoHiB = $aCoHiB + 1;
+					if ($gamePiece == "Cube")
+						$aCuHiB = $aCuHiB + 1;
+				}
+				unset($gamePiece);
+				// Loop through arrays for counts of Cubes/Cones on TeleOp Blue
+				$arr = $value["score_breakdown"]["blue"]["teleopCommunity"]["B"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoLowB = $toCoLowB + 1;
+					if ($gamePiece == "Cube")
+						$toCuLowB = $toCuLowB + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["blue"]["teleopCommunity"]["M"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoMidB = $toCoMidB + 1;
+					if ($gamePiece == "Cube")
+						$toCuMidB = $toCuMidB + 1;
+				}
+				unset($gamePiece);
+				$arr = $value["score_breakdown"]["blue"]["teleopCommunity"]["T"];
+				foreach ($arr as $gamePiece) {
+					if ($gamePiece == "Cone")
+						$toCoHiB = $toCoHiB + 1;
+					if ($gamePiece == "Cube")
+						$toCuHiB = $toCuHiB + 1;
+				}
+				unset($gamePiece);
+				// Merge new data
 				$tsql = "merge MatchObjective as Target
 							using (
 							select m.id matchId
@@ -1033,29 +1134,29 @@
 								    union
 									select 'R' alliance, " . $toCuHiR . " integerValue, 'toCuHi' objectiveName
 								    union
-									select 'B' alliance, " . $aCoLowR . " integerValue, 'aCoMid' objectiveName
+									select 'B' alliance, " . $aCoLowB . " integerValue, 'aCoMid' objectiveName
 								    union
-									select 'B' alliance, " . $aCoMidR . " integerValue, 'aCoMid' objectiveName
+									select 'B' alliance, " . $aCoMidB . " integerValue, 'aCoMid' objectiveName
 								    union
-									select 'B' alliance, " . $aCoHiR . " integerValue, 'aCoHi' objectiveName
+									select 'B' alliance, " . $aCoHiB . " integerValue, 'aCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $aCuLowR . " integerValue, 'aCuLow' objectiveName
+									select 'B' alliance, " . $aCuLowB . " integerValue, 'aCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $aCuMidR . " integerValue, 'aCuMid' objectiveName
+									select 'B' alliance, " . $aCuMidB . " integerValue, 'aCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $aCuHiR . " integerValue, 'aCuHi' objectiveName
+									select 'B' alliance, " . $aCuHiB . " integerValue, 'aCuHi' objectiveName
 								    union
-									select 'B' alliance, " . $toCoLowR . " integerValue, 'toCoLow' objectiveName
+									select 'B' alliance, " . $toCoLowB . " integerValue, 'toCoLow' objectiveName
 								    union
-									select 'B' alliance, " . $toCoMidR . " integerValue, 'toCoMid' objectiveName
+									select 'B' alliance, " . $toCoMidB . " integerValue, 'toCoMid' objectiveName
 								    union
-									select 'B' alliance, " . $toCoHiR . " integerValue, 'toCoHi' objectiveName
+									select 'B' alliance, " . $toCoHiB . " integerValue, 'toCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $toCuLowR . " integerValue, 'toCuLow' objectiveName
+									select 'B' alliance, " . $toCuLowB . " integerValue, 'toCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $toCuMidR . " integerValue, 'toCuMid' objectiveName
+									select 'B' alliance, " . $toCuMidB . " integerValue, 'toCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $toCuHiR . " integerValue, 'toCuHi' objectiveName) tba";
+									select 'B' alliance, " . $toCuHiB . " integerValue, 'toCuHi' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
 							"  and ge.id = " . $gameEventId . ")" .
