@@ -969,8 +969,32 @@
 					}
 					break;
 				}
-/*
+
 				// Update Match objective data not tied to a Team for 2023
+				$aCoLowR = 0;
+				$aCoMidR = 0;
+				$aCoHiR = 0;
+				$aCuLowR = 0;
+				$aCuMidR = 0;
+				$aCuHiR = 0;
+				$toCoLowR = 0;
+				$toCoMidR = 0;
+				$toCoHiR = 0;
+				$toCuLowR = 0;
+				$toCuMidR = 0;
+				$toCuHiR = 0;
+				$aCoLowB = 0;
+				$aCoMidB = 0;
+				$aCoHiB = 0;
+				$aCuLowB = 0;
+				$aCuMidB = 0;
+				$aCuHiB = 0;
+				$toCoLowB = 0;
+				$toCoMidB = 0;
+				$toCoHiB = 0;
+				$toCuLowB = 0;
+				$toCuMidB = 0;
+				$toCuHiB = 0;
 				$tsql = "merge MatchObjective as Target
 							using (
 							select m.id matchId
@@ -985,29 +1009,53 @@
 								   inner join Objective o
 								   on o.gameId = g.id
 								   inner join 
-								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsBottom"] . " integerValue, 'aCoLow' objectiveName
+								   (select 'R' alliance, " . $aCoLowR . " integerValue, 'aCoLow' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsOuter"] . " integerValue, 'aCoMid' objectiveName
+									select 'R' alliance, " . $aCoMidR . " integerValue, 'aCoMid' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoCellsInner"] . " integerValue, 'aCoHi' objectiveName
+									select 'R' alliance, " . $aCoHiR . " integerValue, 'aCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsBottom"] . " integerValue, 'aCuLow' objectiveName
+									select 'R' alliance, " . $aCuLowR . " integerValue, 'aCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsOuter"] . " integerValue, 'aCuMid' objectiveName
+									select 'R' alliance, " . $aCuMidR . " integerValue, 'aCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoCellsInner"] . " integerValue, 'aCuHi' objectiveName
+									select 'R' alliance, " . $aCuHiR . " integerValue, 'aCuHi' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsBottom"] . " integerValue, 'toCoLow' objectiveName
+									select 'R' alliance, " . $toCoLowR . " integerValue, 'toCoLow' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsOuter"] . " integerValue, 'toCoMid' objectiveName
+									select 'R' alliance, " . $toCoMidR . " integerValue, 'toCoMid' objectiveName
 								    union
-									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopCellsInner"] . " integerValue, 'toCoHi' objectiveName
+									select 'R' alliance, " . $toCoHiR . " integerValue, 'toCoHi' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsBottom"] . " integerValue, 'toCuLow' objectiveName
+									select 'R' alliance, " . $toCuLowR . " integerValue, 'toCuLow' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsOuter"] . " integerValue, 'toCuMid' objectiveName
+									select 'R' alliance, " . $toCuMidR . " integerValue, 'toCuMid' objectiveName
 								    union
-									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopCellsInner"] . " integerValue, 'toCuHi' objectiveName) tba";
+									select 'R' alliance, " . $toCuHiR . " integerValue, 'toCuHi' objectiveName
+								    union
+									select 'B' alliance, " . $aCoLowR . " integerValue, 'aCoMid' objectiveName
+								    union
+									select 'B' alliance, " . $aCoMidR . " integerValue, 'aCoMid' objectiveName
+								    union
+									select 'B' alliance, " . $aCoHiR . " integerValue, 'aCoHi' objectiveName
+								    union
+									select 'B' alliance, " . $aCuLowR . " integerValue, 'aCuLow' objectiveName
+								    union
+									select 'B' alliance, " . $aCuMidR . " integerValue, 'aCuMid' objectiveName
+								    union
+									select 'B' alliance, " . $aCuHiR . " integerValue, 'aCuHi' objectiveName
+								    union
+									select 'B' alliance, " . $toCoLowR . " integerValue, 'toCoLow' objectiveName
+								    union
+									select 'B' alliance, " . $toCoMidR . " integerValue, 'toCoMid' objectiveName
+								    union
+									select 'B' alliance, " . $toCoHiR . " integerValue, 'toCoHi' objectiveName
+								    union
+									select 'B' alliance, " . $toCuLowR . " integerValue, 'toCuLow' objectiveName
+								    union
+									select 'B' alliance, " . $toCuMidR . " integerValue, 'toCuMid' objectiveName
+								    union
+									select 'B' alliance, " . $toCuHiR . " integerValue, 'toCuHi' objectiveName) tba";
 				$tsql .= " on tba.objectiveName = o.name
 							 where m.id = " . $matchId .
 							"  and ge.id = " . $gameEventId . ")" .
@@ -1032,7 +1080,7 @@
 					}
 					break;
 				}
-*/
+
 			}
 
 			$cnt += 1;
