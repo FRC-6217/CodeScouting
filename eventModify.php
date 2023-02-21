@@ -174,7 +174,7 @@
 	    if ($status !== "200" && $status !== "304") {
     	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
 	    }
-		echo print_r(http_parse_headers($http_response_header));
+		//echo print_r(http_parse_headers($http_response_header));
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
 		// Skip if no data in array (either 304 (Not Modified) or matches haven't started)
