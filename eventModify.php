@@ -165,12 +165,19 @@
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
 		$aHTTP['http']['header'] .= "If-None-Match: " . $eTag . "\r\n";
-		var_dump($aHTTP);
 		$context2 = stream_context_create($aHTTP);
 		$matchesJSON = file_get_contents($sURL, false, $context2);
-		var_dump($http_response_header);
+		// Check return status
+		$status_line = $http_response_header[0];
+		preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+	    $status = $match[1];
+	    if ($status !== "200" && $status !== "304") {
+    	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
+	    }
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
+		// Skip if no data in array (either 304 (Not Modified) or matches haven't started)
+		if (isset($matchesArray) ) {
 		// Add/update match information and assign to teams to the match
 		foreach($matchesArray as $key => $value) {
 			$dt->setTimestamp($value["time"]);
@@ -1177,8 +1184,7 @@
 							then insert (matchId, alliance, objectiveId, integerValue)
 								 values (source.matchId, source.alliance, source.objectiveId, source.integerValue);";
 				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) 
-				{
+				if(!$results) {
 					echo "Merge of Match Alliance Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
 					echo "SQL " . $tsql . "<br>";
 					if( ($errors = sqlsrv_errors() ) != null) {
@@ -1192,8 +1198,8 @@
 				}
 
 			}
-
 			$cnt += 1;
+		}
 		}
 
 		// Delete from scout objective records created for Team/Matches that do not exist
