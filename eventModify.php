@@ -131,7 +131,7 @@
 			}
 
 			// Get Game Event Id
-			$tsql = "select ge.id " . 
+			$tsql = "select ge.id, ge.eTag " . 
 					"  from GameEvent ge " .
 					"       inner join Event e on e.id = ge.eventId " .
 					"       inner join Game g on g.id = ge.gameId " .
@@ -151,6 +151,7 @@
 			else {
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
+					$eTag = $row['eTag'];
 				}
 			}
 		}
@@ -163,7 +164,10 @@
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
-		$matchesJSON = file_get_contents($sURL, false, $context);
+		$aHTTP['http']['header'] .= "eTag: " . $eTag . "r\n";
+		$context2 = stream_context_create($aHTTP);
+		$matchesJSON = file_get_contents($sURL, false, $context2);
+		var_dump($http_response_header);
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
 		// Add/update match information and assign to teams to the match
