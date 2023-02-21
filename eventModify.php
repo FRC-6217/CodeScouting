@@ -152,6 +152,7 @@
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
 					$eTag = $row['eTag'];
+					echo $eTag;
 				}
 			}
 		}
@@ -166,7 +167,6 @@
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
 		$aHTTP['http']['header'] .= "eTag: " . $eTag . "r\n";
 		$context2 = stream_context_create($aHTTP);
-		var_dump($context2);
 		$matchesJSON = file_get_contents($sURL, false, $context2);
 		var_dump($http_response_header);
 		$matchesArray = json_decode($matchesJSON, true);
