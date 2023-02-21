@@ -165,7 +165,9 @@
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
 		$aHTTP['http']['header'] .= "ETag: " . $eTag . "r\n";
+		var_dump($ahTTP);
 		$context2 = stream_context_create($aHTTP);
+		var_dump($context2);
 		$matchesJSON = file_get_contents($sURL, false, $context2);
 		var_dump($http_response_header);
 		$matchesArray = json_decode($matchesJSON, true);
