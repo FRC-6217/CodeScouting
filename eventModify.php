@@ -152,7 +152,6 @@
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
 					$eTag = $row['eTag'];
-					echo $eTag;
 				}
 			}
 		}
