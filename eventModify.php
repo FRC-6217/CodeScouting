@@ -172,7 +172,7 @@
 		preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
 	    $status = $match[1];
 		foreach ($http_response_header as $header) {
-			echo $header;
+			echo $header . "<br>";
 		} 
 	    if ($status !== "200" && $status !== "304") {
     	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
