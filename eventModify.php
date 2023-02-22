@@ -171,6 +171,9 @@
 		$status_line = $http_response_header[0];
 		preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
 	    $status = $match[1];
+		foreach ($http_response_header as $header) {
+			echo $header;
+		} 
 	    if ($status !== "200" && $status !== "304") {
     	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
 	    }
@@ -178,7 +181,7 @@
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
 		// Skip if no data in array (either 304 (Not Modified) or matches haven't started)
-		if (isset($matchesArray) ) {
+		if (isset($matchesArray)) {
 		// Add/update match information and assign to teams to the match
 		foreach($matchesArray as $key => $value) {
 			$dt->setTimestamp($value["time"]);
