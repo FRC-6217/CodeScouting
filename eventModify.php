@@ -152,6 +152,7 @@
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
 					$eTag = $row['eTag'];
+					echo $eTag . "<br>";
 				}
 			}
 		}
@@ -172,7 +173,10 @@
 		preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
 	    $status = $match[1];
 		foreach ($http_response_header as $header) {
-			echo $header . "<br>";
+			if (substr($header, 0, 4) == "ETag") {
+				$eTag = substr($header, 9, 40);
+				echo $eTag . "<br>";
+			}
 		} 
 	    if ($status !== "200" && $status !== "304") {
     	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
