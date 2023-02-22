@@ -152,7 +152,6 @@
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
 					$eTag = $row['eTag'];
-					echo $eTag . "<br>";
 				}
 			}
 		}
@@ -175,7 +174,22 @@
 		foreach ($http_response_header as $header) {
 			if (substr($header, 0, 4) == "ETag") {
 				$eTag = substr($header, 9, 40);
-				echo $eTag . "<br>";
+				// Store eTag on Game Event
+				$tsql = "update GameEvent " .
+						"   set eTag = '" . $eTag . "'" .
+						"     , lastUpdated = getdate() " .
+						" where id = " . $gameEventId . ";";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) {
+					echo "Update of Game Event failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+				}
 			}
 		} 
 	    if ($status !== "200" && $status !== "304") {
