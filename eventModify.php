@@ -1332,6 +1332,7 @@
 		$cnt = 0;
 		$idx = 0;
 		// Update team information
+		if (isset($rankingArray)) {
 		foreach($rankingArray as $key => $valueArray) {
 			$idx += 1;
 			// Second array has the rankings
@@ -1372,6 +1373,7 @@
 					else $cnt += 1;
 				}
 			}
+		}
 		}
 		if ($cnt > 0) {
 			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
