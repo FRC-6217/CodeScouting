@@ -172,9 +172,13 @@
 		preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
 	    $status = $match[1];
 		foreach ($http_response_header as $header) {
-			echo $header . "<br>";
 			if (substr($header, 0, 4) == "ETag") {
-				$eTag = substr($header, 9, 40);
+				if (substr($header, 0, 8) == "ETag: W/") {
+					$eTag = substr($header, 9, 40);
+				}
+				else {
+					$eTag = substr($header, 7, 40);
+				}
 				// Store eTag on Game Event
 				$tsql = "update GameEvent " .
 						"   set eTag = '" . $eTag . "'" .
