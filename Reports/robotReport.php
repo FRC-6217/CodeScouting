@@ -237,8 +237,9 @@
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 				echo "<th>" . $row['tableHeader'] . "</th>";
-				$cnt = $cnt;
+				$cnt += 1;
 			}
+			$cnt -= 1; // Do not count Alliance Header
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
