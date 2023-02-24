@@ -213,11 +213,18 @@
             <th>Scout</th>
 			<?php
 			$cnt = 0;
-			$tsql = "select o.tableHeader
+			$tsql = "select o.tableHeader, o.reportSortOrder
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
                       where ge.loginGUID = '$loginGUID'
+					 union
+					 select g.alliancePtsHeader, 999 reportSortOrder
+					   from v_GameEvent ge
+					        inner join game g
+					        on g.id = ge.gameId
+					  where ge.loginGUID = '$loginGUID'
+					    and g.alliancePtsHeader is not null
 					 order by o.reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -263,6 +270,7 @@ $tsql = "select TeamNumber
               , value18
               , value19
               , value20
+			  , portionOfAlliancePoints
 			  , totalScoreValue
 			  , textValue1
               , textValue2
@@ -332,6 +340,7 @@ $tsql = "select TeamNumber
 			if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif (isset($row['textValue18'])) echo "<td>" . $row['textValue18'] . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
 			if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif (isset($row['textValue19'])) echo "<td>" . $row['textValue19'] . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
 			if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif (isset($row['textValue20'])) echo "<td>" . $row['textValue20'] . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
+			if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
 			if (isset($row['scoutComment'])) echo "<td>" . $row['scoutComment'] . "</td>"; else echo "<td></td>";
