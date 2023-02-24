@@ -237,7 +237,7 @@
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 				echo "<th>" . $row['tableHeader'] . "</th>";
-				$cnt = $cnt + 1;
+				$cnt = $cnt;
 			}
 			sqlsrv_free_stmt($getResults);
 			?>
