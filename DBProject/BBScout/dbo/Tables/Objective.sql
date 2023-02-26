@@ -13,10 +13,13 @@
     [reportDisplay]       VARCHAR (1)  NOT NULL,
     [sameLineAsPrevious]  CHAR (1)     NOT NULL,
     [addTeamScorePortion] CHAR (1)     NOT NULL,
+    [reportSortOrder]     INT          NOT NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_Objective_Game] FOREIGN KEY ([gameId]) REFERENCES [dbo].[Game] ([id]),
     CONSTRAINT [fk_Objective_ScoringType] FOREIGN KEY ([scoringTypeId]) REFERENCES [dbo].[ScoringType] ([id])
 );
+
+
 
 
 GO

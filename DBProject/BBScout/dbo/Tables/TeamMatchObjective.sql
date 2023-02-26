@@ -1,16 +1,18 @@
 ﻿CREATE TABLE [dbo].[TeamMatchObjective] (
-    [id]           INT            IDENTITY (1, 1) NOT NULL,
-    [teamMatchId]  INT            NOT NULL,
-    [objectiveId]  INT            NOT NULL,
-    [integerValue] INT            NULL,
-    [decimalValue] INT            NULL,
-    [textValue]    VARCHAR (4000) NULL,
-    [scoreValue]   INT            NULL,
-    [lastUpdated]  DATETIME       NULL,
+    [id]           INT             IDENTITY (1, 1) NOT NULL,
+    [teamMatchId]  INT             NOT NULL,
+    [objectiveId]  INT             NOT NULL,
+    [integerValue] INT             NULL,
+    [decimalValue] DECIMAL (18, 2) NULL,
+    [textValue]    VARCHAR (4000)  NULL,
+    [scoreValue]   INT             NULL,
+    [lastUpdated]  DATETIME        NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_TeamMatchObjective_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id]),
     CONSTRAINT [fk_TeamMatchObjective_TeamMatch] FOREIGN KEY ([teamMatchId]) REFERENCES [dbo].[TeamMatch] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 

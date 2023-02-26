@@ -1,29 +1,29 @@
-﻿CREATE PROCEDURE sp_ins_scoutRecord (@pv_ScoutId integer
+﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
 								   , @pv_AlliancePosition varchar(64)
                                    , @pv_ScoutComment varchar(4000)
 								   , @pv_loginGUID varchar(128)
                                    , @pv_TextValue01 varchar(4000)
-                                   , @pv_TextValue02 varchar(4000) = null
-                                   , @pv_TextValue03 varchar(4000) = null
-                                   , @pv_TextValue04 varchar(4000) = null
-                                   , @pv_TextValue05 varchar(4000) = null
-                                   , @pv_TextValue06 varchar(4000) = null
-                                   , @pv_TextValue07 varchar(4000) = null
-                                   , @pv_TextValue08 varchar(4000) = null
-                                   , @pv_TextValue09 varchar(4000) = null
-                                   , @pv_TextValue10 varchar(4000) = null
-                                   , @pv_TextValue11 varchar(4000) = null
-                                   , @pv_TextValue12 varchar(4000) = null
-                                   , @pv_TextValue13 varchar(4000) = null
-                                   , @pv_TextValue14 varchar(4000) = null
-                                   , @pv_TextValue15 varchar(4000) = null
-                                   , @pv_TextValue16 varchar(4000) = null
-                                   , @pv_TextValue17 varchar(4000) = null
-                                   , @pv_TextValue18 varchar(4000) = null
-                                   , @pv_TextValue19 varchar(4000) = null
-                                   , @pv_TextValue20 varchar(4000) = null)
+                                   , @pv_TextValue02 varchar(4000) = '0'
+                                   , @pv_TextValue03 varchar(4000) = '0'
+                                   , @pv_TextValue04 varchar(4000) = '0'
+                                   , @pv_TextValue05 varchar(4000) = '0'
+                                   , @pv_TextValue06 varchar(4000) = '0'
+                                   , @pv_TextValue07 varchar(4000) = '0'
+                                   , @pv_TextValue08 varchar(4000) = '0'
+                                   , @pv_TextValue09 varchar(4000) = '0'
+                                   , @pv_TextValue10 varchar(4000) = '0'
+                                   , @pv_TextValue11 varchar(4000) = '0'
+                                   , @pv_TextValue12 varchar(4000) = '0'
+                                   , @pv_TextValue13 varchar(4000) = '0'
+                                   , @pv_TextValue14 varchar(4000) = '0'
+                                   , @pv_TextValue15 varchar(4000) = '0'
+                                   , @pv_TextValue16 varchar(4000) = '0'
+                                   , @pv_TextValue17 varchar(4000) = '0'
+                                   , @pv_TextValue18 varchar(4000) = '0'
+                                   , @pv_TextValue19 varchar(4000) = '0'
+                                   , @pv_TextValue20 varchar(4000) = '0')
 AS
 declare @lv_Id integer;
 
@@ -82,6 +82,30 @@ BEGIN
 					          else null end
 					end integerValue
 			 , case when st.name = 'Free Form'
+			        then null
+					else case when o.sortOrder = 1 then convert(decimal, @pv_TextValue01)
+					          when o.sortOrder = 2 then convert(decimal, @pv_TextValue02)
+					          when o.sortOrder = 3 then convert(decimal, @pv_TextValue03)
+					          when o.sortOrder = 4 then convert(decimal, @pv_TextValue04)
+					          when o.sortOrder = 5 then convert(decimal, @pv_TextValue05)
+					          when o.sortOrder = 6 then convert(decimal, @pv_TextValue06)
+					          when o.sortOrder = 7 then convert(decimal, @pv_TextValue07)
+					          when o.sortOrder = 8 then convert(decimal, @pv_TextValue08)
+					          when o.sortOrder = 9 then convert(decimal, @pv_TextValue09)
+					          when o.sortOrder = 10 then convert(decimal, @pv_TextValue10)
+					          when o.sortOrder = 11 then convert(decimal, @pv_TextValue11)
+					          when o.sortOrder = 12 then convert(decimal, @pv_TextValue12)
+					          when o.sortOrder = 13 then convert(decimal, @pv_TextValue13)
+					          when o.sortOrder = 14 then convert(decimal, @pv_TextValue14)
+					          when o.sortOrder = 15 then convert(decimal, @pv_TextValue15)
+					          when o.sortOrder = 16 then convert(decimal, @pv_TextValue16)
+					          when o.sortOrder = 17 then convert(decimal, @pv_TextValue17)
+					          when o.sortOrder = 18 then convert(decimal, @pv_TextValue18)
+					          when o.sortOrder = 19 then convert(decimal, @pv_TextValue19)
+					          when o.sortOrder = 20 then convert(decimal, @pv_TextValue20)
+					          else null end
+					end decimalValue
+			 , case when st.name = 'Free Form'
 			        then case when o.sortOrder = 1 then @pv_TextValue01
 					          when o.sortOrder = 2 then @pv_TextValue02
 					          when o.sortOrder = 3 then @pv_TextValue03
@@ -115,10 +139,11 @@ BEGIN
 	ON (TARGET.scoutRecordId = SOURCE.scoutRecordId
 	AND TARGET.objectiveId = SOURCE.objectiveId)
     WHEN MATCHED AND (COALESCE(TARGET.integerValue, -999) <> COALESCE(SOURCE.integerValue, -999)
+	               OR COALESCE(TARGET.decimalValue, -999.0) <> COALESCE(SOURCE.decimalValue, -999.0)
 	               OR COALESCE(TARGET.textValue, '<XXXX>') <> COALESCE(SOURCE.textValue, '<XXXX>'))
-    THEN UPDATE SET TARGET.integerValue = SOURCE.integerValue, TARGET.textValue = SOURCE.textValue
+    THEN UPDATE SET TARGET.integerValue = SOURCE.integerValue, TARGET.decimalValue = SOURCE.decimalValue, TARGET.textValue = SOURCE.textValue
 	WHEN NOT MATCHED
-	THEN INSERT (scoutRecordId, objectiveId, integerValue, textValue) VALUES (SOURCE.scoutRecordId, SOURCE.objectiveId, SOURCE.integerValue, SOURCE.textValue);
+	THEN INSERT (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) VALUES (SOURCE.scoutRecordId, SOURCE.objectiveId, SOURCE.integerValue, SOURCE.decimalValue, SOURCE.textValue);
 
 	-- Lookup Team Match Record by Alliance/Position
 	SELECT @lv_id = max(id)

@@ -1,5 +1,6 @@
 ﻿
 
+
 -- View for match averages
 CREATE view [dbo].[v_MatchReport6217] as
 -- Team Average Scores
@@ -32,6 +33,11 @@ select m.type + ' ' + m.number matchNumber
      , round(avg(asr.value13),2) value13
      , round(avg(asr.value14),2) value14
      , round(avg(asr.value15),2) value15
+     , round(avg(asr.value16),2) value16
+     , round(avg(asr.value17),2) value17
+     , round(avg(asr.value18),2) value18
+     , round(avg(asr.value19),2) value19
+     , round(avg(asr.value20),2) value20
 	 , round(avg(coalesce(asr.scoreValue1,0) +
 	             coalesce(asr.scoreValue2,0) +
 	             coalesce(asr.scoreValue3,0) +
@@ -46,7 +52,12 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue12,0) +
 	             coalesce(asr.scoreValue13,0) +
 	             coalesce(asr.scoreValue14,0) +
-	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
+	             coalesce(asr.scoreValue15,0) +
+	             coalesce(asr.scoreValue16,0) +
+	             coalesce(asr.scoreValue17,0) +
+	             coalesce(asr.scoreValue18,0) +
+	             coalesce(asr.scoreValue19,0) +
+	             coalesce(asr.scoreValue20,0)), 2) totalScoreValue
 	 , ge.loginGUID
 	 , (select max(sr.id)
 	      from scoutRecord sr
@@ -59,7 +70,7 @@ select m.type + ' ' + m.number matchNumber
        on tm.matchId = m.id
        inner join Team t
        on t.id = tm.teamId
-       left outer join v_AvgScoutRecord asr
+       left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
        and exists (select 1
@@ -102,6 +113,11 @@ select subquery.matchNumber
 	 , sum(subquery.value13) value13
 	 , sum(subquery.value14) value14
 	 , sum(subquery.value15) value15
+	 , sum(subquery.value16) value16
+	 , sum(subquery.value17) value17
+	 , sum(subquery.value18) value18
+	 , sum(subquery.value19) value19
+	 , sum(subquery.value20) value20
 	 , sum(subquery.totalScoreValue) totalScoreValue
 	 , subquery.loginGUID
 	 , null scoutRecordId
@@ -135,6 +151,11 @@ select m.type + ' ' + m.number matchNumber
      , round(avg(asr.value13),2) value13
      , round(avg(asr.value14),2) value14
      , round(avg(asr.value15),2) value15
+     , round(avg(asr.value16),2) value16
+     , round(avg(asr.value17),2) value17
+     , round(avg(asr.value18),2) value18
+     , round(avg(asr.value19),2) value19
+     , round(avg(asr.value20),2) value20
 	 , round(avg(coalesce(asr.scoreValue1,0) +
 	             coalesce(asr.scoreValue2,0) +
 	             coalesce(asr.scoreValue3,0) +
@@ -149,7 +170,12 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue12,0) +
 	             coalesce(asr.scoreValue13,0) +
 	             coalesce(asr.scoreValue14,0) +
-	             coalesce(asr.scoreValue15,0)), 2) totalScoreValue
+	             coalesce(asr.scoreValue15,0) +
+	             coalesce(asr.scoreValue16,0) +
+	             coalesce(asr.scoreValue17,0) +
+	             coalesce(asr.scoreValue18,0) +
+	             coalesce(asr.scoreValue19,0) +
+	             coalesce(asr.scoreValue20,0)), 2) totalScoreValue
 	 , ge.loginGUID
   from Match m
 	   inner join v_GameEvent ge
@@ -158,7 +184,7 @@ select m.type + ' ' + m.number matchNumber
        on tm.matchId = m.id
        inner join Team t
        on t.id = tm.teamId
-       left outer join v_AvgScoutRecord asr
+       left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
        and exists (select 1
@@ -206,6 +232,11 @@ select m.type + ' ' + m.number matchNumber
      , null value13
      , null value14
      , null value15
+     , null value16
+     , null value17
+     , null value18
+     , null value19
+     , null value20
 	 , null totalScoreValue
 	 , ge.loginGUID
 	 , null scoutRecordId

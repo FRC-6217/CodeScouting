@@ -10,6 +10,7 @@ BEGIN
 	                          , sortOrder int
 							  , cntMatches int
 	                          , value numeric(38, 6)
+							  , portionOfAlliancePoints numeric(38, 6)
 							  , rank integer
 							  , rankingPointAverage numeric(10, 3)
 							  , teamGameEventId int
@@ -45,6 +46,11 @@ BEGIN
 												when o.sortOrder = 13 then atr.integerValue13
 												when o.sortOrder = 14 then atr.integerValue14
 												when o.sortOrder = 15 then atr.integerValue15
+												when o.sortOrder = 16 then atr.integerValue16
+												when o.sortOrder = 17 then atr.integerValue17
+												when o.sortOrder = 18 then atr.integerValue18
+												when o.sortOrder = 19 then atr.integerValue19
+												when o.sortOrder = 20 then atr.integerValue20
  						                        else null end
 				    when r.type = 'S' then case when o.sortOrder = 1 then atr.scoreValue1
 					                            when o.sortOrder = 2 then atr.scoreValue2
@@ -61,8 +67,16 @@ BEGIN
 					                            when o.sortOrder = 13 then atr.scoreValue13
 					                            when o.sortOrder = 14 then atr.scoreValue14
 					                            when o.sortOrder = 15 then atr.scoreValue15
+					                            when o.sortOrder = 16 then atr.scoreValue16
+					                            when o.sortOrder = 17 then atr.scoreValue17
+					                            when o.sortOrder = 18 then atr.scoreValue18
+					                            when o.sortOrder = 19 then atr.scoreValue19
+					                            when o.sortOrder = 20 then atr.scoreValue20
  						                        else null end
 					else null end) value
+		 , case when r.includeAlliancePts = 'Y'
+				then coalesce(atr.portionOfAlliancePoints, 0)
+				else 0 end portionOfAlliancePoints
 		 , tge.rank
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
@@ -85,6 +99,8 @@ BEGIN
 		   , r.name
 		   , r.sortOrder
 		   , atr.cntMatches
+		   , r.includeAlliancePts
+		   , atr.portionOfAlliancePoints
 		   , tge.rank
 		   , tge.rankingPointAverage
 		   , tge.id
@@ -98,6 +114,7 @@ BEGIN
 		 , r.sortOrder
 		 , 0 cntMatches
 		 , 0 value
+		 , 0 portionOfAlliancePoints
 		 , tge.rank
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
@@ -169,13 +186,13 @@ BEGIN
 		 , atr.rankName
 		 , atr.sortOrder
 		 , atr.cntMatches
-		 , atr.value
+		 , atr.value + atr.portionOfAlliancePoints value
 		 , (select count(*)
 		      from #AvgTeamRecord atr2
 			 where atr2.gameId = atr.gameId
 			   and atr2.rankName = atr.rankName
 			   and atr2.sortOrder = atr.sortOrder
-			   and atr2.value > atr.value) + 1 rank
+			   and atr2.value + atr2.portionOfAlliancePoints > atr.value + atr.portionOfAlliancePoints) + 1 rank
 		 , atr.rank eventRank
 		 , atr.rankingPointAverage
 		 , atr.teamGameEventId

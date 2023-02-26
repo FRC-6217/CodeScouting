@@ -1,4 +1,4 @@
-﻿CREATE view v_AvgTeamRecord as
+﻿CREATE view [dbo].[v_AvgTeamRecord] as
 select asr.TeamId
      , count(*) cntMatches
      , avg(asr.value1) value1
@@ -16,6 +16,11 @@ select asr.TeamId
      , avg(asr.value13) value13
      , avg(asr.value14) value14
      , avg(asr.value15) value15
+     , avg(asr.value16) value16
+     , avg(asr.value17) value17
+     , avg(asr.value18) value18
+     , avg(asr.value19) value19
+     , avg(asr.value20) value20
      , avg(asr.integerValue1) integerValue1
      , avg(asr.integerValue2) integerValue2
      , avg(asr.integerValue3) integerValue3
@@ -31,6 +36,11 @@ select asr.TeamId
      , avg(asr.integerValue13) integerValue13
      , avg(asr.integerValue14) integerValue14
      , avg(asr.integerValue15) integerValue15
+     , avg(asr.integerValue16) integerValue16
+     , avg(asr.integerValue17) integerValue17
+     , avg(asr.integerValue18) integerValue18
+     , avg(asr.integerValue19) integerValue19
+     , avg(asr.integerValue20) integerValue20
      , avg(asr.scoreValue1) scoreValue1
      , avg(asr.scoreValue2) scoreValue2
      , avg(asr.scoreValue3) scoreValue3
@@ -46,6 +56,12 @@ select asr.TeamId
      , avg(asr.scoreValue13) scoreValue13
      , avg(asr.scoreValue14) scoreValue14
      , avg(asr.scoreValue15) scoreValue15
+     , avg(asr.scoreValue16) scoreValue16
+     , avg(asr.scoreValue17) scoreValue17
+     , avg(asr.scoreValue18) scoreValue18
+     , avg(asr.scoreValue19) scoreValue19
+     , avg(asr.scoreValue20) scoreValue20
+	 , round(avg(asr.portionOfAlliancePoints), 2) portionOfAlliancePoints
 	 , asr.loginGUID
   from v_AvgScoutRecord asr
        inner join Match m

@@ -1,13 +1,16 @@
 ﻿CREATE TABLE [dbo].[GameEvent] (
-    [id]          INT      IDENTITY (1, 1) NOT NULL,
-    [eventId]     INT      NOT NULL,
-    [gameId]      INT      NOT NULL,
-    [eventDate]   DATE     NOT NULL,
-    [lastUpdated] DATETIME NULL,
+    [id]          INT          IDENTITY (1, 1) NOT NULL,
+    [eventId]     INT          NOT NULL,
+    [gameId]      INT          NOT NULL,
+    [eventDate]   DATE         NOT NULL,
+    [lastUpdated] DATETIME     NULL,
+    [eTag]        VARCHAR (64) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_GameEvent_Game] FOREIGN KEY ([gameId]) REFERENCES [dbo].[Game] ([id]),
     CONSTRAINT [fk_GameEvent_Team] FOREIGN KEY ([eventId]) REFERENCES [dbo].[Event] ([id])
 );
+
+
 
 
 GO

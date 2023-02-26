@@ -123,5 +123,8 @@
     <Build Include="dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql" />
     <Build Include="dbo\Views\v_PlayoffStarted.sql" />
     <Build Include="dbo\Stored Procedures\sp_upd_TeamPlayoffSelection.sql" />
+    <Build Include="dbo\Views\v_TeamScorePortion.sql" />
+    <Build Include="dbo\Views\v_Report_ScoutRecord.sql" />
+    <Build Include="dbo\Views\v_Report_AvgScoutRecord.sql" />
   </ItemGroup>
 </Project>

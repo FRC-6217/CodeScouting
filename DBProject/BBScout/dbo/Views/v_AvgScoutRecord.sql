@@ -1,6 +1,5 @@
-﻿
--- View for average Team report on a match
-CREATE view v_AvgScoutRecord as
+﻿-- View for average Team report on a match
+CREATE view [dbo].[v_AvgScoutRecord] as
 select sr.matchId
      , sr.teamId
 	 , sr.gameEventId
@@ -20,6 +19,11 @@ select sr.matchId
      , avg(convert(numeric(11,3), sr.value13)) value13
      , avg(convert(numeric(11,3), sr.value14)) value14
      , avg(convert(numeric(11,3), sr.value15)) value15 
+     , avg(convert(numeric(11,3), sr.value16)) value16 
+     , avg(convert(numeric(11,3), sr.value17)) value17 
+     , avg(convert(numeric(11,3), sr.value18)) value18 
+     , avg(convert(numeric(11,3), sr.value19)) value19 
+     , avg(convert(numeric(11,3), sr.value20)) value20 
      , avg(convert(numeric, sr.integerValue1)) integerValue1
      , avg(convert(numeric, sr.integerValue2)) integerValue2
      , avg(convert(numeric, sr.integerValue3)) integerValue3
@@ -35,6 +39,11 @@ select sr.matchId
      , avg(convert(numeric, sr.integerValue13)) integerValue13
      , avg(convert(numeric, sr.integerValue14)) integerValue14
      , avg(convert(numeric, sr.integerValue15)) integerValue15 
+     , avg(convert(numeric, sr.integerValue16)) integerValue16 
+     , avg(convert(numeric, sr.integerValue17)) integerValue17 
+     , avg(convert(numeric, sr.integerValue18)) integerValue18 
+     , avg(convert(numeric, sr.integerValue19)) integerValue19 
+     , avg(convert(numeric, sr.integerValue20)) integerValue20 
      , avg(convert(numeric(11,3), sr.scoreValue1)) scoreValue1
      , avg(convert(numeric(11,3), sr.scoreValue2)) scoreValue2
      , avg(convert(numeric(11,3), sr.scoreValue3)) scoreValue3
@@ -50,6 +59,11 @@ select sr.matchId
      , avg(convert(numeric(11,3), sr.scoreValue13)) scoreValue13
      , avg(convert(numeric(11,3), sr.scoreValue14)) scoreValue14
      , avg(convert(numeric(11,3), sr.scoreValue15)) scoreValue15 
+     , avg(convert(numeric(11,3), sr.scoreValue16)) scoreValue16 
+     , avg(convert(numeric(11,3), sr.scoreValue17)) scoreValue17 
+     , avg(convert(numeric(11,3), sr.scoreValue18)) scoreValue18 
+     , avg(convert(numeric(11,3), sr.scoreValue19)) scoreValue19 
+     , avg(convert(numeric(11,3), sr.scoreValue20)) scoreValue20 
      , avg(convert(integer, objectiveId1)) objectiveId1
      , avg(convert(integer, objectiveId2)) objectiveId2
      , avg(convert(integer, objectiveId3)) objectiveId3
@@ -65,6 +79,11 @@ select sr.matchId
      , avg(convert(integer, objectiveId13)) objectiveId13
      , avg(convert(integer, objectiveId14)) objectiveId14
      , avg(convert(integer, objectiveId15)) objectiveId15
+     , avg(convert(integer, objectiveId16)) objectiveId16
+     , avg(convert(integer, objectiveId17)) objectiveId17
+     , avg(convert(integer, objectiveId18)) objectiveId18
+     , avg(convert(integer, objectiveId19)) objectiveId19
+     , avg(convert(integer, objectiveId20)) objectiveId20
 	 , max(scoringTypeName1) scoringTypeName1
 	 , max(scoringTypeName2) scoringTypeName2
 	 , max(scoringTypeName3) scoringTypeName3
@@ -80,9 +99,16 @@ select sr.matchId
 	 , max(scoringTypeName13) scoringTypeName13
 	 , max(scoringTypeName14) scoringTypeName14
 	 , max(scoringTypeName15) scoringTypeName15
+	 , max(scoringTypeName16) scoringTypeName16
+	 , max(scoringTypeName17) scoringTypeName17
+	 , max(scoringTypeName18) scoringTypeName18
+	 , max(scoringTypeName19) scoringTypeName19
+	 , max(scoringTypeName20) scoringTypeName20
+	 , sr.portionOfAlliancePoints
 	 , sr.loginGUID
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId
 	   , sr.gameEventId
+	   , sr.portionOfAlliancePoints
 	   , sr.loginGUID;

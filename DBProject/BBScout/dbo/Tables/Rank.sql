@@ -1,14 +1,17 @@
 ﻿CREATE TABLE [dbo].[Rank] (
-    [id]          INT          IDENTITY (1, 1) NOT NULL,
-    [name]        VARCHAR (64) NOT NULL,
-    [queryString] VARCHAR (64) NOT NULL,
-    [type]        VARCHAR (1)  NOT NULL,
-    [sortOrder]   INT          NULL,
-    [lastUpdated] DATETIME     NULL,
-    [gameId]      INT          NOT NULL,
+    [id]                 INT          IDENTITY (1, 1) NOT NULL,
+    [name]               VARCHAR (64) NOT NULL,
+    [queryString]        VARCHAR (64) NOT NULL,
+    [type]               VARCHAR (1)  NOT NULL,
+    [sortOrder]          INT          NULL,
+    [lastUpdated]        DATETIME     NULL,
+    [gameId]             INT          NOT NULL,
+    [includeAlliancePts] CHAR (1)     NOT NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_Rank_Game] FOREIGN KEY ([gameId]) REFERENCES [dbo].[Game] ([id])
 );
+
+
 
 
 GO

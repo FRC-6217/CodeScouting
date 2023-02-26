@@ -1,7 +1,7 @@
 ﻿-- Function to calculate score impact for objective
-CREATE function calcScoreValue (@pv_ObjectiveId int
+CREATE function [dbo].[calcScoreValue] (@pv_ObjectiveId int
                              , @pv_IntegerValue int
-							 , @pv_DecimalValue numeric(10,3))
+							 , @pv_DecimalValue decimal(18,2))
 returns int
 as
 begin

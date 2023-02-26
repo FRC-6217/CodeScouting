@@ -1,16 +1,18 @@
 ﻿CREATE TABLE [dbo].[ScoutObjectiveRecord] (
-    [id]            INT            IDENTITY (1, 1) NOT NULL,
-    [scoutRecordId] INT            NOT NULL,
-    [objectiveId]   INT            NOT NULL,
-    [integerValue]  INT            NULL,
-    [decimalValue]  INT            NULL,
-    [textValue]     VARCHAR (4000) NULL,
-    [scoreValue]    INT            NULL,
-    [lastUpdated]   DATETIME       NULL,
+    [id]            INT             IDENTITY (1, 1) NOT NULL,
+    [scoutRecordId] INT             NOT NULL,
+    [objectiveId]   INT             NOT NULL,
+    [integerValue]  INT             NULL,
+    [decimalValue]  DECIMAL (18, 2) NULL,
+    [textValue]     VARCHAR (4000)  NULL,
+    [scoreValue]    INT             NULL,
+    [lastUpdated]   DATETIME        NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_ScoutObjectiveRecord_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id]),
     CONSTRAINT [fk_ScoutObjectiveRecord_ScoutRecord] FOREIGN KEY ([scoutRecordId]) REFERENCES [dbo].[ScoutRecord] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 

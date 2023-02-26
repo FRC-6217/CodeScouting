@@ -1,5 +1,5 @@
 ﻿-- View for Team history and average
-CREATE view v_TeamReport as
+CREATE view [dbo].[v_TeamReport] as
 select t.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 1) matchTime
@@ -19,7 +19,15 @@ select t.TeamNumber
      , round(avg(sr.value13),2) value13
      , round(avg(sr.value14),2) value14
      , round(avg(sr.value15),2) value15
-     , coalesce(round(avg(sr.scoreValue1),2), 0) +
+     , round(avg(sr.value16),2) value16
+     , round(avg(sr.value17),2) value17
+     , round(avg(sr.value18),2) value18
+     , round(avg(sr.value19),2) value19
+     , round(avg(sr.value20),2) value20
+     , case when g.alliancePtsHeader is not null
+	        then coalesce(round(avg(sr.portionOfAlliancePoints),2),0)
+			else null end portionOfAlliancePoints
+	 , coalesce(round(avg(sr.scoreValue1),2), 0) +
        coalesce(round(avg(sr.scoreValue2),2), 0) +
        coalesce(round(avg(sr.scoreValue3),2), 0) +
        coalesce(round(avg(sr.scoreValue4),2), 0) +
@@ -33,7 +41,13 @@ select t.TeamNumber
        coalesce(round(avg(sr.scoreValue12),2), 0) +
        coalesce(round(avg(sr.scoreValue13),2), 0) +
        coalesce(round(avg(sr.scoreValue14),2), 0) +
-       coalesce(round(avg(sr.scoreValue15),2), 0) totalScoreValue
+       coalesce(round(avg(sr.scoreValue15),2), 0) +
+       coalesce(round(avg(sr.scoreValue16),2), 0) +
+       coalesce(round(avg(sr.scoreValue17),2), 0) +
+       coalesce(round(avg(sr.scoreValue18),2), 0) +
+       coalesce(round(avg(sr.scoreValue19),2), 0) +
+       coalesce(round(avg(sr.scoreValue20),2), 0) +
+	   coalesce(round(avg(sr.portionOfAlliancePoints),2), 0) totalScoreValue
      , null textValue1
      , null textValue2
      , null textValue3
@@ -49,6 +63,11 @@ select t.TeamNumber
      , null textValue13
      , null textValue14
      , null textValue15
+     , null textValue16
+     , null textValue17
+     , null textValue18
+     , null textValue19
+     , null textValue20
      , null videos
      , t.id TeamId
      , null matchId
@@ -58,15 +77,20 @@ select t.TeamNumber
 	 , null scoutComment
 	 , sr.loginGUID
  from Team t
-      inner join v_AvgScoutRecord sr
+      inner join v_Report_AvgScoutRecord sr
       on sr.TeamId = t.id
       inner join Match m
       on m.id = sr.matchId
+	  inner join gameEvent ge
+	  on ge.id = sr.gameEventId
+	  inner join game g
+	  on g.id = ge.gameId
  where m.isActive = 'Y'
    and m.type in ('QM','PR')
 group by t.TeamNumber
        , t.id
 	   , sr.gameEventId
+	   , g.alliancePtsHeader
 	   , sr.loginGUID
 union
 select t.TeamNumber
@@ -88,37 +112,35 @@ select t.TeamNumber
      , sr.value13
      , sr.value14
      , sr.value15
-	 , case when (sr.scoringTypeName1 <> 'Free Form' and sr.scoreValue1 is null and 1 <= o.cntObjectives) or
-	             (sr.scoringTypeName2 <> 'Free Form' and sr.scoreValue2 is null and 2 <= o.cntObjectives) or
-	             (sr.scoringTypeName3 <> 'Free Form' and sr.scoreValue3 is null and 3 <= o.cntObjectives) or
-	             (sr.scoringTypeName4 <> 'Free Form' and sr.scoreValue4 is null and 4 <= o.cntObjectives) or
-	             (sr.scoringTypeName5 <> 'Free Form' and sr.scoreValue5 is null and 5 <= o.cntObjectives) or
-	             (sr.scoringTypeName6 <> 'Free Form' and sr.scoreValue6 is null and 6 <= o.cntObjectives) or
-	             (sr.scoringTypeName7 <> 'Free Form' and sr.scoreValue7 is null and 7 <= o.cntObjectives) or
-	             (sr.scoringTypeName8 <> 'Free Form' and sr.scoreValue8 is null and 8 <= o.cntObjectives) or
-	             (sr.scoringTypeName9 <> 'Free Form' and sr.scoreValue9 is null and 9 <= o.cntObjectives) or
-	             (sr.scoringTypeName10 <> 'Free Form' and sr.scoreValue10 is null and 10 <= o.cntObjectives) or
-	             (sr.scoringTypeName11 <> 'Free Form' and sr.scoreValue11 is null and 11 <= o.cntObjectives) or
-	             (sr.scoringTypeName12 <> 'Free Form' and sr.scoreValue12 is null and 12 <= o.cntObjectives) or
-	             (sr.scoringTypeName13 <> 'Free Form' and sr.scoreValue13 is null and 13 <= o.cntObjectives) or
-	             (sr.scoringTypeName14 <> 'Free Form' and sr.scoreValue14 is null and 14 <= o.cntObjectives) or
-	             (sr.scoringTypeName15 <> 'Free Form' and sr.scoreValue15 is null and 15 <= o.cntObjectives)
-	        then null           
-	        else round(coalesce(sr.scoreValue1,0) +
- 					   coalesce(sr.scoreValue2,0) +
-					   coalesce(sr.scoreValue3,0) +
-					   coalesce(sr.scoreValue4,0) +
-					   coalesce(sr.scoreValue5,0) +
-					   coalesce(sr.scoreValue6,0) +
-					   coalesce(sr.scoreValue7,0) +
-					   coalesce(sr.scoreValue8,0) +
-					   coalesce(sr.scoreValue9,0) +
-					   coalesce(sr.scoreValue10,0) +
-					   coalesce(sr.scoreValue11,0) +
-					   coalesce(sr.scoreValue12,0) +
-					   coalesce(sr.scoreValue13,0) +
-					   coalesce(sr.scoreValue14,0) +
-					   coalesce(sr.scoreValue15,0),2) end totalScoreValue
+     , sr.value16
+     , sr.value17
+     , sr.value18
+     , sr.value19
+     , sr.value20
+     , case when g.alliancePtsHeader is not null
+	        then coalesce(round(sr.portionOfAlliancePoints,2),0)
+			else null end portionOfAlliancePoints
+	 , round(coalesce(sr.scoreValue1,0) +
+ 			 coalesce(sr.scoreValue2,0) +
+			 coalesce(sr.scoreValue3,0) +
+			 coalesce(sr.scoreValue4,0) +
+			 coalesce(sr.scoreValue5,0) +
+			 coalesce(sr.scoreValue6,0) +
+			 coalesce(sr.scoreValue7,0) +
+			 coalesce(sr.scoreValue8,0) +
+			 coalesce(sr.scoreValue9,0) +
+			 coalesce(sr.scoreValue10,0) +
+			 coalesce(sr.scoreValue11,0) +
+			 coalesce(sr.scoreValue12,0) +
+			 coalesce(sr.scoreValue13,0) +
+			 coalesce(sr.scoreValue14,0) +
+			 coalesce(sr.scoreValue15,0) +
+			 coalesce(sr.scoreValue16,0) +
+			 coalesce(sr.scoreValue17,0) +
+			 coalesce(sr.scoreValue18,0) +
+			 coalesce(sr.scoreValue19,0) +
+			 coalesce(sr.scoreValue20,0) +
+			 coalesce(sr.portionOfAlliancePoints, 0), 2) totalScoreValue
      , sr.textValue1
      , sr.textValue2
      , sr.textValue3
@@ -134,6 +156,11 @@ select t.TeamNumber
      , sr.textValue13
      , sr.textValue14
      , sr.textValue15
+     , sr.textValue16
+     , sr.textValue17
+     , sr.textValue18
+     , sr.textValue19
+     , sr.textValue20
      , case when m.matchCode is not null
 	        then '<a href="https://www.thebluealliance.com/match/' + m.matchCode + '" target="_blank">tba</a>'
 			else '' end +
@@ -157,7 +184,7 @@ select t.TeamNumber
 	 , sr.scoutComment
 	 , sr.loginGUID
  from Team t
-      inner join v_ScoutRecord sr
+      inner join v_Report_ScoutRecord sr
       on sr.TeamId = t.id
       inner join Match m
       on m.id = sr.matchId
@@ -169,4 +196,6 @@ select t.TeamNumber
 	                from Objective o
 				  group by o.gameId) o
       on o.gameId = ge.gameId
+	  inner join game g
+	  on g.id = ge.gameId
  where m.isActive = 'Y';

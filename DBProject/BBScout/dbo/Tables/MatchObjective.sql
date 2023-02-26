@@ -1,17 +1,19 @@
 ﻿CREATE TABLE [dbo].[MatchObjective] (
-    [id]           INT            IDENTITY (1, 1) NOT NULL,
-    [matchId]      INT            NOT NULL,
-    [alliance]     CHAR (1)       NOT NULL,
-    [objectiveId]  INT            NOT NULL,
-    [integerValue] INT            NULL,
-    [decimalValue] INT            NULL,
-    [textValue]    VARCHAR (4000) NULL,
-    [scoreValue]   INT            NULL,
-    [lastUpdated]  DATETIME       NULL,
+    [id]           INT             IDENTITY (1, 1) NOT NULL,
+    [matchId]      INT             NOT NULL,
+    [alliance]     CHAR (1)        NOT NULL,
+    [objectiveId]  INT             NOT NULL,
+    [integerValue] INT             NULL,
+    [decimalValue] DECIMAL (18, 2) NULL,
+    [textValue]    VARCHAR (4000)  NULL,
+    [scoreValue]   INT             NULL,
+    [lastUpdated]  DATETIME        NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_MatchObjective_Match] FOREIGN KEY ([matchId]) REFERENCES [dbo].[Match] ([id]) ON DELETE CASCADE,
     CONSTRAINT [fk_MatchObjective_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id])
 );
+
+
 
 
 

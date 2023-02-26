@@ -1,5 +1,5 @@
 ﻿-- Update Team Scoring Impact
-CREATE PROCEDURE sp_upd_TeamScoringImpact (@pv_loginGUID varchar(128))
+CREATE PROCEDURE [dbo].[sp_upd_TeamScoringImpact] (@pv_loginGUID varchar(128))
 AS
 BEGIN
 	create table #AvgTeamRecord(teamId int
@@ -35,6 +35,11 @@ BEGIN
 												when o.sortOrder = 13 then atr.integerValue13
 												when o.sortOrder = 14 then atr.integerValue14
 												when o.sortOrder = 15 then atr.integerValue15
+												when o.sortOrder = 16 then atr.integerValue16
+												when o.sortOrder = 17 then atr.integerValue17
+												when o.sortOrder = 18 then atr.integerValue18
+												when o.sortOrder = 19 then atr.integerValue19
+												when o.sortOrder = 20 then atr.integerValue20
  						                        else null end
 				    when r.type = 'S' then case when o.sortOrder = 1 then atr.scoreValue1
 					                            when o.sortOrder = 2 then atr.scoreValue2
@@ -51,6 +56,11 @@ BEGIN
 					                            when o.sortOrder = 13 then atr.scoreValue13
 					                            when o.sortOrder = 14 then atr.scoreValue14
 					                            when o.sortOrder = 15 then atr.scoreValue15
+					                            when o.sortOrder = 16 then atr.scoreValue16
+					                            when o.sortOrder = 17 then atr.scoreValue17
+					                            when o.sortOrder = 18 then atr.scoreValue18
+					                            when o.sortOrder = 19 then atr.scoreValue19
+					                            when o.sortOrder = 20 then atr.scoreValue20
  						                        else null end
 					else null end) value
 		 , tge.rank
