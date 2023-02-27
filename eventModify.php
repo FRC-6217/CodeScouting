@@ -218,7 +218,12 @@
 			    $value["score_breakdown"]["red"]["endgamePoints"] >= 40)
 				$redAlliancePoints = 15;
 			elseif ($gameYear == 2023)
-				$redAlliancePoints = $value["score_breakdown"]["red"]["linkPoints"];
+				if (isset($value["score_breakdown"]["red"]["linkPoints"])) {
+					$redAlliancePoints = $value["score_breakdown"]["red"]["linkPoints"];
+				}
+				else {
+					$redAlliancePoints = 0;
+				}
 			else
 				$redAlliancePoints = 0;
 			if ($gameYear == 2020 &&
@@ -226,7 +231,12 @@
 			    $value["score_breakdown"]["blue"]["endgamePoints"] >= 40)
 				$blueAlliancePoints = 15;
 			elseif ($gameYear == 2023)
-				$blueAlliancePoints = $value["score_breakdown"]["blue"]["linkPoints"];
+				if (isset($value["score_breakdown"]["red"]["linkPoints"])) {
+					$blueAlliancePoints = $value["score_breakdown"]["blue"]["linkPoints"];
+				}
+				else {
+					$blueAlliancePoints = 0;
+				}
 			else
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
