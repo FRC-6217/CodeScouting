@@ -218,7 +218,8 @@
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
                       where ge.loginGUID = '$loginGUID'
-					 union
+					    and st.name <> 'Free Form'
+					  union
 					 select g.alliancePtsHeader, 999 reportSortOrder
 					   from v_GameEvent ge
 					        inner join game g

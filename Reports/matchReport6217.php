@@ -330,7 +330,7 @@
 			<th>Robot</th>
 			<th>Team</th>
 			<?php
-			$tsql = "select o.tableHeader
+			$tsql = "select o.tableHeader, o.reportSortOrder
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
@@ -338,7 +338,14 @@
 							on st.id = o.scoringTypeId
                       where ge.loginGUID = '$loginGUID'
 					    and st.name <> 'Free Form'
-					 order by o.reportSortOrder ";
+					 union
+					 select g.alliancePtsHeader, 999 reportSortOrder
+					   from v_GameEvent ge
+							inner join game g
+							on g.id = ge.gameId
+					  where ge.loginGUID = '$loginGUID'
+					    and g.alliancePtsHeader is not null
+					 order by o.reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
@@ -353,6 +360,7 @@
 				echo "<th>" . $row['tableHeader'] . "</th>";
 				$cnt = $cnt + 1;
 			}
+			$cnt -= 1; // Do not count Alliance Header
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
@@ -384,6 +392,7 @@
 					  , value18
 					  , value19
 					  , value20
+					  , portionOfAlliancePoints
 					  , totalScoreValue
 					  , matchFoulPoints
 					  , matchScore
@@ -442,6 +451,7 @@
 			if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
 			if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
 			if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
+			if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>";
 			if (isset($row['matchFoulPoints'])) echo "<td>" . number_format($row['matchFoulPoints'], 2) . "</td>";
 			if (isset($row['matchScore'])) echo "<td>" . number_format($row['matchScore'], 2) . "</td>";
