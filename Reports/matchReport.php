@@ -129,15 +129,22 @@
 			<th>Team</th>
 			<th>Matches</th>
 			<?php
-			$tsql = "select o.tableHeader
+			$tsql = "select o.tableHeader, o.reportSortOrder
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-                      where ge.loginGUID = '$loginGUID'
-					    and st.name <> 'Free Form'
-					 order by o.reportSortOrder";
+					  where ge.loginGUID = '$loginGUID'
+						and st.name <> 'Free Form'
+					 union
+					 select g.alliancePtsHeader, 999 reportSortOrder
+					   from v_GameEvent ge
+							inner join game g
+							on g.id = ge.gameId
+					  where ge.loginGUID = '$loginGUID'
+						and g.alliancePtsHeader is not null
+					 order by reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
@@ -152,6 +159,7 @@
 				echo "<th>" . $row['tableHeader'] . "</th>";
 				$cnt = $cnt + 1;
 			}
+			$cnt -= 1; // Do not count Alliance Header
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
@@ -181,6 +189,12 @@
 					  , value13
 					  , value14
 					  , value15
+					  , value16
+					  , value17
+					  , value18
+					  , value19
+					  , value20
+					  , portionOfAlliancePoints
 					  , totalScoreValue
                    from v_MatchReport
 				  where loginGUID = '$loginGUID'
@@ -217,6 +231,12 @@
 		if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
 		if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
 		if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+		if (isset($row['value16'])) echo "<td>" . number_format($row['value16'], 2) . "</td>"; elseif ($cnt >= 16) echo "<td></td>";
+		if (isset($row['value17'])) echo "<td>" . number_format($row['value17'], 2) . "</td>"; elseif ($cnt >= 17) echo "<td></td>";
+		if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
+		if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
+		if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
+		if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
 		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
         echo "</tr>";
     }
