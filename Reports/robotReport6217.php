@@ -217,6 +217,8 @@
 					   from objective o
 							inner join v_GameEvent ge
 							on ge.gameId = o.gameId
+							inner join ScoringType st
+							on st.id = o.scoringTypeId
                       where ge.loginGUID = '$loginGUID'
 					    and st.name <> 'Free Form'
 					  union
@@ -226,7 +228,7 @@
 					        on g.id = ge.gameId
 					  where ge.loginGUID = '$loginGUID'
 					    and g.alliancePtsHeader is not null
-					 order by o.reportSortOrder";
+					 order by reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
