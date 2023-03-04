@@ -155,7 +155,7 @@
 		</center></h2>
 
     <img class="image1" src="Logo/Logo.png" style="max-width: 10%; float: left; border-radius: 100%;">
-    <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
+    <img class="image2" src="Flag/ChristmasIsland.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
