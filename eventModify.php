@@ -1144,6 +1144,19 @@
 						$toCuHiB = $toCuHiB + 1;
 				}
 				unset($gamePiece);
+				// Don't double count auto/teleop
+				$toCoLowR -= $aCoLowR;
+				$toCoMidR -= $aCoMidR;
+				$toCoHiR -= $aCoHiR;
+				$toCuLowR -= $aCuLowR;
+				$toCuMidR -= $aCuMidR;
+				$toCuHiR -= $aCuHiR;
+				$toCoLowB -= $aCoLowB;
+				$toCoMidB -= $aCoMidB;
+				$toCoHiB -= $aCoHiB;
+				$toCuLowB -= $aCuLowB;
+				$toCuMidB -= $aCuMidB;
+				$toCuHiB -= $aCuHiB;
 				// Merge new data
 				$tsql = "merge MatchObjective as Target
 							using (
