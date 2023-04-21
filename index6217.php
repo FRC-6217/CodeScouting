@@ -43,6 +43,7 @@
 				  , redScore + blueScore totalScore
 			   from v_MatchHyperlinks
 			  where loginGUID = '$loginGUID'
+			    and coalesce(redScore, 0) + coalesce(blueScore, 0) <> 0
 			 order by datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)

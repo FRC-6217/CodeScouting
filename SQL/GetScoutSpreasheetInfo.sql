@@ -11,7 +11,7 @@ select m.number, t.teamNumber, tm.alliance, tm.alliancePosition
 	   inner join team t
 	   on t.id = tm.teamId
  where g.name = 'Charged Up'
-  and e.name = 'Lake Superior Regional'
+  and e.name = 'Iowa Regional'
   and m.type = 'QM'
   and tm.alliance = 'B'
   and tm.alliancePosition = 3
