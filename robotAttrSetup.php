@@ -61,11 +61,14 @@
 
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
+	$teamName = "$_GET[teamName]";
+	$location = "$_GET[location]";
 ?>
 			<center>				
 				<div class="container" id="scout">
 					<?php
-					echo "<p><u><b>Team " . $teamNumber . "</b></u></p>";
+					echo "<p><u><b>Team " . $teamNumber . " - " . $teamName . "</b></u></p>";
+					echo "<p><u><b>From " . $location . "</b></u></p>";
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					$tsql = "select attributeName

@@ -91,6 +91,7 @@
     <?php
     $tsql = "select teamUrl
 	              , teamNumber
+	              , teamName
 	              , teamId
 				  , attrValue1
 				  , attrValue2
