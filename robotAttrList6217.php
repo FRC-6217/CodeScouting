@@ -123,7 +123,7 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
 			echo "<td>" . $row['teamUrl'] . "</td>";
-			echo "<td align='left'>" . $row['teamName'] . "</td>";
+			echo '<td align="left">' . $row["teamName"] . '</td>';
 			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
 			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";
 			if (isset($row['attrValue3'])) echo "<td>" . $row['attrValue3'] . "</td>";
