@@ -151,6 +151,7 @@
 	if(!$results) 
 	{
 		echo "It is not working!<br />";
+		echo $tsql."<br />";
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
 				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
