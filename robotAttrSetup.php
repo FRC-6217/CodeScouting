@@ -68,7 +68,7 @@
 				<div class="container" id="scout">
 					<?php
 					echo "<p><u><b>Team " . $teamNumber . " - " . $teamName . "</b></u></p>";
-					echo "<p><u><b>From " . $location . "</b></u></p>";
+					echo "<p>From " . $location . "</p>";
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					$tsql = "select attributeName
