@@ -97,10 +97,10 @@ insert into Objective select g.id, 'toSpeaker', 'Speaker:', st.id, 0, 15, 2, 5, 
 insert into Objective select g.id, 'toAmp', 'Amp:', st.id, 0, 15, 1, 6, getdate(), 'toAmp', 'I', 'Y', 'N', 6 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
 insert into Objective select g.id, 'toTrap', 'Trap:', st.id, 0, 3, 5, 7, getdate(), 'toTrap', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
 insert into Objective select g.id, 'toEnd', 'Stage:', st.id, null, null, null, 8, getdate(), 'Stage', 'S', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toHarm', 'Harmony:', st.id, null, null, null, 9, getdate(), 'Harmony', 'I', 'N', 'N', 9 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toHPShot', 'HP Shots:', st.id, 0, 3, 0, 10, getdate(), 'HP Shot', 'I', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
-insert into Objective select g.id, 'toHPMade', 'HP Made:', st.id, 0, 3, 0, 11, getdate(), 'HP Made', 'I', 'Y', 'N', 11 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 12, getdate(), 'Def', 'I', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toHPShot', 'HP Shots:', st.id, 0, 3, 0, 9, getdate(), 'HP Shot', 'I', 'N', 'N', 9 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
+insert into Objective select g.id, 'toHPMade', 'HP Made:', st.id, 0, 3, 0, 10, getdate(), 'HP Made', 'I', 'Y', 'N', 10 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 11, getdate(), 'Def', 'I', 'N', 'N', 11 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toHarm', 'Harmony:', st.id, null, null, null, 12, getdate(), 'Harmony', 'I', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 
 -- Objective Value
 insert into ObjectiveValue select o.id, 'Amp', 0, 1, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHPLoc'

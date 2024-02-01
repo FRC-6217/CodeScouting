@@ -102,11 +102,13 @@
 		$teamNumber = "$_GET[teamNumber]";
 		$alliancePosition = "$_GET[alliancePosition]";
 		$scoutId = "$_GET[scoutId]";
+		$scoutRecordId = "0";
 	}
 	
 ?>
 			<center>				
 				<div class="container" id="scout">
+				    <input type="hidden" name="scoutRecordId" value="$scoutRecordId">
 					<p><u><b>Match Selection</b></u></p>
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
@@ -162,7 +164,7 @@
 						</select>
 					</p>
 					<p>Team:
-						<select name="team" style="width: 154.5px;">
+						<select style="width: 154.5px;" name="team">
 						<?php
 							if ($teamId == "NA")
 								echo "<option value=''></option>";
@@ -283,7 +285,7 @@
 					}
 					// Add Scout Comment entry for all Scout Records
 					if ($cntSR == 1)
-						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" placeholder="' . $scoutComment . '" style="width: 320px"><br>';
+						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" value="' . $scoutComment . '" style="width: 320px"><br>';
 					else
 						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" style="width: 320px"><br>';
 					?>
