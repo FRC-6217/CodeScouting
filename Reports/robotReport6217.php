@@ -248,6 +248,8 @@
 			<th>Scr Imp</th>
 			<th>URLs</th>
 			<th>Match Comment</th>
+			<th>Pos</th>
+			<th>Score</th>
     </tr>
 <?php
 $tsql = "select TeamNumber
