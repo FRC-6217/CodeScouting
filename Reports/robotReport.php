@@ -247,6 +247,8 @@
 			<th>Scr Imp</th>
 			<th>URLs</th>
 			<th>Match Comment</th>
+			<th>Pos</th>
+			<th>Score</th>
     </tr>
 <?php
 $tsql = "select TeamNumber
@@ -301,6 +303,8 @@ $tsql = "select TeamNumber
               , scoutId
 			  , scoutRecordId
 			  , scoutComment
+			  , robotPosition
+			  , matchScore
 		   from v_TeamReport
           where loginGUID = '$loginGUID'
 			and teamId = $team
@@ -344,6 +348,8 @@ $tsql = "select TeamNumber
 			if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; else echo "<td></td>";
 			if (isset($row['videos'])) echo "<td>" . $row['videos'] . "</td>"; else echo "<td></td>";
 			if (isset($row['scoutComment'])) echo "<td>" . $row['scoutComment'] . "</td>"; else echo "<td></td>";
+			if (isset($row['robotPosition'])) echo "<td>" . $row['robotPosition'] . "</td>"; else echo "<td></td>";
+			if (isset($row['matchScore'])) echo "<td>" . $row['matchScore'] . "</td>"; else echo "<td></td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
