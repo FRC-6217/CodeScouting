@@ -291,7 +291,7 @@
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
 				<?php
-				if (isset($matchId)) {
+				if (isset($matchId) && !empty($matchId)) {
 					$cntVideo = 0;
 					$tsql = "select case when videoType = 'youtube'
 										then 'https://www.youtube.com/embed/'
