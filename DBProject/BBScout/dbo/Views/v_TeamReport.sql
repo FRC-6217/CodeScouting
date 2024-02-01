@@ -75,6 +75,8 @@ select t.TeamNumber
 	 , sr.gameEventId
 	 , null scoutRecordId
 	 , null scoutComment
+	 , null robotPosition
+	 , null matchScore
 	 , sr.loginGUID
  from Team t
       inner join v_Report_AvgScoutRecord sr
@@ -182,6 +184,24 @@ select t.TeamNumber
 	 , sr.gameEventId
 	 , sr.scoutRecordId
 	 , sr.scoutComment
+	 , tm.alliance + convert(varchar, tm.alliancePosition) robotPosition
+	 , case when tm.alliance = 'R'
+	        then convert(varchar, m.redScore) + '-' + convert(varchar, m.blueScore) + case when m.redScore > m.blueScore
+			                                                                               then ' W'
+																						   when m.blueScore > m.redScore
+			                                                                               then ' L'
+																						   when m.blueScore = m.redScore
+																						   then ' T'
+																						   else '' end
+			when tm.alliance = 'B'
+	        then convert(varchar, m.blueScore) + '-' + convert(varchar, m.redScore) + case when m.blueScore > m.redScore
+			                                                                               then ' W'
+																						   when m.redScore > m.blueScore
+			                                                                               then ' L'
+																						   when m.blueScore = m.redScore
+																						   then ' T'
+																						   else '' end
+			else '' end matchScore
 	 , sr.loginGUID
  from Team t
       inner join v_Report_ScoutRecord sr
@@ -198,4 +218,7 @@ select t.TeamNumber
       on o.gameId = ge.gameId
 	  inner join game g
 	  on g.id = ge.gameId
+	  inner join teamMatch tm
+	  on tm.teamId = t.id
+	  and tm.matchId = m.id
  where m.isActive = 'Y';

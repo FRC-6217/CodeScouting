@@ -1,6 +1,4 @@
-﻿
-
--- View for match averages
+﻿-- View for match averages
 CREATE view [dbo].[v_MatchReport] as
 -- Team Average Scores
 select m.type + ' ' + m.number matchNumber
@@ -37,6 +35,7 @@ select m.type + ' ' + m.number matchNumber
      , round(avg(asr.value18),2) value18
      , round(avg(asr.value19),2) value19
      , round(avg(asr.value20),2) value20
+     , round(avg(asr.portionOfAlliancePoints),2) portionOfAlliancePoints
 	 , round(avg(coalesce(asr.scoreValue1,0) +
 	             coalesce(asr.scoreValue2,0) +
 	             coalesce(asr.scoreValue3,0) +
@@ -56,7 +55,8 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue17,0) +
 	             coalesce(asr.scoreValue18,0) +
 	             coalesce(asr.scoreValue19,0) +
-	             coalesce(asr.scoreValue20,0)), 2) totalScoreValue
+	             coalesce(asr.scoreValue20,0) +
+				 coalesce(asr.portionOfAlliancePoints,0)), 2) totalScoreValue
 	 , ge.loginGUID
   from Match m
 	   inner join v_GameEvent ge
@@ -113,6 +113,7 @@ select subquery.matchNumber
 	 , sum(subquery.value18) value18
 	 , sum(subquery.value19) value19
 	 , sum(subquery.value20) value20
+	 , sum(subquery.portionOfAlliancePoints) portionOfAlliancePoints
 	 , sum(subquery.totalScoreValue) totalScoreValue
 	 , subquery.loginGUID
   from (
@@ -150,6 +151,7 @@ select m.type + ' ' + m.number matchNumber
      , round(avg(asr.value18),2) value18
      , round(avg(asr.value19),2) value19
      , round(avg(asr.value20),2) value20
+	 , round(avg(asr.portionOfAlliancePoints),2) portionOfAlliancePoints
 	 , round(avg(coalesce(asr.scoreValue1,0) +
 	             coalesce(asr.scoreValue2,0) +
 	             coalesce(asr.scoreValue3,0) +
@@ -169,7 +171,8 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue17,0) +
 	             coalesce(asr.scoreValue18,0) +
 	             coalesce(asr.scoreValue19,0) +
-	             coalesce(asr.scoreValue20,0)), 2) totalScoreValue
+	             coalesce(asr.scoreValue20,0) +
+				 coalesce(asr.portionOfAlliancePoints,0)), 2) totalScoreValue
 	 , ge.loginGUID
 	 , null scoutRecordId
   from Match m
@@ -232,6 +235,7 @@ select m.type + ' ' + m.number matchNumber
      , null value18
      , null value19
      , null value20
+	 , null portionOfAlliancePoints
 	 , null totalScoreValue
 	 , ge.loginGUID
   from Match m

@@ -14,9 +14,13 @@
 
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idx_ScoutRecord]
-    ON [dbo].[ScoutRecord]([scoutId] ASC, [matchId] ASC, [teamId] ASC);
+    ON [dbo].[ScoutRecord]([matchId] ASC, [teamId] ASC, [scoutId] ASC);
+
+
 
 
 GO

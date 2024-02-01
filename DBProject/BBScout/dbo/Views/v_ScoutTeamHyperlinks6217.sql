@@ -1,7 +1,11 @@
 ﻿
+
+
 CREATE view [dbo].[v_ScoutTeamHyperlinks6217] as
-select '<a href="robotAttrSetup6217.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
+select '<a href="robotAttrSetup6217.php?teamId=' + convert(varchar, t.id) + '&teamNumber=' + convert(varchar, t.teamNumber) + '&teamName=' + coalesce(t.teamName, ' ') + '&location=' + coalesce(t.location, ' ') + '">' + convert(varchar, t.teamNumber) + '</a>' teamUrl
      , t.teamNumber
+	 , t.teamName
+	 , t.location
 	 , t.id teamId
      , (select coalesce(av.displayValue, ta.textValue, convert(varchar, ta.integerValue), ' ')
 	      from Attribute a

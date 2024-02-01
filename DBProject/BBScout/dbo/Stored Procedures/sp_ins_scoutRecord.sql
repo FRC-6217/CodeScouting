@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutId integer
+﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
+                                   , @pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
 								   , @pv_AlliancePosition varchar(64)
@@ -29,12 +30,20 @@ declare @lv_Id integer;
 
 BEGIN
 	SET NOCOUNT ON
-	-- Lookup Scout Header Record
+    -- Lookup Scout Header Record by Id
 	SELECT @lv_id = max(id)
 	  FROM ScoutRecord
-	 WHERE scoutId = @pv_ScoutId
-	   AND matchId = @pv_MatchId
-	   AND teamId = @pv_TeamId;
+	 WHERE id = @pv_ScoutRecordId;
+
+    -- Lookup Scout Header Record by Scout, Match, and Team
+	IF @lv_Id is null
+	BEGIN
+		SELECT @lv_id = max(id)
+		  FROM ScoutRecord
+		 WHERE scoutId = @pv_ScoutId
+		   AND matchId = @pv_MatchId
+		   AND teamId = @pv_TeamId;
+	END
 	   
 	-- Add/update Scout Header Record
 	IF @lv_Id is null
@@ -46,10 +55,11 @@ BEGIN
 	ELSE
 	BEGIN
 		UPDATE ScoutRecord
-		   SET scoutComment = COALESCE(@pv_ScoutComment, scoutComment)
-		WHERE scoutId = @pv_ScoutId
-		  AND matchId = @pv_MatchId
-		  AND teamId = @pv_TeamId;
+		   SET scoutId = @pv_ScoutId
+		     , matchId = @pv_MatchId
+		     , teamId = @pv_TeamId
+		     , scoutComment = COALESCE(@pv_ScoutComment, scoutComment)
+		WHERE id = @lv_id;
 	END
 
     -- Insert/Update Scout Objective Record data

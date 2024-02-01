@@ -1,6 +1,4 @@
-﻿
-
--- View for Match Final Report
+﻿-- View for Match Final Report
 CREATE view [dbo].[v_MatchFinalReport] as
 -- Team Scores
 select case when tm.alliance = 'R' then 'Red'
@@ -31,6 +29,9 @@ select case when tm.alliance = 'R' then 'Red'
      , round(asr.value18,2) value18
      , round(asr.value19,2) value19
      , round(asr.value20,2) value20
+     , case when g.alliancePtsHeader is not null
+	        then coalesce(round(asr.portionOfAlliancePoints,2),0)
+			else null end portionOfAlliancePoints
 	 , round(coalesce(asr.scoreValue1,0) +
 	         coalesce(asr.scoreValue2,0) +
 	         coalesce(asr.scoreValue3,0) +
@@ -50,7 +51,8 @@ select case when tm.alliance = 'R' then 'Red'
 	         coalesce(asr.scoreValue17,0) +
 	         coalesce(asr.scoreValue18,0) +
 	         coalesce(asr.scoreValue19,0) +
-	         coalesce(asr.scoreValue20,0),2) totalScoreValue
+	         coalesce(asr.scoreValue20,0) +
+			 coalesce(asr.portionOfAlliancePoints,0) ,2) totalScoreValue
 	 , null matchFoulPoints
 	 , null matchScore
      , t.id TeamId
@@ -67,6 +69,10 @@ select case when tm.alliance = 'R' then 'Red'
 	  inner join TeamMatch tm
 	  on tm.matchId = asr.matchId
 	  and tm.teamId = asr.teamId
+	  inner join GameEvent ge
+	  on ge.id = asr.gameEventId
+	  inner join Game g
+	  on g.id = ge.gameId
  where m.isActive = 'Y'
 union
 -- Team Scores from  The Blue Alliance if no scout data
@@ -79,165 +85,106 @@ select case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 3
 	        else 2 end allianceSort
 	 , sum(case when o.reportSortOrder = 1 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 1 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value1
 	 , sum(case when o.reportSortOrder = 2 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 2 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value2
 	 , sum(case when o.reportSortOrder = 3 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 3 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value3
 	 , sum(case when o.reportSortOrder = 4 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 4 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value4
 	 , sum(case when o.reportSortOrder = 5 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 5 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value5
 	 , sum(case when o.reportSortOrder = 6 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 6 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value6
 	 , sum(case when o.reportSortOrder = 7 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 7 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value7
 	 , sum(case when o.reportSortOrder = 8 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 8 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value8
 	 , sum(case when o.reportSortOrder = 9 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 9 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value9
 	 , sum(case when o.reportSortOrder = 10 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 10 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value10
 	 , sum(case when o.reportSortOrder = 11 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 11 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value11
 	 , sum(case when o.reportSortOrder = 12 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 12 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value12
 	 , sum(case when o.reportSortOrder = 13 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 13 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value13
 	 , sum(case when o.reportSortOrder = 14 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 14 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value14
 	 , sum(case when o.reportSortOrder = 15 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 15 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value15
 	 , sum(case when o.reportSortOrder = 16 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 16 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value16
 	 , sum(case when o.reportSortOrder = 17 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 17 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value17
 	 , sum(case when o.reportSortOrder = 18 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 18 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value18
 	 , sum(case when o.reportSortOrder = 19 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 19 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value19
 	 , sum(case when o.reportSortOrder = 20 and o.reportDisplay = 'S'
-	            then tmo.scoreValue +
-				     case when o.addTeamScorePortion = 'Y'
-					      then coalesce(tm.portionOfAlliancePoints, 0)
-						  else 0 end
+	            then tmo.scoreValue
 	            when o.reportSortOrder = 20 and o.reportDisplay = 'I'
 				then tmo.integerValue
 	            else null end) value20
+	 , null portionOfAlliancePoints
 	 , null totalScoreValue
 	 , null matchFoulPoints
 	 , null matchScore
@@ -298,6 +245,7 @@ select subquery.alliance
 	 , sum(subquery.value18) value18
 	 , sum(subquery.value19) value19
 	 , sum(subquery.value20) value20
+	 , sum(subquery.portionOfAlliancePoints) portionOfAlliancePoints
 	 , sum(subquery.totalScoreValue) totalScoreValue
 	 , subquery.matchFoulPoints
 	 , subquery.matchScore
@@ -336,6 +284,9 @@ select case when tm.alliance = 'R' then 'Red'
      , round(asr.value18,2) value18
      , round(asr.value19,2) value19
      , round(asr.value20,2) value20
+     , case when g.alliancePtsHeader is not null
+	        then coalesce(round(asr.portionOfAlliancePoints,2),0)
+			else null end portionOfAlliancePoints
 	 , round(coalesce(asr.scoreValue1,0) +
 	         coalesce(asr.scoreValue2,0) +
 	         coalesce(asr.scoreValue3,0) +
@@ -355,7 +306,8 @@ select case when tm.alliance = 'R' then 'Red'
 	         coalesce(asr.scoreValue17,0) +
 	         coalesce(asr.scoreValue18,0) +
 	         coalesce(asr.scoreValue19,0) +
-	         coalesce(asr.scoreValue20,0),2) totalScoreValue
+	         coalesce(asr.scoreValue20,0) +
+			 coalesce(asr.portionOfAlliancePoints, 0) ,2) totalScoreValue
 	 , null matchFoulPoints
 	 , null matchScore
      , t.id TeamId
@@ -371,6 +323,10 @@ select case when tm.alliance = 'R' then 'Red'
 	  inner join TeamMatch tm
 	  on tm.matchId = asr.matchId
 	  and tm.teamId = asr.teamId
+	  inner join GameEvent ge
+	  on ge.id = asr.gameEventId
+	  inner join Game g
+	  on g.id = ge.gameId
  where m.isActive = 'Y') subquery
 group by subquery.alliance
        , subquery.allianceSort
@@ -406,6 +362,7 @@ select '----' alliance
      , null value18
      , null value19
      , null value20
+	 , null portionOfAlliancePoints
 	 , null totalScoreValue
 	 , null matchFoulPoints
 	 , null matchScore
@@ -471,6 +428,7 @@ select case when mas.alliance = 'R' then 'Red'
 	         coalesce(mas.scoreValue19,0) +
 	         coalesce(mas.scoreValue20,0),2) totalScoreValue
 */
+     , mas.alliancePoints portionOfAlliancePoints
      , mas.matchScore - mas.matchFoulPoints totalScoreValue
 	 , mas.matchFoulPoints
 	 , mas.matchScore
