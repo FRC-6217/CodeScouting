@@ -108,7 +108,9 @@
 ?>
 			<center>				
 				<div class="container" id="scout">
-				    <input type="hidden" name="scoutRecordId" value="$scoutRecordId">
+					<?php
+				    	echo '<input type="hidden" name="scoutRecordId" value="' . $scoutRecordId . '">';
+					?>
 					<p><u><b>Match Selection</b></u></p>
 					<p>Scout:
 						<select style="width: 161px;" name="scout">
