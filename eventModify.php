@@ -360,27 +360,27 @@
 			$tsql = "merge TeamMatch as target using ( " . 
 					"select " . $matchId . ", t.id, 'R', 1 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . " " .
 					"union " .
 					"select " . $matchId . ", t.id, 'R', 2 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) . " " .
 					"union " .
 					"select " . $matchId . ", t.id, 'R', 3 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) . " " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 1 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) . " " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 2 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) . " " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 3 " .
 					"  from Team t " .
-				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) . ") " .
 					" as source (matchId, teamId, alliance, alliancePosition) " .
 					" on (target.matchId = source.matchId and target.teamId = source.teamId) " .
 					" when matched and (target.alliance <> source.alliance or target.alliancePosition <> source.alliancePosition) " .
