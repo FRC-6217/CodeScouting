@@ -361,50 +361,26 @@
 					"select " . $matchId . ", t.id, 'R', 1 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
 					"union " .
 					"select " . $matchId . ", t.id, 'R', 2 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
 					"union " .
 					"select " . $matchId . ", t.id, 'R', 3 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 1 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 2 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
 					"union " .
 					"select " . $matchId . ", t.id, 'B', 3 " .
 					"  from Team t " .
 				    " where t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
-					"   and not exists (select 1 " .
-					"                     from TeamMatch tm " .
-					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id)) " .
 					" as source (matchId, teamId, alliance, alliancePosition) " .
 					" on (target.matchId = source.matchId and target.teamId = source.teamId) " .
 					" when matched and (target.alliance <> source.alliance or target.alliancePosition <> source.alliancePosition) " .
@@ -1749,6 +1725,35 @@
 			sqlsrv_free_stmt($results);
 		}
 	}	
+
+	// Clear Game Event eTag to get fresh update from The Blue Alliance API
+	if ($option == "E") {
+		$tsql = "update ge " .
+		        "   set etag = null " .
+		        "     , lastUpdated = getdate() " .
+				"  from GameEvent ge " .
+				"       inner join game g " .
+				"	    on g.id = ge.gameId " .
+				"       inner join event e " .
+				"	    on e.id = ge.eventId " .
+				" where g.gameYear = " . $gameYear .
+				"   and e.eventCode = '" . $eventCode . "' " .
+				"   and eTag is not null;";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Update Game Event failed!<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		if($results) sqlsrv_free_stmt($results);
+	}
 
 	// Import Match CSV File
 	if ($option == "I") {
