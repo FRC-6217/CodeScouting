@@ -26,6 +26,7 @@ select m.*
 order by 4
 
 /* Clear data
+delete from teamAttribute where attributeId in (select a.id from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Crescendo');
 delete from teamMatch where matchId in (select m.id from Game g inner join gameEvent ge on g.id = ge.gameId inner join match m on m.gameEventId = ge.id where g.name = 'Crescendo');
 delete from ScoutRecord where matchId in (select m.id from Game g inner join gameEvent ge on g.id = ge.gameId inner join match m on m.gameEventId = ge.id where g.name = 'Crescendo');
 
@@ -56,8 +57,8 @@ insert into Attribute select g.id, 'flexibleStart', 'Does autonomous program all
 insert into Attribute select g.id, 'autoNow', 'Describe current autonomous program movement?', st.id, null, null, 8, getdate(), 'Auto Now', 'N', 'Drive out of Robot Start Area' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
 insert into Attribute select g.id, 'AutoPlan', 'Describe any plans for changes to autonomous movement?', st.id, null, null, 9, getdate(), 'Auto Plan', 'N', 'Pick up second Note' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
 insert into Attribute select g.id, 'gamePiecePickup', 'How does robot attain Notes?', st.id, null, null, 10, getdate(), 'Pickup', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'gamePieceLevel', 'Which targets can your robot score game pieces?', st.id, null, null, 12, getdate(), 'Note Targets', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'endGameDescription', 'Describe your on-stage end game plan?', st.id, null, null, 13, getdate(), 'End Game', 'N', 'Plan for Harmony with another robot' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
+insert into Attribute select g.id, 'gamePieceLevel', 'Which targets can your robot score game pieces?', st.id, null, null, 11, getdate(), 'Note Targets', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'endGameDescription', 'Describe your on-stage end game plan?', st.id, null, null, 12, getdate(), 'End Game', 'N', 'Plan for Harmony with another robot' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
 
 -- Attribute Values
 insert into AttributeValue select a.id, 'Tank', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'driveTrain';
