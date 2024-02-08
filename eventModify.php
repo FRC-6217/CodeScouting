@@ -404,10 +404,10 @@
 					"   and not exists (select 1 " .
 					"                     from TeamMatch tm " .
 					"                    where tm.matchId = " . $matchId .
-					"                      and tm.teamId = t.id) " .
+					"                      and tm.teamId = t.id)) " .
 					" as source (matchId, teamId, alliance, alliancePosition) " .
 					" on (target.matchId = source.matchId and target.teamId = source.teamId) " .
-					" when matched and (target.alliance <> source.alliance or target.alliancePosition <> source.alliancePosition " .
+					" when matched and (target.alliance <> source.alliance or target.alliancePosition <> source.alliancePosition) " .
 					" then update set alliance = source.alliance, alliancePosition = source.alliancePosition, lastUpdated = getdate() " .
 					" when not matched " .
 					" then insert (matchId, teamId, alliance, alliancePosition) " .
