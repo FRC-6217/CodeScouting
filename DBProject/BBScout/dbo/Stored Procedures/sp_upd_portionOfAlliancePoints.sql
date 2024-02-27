@@ -167,4 +167,106 @@ begin
 				 where tsp.gameEventId = m.gameEventId
 			       and tsp.matchId = tm.matchid) = 0;
    end
+	-- If year is 2024, allocate amplification points
+	if @pv_GameYear = 2024
+	begin
+		-- Clear all portioning of points
+		update tm
+		   set portionOfAlliancePoints = null
+		     , lastUpdated = getdate()
+		  from TeamMatch tm
+			   inner join Match m
+			   on m.id = tm.matchId
+		 where m.gameEventId = @pv_GameEventId
+		   and portionOfAlliancePoints is not null;
+
+		-- Set portion to zero if alliance didn't have any amplification points
+		update tm
+		   set portionOfAlliancePoints = 0
+		     , lastUpdated = getdate()
+		  from TeamMatch tm
+		       inner join Match m
+			   on m.id = tm.matchId
+		 where m.gameEventId = @pv_GameEventId
+		   and portionOfAlliancePoints is null
+		   and case when tm.alliance = 'R'
+					then m.redAlliancePoints
+					when tm.alliance = 'B'
+					then m.blueAlliancePoints
+					else 0 end = 0;
+
+		-- Set portion to zero if team didn't score any TeleOp Speaker or Amp
+		update tm
+		   set portionOfAlliancePoints = 0
+		     , lastUpdated = getdate()
+		  from TeamMatch tm
+			   inner join Match m
+			   on m.id = tm.matchId
+			   inner join v_TeamScorePortion tsp
+			   on tsp.gameEventId = m.gameEventId
+			   and tsp.matchId = tm.matchid
+			   and tsp.teamId = tm.teamId
+		 where m.gameEventId = @pv_GameEventId
+		   and portionOfAlliancePoints is null
+		   and tsp.intTeamScorePortion = 0; -- Indicates no game piece placed
+
+        -- Set portion to alliance score to ratio of team game pieces to alliance game peices
+		update tm
+		   set portionOfAlliancePoints =
+   		          convert(numeric,
+				  case when tm.alliance = 'R'
+					   then m.redAlliancePoints
+					   when tm.alliance = 'B'
+					   then m.blueAlliancePoints
+					   else 0 end)
+			   *  convert(numeric,
+			      tsp.intTeamScorePortion)
+			   /  convert(numeric,
+			      (select sum(tsp2.intTeamScorePortion)
+				     from v_TeamScorePortion tsp2
+					where tsp2.gameEventId = tsp.gameEventId
+					  and tsp2.matchId = tsp.matchid
+					  and tsp2.alliance = tsp.alliance))
+		     , lastUpdated = getdate()
+		  from TeamMatch tm
+			   inner join Match m
+			   on m.id = tm.matchId
+			   inner join v_TeamScorePortion tsp
+			   on tsp.gameEventId = m.gameEventId
+			   and tsp.matchId = tm.matchid
+			   and tsp.teamId = tm.teamId
+		 where m.gameEventId = @pv_GameEventId
+		   and portionOfAlliancePoints is null
+		   and tsp.intTeamScorePortion > 0; -- Indicates at least one game piece placed
+
+        -- Set portion to alliance score to ratio of teams if no scout data shows game peices
+		update tm
+		   set portionOfAlliancePoints =
+   		          convert(numeric,
+				  case when tm.alliance = 'R'
+					   then m.redAlliancePoints
+					   when tm.alliance = 'B'
+					   then m.blueAlliancePoints
+					   else 0 end)
+			   *  1.0
+			   /  convert(numeric,
+			      (select count(*)
+				     from TeamMatch tm2
+					where tm2.matchId = tm.matchId
+					  and tm2.alliance = tm.alliance))
+		     , lastUpdated = getdate()
+		  from TeamMatch tm
+			   inner join Match m
+			   on m.id = tm.matchId
+		 where m.gameEventId = @pv_GameEventId
+		   and case when tm.alliance = 'R'
+					then m.redAlliancePoints
+					when tm.alliance = 'B'
+					then m.blueAlliancePoints
+					else 0 end > 0
+		   and (select coalesce(sum(tsp.intTeamScorePortion), 0)
+		          from v_TeamScorePortion tsp
+				 where tsp.gameEventId = m.gameEventId
+			       and tsp.matchId = tm.matchid) = 0;
+   end
 end

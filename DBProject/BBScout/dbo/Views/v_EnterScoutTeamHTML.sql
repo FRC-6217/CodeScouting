@@ -6,8 +6,10 @@ select a.name attributeName
      , a.sortOrder attributeSort
 	 , av.sortOrder attributeValueSort
      , case when st.hasValueList = 'N' and st.name = 'Free Form'
-	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) + '" placeholder="' +
-			coalesce((select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), a.defaultText) +
+	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) +
+			case when (select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id) is not null
+			     then '" value="' + (select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id)
+				 else '" placeholder="' + a.defaultText end +
 			'" style="width: 320px"><br>'
 			when st.hasValueList = 'N'
 	        then case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +

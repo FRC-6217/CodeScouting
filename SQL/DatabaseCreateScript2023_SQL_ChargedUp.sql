@@ -13,7 +13,7 @@ delete from game where name = 'Charged Up';
 */
 
 -- Game
-insert into Game (name, gameYear) values ('Charged Up', 2023);
+insert into Game (name, gameYear, alliancePtsHeader) values ('Charged Up', 2023, 'Amped');
 
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N', '<Enter Name Here>' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
