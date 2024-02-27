@@ -59,6 +59,7 @@ insert into Attribute select g.id, 'AutoPlan', 'Describe any plans for changes t
 insert into Attribute select g.id, 'gamePiecePickup', 'How does robot attain Notes?', st.id, null, null, 10, getdate(), 'Pickup', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'gamePieceLevel', 'Which targets can your robot score game pieces?', st.id, null, null, 11, getdate(), 'Note Targets', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'endGameDescription', 'Describe your on-stage end game plan?', st.id, null, null, 12, getdate(), 'End Game', 'N', 'Plan for Harmony with another robot' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
+insert into Attribute select g.id, 'coopertition', 'Does your strategy include engaging in the Coopertition bonus?', st.id, null, null, 13, getdate(), 'Coopertition', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 
 -- Attribute Values
 insert into AttributeValue select a.id, 'Tank', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'driveTrain';
@@ -88,6 +89,10 @@ insert into AttributeValue select a.id, 'Trap', 3, 4, getdate(), 'Y', 'N' from G
 insert into AttributeValue select a.id, 'Speaker & Amp', 4, 5, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'gamePieceLevel';
 insert into AttributeValue select a.id, 'Amp & Trap', 5, 6, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'gamePieceLevel';
 insert into AttributeValue select a.id, 'All Targets', 6, 7, getdate(), 'N', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'gamePieceLevel';
+insert into AttributeValue select a.id, 'Always', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
+insert into AttributeValue select a.id, 'Never', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
+insert into AttributeValue select a.id, 'Depends on Alliance Partners', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
+insert into AttributeValue select a.id, 'Requires agreement from opponent', 3, 4, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
 
 -- Objectives
 insert into Objective select g.id, 'toHPLoc', 'HP Loc:', st.id, null, null, null, 1, getdate(), 'HP', 'I', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
@@ -109,8 +114,8 @@ insert into ObjectiveValue select o.id, 'Source', 1, 2, 0, getdate(), 'Y', null,
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'Y', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
 insert into ObjectiveValue select o.id, 'Yes', 1, 2, 2, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'Park', 1, 2, 1, getdate(), 'Y', 'Park', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'On Stage', 2, 3, 3, getdate(), 'Y', 'On Stage', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'Park', 1, 2, 1, getdate(), 'Y', 'Parked', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'On Stage', 2, 3, 3, getdate(), 'Y', 'StageLeft', 'StageRight', 'CenterStage', null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'On Stage Spot', 3, 4, 4, getdate(), 'N', 'On Stage Spot', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'Y', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHarm'
 insert into ObjectiveValue select o.id, 'Yes', 1, 2, 1, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHarm'

@@ -224,6 +224,13 @@
 				else {
 					$redAlliancePoints = 0;
 				}
+			elseif ($gameYear == 2024)
+				if (isset($value["score_breakdown"]["red"]["teleopSpeakerNoteAmplifiedCount"])) {
+					$redAlliancePoints = $value["score_breakdown"]["red"]["teleopSpeakerNoteAmplifiedCount"] * 3;
+				}
+				else {
+					$redAlliancePoints = 0;
+				}
 			else
 				$redAlliancePoints = 0;
 			if ($gameYear == 2020 &&
@@ -233,6 +240,13 @@
 			elseif ($gameYear == 2023)
 				if (isset($value["score_breakdown"]["red"]["linkPoints"])) {
 					$blueAlliancePoints = $value["score_breakdown"]["blue"]["linkPoints"];
+				}
+				else {
+					$blueAlliancePoints = 0;
+				}
+			elseif ($gameYear == 2024)
+				if (isset($value["score_breakdown"]["blue"]["teleopSpeakerNoteAmplifiedCount"])) {
+					$blueAlliancePoints = $value["score_breakdown"]["blue"]["teleopSpeakerNoteAmplifiedCount"] * 3;
 				}
 				else {
 					$blueAlliancePoints = 0;
@@ -1214,6 +1228,234 @@
 								 values (source.matchId, source.alliance, source.objectiveId, source.integerValue);";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) {
+					echo "Merge of Match Alliance Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+
+			}
+			// Update TeamMatch Scout Data from TBA for 2024 - Crescendo
+			if ($gameYear == 2024 && $matchComplete == 1) {
+				$tsql = "merge TeamMatchObjective as Target
+							using (
+							select tm.id teamMatchId
+								 , o.id objectiveId
+								 , ov.integerValue +
+								   case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameHarmonyPoints"] . " > 0
+								        then case when tm.alliancePosition = 1 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 1 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
+												  then 1
+								                  when tm.alliancePosition = 2 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 2 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
+												  then 1
+								                  when tm.alliancePosition = 3 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
+										           and '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 3 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "')
+												  then 1
+												  else 0 end
+										else 0 end +
+								   case when tm.alliance = 'B' and o.name = 'toEnd' and " . $value["score_breakdown"]["blue"]["endGameHarmonyPoints"] . " > 0
+								        then case when tm.alliancePosition = 1 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 1 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')
+												  then 1.00
+								                  when tm.alliancePosition = 2 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 2 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')
+												  then 1.00
+								                  when tm.alliancePosition = 3 and ov.integer > 0
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
+										           and '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
+												  then 1.33
+												  when tm.alliancePosition = 3 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "')
+												  then 1.00
+												  else 0 end
+										else 0 end +
+								   case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameSpotLightBonusPoints"] . " > 0
+								        then case when tm.alliancePosition = 1 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+								                  when tm.alliancePosition = 2 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+								                  when tm.alliancePosition = 3 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+												  else 0 end
+										else 0 end +
+								   case when tm.alliance = 'B' and o.name = 'toEnd' and " . $value["score_breakdown"]["blue"]["endGameSpotLightBonusPoints"] . " > 0
+								        then case when tm.alliancePosition = 1 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+								                  when tm.alliancePosition = 2 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+								                  when tm.alliancePosition = 3 and ov.integer > 0
+										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = 'true'
+										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = 'true')
+												  then 1.00
+												  else 0 end
+										else 0 end
+							  from Team t
+								   inner join TeamMatch tm
+								   on tm.teamId = t.id,
+								   GameEvent ge
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join ObjectiveValue ov
+								   on ov.objectiveId = o.id
+							 where tm.matchId = " . $matchId .
+							"  and ge.id = " . $gameEventId .
+							"  and ((t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . 
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot3"] . "')
+							     or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and (ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "'
+							                            or ov.tbaValue2 = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "'
+							                            or ov.tbaValue3 = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')))
+							     as source (teamMatchId, objectiveId, integerValue)
+							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (teamMatchId, objectiveId, integerValue)
+								 values (source.teamMatchId, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Team Match Scout Records for Match " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+
+				// Update Match objective data not tied to a Team for 2024
+				$tsql = "merge MatchObjective as Target
+							using (
+							select m.id matchId
+							     , tba.alliance
+								 , o.id objectiveId
+								 , tba.integerValue
+							  from Match m
+							       inner join GameEvent ge
+								   on ge.id = m.gameEventId
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join 
+								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoSpeakerNoteCount"] . " integerValue, 'aSpeaker' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["autoAmpNoteCount"] . " integerValue, 'aAmp' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoSpeakerNoteCount"] . " integerValue, 'aSpeaker' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoAmpNoteCount"] . " integerValue, 'aAmp' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopSpeakerNoteAmplifiedCount"] . " + " . $value["score_breakdown"]["red"]["teleopSpeakerNoteCount"] . " integerValue, 'toSpeaker' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopAmpNoteCount"] . " integerValue, 'toAmp' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["endGameNoteInTrapPoints"] . " / 5.0 integerValue, 'toTrap' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopSpeakerNoteAmplifiedCount"] . " + " . $value["score_breakdown"]["blue"]["teleopSpeakerNoteCount"] . " integerValue, 'toSpeaker' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopAmpNoteCount"] . " integerValue, 'toAmp' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["endGameNoteInTrapPoints"] . " / 5.0 integerValue, 'toTrap' objectiveName
+								    ) tba ";
+				$tsql .= " on tba.objectiveName = o.name
+							 where m.id = " . $matchId .
+							"  and ge.id = " . $gameEventId . ")" .
+							"     as source (matchId, alliance, objectiveId, integerValue)
+							on (target.matchId = source.matchId and target.alliance = source.alliance and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (matchId, alliance, objectiveId, integerValue)
+								 values (source.matchId, source.alliance, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
 					echo "Merge of Match Alliance Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
 					echo "SQL " . $tsql . "<br>";
 					if( ($errors = sqlsrv_errors() ) != null) {
