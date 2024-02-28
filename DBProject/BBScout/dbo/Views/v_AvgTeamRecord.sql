@@ -68,5 +68,6 @@ select asr.TeamId
 	   on m.id = asr.matchId
  where m.isActive = 'Y'
    and m.type in ('QM','PR')
+   and asr.tbaScout = 0
 group by asr.TeamId
 	   , asr.loginGUID;

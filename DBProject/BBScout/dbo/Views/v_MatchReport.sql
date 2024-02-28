@@ -68,6 +68,7 @@ select m.type + ' ' + m.number matchNumber
        left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
+       and asr.tbaScout = 0
        and exists (select 1
                      from match m2
                     where m2.id = asr.matchId
@@ -185,6 +186,7 @@ select m.type + ' ' + m.number matchNumber
        left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
+       and asr.tbaScout = 0
        and exists (select 1
                      from match m2
                     where m2.id = asr.matchId

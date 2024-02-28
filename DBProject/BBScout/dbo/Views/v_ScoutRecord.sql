@@ -248,7 +248,12 @@ select sr.id scoutRecordId
 	 , max(case when o.sortOrder = 20 then st.name else null end) scoringTypeName20
 	 , tm.portionOfAlliancePoints
 	 , ge.loginGUID
+	 , case when s.lastName = 'TBA' and s.firstName = ''
+	        then 1
+			else 0 end tbaScout
   from ScoutRecord sr
+       inner join Scout s
+	   on s.id = sr.scoutId
        inner join Match m
 	   on m.id = sr.matchId
 	   inner join v_GameEvent ge
@@ -272,3 +277,6 @@ group by sr.id
 	   , m.gameEventId
 	   , tm.portionOfAlliancePoints
 	   , ge.loginGUID
+	   , case when s.lastName = 'TBA' and s.firstName = ''
+	          then 1
+		      else 0 end

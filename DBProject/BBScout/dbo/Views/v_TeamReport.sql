@@ -89,6 +89,7 @@ select t.TeamNumber
 	  on g.id = ge.gameId
  where m.isActive = 'Y'
    and m.type in ('QM','PR')
+   and sr.tbaScout = 0
 group by t.TeamNumber
        , t.id
 	   , sr.gameEventId

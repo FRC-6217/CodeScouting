@@ -106,6 +106,7 @@ select sr.matchId
 	 , max(scoringTypeName20) scoringTypeName20
 	 , sr.portionOfAlliancePoints
 	 , sr.loginGUID
+	 , max(sr.tbaScout) tbaScout
   from v_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId

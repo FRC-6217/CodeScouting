@@ -106,6 +106,7 @@ select sr.matchId
 	 , max(scoringTypeName20) scoringTypeName20
 	 , round(avg(sr.portionOfAlliancePoints), 2) portionOfAlliancePoints
 	 , sr.loginGUID
+	 , max(sr.tbaScout) tbaScout
   from v_Report_ScoutRecord sr
 group by sr.matchId
        , sr.TeamId
