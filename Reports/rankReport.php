@@ -59,7 +59,7 @@
 			if ($playoffStarted == 1)
 				echo "<th>Playoff<br/>Selected?</th>";
 ?>
-            <th>Team</th>
+			<th><a href='../Reports/rankReport.php?sortOrder=Team&rankName=Team"'>Team</a></th>
 			<th>Scouted<br/>Matches</th>
             <th>Avg<br/>Rank</th>
 			<?php

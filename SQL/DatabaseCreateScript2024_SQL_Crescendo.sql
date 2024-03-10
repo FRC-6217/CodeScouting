@@ -116,7 +116,7 @@ insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None',
 insert into ObjectiveValue select o.id, 'Park', 1, 2, 1, getdate(), 'Y', 'Parked', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'On Stage', 2, 3, 3, getdate(), 'Y', 'StageLeft', 'StageRight', 'CenterStage', null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
 insert into ObjectiveValue select o.id, 'On Stage Spot', 3, 4, 4, getdate(), 'N', 'On Stage Spot', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, '0', 0, 1, 0, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, '0', null, 1, null, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, '1', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, '2', 2, 3, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, '3', 3, 4, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
@@ -157,8 +157,8 @@ insert into Rank select 'TO Spkr', 'rankSpeaker', 'V', 2, getdate(), g.id, 'N' f
 insert into Rank select 'Amp', 'rankAmp', 'V', 3, getdate(), g.id, 'N' from Game g where g.name = 'Crescendo'
 insert into Rank select 'Trap', 'rankTrap', 'V', 4, getdate(), g.id, 'N' from Game g where g.name = 'Crescendo'
 insert into Rank select 'Stage', 'rankStage', 'S', 5, getdate(), g.id, 'N' from Game g where g.name = 'Crescendo'
-insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 6, getdate(), g.id, 'Y' from Game g where g.name = 'Crescendo'
---insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 5, getdate(), g.id from Game g where g.name = 'Crescendo'
+insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 6, getdate(), g.id, 'N' from Game g where g.name = 'Crescendo'
+insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 7, getdate(), g.id, 'Y' from Game g where g.name = 'Crescendo'
 --insert into Rank select 'HP', 'rankHP', 'V', 6, getdate(), g.id from Game g where g.name = 'Crescendo'
 
 -- Rank Objective
@@ -183,7 +183,7 @@ insert into RankObjective select r.id, o.id, getdate() from Game g inner join Ob
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Crescendo' and o.name = 'toTrap' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd' and r.name = 'Scr Imp'
 
---insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense' and r.name = 'Defense'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense' and r.name = 'Defense'
 
 --insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHP' and r.name = 'HP'
 
