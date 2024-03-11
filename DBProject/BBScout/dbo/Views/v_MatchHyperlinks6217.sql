@@ -1,5 +1,4 @@
-﻿
--- View for Match Teams
+﻿-- View for Match Teams
 CREATE view [dbo].[v_MatchHyperlinks6217] as
 select '<a href="Reports/matchReport6217.php?matchId=' + convert(varchar, subquery.matchId) + '"> ' + subquery.matchNumber + '</a>' matchReportUrl
      , subquery.r1TeamNumber
@@ -94,7 +93,14 @@ select '<a href="Reports/matchReport6217.php?matchId=' + convert(varchar, subque
 			else 1000 end matchSort
 	 , subquery.loginGUID
   from (
-select case when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (6.0 / 24.0 / 60.0) < 0 then 1 else 0 end sortOrder
+select case when m.redScore is null and m.blueScore is null
+             and m.number not like '%-3'
+            then 0
+			when m.redScore is not null and m.blueScore is not null
+			then 1
+            when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (15.0 / 24.0 / 60.0) < 0
+            then 1
+			else 0 end sortOrder
      , m.type + ' ' + m.number matchNumber
      , m.id matchId
 	 , m.number

@@ -3,6 +3,7 @@ CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
 AS
 DECLARE @lv_SortOrder int;
+DECLARE @lv_TeamId int;
 BEGIN
 	create table #AvgTeamRecord(teamId int
 	                          , gameId int
@@ -14,15 +15,24 @@ BEGIN
 							  , rank integer
 							  , rankingPointAverage numeric(10, 3)
 							  , teamGameEventId int
-							  , selectedForPlayoff char(1));
+							  , selectedForPlayoff char(1)
+							  , oPR numeric(10, 3));
 	SET NOCOUNT ON
+	-- Get current Team
+	SELECT @lv_TeamId = coalesce(max(s.teamId), 101)
+	  FROM Scout s
+	 WHERE s.scoutGUID = @pv_loginGUID;
+
 	-- Get Sort Order
-	SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
-	  FROM Rank r
-	       inner join v_GameEvent ge
-		   on ge.gameId = r.gameId
-	 WHERE ge.loginGUID = @pv_loginGUID
-	   AND r.queryString = @pv_QueryString;
+	IF @pv_QueryString = 'Team'
+		SET @lv_SortOrder = -98;
+	ELSE
+		SELECT @lv_SortOrder = coalesce(max(sortOrder), -99)
+		  FROM Rank r
+			   inner join v_GameEvent ge
+			   on ge.gameId = r.gameId
+		 WHERE ge.loginGUID = @pv_loginGUID
+		   AND r.queryString = @pv_QueryString;
 
 	-- Populate local temporary table of team average scores.  This improves overall query performance
 	INSERT INTO #AvgTeamRecord
@@ -81,6 +91,7 @@ BEGIN
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
 		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
+		 , tge.oPR
 	  from rank r
 		   inner join RankObjective ro
 		   on ro.rankId = r.id
@@ -104,7 +115,8 @@ BEGIN
 		   , tge.rank
 		   , tge.rankingPointAverage
 		   , tge.id
-		   , tge.selectedForPlayoff;
+		   , tge.selectedForPlayoff
+		   , tge.oPR;
 
 	-- Add teams that do not have a scout record yet
 	INSERT INTO #AvgTeamRecord
@@ -119,6 +131,7 @@ BEGIN
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
 		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
+		 , tge.oPR
       from rank r
 		   inner join v_GameEvent ge
 		   on ge.gameId = r.gameId
@@ -180,6 +193,7 @@ BEGIN
 		 , subquery.rankingPointAverage
 		 , subquery.teamGameEventId
 		 , subquery.selectedForPlayoff
+		 , subquery.oPR
 	  from (
 	select atr.teamId
 		 , atr.gameId
@@ -197,6 +211,7 @@ BEGIN
 		 , atr.rankingPointAverage
 		 , atr.teamGameEventId
 		 , atr.selectedForPlayoff
+		 , atr.oPR
       from #AvgTeamRecord atr) subquery
 	       inner join Team t
 		   on t.id = subquery.teamId
@@ -209,9 +224,13 @@ BEGIN
 		   , subquery.rankingPointAverage
 		   , subquery.teamGameEventId
 		   , subquery.selectedForPlayoff
+		   , subquery.oPR
 	order by subquery.selectedForPlayoff
-	       , case when @lv_SortOrder = -99 then subquery.eventRank
+	       , case when @lv_SortOrder = -98 and subquery.teamId = @lv_TeamId then 0
+	              else 1 end
+	       , case when @lv_SortOrder = -98 then t.teamNumber
+		          when @lv_SortOrder = -99 then subquery.eventRank
 	              else sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end) end
-	       , t.teamNumber;
+	       , case when @lv_SortOrder = -98 then 1 else t.teamNumber end;
 
 END

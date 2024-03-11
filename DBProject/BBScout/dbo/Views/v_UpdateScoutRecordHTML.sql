@@ -1,6 +1,7 @@
 ﻿
+
 -- View to get HTML for update of Scout Record
-CREATE view v_UpdateScoutRecordHTML as
+CREATE view [dbo].[v_UpdateScoutRecordHTML] as
 select distinct
        og.name groupName
      , null objectiveName      
@@ -53,7 +54,7 @@ select distinct
 								then '<br>'
 								else '<br><br>' end end +
 				 o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) +
-				 '" value=' + convert(varchar, coalesce(sor.integerValue, 0)) + ' style="width: 40px;">'
+				 '" value=' + case when sor.integerValue is null then '-99' else convert(varchar, coalesce(sor.integerValue, 0)) end + ' style="width: 40px;">'
 			when ov.sortOrder = 1
 	        then case when o.sortOrder = 
 					      (select min(o2.sortOrder)
@@ -69,20 +70,20 @@ select distinct
 						else '<br><br>' end +
 				 o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue +
 				 '<input type="radio" ' +
-				 case when coalesce(sor.integerValue, ov.integerValue) = ov.integerValue
+				 case when coalesce(sor.integerValue, -99) = coalesce(ov.integerValue, -99)
 				      then 'checked="checked" '
 					  else '' end +
 				 'name ="value' + convert(varchar, o.sortOrder) +
-				 '" value=' + convert(varchar, ov.integerValue) + '>'
+				 '" value=' + case when ov.integerValue is null then '-99' else convert(varchar, ov.integerValue) end + '>'
 			else case when ov.sameLineAsPrevious = 'Y'
 			          then '&nbsp;&nbsp;&nbsp;'
 					  else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue +
 				 '<input type="radio" ' +
-				 case when coalesce(sor.integerValue, -99) = ov.integerValue
+				 case when coalesce(sor.integerValue, -99) = coalesce(ov.integerValue, -99)
 				      then 'checked="checked" '
 					  else '' end +
 				 'name ="value' + convert(varchar, o.sortOrder) +
-				 '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
+				 '" value=' + case when ov.integerValue is null then '-99' else convert(varchar, ov.integerValue) end + '>' end scoutRecordHtml
 	 , sor.scoutRecordId
 	 , ge.loginGUID
   from objectiveGroup og

@@ -1,5 +1,6 @@
-﻿-- View to get HTML for entry of Scout Record
-CREATE view v_EnterScoutRecordHTML as
+﻿
+-- View to get HTML for entry of Scout Record
+CREATE view [dbo].[v_EnterScoutRecordHTML] as
 select distinct
        og.name groupName
      , null objectiveName      
@@ -60,8 +61,8 @@ select distinct
 							  and o2.gameId = o.gameId
 		                      and og2.id = og.id)
 						then '<br>'
-						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>'
-			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + convert(varchar, ov.integerValue) + '>' end scoutRecordHtml
+						else '<br><br>' end + o.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + ov.displayValue + '<input type="radio" checked="checked" name ="value' + convert(varchar, o.sortOrder) + '" value=' + case when ov.integerValue is null then '-99' else convert(varchar, ov.integerValue) end + '>'
+			else case when ov.sameLineAsPrevious = 'Y' then '&nbsp;&nbsp;&nbsp;' else '<br>&nbsp;&nbsp;&nbsp;&nbsp;' end + ov.displayValue + '<input type="radio" name ="value' + convert(varchar, o.sortOrder) + '" value=' + case when ov.integerValue is null then '-99' else convert(varchar, ov.integerValue) end + '>' end scoutRecordHtml
      , ge.loginGUID
   from objectiveGroup og
        inner join objectiveGroupObjective ogo

@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
+﻿
+CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
                                    , @pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
@@ -69,50 +70,50 @@ BEGIN
 			 , o.id objectiveId
 			 , case when st.name = 'Free Form'
 			        then null
-					else case when o.sortOrder = 1 then convert(integer, @pv_TextValue01)
-					          when o.sortOrder = 2 then convert(integer, @pv_TextValue02)
-					          when o.sortOrder = 3 then convert(integer, @pv_TextValue03)
-					          when o.sortOrder = 4 then convert(integer, @pv_TextValue04)
-					          when o.sortOrder = 5 then convert(integer, @pv_TextValue05)
-					          when o.sortOrder = 6 then convert(integer, @pv_TextValue06)
-					          when o.sortOrder = 7 then convert(integer, @pv_TextValue07)
-					          when o.sortOrder = 8 then convert(integer, @pv_TextValue08)
-					          when o.sortOrder = 9 then convert(integer, @pv_TextValue09)
-					          when o.sortOrder = 10 then convert(integer, @pv_TextValue10)
-					          when o.sortOrder = 11 then convert(integer, @pv_TextValue11)
-					          when o.sortOrder = 12 then convert(integer, @pv_TextValue12)
-					          when o.sortOrder = 13 then convert(integer, @pv_TextValue13)
-					          when o.sortOrder = 14 then convert(integer, @pv_TextValue14)
-					          when o.sortOrder = 15 then convert(integer, @pv_TextValue15)
-					          when o.sortOrder = 16 then convert(integer, @pv_TextValue16)
-					          when o.sortOrder = 17 then convert(integer, @pv_TextValue17)
-					          when o.sortOrder = 18 then convert(integer, @pv_TextValue18)
-					          when o.sortOrder = 19 then convert(integer, @pv_TextValue19)
-					          when o.sortOrder = 20 then convert(integer, @pv_TextValue20)
+					else case when o.sortOrder = 1 then case when @pv_TextValue01 = '-99' then null else convert(integer, @pv_TextValue01) end
+					          when o.sortOrder = 2 then case when @pv_TextValue02 = '-99' then null else convert(integer, @pv_TextValue02) end
+					          when o.sortOrder = 3 then case when @pv_TextValue03 = '-99' then null else convert(integer, @pv_TextValue03) end
+					          when o.sortOrder = 4 then case when @pv_TextValue04 = '-99' then null else convert(integer, @pv_TextValue04) end
+					          when o.sortOrder = 5 then case when @pv_TextValue05 = '-99' then null else convert(integer, @pv_TextValue05) end
+					          when o.sortOrder = 6 then case when @pv_TextValue06 = '-99' then null else convert(integer, @pv_TextValue06) end
+					          when o.sortOrder = 7 then case when @pv_TextValue07 = '-99' then null else convert(integer, @pv_TextValue07) end
+					          when o.sortOrder = 8 then case when @pv_TextValue08 = '-99' then null else convert(integer, @pv_TextValue08) end
+					          when o.sortOrder = 9 then case when @pv_TextValue09 = '-99' then null else convert(integer, @pv_TextValue09) end
+					          when o.sortOrder = 10 then case when @pv_TextValue10 = '-99' then null else convert(integer, @pv_TextValue10) end
+					          when o.sortOrder = 11 then case when @pv_TextValue11 = '-99' then null else convert(integer, @pv_TextValue11) end
+					          when o.sortOrder = 12 then case when @pv_TextValue12 = '-99' then null else convert(integer, @pv_TextValue12) end
+					          when o.sortOrder = 13 then case when @pv_TextValue13 = '-99' then null else convert(integer, @pv_TextValue13) end
+					          when o.sortOrder = 14 then case when @pv_TextValue14 = '-99' then null else convert(integer, @pv_TextValue14) end
+					          when o.sortOrder = 15 then case when @pv_TextValue15 = '-99' then null else convert(integer, @pv_TextValue15) end
+					          when o.sortOrder = 16 then case when @pv_TextValue16 = '-99' then null else convert(integer, @pv_TextValue16) end
+					          when o.sortOrder = 17 then case when @pv_TextValue17 = '-99' then null else convert(integer, @pv_TextValue17) end
+					          when o.sortOrder = 18 then case when @pv_TextValue18 = '-99' then null else convert(integer, @pv_TextValue18) end
+					          when o.sortOrder = 19 then case when @pv_TextValue19 = '-99' then null else convert(integer, @pv_TextValue19) end
+					          when o.sortOrder = 20 then case when @pv_TextValue20 = '-99' then null else convert(integer, @pv_TextValue20) end
 					          else null end
 					end integerValue
 			 , case when st.name = 'Free Form'
 			        then null
-					else case when o.sortOrder = 1 then convert(decimal, @pv_TextValue01)
-					          when o.sortOrder = 2 then convert(decimal, @pv_TextValue02)
-					          when o.sortOrder = 3 then convert(decimal, @pv_TextValue03)
-					          when o.sortOrder = 4 then convert(decimal, @pv_TextValue04)
-					          when o.sortOrder = 5 then convert(decimal, @pv_TextValue05)
-					          when o.sortOrder = 6 then convert(decimal, @pv_TextValue06)
-					          when o.sortOrder = 7 then convert(decimal, @pv_TextValue07)
-					          when o.sortOrder = 8 then convert(decimal, @pv_TextValue08)
-					          when o.sortOrder = 9 then convert(decimal, @pv_TextValue09)
-					          when o.sortOrder = 10 then convert(decimal, @pv_TextValue10)
-					          when o.sortOrder = 11 then convert(decimal, @pv_TextValue11)
-					          when o.sortOrder = 12 then convert(decimal, @pv_TextValue12)
-					          when o.sortOrder = 13 then convert(decimal, @pv_TextValue13)
-					          when o.sortOrder = 14 then convert(decimal, @pv_TextValue14)
-					          when o.sortOrder = 15 then convert(decimal, @pv_TextValue15)
-					          when o.sortOrder = 16 then convert(decimal, @pv_TextValue16)
-					          when o.sortOrder = 17 then convert(decimal, @pv_TextValue17)
-					          when o.sortOrder = 18 then convert(decimal, @pv_TextValue18)
-					          when o.sortOrder = 19 then convert(decimal, @pv_TextValue19)
-					          when o.sortOrder = 20 then convert(decimal, @pv_TextValue20)
+					else case when o.sortOrder = 1 then case when @pv_TextValue01 = '-99' then null else convert(decimal, @pv_TextValue01) end
+					          when o.sortOrder = 2 then case when @pv_TextValue01 = '-99' then null else convert(decimal, @pv_TextValue02) end
+					          when o.sortOrder = 3 then case when @pv_TextValue03 = '-99' then null else convert(decimal, @pv_TextValue03) end
+					          when o.sortOrder = 4 then case when @pv_TextValue04 = '-99' then null else convert(decimal, @pv_TextValue04) end
+					          when o.sortOrder = 5 then case when @pv_TextValue05 = '-99' then null else convert(decimal, @pv_TextValue05) end
+					          when o.sortOrder = 6 then case when @pv_TextValue06 = '-99' then null else convert(decimal, @pv_TextValue06) end
+					          when o.sortOrder = 7 then case when @pv_TextValue07 = '-99' then null else convert(decimal, @pv_TextValue07) end
+					          when o.sortOrder = 8 then case when @pv_TextValue08 = '-99' then null else convert(decimal, @pv_TextValue08) end
+					          when o.sortOrder = 9 then case when @pv_TextValue09 = '-99' then null else convert(decimal, @pv_TextValue09) end
+					          when o.sortOrder = 10 then case when @pv_TextValue10 = '-99' then null else convert(decimal, @pv_TextValue10) end
+					          when o.sortOrder = 11 then case when @pv_TextValue11 = '-99' then null else convert(decimal, @pv_TextValue11) end
+					          when o.sortOrder = 12 then case when @pv_TextValue12 = '-99' then null else convert(decimal, @pv_TextValue12) end
+					          when o.sortOrder = 13 then case when @pv_TextValue13 = '-99' then null else convert(decimal, @pv_TextValue13) end
+					          when o.sortOrder = 14 then case when @pv_TextValue14 = '-99' then null else convert(decimal, @pv_TextValue14) end
+					          when o.sortOrder = 15 then case when @pv_TextValue15 = '-99' then null else convert(decimal, @pv_TextValue15) end
+					          when o.sortOrder = 16 then case when @pv_TextValue16 = '-99' then null else convert(decimal, @pv_TextValue16) end
+					          when o.sortOrder = 17 then case when @pv_TextValue17 = '-99' then null else convert(decimal, @pv_TextValue17) end
+					          when o.sortOrder = 18 then case when @pv_TextValue18 = '-99' then null else convert(decimal, @pv_TextValue18) end
+					          when o.sortOrder = 19 then case when @pv_TextValue19 = '-99' then null else convert(decimal, @pv_TextValue19) end
+					          when o.sortOrder = 20 then case when @pv_TextValue20 = '-99' then null else convert(decimal, @pv_TextValue20) end
 					          else null end
 					end decimalValue
 			 , case when st.name = 'Free Form'

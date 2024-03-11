@@ -107,6 +107,7 @@
 			echo "<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>";
 			?>
             <th>Rank<br/>Pts</th>
+            <th>OPR</th>
         </tr>
 		</thead>
 		<tbody>
@@ -156,6 +157,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
 		echo "<td>" . $row['eventRank'] . "</td>";
 		echo "<td>" . $row['rankingPointAverage'] . "</td>";
+		echo "<td>" . $row['oPR'] . "</td>";
 		echo "</tr>";
 	}
 	sqlsrv_free_stmt($getResults);
