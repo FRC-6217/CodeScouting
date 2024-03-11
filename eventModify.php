@@ -1574,6 +1574,11 @@
 			sqlsrv_free_stmt($results);
 		}
 
+		// Get Team OPRs (Offensive Power Ranking)
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/oprs";
+		$oprJSON = file_get_contents($sURL, false, $context);
+		$oprArray = json_decode($oprJSON, true);
+
 		// Update Team Rank and Ranking Point Average
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/rankings";
 		$rankingJSON = file_get_contents($sURL, false, $context);
@@ -1591,6 +1596,7 @@
 					$tsql = "update TeamGameEvent " . 
 							"   set rank = " . $value["rank"] . " " .
 							"     , rankingPointAverage = " . $value["sort_orders"][0] . " " .
+							"     , oPR = " . $oprArray["oprs"][$value["team_key"]] . " " .
 							"  where id = " .
 							"       (select tge.id " .
 							"          from TeamGameEvent tge " .
@@ -1625,7 +1631,7 @@
 		}
 		}
 		if ($cnt > 0) {
-			echo "<center>Updated " . $cnt . " Teams Successfully!</center><br>";
+			echo "<center>Updated Ranking for " . $cnt . " Teams Successfully!</center><br>";
 			sqlsrv_free_stmt($results);
 		}
 	}
