@@ -46,6 +46,11 @@
 			}
 	}
 
+	//Filter by all teams or playoff only
+	$teams = 'A';
+	if (isset($_GET['teams']))
+		$teams = $_GET['teams'];
+
 	// Display report page header
 	$rankName = "$_GET[rankName]";
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
@@ -64,8 +69,13 @@
 	$playoffStarted = $row['playoffStarted'];
 	$cntPlayoffSelected = $row['cntPlayoffSelected'];
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
-	if ($playoffStarted == 1)
+	if ($playoffStarted == 1) {
 		echo "<center><h2>Note: " . $cntPlayoffSelected . " Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
+		if ($teams == 'A')
+			echo "<center><a class='clickme danger' href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&teams=P'>Playoff Teams</a></center>";
+		else
+			echo "<center><a class='clickme danger' href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&teams=A'>All Teams</a></center>";
+	}
 
 ?>
 <div class="fixTableHead">
@@ -126,58 +136,63 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-		if ($playoffStarted == 1) {
-			if ($row['playoffAlliance'] =='0') {
-				echo "<td>";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=1'>1</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=2'>2</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=3'>3</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=4'>4</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=5'>5</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=6'>6</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=7'>7</a>";
-				echo " ";
-				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=8'>8</a>";
-				echo "</td>";
+		// Filtered by all teams or just playoff teams
+		if ($playoffStarted != 1 or
+		    $teams == 'A' or
+			$row['playoffAlliance'] != '0') {
+			if ($playoffStarted == 1) {
+				if ($row['playoffAlliance'] =='0') {
+					echo "<td>";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=1'>1</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=2'>2</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=3'>3</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=4'>4</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=5'>5</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=6'>6</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=7'>7</a>";
+					echo " ";
+					echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=8'>8</a>";
+					echo "</td>";
+				}
+				else {
+					echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=0";
+					echo "'>" . $row['playoffAlliance'] . "</a></td>";
+				}
 			}
-			else {
-				echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=0";
-				echo "'>" . $row['playoffAlliance'] . "</a></td>";
-			}
+			echo "<td><a href='../Reports/robotReport6217.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			echo "<td>" . $row['cntMatches'] . "</td>";
+			echo "<td>" . $row['avgRank'] . "</td>";
+			if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
+			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
+			if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
+			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
+			if (isset($row['rankValue3'])) echo "<td>" . $row['rankValue3'] . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
+			if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
+			if (isset($row['rankValue4'])) echo "<td>" . $row['rankValue4'] . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
+			if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
+			if (isset($row['rankValue5'])) echo "<td>" . $row['rankValue5'] . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
+			if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
+			if (isset($row['rankValue6'])) echo "<td>" . $row['rankValue6'] . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
+			if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
+			if (isset($row['rankValue7'])) echo "<td>" . $row['rankValue7'] . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
+			if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
+			if (isset($row['rankValue8'])) echo "<td>" . $row['rankValue8'] . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
+			if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
+			if (isset($row['rankValue9'])) echo "<td>" . $row['rankValue9'] . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
+			if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
+			if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
+			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
+			echo "<td>" . $row['eventRank'] . "</td>";
+			echo "<td>" . $row['rankingPointAverage'] . "</td>";
+			echo "<td>" . $row['oPR'] . "</td>";
+			echo "</tr>";
 		}
-		echo "<td><a href='../Reports/robotReport6217.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
-		echo "<td>" . $row['cntMatches'] . "</td>";
-		echo "<td>" . $row['avgRank'] . "</td>";
-		if (isset($row['rankValue1'])) echo "<td>" . $row['rankValue1'] . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
-		if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
-		if (isset($row['rankValue2'])) echo "<td>" . $row['rankValue2'] . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
-		if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
-		if (isset($row['rankValue3'])) echo "<td>" . $row['rankValue3'] . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
-		if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
-		if (isset($row['rankValue4'])) echo "<td>" . $row['rankValue4'] . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
-		if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
-		if (isset($row['rankValue5'])) echo "<td>" . $row['rankValue5'] . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
-		if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
-		if (isset($row['rankValue6'])) echo "<td>" . $row['rankValue6'] . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
-		if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
-		if (isset($row['rankValue7'])) echo "<td>" . $row['rankValue7'] . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
-		if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
-		if (isset($row['rankValue8'])) echo "<td>" . $row['rankValue8'] . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
-		if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
-		if (isset($row['rankValue9'])) echo "<td>" . $row['rankValue9'] . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
-		if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
-		if (isset($row['rankValue10'])) echo "<td>" . $row['rankValue10'] . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
-		if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
-		echo "<td>" . $row['eventRank'] . "</td>";
-		echo "<td>" . $row['rankingPointAverage'] . "</td>";
-		echo "<td>" . $row['oPR'] . "</td>";
-		echo "</tr>";
 	}
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
