@@ -1974,6 +1974,26 @@
 		}
 	}	
 
+	// Clear all Playoff Alliance Selections
+	if ($option == "C") {
+		$tsql = "exec sp_upd_ClearPlayoffSelection '$loginGUID';";
+		$results = sqlsrv_query($conn, $tsql);
+		// Check for errors
+		if(!$results) 
+		{
+			echo "Update of Playoff Alliances failed!<br />";
+			echo "SQL " . $tsql . "<br>";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+		if($results) sqlsrv_free_stmt($results);
+	}
+
 	// Clear Game Event eTag to get fresh update from The Blue Alliance API
 	if ($option == "E") {
 		$tsql = "update ge " .
