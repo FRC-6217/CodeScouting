@@ -109,10 +109,10 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
 		if ($playoffStarted == 1) {
-			if ($row['selectedForPlayoff'] =='Y') 
-				echo "<td>Yes</td>";
+			if ($row['playoffAlliance'] =='0') 
+				echo "<td></td>";
 			else
-				echo "<td>No</td>";
+				echo "<td>" . $row['playoffAlliance'] . "</td>";
 		}
 		echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 		echo "<td>" . $row['cntMatches'] . "</td>";
