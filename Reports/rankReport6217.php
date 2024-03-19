@@ -78,6 +78,7 @@
 	}
 
 ?>
+<br>
 <div class="fixTableHead">
 <center>
     <table cellspacing="0" cellpadding="5">
