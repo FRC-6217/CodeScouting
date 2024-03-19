@@ -33,7 +33,8 @@
 	//Update playoff selected for team if passed to the page
 	if (isset($_GET['toggleSelectedForPlayoff'])) {
 		$teamGameEventId = $_GET['toggleSelectedForPlayoff'];
-		$tsql = "execute sp_upd_TeamPlayoffSelection $teamGameEventId";
+		$playoffAlliance = $_GET['playoffAlliance'];
+		$tsql = "execute sp_upd_TeamPlayoffSelection $teamGameEventId, $playoffAlliance";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -74,7 +75,7 @@
         <tr>
 <?php
 		if ($playoffStarted == 1)
-			echo "<th>Playoff<br/>Selected?</th>";
+			echo "<th>Playoff<br/>Alliance</th>";
 ?>
 			<th><a href='../Reports/rankReport6217.php?sortOrder=Team&rankName=Team'>Team</a></th>
 			<th>Scouted<br/>Matches</th>
@@ -126,11 +127,29 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
 		if ($playoffStarted == 1) {
-			echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'];
-			if ($row['selectedForPlayoff'] =='Y') 
-				echo "'>Yes</a></td>";
-			else
-				echo "'>No</a></td>";
+			if ($row['playoffAlliance'] =='0') {
+				echo "<td>";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=1'>1</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=2'>2</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=3'>3</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=4'>4</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=5'>5</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=6'>6</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=7'>7</a>";
+				echo " ";
+				echo "<a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=8'>8</a>";
+				echo "</td>";
+			}
+			else {
+				echo "<td><a href='../Reports/rankReport6217.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=0";
+				echo "'>" . $row['playoffAlliance'] . "</a></td>";
+			}
 		}
 		echo "<td><a href='../Reports/robotReport6217.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 		echo "<td>" . $row['cntMatches'] . "</td>";
