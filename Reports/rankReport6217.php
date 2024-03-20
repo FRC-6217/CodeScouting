@@ -146,7 +146,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			$first != 1) {
 			$first = 0;
 			$playoffAlliancePrev = $row['playoffAlliance'];
-			echo "<tr></tr>";
+			echo "<tr><td></td></tr>";
 		}
 
 		echo "<tr>";
