@@ -117,7 +117,21 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
+	$first = 1;
+	$playoffAlliancePrev = '0';
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		// Add blank line between playoff alliances when filtered for playoff
+		if ($playoffStarted == 1 and
+		    $teams == 'P' and
+			$row['playoffAlliance'] != '0' and
+			$row['playoffAlliance'] != $playoffAlliancePrev) {
+			if ($first == 0) {
+				echo "<tr><td></td></tr>";
+			}
+			$first = 0;
+			$playoffAlliancePrev = $row['playoffAlliance'];
+		}
+
 		echo "<tr>";
 		if ($playoffStarted != 1 or
 		    $teams == 'A' or
