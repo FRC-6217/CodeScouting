@@ -142,12 +142,13 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		if ($playoffStarted == 1 and
 		    $teams == 'P' and
 			$row['playoffAlliance'] != '0' and
-			$row['playoffAlliance'] != $playoffAlliancePrev and
-			$first != 1) {
+			$row['playoffAlliance'] != $playoffAlliancePrev) {
+			if ($first == 0) {
+				echo "<tr><td></td></tr>";
+			}
 			$first = 0;
 			$playoffAlliancePrev = $row['playoffAlliance'];
-			echo "<tr><td></td></tr>";
-		}
+			}
 
 		echo "<tr>";
 		// Filtered by all teams or just playoff teams
