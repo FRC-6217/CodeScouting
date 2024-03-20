@@ -126,5 +126,7 @@
     <Build Include="dbo\Views\v_TeamScorePortion.sql" />
     <Build Include="dbo\Views\v_Report_ScoutRecord.sql" />
     <Build Include="dbo\Views\v_Report_AvgScoutRecord.sql" />
+    <Build Include="dbo\Tables\archiveTeamAttribute.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_ClearPlayoffSelection.sql" />
   </ItemGroup>
 </Project>
