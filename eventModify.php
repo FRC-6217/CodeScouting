@@ -1391,7 +1391,7 @@
 							when matched and target.integerValue <> source.integerValue
 							then update set integerValue = source.integerValue, scoreValue = source.integerValue
 							when not matched
-							then insert (teamMatchId, objectiveId, integerValue, scorValue)
+							then insert (teamMatchId, objectiveId, integerValue, scoreValue)
 								 values (source.teamMatchId, source.objectiveId, source.integerValue, source.integerValue);";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
