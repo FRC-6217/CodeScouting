@@ -76,6 +76,7 @@ $tsql = "select m.id matchId
 			on m.id = asor.matchId
 			inner join v_GameEvent ge
 			on ge.id = m.gameEventId
+			and ge.loginGUID = asor.loginGUID
 		where ge.loginGUID = '$loginGUID'
 		  and m.isActive = 'Y'
 		  and exists
