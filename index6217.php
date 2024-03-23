@@ -318,7 +318,7 @@
     <center>
 		<!--this is the div that will hold the pie chart-->
 		<div id="line_chart_div" style="width: 70%"></div>
-    </center>
     <p></p>
-    <img class="image3" src="Logo/QR.png" style="max-width: 10%; float: left; border-radius: 100%;">
+    <img class="image3" src="Logo/QRCode.png" style="max-width: 10%; border-radius: 100%;">
+    </center>
 </html> 
