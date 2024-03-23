@@ -1389,10 +1389,10 @@
 							     as source (teamMatchId, objectiveId, integerValue)
 							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
 							when matched and target.integerValue <> source.integerValue
-							then update set integerValue = source.integerValue
+							then update set integerValue = source.integerValue, scoreValue = source.integerValue
 							when not matched
-							then insert (teamMatchId, objectiveId, integerValue)
-								 values (source.teamMatchId, source.objectiveId, source.integerValue);";
+							then insert (teamMatchId, objectiveId, integerValue, scorValue)
+								 values (source.teamMatchId, source.objectiveId, source.integerValue, source.integerValue);";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
