@@ -1595,22 +1595,23 @@
 					// Update Team/Event Cross-Reference
 					$tsql = "update TeamGameEvent " . 
 							"   set rank = " . $value["rank"] . " " .
-							"     , rankingPointAverage = " . $value["sort_orders"][0] . " " .
-							"     , oPR = " . $oprArray["oprs"][$value["team_key"]] . " " .
-							"  where id = " .
-							"       (select tge.id " .
-							"          from TeamGameEvent tge " .
-							"               inner join Team t " .
-							"               on t.id = tge.teamId " .
-							"			    inner join GameEvent ge " .
-							"			    on ge.id = tge.gameEventId " .
-							"               inner join Game g " .
-							"               on g.id = ge.gameId " .
-							"               inner join Event e " .
-							"               on e.id = ge.eventId " .
-							"         where t.teamNumber = " . substr($value["team_key"], 3) .
-							"           and g.gameYear = " . $gameYear .
-							"           and e.eventCode = '" . $eventCode . "');";
+							"     , rankingPointAverage = " . $value["sort_orders"][0] . " ";
+					if (isset($oprArray))
+						$tsql .= "     , oPR = " . $oprArray["oprs"][$value["team_key"]] . " ";
+					$tsql .= "  where id = " .
+							 "       (select tge.id " .
+							 "          from TeamGameEvent tge " .
+							 "               inner join Team t " .
+							 "               on t.id = tge.teamId " .
+							 "			    inner join GameEvent ge " .
+							 "			    on ge.id = tge.gameEventId " .
+							 "               inner join Game g " .
+							 "               on g.id = ge.gameId " .
+							 "               inner join Event e " .
+							 "               on e.id = ge.eventId " .
+							 "         where t.teamNumber = " . substr($value["team_key"], 3) .
+							 "           and g.gameYear = " . $gameYear .
+							 "           and e.eventCode = '" . $eventCode . "');";
 					$results = sqlsrv_query($conn, $tsql);
 					if(!$results) 
 					{
