@@ -79,14 +79,15 @@ $tsql = "select m.id matchId
 			and ge.loginGUID = asor.loginGUID
 		where ge.loginGUID = '$loginGUID'
 		  and m.isActive = 'Y'
-		  and exists
-			(select 1
-				from ScoutRecord sr
-					inner join Scout s
-					on s.id = sr.scoutId
-				where sr.matchId = tm.matchId
-				and sr.teamId = tm.teamId
-				and s.lastName <> 'TBA')
+		  and (exists
+			   (select 1
+				  from ScoutRecord sr
+				       inner join Scout s
+					   on s.id = sr.scoutId
+				 where sr.matchId = tm.matchId
+				   and sr.teamId = tm.teamId
+				   and s.lastName <> 'TBA')
+		   or coalesce(m.redScore, 0) + coalesce(m.blueScore, 0) > 0)
 		group by m.id
 			, m.dateTime
 			, m.number
