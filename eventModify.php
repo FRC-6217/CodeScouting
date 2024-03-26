@@ -1248,94 +1248,70 @@
 							select tm.id teamMatchId
 								 , o.id objectiveId
 								 , ov.integerValue +
-								   case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameHarmonyPoints"] . " > 0
+								 case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameSpotLightBonusPoints"] . " > 0
+								 then case when tm.alliancePosition = 1 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
+										   then 1
+										   when tm.alliancePosition = 2 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
+										   then 1
+										   when tm.alliancePosition = 3 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
+										   then 1
+										   else 0 end
+								 else 0 end +
+							case when tm.alliance = 'B' and o.name = 'toEnd' and " . $value["score_breakdown"]["blue"]["endGameSpotLightBonusPoints"] . " > 0
+								 then case when tm.alliancePosition = 1 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
+										   then 1
+										   when tm.alliancePosition = 2 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
+										   then 1
+										   when tm.alliancePosition = 3 and ov.integerValue > 0
+											and ('" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
+											  or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
+										   then 1
+										   else 0 end
+								 else 0 end +
+							case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameHarmonyPoints"] . " > 0
 								        then case when tm.alliancePosition = 1 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' 
-												  then 1.33
-												  when tm.alliancePosition = 1 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
 										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
-												  then 1
-								                  when tm.alliancePosition = 2 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' 
-												  then 1.33
+												  then 2
 												  when tm.alliancePosition = 2 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
 										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
-												  then 1
-								                  when tm.alliancePosition = 3 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
-										           and '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' 
-												  then 1.33
+												  then 2
 												  when tm.alliancePosition = 3 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' 
 										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "')
-												  then 1
+												  then 2
 												  else 0 end
 										else 0 end +
 								   case when tm.alliance = 'B' and o.name = 'toEnd' and " . $value["score_breakdown"]["blue"]["endGameHarmonyPoints"] . " > 0
 								        then case when tm.alliancePosition = 1 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' 
-												  then 1.33
-												  when tm.alliancePosition = 1 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
 										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')
-												  then 1.00
-								                  when tm.alliancePosition = 2 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' 
-												  then 1.33
+												  then 2
 												  when tm.alliancePosition = 2 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
 										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')
-												  then 1.00
-								                  when tm.alliancePosition = 3 and ov.integerValue > 0
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
-										           and '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' 
-												  then 1.33
+												  then 2
 												  when tm.alliancePosition = 3 and ov.integerValue > 0
 										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' 
 										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "')
-												  then 1.00
-												  else 0 end
-										else 0 end +
-								   case when tm.alliance = 'R' and o.name = 'toEnd' and " . $value["score_breakdown"]["red"]["endGameSpotLightBonusPoints"] . " > 0
-								        then case when tm.alliancePosition = 1 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
-												  then 1.00
-								                  when tm.alliancePosition = 2 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
-												  then 1.00
-								                  when tm.alliancePosition = 3 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["red"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["red"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["red"]["micCenterStage"] . "' = '1')
-												  then 1.00
-												  else 0 end
-										else 0 end +
-								   case when tm.alliance = 'B' and o.name = 'toEnd' and " . $value["score_breakdown"]["blue"]["endGameSpotLightBonusPoints"] . " > 0
-								        then case when tm.alliancePosition = 1 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
-												  then 1.00
-								                  when tm.alliancePosition = 2 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
-												  then 1.00
-								                  when tm.alliancePosition = 3 and ov.integerValue > 0
-										           and ('" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageLeft' and '" . $value["score_breakdown"]["blue"]["micStageLeft"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'StageRight' and '" . $value["score_breakdown"]["blue"]["micStageRight"] . "' = '1'
-										             or '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "' = 'CenterStage' and '" . $value["score_breakdown"]["blue"]["micCenterStage"] . "' = '1')
-												  then 1.00
+												  then 2
 												  else 0 end
 										else 0 end
 							  from Team t
