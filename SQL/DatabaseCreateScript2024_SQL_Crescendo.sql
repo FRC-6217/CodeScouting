@@ -108,19 +108,21 @@ insert into Objective select g.id, 'toHPMade', 'HP Made:', st.id, 0, 3, 0, 10, g
 insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 11, getdate(), 'Def', 'I', 'N', 'N', 11 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 
 -- Objective Value
-insert into ObjectiveValue select o.id, 'Amp', 0, 1, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHPLoc'
-insert into ObjectiveValue select o.id, 'Source', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHPLoc'
-insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'Y', 'No', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
-insert into ObjectiveValue select o.id, 'Yes', 1, 2, 2, getdate(), 'Y', 'Yes', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
-insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'Park', 1, 2, 1, getdate(), 'Y', 'Parked', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'On Stage', 2, 3, 3, getdate(), 'Y', 'StageLeft', 'StageRight', 'CenterStage', null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, 'On Stage Spot', 3, 4, 4, getdate(), 'N', 'On Stage Spot', null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
-insert into ObjectiveValue select o.id, '0', null, 1, null, getdate(), 'N', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
-insert into ObjectiveValue select o.id, '1', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
-insert into ObjectiveValue select o.id, '2', 2, 3, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
-insert into ObjectiveValue select o.id, '3', 3, 4, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
-insert into ObjectiveValue select o.id, '4', 4, 5, 0, getdate(), 'Y', null, null, null, null, null, null from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, 'Amp', 0, 1, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHPLoc'
+insert into ObjectiveValue select o.id, 'Source', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toHPLoc'
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'Y', 'No', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 2, getdate(), 'Y', 'Yes', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'aLeave'
+insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'Park', 1, 2, 1, getdate(), 'Y', 'Parked', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'On Stage', 2, 3, 3, getdate(), 'Y', 'StageLeft', 'StageRight', 'CenterStage', null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'On Stage Spot', 3, 4, 4, getdate(), 'N', 'On Stage Spot', null, null, null, null, null, 'N' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'On Stage Harmony', 4, 5, 4, getdate(), 'N', 'On Stage Harmony', null, null, null, null, null, 'N' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, 'On Stage Spot/Harmony', 5, 6, 5, getdate(), 'N', 'On Stage Spot/Harmony', null, null, null, null, null, 'N' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toEnd'
+insert into ObjectiveValue select o.id, '0', null, 1, null, getdate(), 'N', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, '1', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, '2', 2, 3, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, '3', 3, 4, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
+insert into ObjectiveValue select o.id, '4', 4, 5, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Crescendo' and o.name = 'toDefense'
 
 -- Objective Group Objectives
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Crescendo' and o.name = 'toHPLoc' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
@@ -252,3 +254,33 @@ update Scout set isActive = 'Y' where lastName = 'Zheng' and firstName = 'Willia
 
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
 
+insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsor/Gemini.jpg', 'https://geminimade.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'CF Education Foundation', 0, 20, 'Sponsor/CF Ed Foundation.jpg', 'https://www.cannonfallsschools.com/community/education_foundation', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 30, 'Sponsor/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 40, 'Sponsor/VFW.jpg', 'https://cannonfallsvfw.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 50, 'Sponsor/CF Ed Foundation.jpg', 'https://www.cannonfallsmn.gov/fire', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Oldcastle Infrastructure', 0, 60, 'Sponsor/Oldcastle_Infrastructure_Logo.jpg', 'https://oldcastleinfrastructure.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Remax Realty', 0, 70, 'Sponsor/REMAX-logo.jpg', 'https://www.remax.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'American Legion Post 142', 0, 80, 'Sponsor/AmericanLegion.png', 'https://www.facebook.com/CannonFallsAmericanLegionPost142/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'J&J Aircraft Maintenance and Consulting', 0, 90, null, null, 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 100, 'Sponsor/hernkes heating and cooling.png', null, 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, '3M', 0, 110, 'Sponsor/3M.png', 'https://www.3m.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 120, 'Sponsor/flex craft logo.png', 'https://flex-craft.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Highland Sanitation', 0, 130, 'Sponsor/HighlandSanitation.png', 'https://www.highlandsanitation.com', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Master CAM', 0, 140, 'Sponsor/mastercam_logo.png', 'https://www.mastercam.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 150, 'Sponsor/QualityOne.png', 'https://www.qualityonewoodwork.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Sjoquist Hay and Straw', 0, 160, 'Sponsor/SjoquistHayAndStraw.jpg', 'https://www.facebook.com/SjoquistHayandStraw/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Snap Fitness', 0, 170, 'Sponsor/Snap Fitness.jpg', 'https://www.snapfitness.com/us/gyms/cannon-falls-mn', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 180, 'Sponsor/StarTech-logo.png', 'https://www.startech-comp.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Community Resource Bank', 0, 190, 'Sponsor/CommunityResourceBank.jpg', 'https://crb.bank/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Interstate Building Supply', 0, 200, 'Sponsor/InterstateBuildingSupply.png', 'https://www.interstatebuildingsupply.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Bob Draheim', 0, 210, null, null, 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Cannon Falls Rotary', 0, 220, 'Sponsor/Rotary.jpg', 'https://www.facebook.com/Cannonfallsrotary/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Midwest Machinery - John Deere', 0, 230, 'Sponsor/midwest machinery.png', 'https://mmcjd.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Jim Althoff Real Estate', 0, 240, 'Sponsor/JimAlthoffRealEstate.jpeg', 'https://www.facebook.com/JimAlthoffRealtor/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Northlands Safety Solution', 0, 250, 'Sponsor/Northland Safety logo.png', 'https://www.northlandsafety.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Lorentz Meats', 0, 260, 'Sponsor/LorentzMeats.jpg', 'https://lorentzmeats.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Seed Plus', 0, 270, null, null, 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 280, 'Sponsor/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 290, 'Sponsor/Casey_s.png', 'https://www.caseys.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Guhring', 0, 300, 'Sponsor/gurhing.png', 'https://www.guhring.com/', 100, getdate() from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
