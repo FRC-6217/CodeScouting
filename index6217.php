@@ -133,7 +133,7 @@
     <h1><center>Team 6217 Bomb Botz Scouting App</center></h1>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="sponsors6217.php">Sponsors</a>
-		  <p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 30%"></a>
+		  <a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 15%"></a>
 		</center>
           <p></p>
      </h2>
@@ -317,7 +317,6 @@
     <?php
     }
     sqlsrv_free_stmt($getResults);
-	sqlsrv_close($conn);
     ?>
     </table>
 	</center>
@@ -347,6 +346,7 @@
 				echo $row['sponsorHTML'];
 			}
 			sqlsrv_free_stmt($getResults);
+			sqlsrv_close($conn);
 			?>
 	</center>
 </html> 
