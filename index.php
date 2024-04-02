@@ -132,8 +132,8 @@
     <h1><center>Team 6217 Bomb Botz Scouting App</center></h1>
 	    <h2><center>
 		<h2>
-          <center><a id="mainpage" class="clickme danger" href="sponsors6217.php">Sponsors</a>
-		  <a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 15%"></a>
+          <center><a id="mainpage" class="clickme danger" href="sponsors.php">Sponsors</a>
+		  <a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 10%"></a>
 		</center>
           <p></p>
      </h2>
@@ -306,6 +306,7 @@
     <p></p>
     <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
     </center>
+	<center><h2>THANK YOU! to our Amazing Bomb-Botz Sponsors</h2></center>
 	<center>
 	<?php
 		// Display Sponsors

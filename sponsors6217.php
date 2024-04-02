@@ -54,7 +54,7 @@
           <p></p>
      </h2>
 	 
-<center><h1>THANK YOU! to these Amazing Bomb-Botz Sponsors</h1></center>
+<center><h1>THANK YOU! to our Amazing Bomb-Botz Sponsors</h1></center>
 <center>
 
 	<?php
