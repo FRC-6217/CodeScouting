@@ -131,6 +131,12 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <h1><center>Team 6217 Bomb Botz Scouting App</center></h1>
+    <h2>
+          <center><a id="mainpage" class="clickme danger" href="sponsors6217.php">Sponsors</a>
+		  <p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 30%"></a>
+		</center>
+          <p></p>
+     </h2>
 	    <h2><center>
 		<?php
 		$tsql = "select g.name game_name
@@ -321,4 +327,26 @@
     <p></p>
     <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
     </center>
+	<center>
+	<?php
+		// Display Sponsors
+		$tsql = "select sh.sponsorHTML
+				   from v_SponsorHyperlinks sh
+                  where sh.loginGUID = '$loginGUID'
+				 order by sh.sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo $row['sponsorHTML'];
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
+	</center>
 </html> 

@@ -13,9 +13,12 @@
     [tbaValue4]          VARCHAR (64) NULL,
     [tbaValue5]          VARCHAR (64) NULL,
     [tbaValue6]          VARCHAR (64) NULL,
+    [showOnScoutScreen]  CHAR (1)     NOT NULL,
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_ObjectiveValue_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id])
 );
+
+
 
 
 GO

@@ -128,5 +128,7 @@
     <Build Include="dbo\Views\v_Report_AvgScoutRecord.sql" />
     <Build Include="dbo\Tables\archiveTeamAttribute.sql" />
     <Build Include="dbo\Stored Procedures\sp_upd_ClearPlayoffSelection.sql" />
+    <Build Include="dbo\Tables\TeamSponsor.sql" />
+    <Build Include="dbo\Views\v_SponsorHyperlinks.sql" />
   </ItemGroup>
 </Project>

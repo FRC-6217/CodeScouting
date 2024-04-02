@@ -1,4 +1,5 @@
 ﻿
+
 -- View to get HTML for entry of Scout Record
 CREATE view [dbo].[v_EnterScoutRecordHTML] as
 select distinct
@@ -77,5 +78,6 @@ select distinct
 	   on ge.gameId = g.id
 	   left outer join objectiveValue ov
 	   on ov.objectiveId = o.id
+	   and ov.showOnScoutScreen = 'Y'
  where og.groupCode = 'Scout Match'
 --order by groupSort, objectiveSort, objectiveValueSort

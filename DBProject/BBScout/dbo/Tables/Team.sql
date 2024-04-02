@@ -1,12 +1,15 @@
 ﻿CREATE TABLE [dbo].[Team] (
-    [id]          INT           IDENTITY (1, 1) NOT NULL,
-    [teamNumber]  INT           NOT NULL,
-    [teamName]    VARCHAR (128) NOT NULL,
-    [location]    VARCHAR (128) NULL,
-    [lastUpdated] DATETIME      NULL,
-    [gameEventId] INT           NULL,
+    [id]                INT           IDENTITY (1, 1) NOT NULL,
+    [teamNumber]        INT           NOT NULL,
+    [teamName]          VARCHAR (128) NOT NULL,
+    [location]          VARCHAR (128) NULL,
+    [lastUpdated]       DATETIME      NULL,
+    [gameEventId]       INT           NULL,
+    [avatarBase64Image] VARCHAR (MAX) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
 
 GO

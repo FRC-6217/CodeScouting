@@ -1,5 +1,6 @@
 ﻿
 
+
 -- Rank Query (as a stored procedure to improve query performance
 CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
@@ -239,7 +240,7 @@ BEGIN
 	       , case when @lv_SortOrder = -98 and subquery.teamId = @lv_TeamId then 0
 	              else 1 end
 	       , case when @lv_SortOrder = -98 then t.teamNumber
-		          when @lv_SortOrder = -99 then subquery.eventRank
+		          when @lv_SortOrder = -99 then coalesce(subquery.eventRank, 999)
 	              else sum(case when subquery.sortOrder = @lv_SortOrder then subquery.rank else null end) end
 	       , case when @lv_SortOrder = -98 then 1 else t.teamNumber end;
 
