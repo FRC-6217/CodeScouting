@@ -133,7 +133,7 @@
 	    <h2><center>
 		<h2>
           <center><a id="mainpage" class="clickme danger" href="sponsors.php">Sponsors</a>
-		  <p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 5%"></a>
+		  <p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 10%"></a>
 		</center>
           <p></p>
      </h2>
