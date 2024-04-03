@@ -262,3 +262,21 @@ update Scout set isActive = 'Y' where lastName = 'White' and firstName = 'Brando
 
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
 
+insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsors/Gemini.jpg', 'https://geminimade.com/', 50, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'CF Education Foundation', 0, 20, 'Sponsors/CF Ed Foundation.jpg', 'https://www.cannonfallsschools.com/community/education_foundation', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 30, 'Sponsors/CF Fire Department.jpg', 'https://www.cannonfallsmn.gov/fire', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 40, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 50, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 60, 'Sponsors/QualityOne.png', 'https://www.qualityonewoodwork.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 70, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 80, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
+
+update teamSponsor set maxWidthPercent = 10 where sortOrder = 20 -- CFEF
+update teamSponsor set maxWidthPercent = 10 where sortOrder = 30 -- CFFD
+update teamSponsor set maxWidthPercent = 15 where sortOrder = 40 -- Hernke
+update teamSponsor set maxWidthPercent = 20 where sortOrder = 50 -- Flex Craft
+update teamSponsor set maxWidthPercent = 25 where sortOrder = 60 -- Quality One
+update teamSponsor set maxWidthPercent = 20 where sortOrder = 70 -- StarTech
+update teamSponsor set maxWidthPercent = 10 where sortOrder = 80 -- Caseys
+
+select * from teamSponsor order by gameid, sortOrder
