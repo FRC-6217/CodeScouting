@@ -260,7 +260,7 @@ insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 30, 'Spo
 insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 40, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 50, 'Sponsors/CF Fire Department.jpg', 'https://www.cannonfallsmn.gov/fire', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Oldcastle Infrastructure', 0, 60, 'Sponsors/Oldcastle_Infrastructure_Logo.jpg', 'https://oldcastleinfrastructure.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
-insert into TeamSponsor select t.id, g.id, 'Remax Realty', 0, 70, 'Sponsors/REMAX-logo.jpg', 'https://www.remax.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Remax Realty', 0, 70, 'Sponsors/REMAX.png', 'https://www.remax.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'American Legion Post 142', 0, 80, 'Sponsors/AmericanLegion.png', 'https://www.facebook.com/CannonFallsAmericanLegionPost142/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 100, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, '3M', 0, 110, 'Sponsors/3M.png', 'https://www.3m.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
@@ -288,30 +288,30 @@ insert into TeamSponsor select t.id, g.id, 'J&J Aircraft Maint and Consulting', 
 insert into TeamSponsor select t.id, g.id, 'Bob Draheim', 0, 320, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Seed Plus', 0, 330, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 20 -- CFEF
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 50 -- CFFD
-update teamSponsor set maxWidthPercent = 25 where sortOrder = 60 -- Old Castle
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 70 -- ReMax
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 80 -- American Legion
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 100 -- Hernke
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 110 -- 3M
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 120 -- Flex Craft
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 130 -- Highland Sanitation
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 140 -- Master CAM
-update teamSponsor set maxWidthPercent = 25 where sortOrder = 150 -- Quality One
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 160 -- Sjoquist
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 170 -- Snap
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 180 -- StarTech
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 190 -- CRB
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 220 -- CF Rotary
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 230 -- Midwest Machinery
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 240 -- Jim ALthoff
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 255 -- MN Woodcraft
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 260 -- Lorentz
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 270 -- Milwaukee
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 275 -- Liberty Tax
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 280 -- RW Area Mfg
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 290 -- Caseys
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 300 -- Guhring
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 20 -- CFEF
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 50 -- CFFD
+update teamSponsor set maxWidthPercent = 25 where gameid = 7 and sortOrder = 60 -- Old Castle
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 70 -- ReMax
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 80 -- American Legion
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 100 -- Hernke
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 110 -- 3M
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 120 -- Flex Craft
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 130 -- Highland Sanitation
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 140 -- Master CAM
+update teamSponsor set maxWidthPercent = 25 where gameid = 7 and sortOrder = 150 -- Quality One
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 160 -- Sjoquist
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 170 -- Snap
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 180 -- StarTech
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 190 -- CRB
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 220 -- CF Rotary
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 230 -- Midwest Machinery
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 240 -- Jim ALthoff
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 255 -- MN Woodcraft
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 260 -- Lorentz
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 270 -- Milwaukee
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 275 -- Liberty Tax
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 280 -- RW Area Mfg
+update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 290 -- Caseys
+update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 300 -- Guhring
 
 select * from teamSponsor order by gameid desc, sortOrder

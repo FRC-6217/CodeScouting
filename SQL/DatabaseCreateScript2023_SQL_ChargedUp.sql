@@ -271,12 +271,12 @@ insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 60, 'Sp
 insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 70, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
 insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 80, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Charged Up';
 
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 20 -- CFEF
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 30 -- CFFD
-update teamSponsor set maxWidthPercent = 15 where sortOrder = 40 -- Hernke
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 50 -- Flex Craft
-update teamSponsor set maxWidthPercent = 25 where sortOrder = 60 -- Quality One
-update teamSponsor set maxWidthPercent = 20 where sortOrder = 70 -- StarTech
-update teamSponsor set maxWidthPercent = 10 where sortOrder = 80 -- Caseys
+update teamSponsor set maxWidthPercent = 10 where gameId = 6 and sortOrder = 20 -- CFEF
+update teamSponsor set maxWidthPercent = 10 where gameId = 6 and sortOrder = 30 -- CFFD
+update teamSponsor set maxWidthPercent = 15 where gameId = 6 and sortOrder = 40 -- Hernke
+update teamSponsor set maxWidthPercent = 20 where gameId = 6 and sortOrder = 50 -- Flex Craft
+update teamSponsor set maxWidthPercent = 25 where gameId = 6 and sortOrder = 60 -- Quality One
+update teamSponsor set maxWidthPercent = 20 where gameId = 6 and sortOrder = 70 -- StarTech
+update teamSponsor set maxWidthPercent = 10 where gameId = 6 and sortOrder = 80 -- Caseys
 
 select * from teamSponsor order by gameid, sortOrder
