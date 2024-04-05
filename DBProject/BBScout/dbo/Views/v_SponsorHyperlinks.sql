@@ -1,4 +1,6 @@
 ﻿
+
+
 -- View for Sponsors
 CREATE view [dbo].[v_SponsorHyperlinks] as
 select case when ts.sameLineAsPrevious = 'N'
@@ -24,7 +26,7 @@ select case when ts.sameLineAsPrevious = 'N'
 																												  '>'
 	        when ts.referenceURL is not null
 	        then '<a href="' + ts.referenceURL + '" target="_blank">' + ts.sponsorName + '</a>'
-			else '<b><font size="5">' + ts.SponsorName + '</font></b>' end sponsorHTML
+			else '<b><font size="4">' + ts.SponsorName + '</font></b>' end sponsorHTML
      , ts.sortOrder
 	 , ge.loginGUID
   from TeamSponsor ts
@@ -34,3 +36,4 @@ select case when ts.sameLineAsPrevious = 'N'
 	   on g.id = ts.gameId
        inner join v_GameEvent ge
 	   on ge.id = t.gameEventId
+	   and ge.gameId = g.id
