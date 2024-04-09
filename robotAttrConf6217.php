@@ -103,5 +103,10 @@
 	}		
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
+
+	if (isset($_FILES['robotphoto'])) {
+		$tmpName = $_FILES['robotphoto']['tmp_name'];
+	}
+
 ?>
 </html>

@@ -280,7 +280,8 @@ insert into TeamSponsor select t.id, g.id, 'Northlands Safety Solution', 0, 250,
 insert into TeamSponsor select t.id, g.id, 'MN Woodcraft', 0, 255, 'Sponsors/MN Woodcraft.jpg', 'https://mnwoodcraft.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Lorentz Meats', 0, 260, 'Sponsors/LorentzMeats.jpg', 'https://lorentzmeats.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 270, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
-insert into TeamSponsor select t.id, g.id, 'Liberty Tax', 0, 275, 'Sponsors/Liberty.jpg', 'https://www.libertytax.com/income-tax-preparation-locations/minnesota/cannon-falls/14375', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Ace Hardware', 0, 272, 'Sponsors/AceHardware.png', 'https://www.acehardware.com/store-details/14225', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Liberty Tax', 0, 275, 'Sponsors/Liberty.jpg', 'https://www.libertytax.com/income-tax-preparation-locations/minnesota/cannon-falls/14375', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Small Engine Service', 0, 278, 'Sponsors/SmallEngineService.jpg', 'https://www.smallengineservicewelch.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 280, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 290, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
@@ -288,6 +289,10 @@ insert into TeamSponsor select t.id, g.id, 'Guhring', 0, 300, 'Sponsors/gurhing.
 insert into TeamSponsor select t.id, g.id, 'J&J Aircraft Maint and Consulting', 0, 310, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Bob Draheim', 0, 320, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 insert into TeamSponsor select t.id, g.id, 'Seed Plus', 0, 330, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Ron & Marcia Freeburg', 0, 340, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Fastenal Company Purchasing', 0, 350, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Mark & Cindy Sjoquist', 0, 360, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
+insert into TeamSponsor select t.id, g.id, 'Barbara McGeough', 0, 370, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Crescendo';
 
 update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 20 -- CFEF
 update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 50 -- Old Castle
@@ -310,6 +315,7 @@ update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 240
 update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 255 -- MN Woodcraft
 update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 260 -- Lorentz
 update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 270 -- Milwaukee
+update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 272 -- ACE Hardware
 update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 275 -- Liberty Tax
 update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 278 -- Small Engine Service
 update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 280 -- RW Area Mfg
