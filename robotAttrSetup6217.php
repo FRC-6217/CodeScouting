@@ -99,10 +99,6 @@
 					?>
 					<p></p>
 					<center>
-						<label for="robotphoto">Choose/replace robot picture:</label>
-						<input type="hidden" name="MAX_FILE_SIZE" value="10000000" />
-						<input type="file" id="robotphoto" name="robotphoto" accept="image/jpeg"/>
-						<p></p>
 						<input type="submit" value="Submit" name="submitToDatabase">
 					</center>
 				</div>
