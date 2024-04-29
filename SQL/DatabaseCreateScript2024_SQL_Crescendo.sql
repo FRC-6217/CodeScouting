@@ -51,15 +51,17 @@ insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, nu
 insert into Attribute select g.id, 'role', 'What''s your role on the team?', st.id, null, null, 2, getdate(), 'Role', 'N', 'Drive Team' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
 insert into Attribute select g.id, 'driveTrain', 'What drivetrain is robot using?', st.id, null, null, 3, getdate(), 'Drive Train', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'robotWidth', 'Width of robot with bumpers (inches)?', st.id, null, null, 4, getdate(), 'Width', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
-insert into Attribute select g.id, 'autoLeave', 'Do you have an autonomous program to leave scoring area?', st.id, null, null, 5, getdate(), 'Leave', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'preferredStart', 'What is preferred start location?', st.id, null, null, 6, getdate(), 'Pref Start', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'flexibleStart', 'Does autonomous program allow for flexible start location?', st.id, null, null, 7, getdate(), 'Flex Start', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'autoNow', 'Describe current autonomous program movement?', st.id, null, null, 8, getdate(), 'Auto Now', 'N', 'Drive out of Robot Start Area' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
-insert into Attribute select g.id, 'AutoPlan', 'Describe any plans for changes to autonomous movement?', st.id, null, null, 9, getdate(), 'Auto Plan', 'N', 'Pick up second Note' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
-insert into Attribute select g.id, 'gamePiecePickup', 'How does robot attain Notes?', st.id, null, null, 10, getdate(), 'Pickup', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'gamePieceLevel', 'Which targets can your robot score game pieces?', st.id, null, null, 11, getdate(), 'Note Targets', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'endGameDescription', 'Describe your on-stage end game plan?', st.id, null, null, 12, getdate(), 'End Game', 'N', 'Plan for Harmony with another robot' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
-insert into Attribute select g.id, 'coopertition', 'Does your strategy include engaging in the Coopertition bonus?', st.id, null, null, 13, getdate(), 'Coopertition', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'robotWeight', 'Weight of robot?', st.id, null, null, 5, getdate(), 'Weight', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
+insert into Attribute select g.id, 'autoLeave', 'Do you have an autonomous program to leave scoring area?', st.id, null, null, 6, getdate(), 'Leave', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'preferredStart', 'What is preferred start location?', st.id, null, null, 7, getdate(), 'Pref Start', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'flexibleStart', 'Does autonomous program allow for flexible start location?', st.id, null, null, 8, getdate(), 'Flex Start', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'autoNow', 'Describe current autonomous program movement?', st.id, null, null, 9, getdate(), 'Auto Now', 'N', 'Drive out of Robot Start Area' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
+insert into Attribute select g.id, 'AutoPlan', 'Describe any plans for changes to autonomous movement?', st.id, null, null, 10, getdate(), 'Auto Plan', 'N', 'Pick up second Note' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
+insert into Attribute select g.id, 'gamePiecePickup', 'How does robot attain Notes?', st.id, null, null, 11, getdate(), 'Pickup', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'gamePieceLevel', 'Which targets can your robot score game pieces?', st.id, null, null, 12, getdate(), 'Note Targets', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'endGameDescription', 'Describe your on-stage end game plan?', st.id, null, null, 13, getdate(), 'End Game', 'N', 'Plan for Harmony with another robot' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
+insert into Attribute select g.id, 'climbTime', 'Climb time (seconds)?', st.id, null, null, 14, getdate(), 'Climb', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Integer'
+insert into Attribute select g.id, 'coopertition', 'Does your strategy include engaging in the Coopertition bonus?', st.id, null, null, 15, getdate(), 'Coopertition', 'N', null from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
 
 -- Attribute Values
 insert into AttributeValue select a.id, 'Tank', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'driveTrain';
@@ -92,7 +94,7 @@ insert into AttributeValue select a.id, 'All Targets', 6, 7, getdate(), 'N', 'Y'
 insert into AttributeValue select a.id, 'Always', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
 insert into AttributeValue select a.id, 'Never', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
 insert into AttributeValue select a.id, 'Depends on Alliance Partners', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
-insert into AttributeValue select a.id, 'Requires agreement from opponent', 3, 4, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
+insert into AttributeValue select a.id, 'Requires agreement from opponent', 3, 4, getdate(), 'N', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Crescendo' and a.name = 'coopertition';
 
 -- Objectives
 insert into Objective select g.id, 'toHPLoc', 'HP Loc:', st.id, null, null, null, 1, getdate(), 'HP', 'I', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Radio Button'
@@ -326,7 +328,3 @@ update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 278
 update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 280 -- RW Area Mfg
 update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 290 -- Caseys
 update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 300 -- Guhring
-
-
-select * from teamSponsor order by gameid desc, sortOrder
-

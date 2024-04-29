@@ -11,7 +11,7 @@ select m.number, t.teamNumber, tm.alliance, tm.alliancePosition
 	   inner join team t
 	   on t.id = tm.teamId
  where g.name = 'Crescendo'
-  and e.name = 'Iowa Regional'
+  and e.name = 'Milstein Division'
   and m.type = 'QM'
 --  and t.teamNumber= 6217
   and tm.alliance = 'B'
