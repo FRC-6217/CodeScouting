@@ -166,6 +166,8 @@
     <img class="image1" src="Logo/Logo.png" style="max-width: 10%; float: left; border-radius: 100%;">
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
+    <img class="image3" src="https://robotimages.blob.core.windows.net/robotimages/6217/6217.jpg" style="max-width: 10%; float: right; border-radius: 100%;">
+    <p></p>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
 		  <a id="mainpage" class="clickme danger" href="robotAttrList6217.php">Scout Robot</a></center>
