@@ -8,6 +8,7 @@
 	<p></p>
 <?php
 // Check if image file is a actual image or fake image
+/*
 if(isset($_POST["submit"])) {
   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
   if($check !== false) {
@@ -39,6 +40,7 @@ if ($uploadOk == 0) {
 } else {
     echo "Sorry, there was an error uploading your file.";
 }
+*/
 
 public function uploadToAzureCloud($request)
   {

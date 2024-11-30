@@ -27,7 +27,7 @@
 		</body>
 		<center><a class="clickme danger" href="index6217.php">Home</a></center>
 		
-		<form enctype="multipart/form-data" action='testUpload.php' method='post'>
+		<form enctype="multipart/form-data" action='./testUpload.php' method='post'>
             Select image to upload:
             <input type="file" name="fileToUpload" id="fileToUpload">
             <input type="submit" value="Upload Image" name="submit">
