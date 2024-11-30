@@ -46,11 +46,11 @@ if ($uploadOk == 0) {
 public function uploadToAzureCloud($request)
   {
      try { 
+/*
     $storageAccountName = getenv("StorageAccountName");
     $containerName = getenv("StorageContainer");
     $accessKey = getenv("StorageAccessKey");
 
-/*
     if ($request->hasFile('file')) {
 
      $file = $request->file('file');
