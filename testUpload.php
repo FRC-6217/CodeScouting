@@ -45,8 +45,8 @@ if ($uploadOk == 0) {
 
 public function uploadToAzureCloud($request)
   {
-     try { 
 /*
+     try { 
     $storageAccountName = getenv("StorageAccountName");
     $containerName = getenv("StorageContainer");
     $accessKey = getenv("StorageAccessKey");
@@ -122,12 +122,12 @@ $response = $client->request('PUT', $url, [
   return response()->json(['message' => 'Something went wrong']);
            }
     }
-*/
   } catch (RequestException $e) {
        // If there's an error, log the error message
     $errorMessage = $e->getMessage();
     return response()->json(['error' => $errorMessage], 500);
         }
+*/
 }
 ?>
 </html>
