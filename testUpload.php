@@ -43,9 +43,8 @@ if ($uploadOk == 0) {
     echo "Sorry, there was an error uploading your file.<p></p>";
 }
 
-public function uploadToAzureCloud($request)
+function uploadToAzureCloud($request)
   {
-/*
      try { 
     $storageAccountName = getenv("StorageAccountName");
     $containerName = getenv("StorageContainer");
@@ -127,7 +126,6 @@ $response = $client->request('PUT', $url, [
     $errorMessage = $e->getMessage();
     return response()->json(['error' => $errorMessage], 500);
         }
-*/
 }
 ?>
 </html>
