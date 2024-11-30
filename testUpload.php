@@ -43,7 +43,6 @@ if ($uploadOk == 0) {
     echo "Sorry, there was an error uploading your file.<p></p>";
 }
 
-/*
 public function uploadToAzureCloud($request)
   {
      try { 
@@ -51,6 +50,7 @@ public function uploadToAzureCloud($request)
     $containerName = getenv("StorageContainer");
     $accessKey = getenv("StorageAccessKey");
 
+/*
     if ($request->hasFile('file')) {
 
      $file = $request->file('file');
@@ -121,13 +121,13 @@ $response = $client->request('PUT', $url, [
         } else {
   return response()->json(['message' => 'Something went wrong']);
            }
-       }
+    }
+*/
   } catch (RequestException $e) {
        // If there's an error, log the error message
     $errorMessage = $e->getMessage();
- return response()->json(['error' => $errorMessage], 500);
+    return response()->json(['error' => $errorMessage], 500);
         }
-    }
-*/
+}
 ?>
 </html>
