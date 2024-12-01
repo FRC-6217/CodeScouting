@@ -51,17 +51,18 @@ if(isset($_POST["submit"])) {
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
         
-        # Use functions to upload file
-        $fileNameOnStorage = $file;
-/*        
-        storageAddFile($containerName, $file, $fileNameOnStorage);
         # Reference autoload (assuming you're using Composer)
         require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
         
         # Imports
         use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
         use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+
+        # Use functions to upload file
+        $fileNameOnStorage = $file;
         
+//        storageAddFile($containerName, $file, $fileNameOnStorage);
+       
         # Function to add a file to storage
         function storageAddFile($containerName, $file, $fileName) {
             # Setup Azure Storage connection
@@ -112,7 +113,6 @@ if(isset($_POST["submit"])) {
             );
             return $types[$mime] ?? null;
         }
-*/        
 /*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
