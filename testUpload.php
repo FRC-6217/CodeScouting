@@ -45,71 +45,72 @@ if(isset($_POST["submit"])) {
 }
 
 function uploadToAzureCloud($file)
-  {
-     try { 
-    $storageAccountName = getenv("StorageAccountName");
-    $containerName = getenv("StorageContainer");
-    $accessKey = getenv("StorageAccessKey");
-    echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
+{
+    try { 
+        $storageAccountName = getenv("StorageAccountName");
+        $containerName = getenv("StorageContainer");
+        $accessKey = getenv("StorageAccessKey");
+        echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
 
-    $orignalFileName = $file->getClientOriginalName();
-    $mimeType = $file->getMimeType();
-    $blobName =  'folder/'. $file->hashName();
-    $fileSize = filesize($file->path());
-    $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
-    $urlResource = "/$storageAccountName/$containerName/{$blobName}";
-    $headerResource = "x-ms-blob-cache-control:max-age=3600\nx-ms-blob-type:BlockBlob\nx-ms-date:$dateTime\nx-ms-version:2019-12-12";
-    echo "File Name: $orignalFileName, Blob Name: $blobName.<p></p>";
+        $orignalFileName = $file->getClientOriginalName();
+        $mimeType = $file->getMimeType();
+        $blobName =  'folder/'. $file->hashName();
+        $fileSize = filesize($file->path());
+        $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
+        $urlResource = "/$storageAccountName/$containerName/{$blobName}";
+        $headerResource = "x-ms-blob-cache-control:max-age=3600\nx-ms-blob-type:BlockBlob\nx-ms-date:$dateTime\nx-ms-version:2019-12-12";
+        echo "File Name: $orignalFileName, Blob Name: $blobName.<p></p>";
 
-    // Generate signature
-    $arraysign = [];  // initiate an empty array (don't remove this 🙂)
-    $arraysign[] = 'PUT';               //HTTP Verb
-    $arraysign[] = '';                  //Content-Encoding
-    $arraysign[] = '';                  //Content-Language
-    $arraysign[] = $fileSize;           //Content-Length (include value when zero)
-    $arraysign[] = '';                  //Content-MD5
-    $arraysign[] = $mimeType;           //Content-Type
-    $arraysign[] = '';                  //Date
-    $arraysign[] = '';                  //If-Modified-Since
-    $arraysign[] = '';                  //If-Match
-    $arraysign[] = '';                  //If-None-Match
-    $arraysign[] = '';                  //If-Unmodified-Since
-    $arraysign[] = '';                  //Range
-    $arraysign[] = $headerResource;     //CanonicalizedHeaders
-    $arraysign[] = $urlResource;        //CanonicalizedResource
+        // Generate signature
+        $arraysign = [];  // initiate an empty array (don't remove this 🙂)
+        $arraysign[] = 'PUT';               //HTTP Verb
+        $arraysign[] = '';                  //Content-Encoding
+        $arraysign[] = '';                  //Content-Language
+        $arraysign[] = $fileSize;           //Content-Length (include value when zero)
+        $arraysign[] = '';                  //Content-MD5
+        $arraysign[] = $mimeType;           //Content-Type
+        $arraysign[] = '';                  //Date
+        $arraysign[] = '';                  //If-Modified-Since
+        $arraysign[] = '';                  //If-Match
+        $arraysign[] = '';                  //If-None-Match
+        $arraysign[] = '';                  //If-Unmodified-Since
+        $arraysign[] = '';                  //Range
+        $arraysign[] = $headerResource;     //CanonicalizedHeaders
+        $arraysign[] = $urlResource;        //CanonicalizedResource
 
-    // Converts the array to a string as required by MS 
-    $str2sign = implode("\n", $arraysign);
-    $sig = base64_encode(hash_hmac('sha256', utf8_encode($str2sign), base64_decode($accessKey), true));
+        // Converts the array to a string as required by MS 
+        $str2sign = implode("\n", $arraysign);
+        $sig = base64_encode(hash_hmac('sha256', utf8_encode($str2sign), base64_decode($accessKey), true));
 
-    $url = "https://$storageAccountName.blob.core.windows.net/$containerName/{$blobName}";
+        $url = "https://$storageAccountName.blob.core.windows.net/$containerName/{$blobName}";
 
-    // use GuzzleHttp\Client;
-    $client = new Client();
-    $response = $client->request('PUT', $url, [
-        'headers' => [
-        'Authorization' => "SharedKey $storageAccountName:$sig",
-        'x-ms-blob-cache-control' => 'max-age=3600',
-        'x-ms-blob-type' => 'BlockBlob',
-        'x-ms-date' => $dateTime,
-        'x-ms-version' => '2019-12-12',
-        'Content-Type' => $mimeType,
-        'Content-Length' => $fileSize
-        ],
-        'body' => fopen($file->path(), 'r'),
-    ]);          
-    if ($response->getStatusCode() == 201) {
-        // image sas token 
+        // use GuzzleHttp\Client;
+        $client = new Client();
+        $response = $client->request('PUT', $url, [
+            'headers' => [
+            'Authorization' => "SharedKey $storageAccountName:$sig",
+            'x-ms-blob-cache-control' => 'max-age=3600',
+            'x-ms-blob-type' => 'BlockBlob',
+            'x-ms-date' => $dateTime,
+            'x-ms-version' => '2019-12-12',
+            'Content-Type' => $mimeType,
+            'Content-Length' => $fileSize
+            ],
+            'body' => fopen($file->path(), 'r'),
+        ]);          
+        if ($response->getStatusCode() == 201) {
+            // image sas token 
 //          $urlSasToken = config('services.azure_storage.sas_token');
-        return
-            [
-            'original_name' =>   $orignalFileName,
- //             'media_url' => "$url?$urlSasToken",
-            'media_url' => "$url"
-            ];
-    } else {
-        echo "Something went wrong, Media URL: $url.<p></p>";
-        return response()->json(['message' => 'Something went wrong']);
+            return
+                [
+                'original_name' =>   $orignalFileName,
+//             'media_url' => "$url?$urlSasToken",
+                'media_url' => "$url"
+                ];
+        } else {
+            echo "Something went wrong, Media URL: $url.<p></p>";
+            return response()->json(['message' => 'Something went wrong']);
+        }
     }
     catch (RequestException $e) {
         // If there's an error, log the error message
