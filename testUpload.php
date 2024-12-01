@@ -23,7 +23,8 @@ if(isset($_POST["submit"])) {
     }
 
     // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
+    $fileSize = $_FILES["fileToUpload"]["size"];
+    if ($fileSize > 500000) {
         echo "Sorry, your file is too large.<p></p>";
         $uploadOk = 0;
     }
@@ -40,26 +41,17 @@ if(isset($_POST["submit"])) {
     }
     // if everything is ok, try to upload file
     else {
-        uploadToAzureCloud($_FILES["fileToUpload"]);
-    }
-}
-
-function uploadToAzureCloud($file)
-{
-    try { 
         $storageAccountName = getenv("StorageAccountName");
         $containerName = getenv("StorageContainer");
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
 
-        $orignalFileName = $file->getClientOriginalName();
-        $mimeType = $file->getMimeType();
-        $blobName =  'folder/'. $file->hashName();
-        $fileSize = filesize($file->path());
+        $mimeType = getMimeType(_FILES["fileToUpload"]);
+        $blobName = 'folder/'. hashName(_FILES["fileToUpload"]);
         $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
         $urlResource = "/$storageAccountName/$containerName/{$blobName}";
         $headerResource = "x-ms-blob-cache-control:max-age=3600\nx-ms-blob-type:BlockBlob\nx-ms-date:$dateTime\nx-ms-version:2019-12-12";
-        echo "File Name: $orignalFileName, Blob Name: $blobName.<p></p>";
+        echo "File Name: $target_file, Blob Name: $blobName.<p></p>";
 
         // Generate signature
         $arraysign = [];  // initiate an empty array (don't remove this 🙂)
@@ -81,8 +73,14 @@ function uploadToAzureCloud($file)
         // Converts the array to a string as required by MS 
         $str2sign = implode("\n", $arraysign);
         $sig = base64_encode(hash_hmac('sha256', utf8_encode($str2sign), base64_decode($accessKey), true));
-
         $url = "https://$storageAccountName.blob.core.windows.net/$containerName/{$blobName}";
+    }
+}
+
+function uploadToAzureCloud($file)
+{
+    try { 
+        $orignalFileName = $file->getClientOriginalName();
 
         // use GuzzleHttp\Client;
         $client = new Client();
