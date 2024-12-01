@@ -8,7 +8,7 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
 
 # Imports
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
