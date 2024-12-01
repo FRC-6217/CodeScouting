@@ -8,7 +8,7 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
 
 # Imports
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
@@ -61,7 +61,7 @@ if(isset($_POST["submit"])) {
         # Use functions to upload file
         $fileNameOnStorage = $file;
         
-//        storageAddFile($containerName, $file, $fileNameOnStorage);
+        storageAddFile($containerName, $file, $fileNameOnStorage);
        
         # Function to add a file to storage
         function storageAddFile($containerName, $file, $fileName) {
