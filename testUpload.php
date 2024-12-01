@@ -7,6 +7,8 @@
 	</body>
 	<p></p>
 <?php
+php_info();
+
 $target_file = basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
