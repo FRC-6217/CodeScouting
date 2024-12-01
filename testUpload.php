@@ -40,7 +40,7 @@ if ($uploadOk == 0) {
   echo "Sorry, your file was not uploaded.<p></p>";
 // if everything is ok, try to upload file
 } else {
-    uploadToAzureCloud($_REQUEST);
+    echo uploadToAzureCloud($_REQUEST);
     echo "Sorry, there was an error uploading your file.<p></p>";
 }
 
