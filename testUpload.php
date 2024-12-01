@@ -55,8 +55,8 @@ if(isset($_POST["submit"])) {
         //require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
         
         # Imports
-        use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
-        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+//        use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+//        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
         # Use functions to upload file
         $fileNameOnStorage = $file;
