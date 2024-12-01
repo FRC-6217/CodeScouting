@@ -52,7 +52,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
         
         # Reference autoload (assuming you're using Composer)
-        require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+        //require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
         
         # Imports
         use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
