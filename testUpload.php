@@ -52,7 +52,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
 
         $mimeType = $check["mime"];
-        $blobName = 'folder/'. hash_name("sha256", _FILES["fileToUpload"]);
+        $blobName = 'folder/'. hash_name("sha256", $file);
         $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
         $headerResource = "x-ms-blob-cache-control:max-age=3600\nx-ms-blob-type:BlockBlob\nx-ms-date:$dateTime\nx-ms-version:2019-12-12";
         echo "File Name: $target_file, Blob Name: $blobName.<p></p>";
