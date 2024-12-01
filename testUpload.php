@@ -7,7 +7,7 @@
 	</body>
 	<p></p>
 <?php
-php_info();
+phpinfo(); 
 
 $target_file = basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
