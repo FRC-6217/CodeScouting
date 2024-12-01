@@ -51,18 +51,6 @@ if(isset($_POST["submit"])) {
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
 
-        $url = "https://$storageAccountName.blob.core.windows.net/$containerName/$target_file";
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, [
-          'fileToUpload' => new CURLFile($file)
-        ]);
-        
-        $response = curl_exec($curl);
-        curl_close($curl);
-        
-        echo $response;
-/*
         $mimeType = getMimeType(_FILES["fileToUpload"]);
         $blobName = 'folder/'. hashName(_FILES["fileToUpload"]);
         $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
@@ -90,7 +78,17 @@ if(isset($_POST["submit"])) {
         $str2sign = implode("\n", $arraysign);
         $sig = base64_encode(hash_hmac('sha256', utf8_encode($str2sign), base64_decode($accessKey), true));
         $url = "https://$storageAccountName.blob.core.windows.net/$containerName/{$blobName}";
-*/
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, [
+          'fileToUpload' => new CURLFile($file)
+        ]);
+        
+        $response = curl_exec($curl);
+        curl_close($curl);
+        
+        echo $response;
     }
 }
 
