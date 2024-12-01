@@ -53,7 +53,7 @@ if(isset($_POST["submit"])) {
         
         # Use functions to upload file
         $fileNameOnStorage = $file;
-        
+/*        
         storageAddFile($containerName, $file, $fileNameOnStorage);
         # Reference autoload (assuming you're using Composer)
         require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
@@ -112,7 +112,7 @@ if(isset($_POST["submit"])) {
             );
             return $types[$mime] ?? null;
         }
-        
+*/        
 /*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
