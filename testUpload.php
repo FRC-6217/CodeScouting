@@ -50,7 +50,70 @@ if(isset($_POST["submit"])) {
         $containerName = getenv("StorageContainer");
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
-
+        
+        # Use functions to upload file
+        $fileNameOnStorage = $file;
+        
+        storageAddFile($containerName, $file, $fileNameOnStorage);
+        # Reference autoload (assuming you're using Composer)
+        require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+        
+        # Imports
+        use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+        
+        # Function to add a file to storage
+        function storageAddFile($containerName, $file, $fileName) {
+            # Setup Azure Storage connection
+            $connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $storageAccountName . ";AccountKey=" . $accessKey;
+            $blobClient = BlobRestProxy::createBlobService($connectionString);
+        
+            # Open the file
+            $handle = @fopen($file, "r");
+            if ($handle) {
+                $options = new CreateBlockBlobOptions();
+        
+                # Identify MIME type
+                try {
+                    $mimes = new \Mimey\MimeTypes;
+                    $mime = $mimes->getMimeType(pathinfo($fileName, PATHINFO_EXTENSION));
+                    $options->setContentType($mime);
+                } catch (Exception $e) {
+                    echo "Failed to read MIME from '" . $file . "': " . $e . "<p></p>";
+                }
+        
+                # Upload the blob
+                try {
+                    if ($mime) {
+                        $cacheTime = getCacheTimeByMimeType($mime);
+                        if ($cacheTime) {
+                            $options->setCacheControl("public, max-age=" . $cacheTime);
+                        }
+                    }
+                    $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+                } catch (Exception $e) {
+                    echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
+                }
+        
+                @fclose($handle);
+                return true;
+            } else {
+                echo "Failed to open file '" . $file . "' for upload to storage." . "<p></p>";
+                return false;
+            }
+        }
+        
+        # Get cache time by MIME type
+        function getCacheTimeByMimeType($mime) {
+            $mime = strtolower($mime);
+            $types = array(
+                "application/json" => 604800, // 7 days
+                // Add more MIME types and cache times as needed
+            );
+            return $types[$mime] ?? null;
+        }
+        
+/*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
         $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
@@ -89,6 +152,7 @@ if(isset($_POST["submit"])) {
         curl_close($curl);
         
         echo $response;
+*/
     }
 }
 
