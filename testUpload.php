@@ -127,7 +127,6 @@ $response = $client->request('PUT', $url, [
              'original_name' =>   $storageAccountName,
              'media_url' => $storageAccountName
             ];
-           }
   } catch (RequestException $e) {
        // If there's an error, log the error message
     $errorMessage = $e->getMessage();
