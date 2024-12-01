@@ -7,11 +7,14 @@
 	</body>
 	<p></p>
 <?php
-phpinfo(); 
+//phpinfo(); 
 
-$target_file = basename($_FILES["fileToUpload"]["name"]);
+$file = $_FILES["fileToUpload"]["name"];
+$tmp_file = $_FILES["fileToUpload"]["tmp_name"];
+$target_file = basename($file);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+echo "File: $file, Temp File: $tmp_file, Target File: $target_file.<p></p>";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
@@ -48,10 +51,21 @@ if(isset($_POST["submit"])) {
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
 
+        $url = "https://$storageAccountName.blob.core.windows.net/$containerName/$target_file";
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, [
+          'fileToUpload' => new CURLFile($file)
+        ]);
+        
+        $response = curl_exec($curl);
+        curl_close($curl);
+        
+        echo $response;
+/*
         $mimeType = getMimeType(_FILES["fileToUpload"]);
         $blobName = 'folder/'. hashName(_FILES["fileToUpload"]);
         $dateTime = gmdate('D, d M Y H:i:s \G\M\T');
-        $urlResource = "/$storageAccountName/$containerName/{$blobName}";
         $headerResource = "x-ms-blob-cache-control:max-age=3600\nx-ms-blob-type:BlockBlob\nx-ms-date:$dateTime\nx-ms-version:2019-12-12";
         echo "File Name: $target_file, Blob Name: $blobName.<p></p>";
 
@@ -76,6 +90,7 @@ if(isset($_POST["submit"])) {
         $str2sign = implode("\n", $arraysign);
         $sig = base64_encode(hash_hmac('sha256', utf8_encode($str2sign), base64_decode($accessKey), true));
         $url = "https://$storageAccountName.blob.core.windows.net/$containerName/{$blobName}";
+*/
     }
 }
 
