@@ -7,6 +7,13 @@
 	</body>
 	<p></p>
 <?php
+# Reference autoload (assuming you're using Composer)
+//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+
+# Imports
+use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+
 //phpinfo(); 
 
 $file = $_FILES["fileToUpload"]["name"];
@@ -51,13 +58,6 @@ if(isset($_POST["submit"])) {
         $accessKey = getenv("StorageAccessKey");
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
         
-        # Reference autoload (assuming you're using Composer)
-        //require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
-        
-        # Imports
-//        use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
-//        use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-
         # Use functions to upload file
         $fileNameOnStorage = $file;
         
