@@ -16,7 +16,6 @@ if(isset($_POST["submit"])) {
   $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
   if($check !== false) {
     echo "File is an image - " . $check["mime"] . ".<p></p>";
-    $uploadOk = 1;
   } else {
     echo "File is not an image.<p></p>";
     $uploadOk = 0;
@@ -51,6 +50,7 @@ function uploadToAzureCloud($request)
     $containerName = getenv("StorageContainer");
     $accessKey = getenv("StorageAccessKey");
 
+/*
     if ($request->hasFile('file')) {
 
      $file = $request->file('file');
@@ -116,12 +116,18 @@ $response = $client->request('PUT', $url, [
         [
           'original_name' =>   $orignalFileName,
  //         'media_url' => "$url?$urlSasToken",
-          'media_url' => "$url",
+          'media_url' => "$url"
          ];
         } else {
   return response()->json(['message' => 'Something went wrong']);
+           }   */
+
+           return
+           [
+             'original_name' =>   $storageAccountName,
+             'media_url' => $storageAccountName
+            ];
            }
-    }
   } catch (RequestException $e) {
        // If there's an error, log the error message
     $errorMessage = $e->getMessage();
