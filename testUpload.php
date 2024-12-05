@@ -64,59 +64,6 @@ if(isset($_POST["submit"])) {
         echo "Calling Function storageAddFile.<p></p>";
         storageAddFile($containerName, $file, $fileNameOnStorage);
        
-        # Function to add a file to storage
-        function storageAddFile($containerName, $file, $fileName) {
-            echo "In Function storageAddFile.<p></p>";
-            # Setup Azure Storage connection
-            $connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $storageAccountName . ";AccountKey=" . $accessKey;
-            echo "Connection String: $connectionString.<p></p>";
-            $blobClient = BlobRestProxy::createBlobService($connectionString);
-        
-            # Open the file
-            $handle = @fopen($file, "r");
-            if ($handle) {
-                echo "Opened file '" . $file . "' for upload to storage." . "<p></p>";
-                $options = new CreateBlockBlobOptions();
-        
-                # Identify MIME type
-                try {
-                    $mimes = new \Mimey\MimeTypes;
-                    $mime = $mimes->getMimeType(pathinfo($fileName, PATHINFO_EXTENSION));
-                    $options->setContentType($mime);
-                } catch (Exception $e) {
-                    echo "Failed to read MIME from '" . $file . "': " . $e . "<p></p>";
-                }
-        
-                # Upload the blob
-                try {
-                    if ($mime) {
-                        $cacheTime = getCacheTimeByMimeType($mime);
-                        if ($cacheTime) {
-                            $options->setCacheControl("public, max-age=" . $cacheTime);
-                        }
-                    }
-                    $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
-                } catch (Exception $e) {
-                    echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
-                }
-        
-                @fclose($handle);
-                return true;
-            } else {
-                echo "Failed to open file '" . $file . "' for upload to storage." . "<p></p>";
-                return false;
-            }
-        }
-        
-        # Get cache time by MIME type
-        function getCacheTimeByMimeType($mime) {
-            $mime = strtolower($mime);
-            $types = array(
-                "application/json" => 604800, // 7 days
-                // Add more MIME types and cache times as needed
-            );
-            return $types[$mime] ?? null;
-        }
 /*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
@@ -158,6 +105,60 @@ if(isset($_POST["submit"])) {
         echo $response;
 */
     }
+}
+
+# Function to add a file to storage
+function storageAddFile($containerName, $file, $fileName) {
+    echo "In Function storageAddFile.<p></p>";
+    # Setup Azure Storage connection
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $storageAccountName . ";AccountKey=" . $accessKey;
+    echo "Connection String: $connectionString.<p></p>";
+    $blobClient = BlobRestProxy::createBlobService($connectionString);
+
+    # Open the file
+    $handle = @fopen($file, "r");
+    if ($handle) {
+        echo "Opened file '" . $file . "' for upload to storage." . "<p></p>";
+        $options = new CreateBlockBlobOptions();
+
+        # Identify MIME type
+        try {
+            $mimes = new \Mimey\MimeTypes;
+            $mime = $mimes->getMimeType(pathinfo($fileName, PATHINFO_EXTENSION));
+            $options->setContentType($mime);
+        } catch (Exception $e) {
+            echo "Failed to read MIME from '" . $file . "': " . $e . "<p></p>";
+        }
+
+        # Upload the blob
+        try {
+            if ($mime) {
+                $cacheTime = getCacheTimeByMimeType($mime);
+                if ($cacheTime) {
+                    $options->setCacheControl("public, max-age=" . $cacheTime);
+                }
+            }
+            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+        } catch (Exception $e) {
+            echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
+        }
+
+        @fclose($handle);
+        return true;
+    } else {
+        echo "Failed to open file '" . $file . "' for upload to storage." . "<p></p>";
+        return false;
+    }
+}
+
+# Get cache time by MIME type
+function getCacheTimeByMimeType($mime) {
+    $mime = strtolower($mime);
+    $types = array(
+        "application/json" => 604800, // 7 days
+        // Add more MIME types and cache times as needed
+    );
+    return $types[$mime] ?? null;
 }
 
 function uploadToAzureCloud($file)
