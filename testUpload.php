@@ -67,11 +67,13 @@ if(isset($_POST["submit"])) {
         function storageAddFile($containerName, $file, $fileName) {
             # Setup Azure Storage connection
             $connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $storageAccountName . ";AccountKey=" . $accessKey;
+            echo "Connection String: $connectionString.<p></p>";
             $blobClient = BlobRestProxy::createBlobService($connectionString);
         
             # Open the file
             $handle = @fopen($file, "r");
             if ($handle) {
+                echo "Opened file '" . $file . "' for upload to storage." . "<p></p>";
                 $options = new CreateBlockBlobOptions();
         
                 # Identify MIME type
