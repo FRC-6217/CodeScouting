@@ -61,10 +61,12 @@ if(isset($_POST["submit"])) {
         # Use functions to upload file
         $fileNameOnStorage = $file;
         
+        echo "Calling Function storageAddFile.<p></p>";
         storageAddFile($containerName, $file, $fileNameOnStorage);
        
         # Function to add a file to storage
         function storageAddFile($containerName, $file, $fileName) {
+            echo "In Function storageAddFile.<p></p>";
             # Setup Azure Storage connection
             $connectionString = "DefaultEndpointsProtocol=https;AccountName=" . $storageAccountName . ";AccountKey=" . $accessKey;
             echo "Connection String: $connectionString.<p></p>";
