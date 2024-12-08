@@ -59,7 +59,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
         
         # Use functions to upload file
-        $fileNameOnStorage = $file;
+        $fileNameOnStorage = "1234/" . $file;
         
         echo "Calling Function storageAddFile.<p></p>";
         storageAddFile($containerName, $tmp_file, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
@@ -67,7 +67,7 @@ if(isset($_POST["submit"])) {
 }
 
 # Function to add a file to storage
-function storageAddFile($containerName, $file, $fileName, $mime, $storageAccountName, $accessKey) {
+function storageAddFile($containerName, $file, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
     echo "In Function storageAddFile.<p></p>";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
@@ -100,7 +100,7 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
                     $options->setCacheControl("public, max-age=" . $cacheTime);
                 }
             }
-            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
+            $blobClient->createBlockBlob($containerName, $fileNameOnStorage, $handle, $options);
         } catch (Exception $e) {
             echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
         }
