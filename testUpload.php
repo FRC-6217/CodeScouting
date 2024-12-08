@@ -8,7 +8,7 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-require_once('/vendor/autoload.php');
+require_once('vendor/autoload.php');
 
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
