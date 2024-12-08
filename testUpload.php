@@ -105,6 +105,12 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
             echo "Failed to upload file '" . $tmpFile . "' to storage: " . $e . "<p></p>";
         }
 
+        /*
+        # Remove the fClose because it returns an error. Filestream must be closed in createBlockBlob call
+        echo "Closing file '" . $tmpFile . "'." . "<p></p>";
+        fclose($handle);
+        */
+        
         return true;
     } else {
         echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
