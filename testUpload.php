@@ -25,8 +25,9 @@ echo "File: $file, Temp File: $tmp_file, Target File: $target_file.<p></p>";
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    $mime = $check["mime"];
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".<p></p>";
+        echo "File is an image - $mime.<p></p>";
     }
     else {
         echo "File is not an image.<p></p>";
@@ -61,7 +62,7 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = $file;
         
         echo "Calling Function storageAddFile.<p></p>";
-        storageAddFile($containerName, $tmp_file, $fileNameOnStorage, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $tmp_file, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
 
 /*
 $connectionString = "DefaultEndpointsProtocol=http;AccountName=$storageAccountName;AccountKey=$accessKey";
@@ -134,7 +135,7 @@ catch(ServiceException $e){
 }
 
 # Function to add a file to storage
-function storageAddFile($containerName, $file, $fileName, $storageAccountName, $accessKey) {
+function storageAddFile($containerName, $file, $fileName, $mime, $storageAccountName, $accessKey) {
     echo "In Function storageAddFile.<p></p>";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
@@ -154,8 +155,8 @@ function storageAddFile($containerName, $file, $fileName, $storageAccountName, $
 
         # Identify MIME type
         try {
-            $mimes = new \Mimey\MimeTypes;
-            $mime = $mimes->getMimeType(pathinfo($fileName, PATHINFO_EXTENSION));
+//            $mimes = new \Mimey\MimeTypes;
+//            $mime = $mimes->getMimeType(pathinfo($fileName, PATHINFO_EXTENSION));
             $options->setContentType($mime);
         } catch (Exception $e) {
             echo "Failed to read MIME from '" . $file . "': " . $e . "<p></p>";
