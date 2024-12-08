@@ -13,7 +13,7 @@ require_once('vendor/autoload.php');
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
-phpinfo(); 
+#phpinfo(); 
 
 $file = $_FILES["fileToUpload"]["name"];
 $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
