@@ -8,10 +8,10 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
 
-use WindowsAzure\Common\ServicesBuilder;
-use WindowsAzure\Common\ServiceException;
+//use WindowsAzure\Common\ServicesBuilder;
+//use WindowsAzure\Common\ServiceException;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
@@ -62,10 +62,10 @@ if(isset($_POST["submit"])) {
         # Use functions to upload file
         $fileNameOnStorage = $file;
         
-//        echo "Calling Function storageAddFile.<p></p>";
-//        storageAddFile($containerName, $file, $fileNameOnStorage, $storageAccountName, $accessKey);
+        echo "Calling Function storageAddFile.<p></p>";
+        storageAddFile($containerName, $file, $fileNameOnStorage, $storageAccountName, $accessKey);
 
-
+/*
 $connectionString = "DefaultEndpointsProtocol=http;AccountName=$storageAccountName;AccountKey=$accessKey";
 
 // Create blob REST proxy.
@@ -91,7 +91,7 @@ catch(ServiceException $e){
     $error_message = $e->getMessage();
     echo $code.": ".$error_message."<br />";
 }
-
+*/
 /*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
