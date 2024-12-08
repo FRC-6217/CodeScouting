@@ -175,7 +175,12 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
             echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
         }
 
-        @fclose($handle);
+        try {
+            @fclose($handle);
+        }
+        catch (Exception $e) {
+            echo "Failed to close file '" . $file . "': " . $e . "<p></p>";
+        }
         return true;
     } else {
         echo "Failed to open file '" . $file . "' for upload to storage." . "<p></p>";
