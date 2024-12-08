@@ -13,7 +13,7 @@ require_once('vendor/autoload.php');
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
-//phpinfo(); 
+phpinfo(); 
 
 $file = $_FILES["fileToUpload"]["name"];
 $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
@@ -110,7 +110,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         echo "Closing file '" . $tmpFile . "'." . "<p></p>";
         fclose($handle);
         */
-        
+
         return true;
     } else {
         echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
