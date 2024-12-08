@@ -8,10 +8,7 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
-
-# Imports
-require_once 'vendor\autoload.php';
+require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
 
 use WindowsAzure\Common\ServicesBuilder;
 use WindowsAzure\Common\ServiceException;
