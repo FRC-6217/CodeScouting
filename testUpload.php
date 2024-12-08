@@ -11,6 +11,10 @@
 //require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
 
 # Imports
+require_once 'vendor\autoload.php';
+
+use WindowsAzure\Common\ServicesBuilder;
+use WindowsAzure\Common\ServiceException;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
@@ -61,9 +65,36 @@ if(isset($_POST["submit"])) {
         # Use functions to upload file
         $fileNameOnStorage = $file;
         
-        echo "Calling Function storageAddFile.<p></p>";
-        storageAddFile($containerName, $file, $fileNameOnStorage, $storageAccountName, $accessKey);
-       
+//        echo "Calling Function storageAddFile.<p></p>";
+//        storageAddFile($containerName, $file, $fileNameOnStorage, $storageAccountName, $accessKey);
+
+
+$connectionString = "DefaultEndpointsProtocol=http;AccountName=$storageAccountName;AccountKey=$accessKey";
+
+// Create blob REST proxy.
+$blobRestProxy = ServicesBuilder::getInstance()->createBlobService($connectionString);
+
+
+try {
+    // List blobs.
+    $blob_list = $blobRestProxy->listBlobs(<container>);
+    $blobs = $blob_list->getBlobs();
+
+    echo "Display list of Blobs<br />";
+    foreach($blobs as $blob)
+    {
+        echo $blob->getName().": ".$blob->getUrl()."<br />";
+    }
+}
+catch(ServiceException $e){
+    // Handle exception based on error codes and messages.
+    // Error codes and messages are here: 
+    // http://msdn.microsoft.com/en-us/library/windowsazure/dd179439.aspx
+    $code = $e->getCode();
+    $error_message = $e->getMessage();
+    echo $code.": ".$error_message."<br />";
+}
+
 /*
         $mimeType = $check["mime"];
         $blobName = 'folder/'. hash_name("sha256", $file);
