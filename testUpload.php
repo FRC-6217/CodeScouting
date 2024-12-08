@@ -93,7 +93,6 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         }
 
         # Upload the blob
-/*
         try {
             if ($mime) {
                 $cacheTime = getCacheTimeByMimeType($mime);
@@ -105,10 +104,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         } catch (Exception $e) {
             echo "Failed to upload file '" . $tmpFile . "' to storage: " . $e . "<p></p>";
         }
-*/
 
-        echo "Closing file '" . $tmpFile . "'." . "<p></p>";
-        fclose($handle);
         return true;
     } else {
         echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
