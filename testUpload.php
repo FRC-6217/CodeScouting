@@ -148,7 +148,7 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
     }
 
     # Open the file
-    $handle = @fopen($file, "r");
+    $handle = fopen($file, "r");
     if ($handle) {
         echo "Opened file '" . $file . "' for upload to storage." . "<p></p>";
         $options = new CreateBlockBlobOptions();
@@ -176,7 +176,7 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
         }
 
         try {
-            @fclose($handle);
+            fclose($handle);
         }
         catch (Exception $e) {
             echo "Failed to close file '" . $file . "': " . $e . "<p></p>";
