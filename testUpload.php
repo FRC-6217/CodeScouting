@@ -113,7 +113,12 @@ function storageAddFile($containerName, $file, $fileName, $storageAccountName, $
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
     echo "Connection String: $connectionString.<p></p>";
-    $blobClient = BlobRestProxy::createBlobService($connectionString);
+    try {
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+    }
+    catch (Exception $e) {
+        echo "Failed create Blob Service: " . $e . "<p></p>";
+    }
 
     # Open the file
     $handle = @fopen($file, "r");
