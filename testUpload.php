@@ -8,10 +8,8 @@
 	<p></p>
 <?php
 # Reference autoload (assuming you're using Composer)
-//require_once(realpath($_SERVER["DOCUMENT_ROOT"]) . '/vendor/autoload.php');
+require_once('/vendor/autoload.php');
 
-//use WindowsAzure\Common\ServicesBuilder;
-//use WindowsAzure\Common\ServiceException;
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
