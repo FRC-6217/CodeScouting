@@ -100,7 +100,7 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
                     $options->setCacheControl("public, max-age=" . $cacheTime);
                 }
             }
-            $blobClient->createBlockBlob($containerName, "1234/" . $fileName, $handle, $options);
+            $blobClient->createBlockBlob($containerName, $fileName, $handle, $options);
         } catch (Exception $e) {
             echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
         }
@@ -116,5 +116,14 @@ function storageAddFile($containerName, $file, $fileName, $mime, $storageAccount
     }
 }
 
+# Get cache time by MIME type
+function getCacheTimeByMimeType($mime) {
+    $mime = strtolower($mime);
+    $types = array(
+        "application/json" => 604800, // 7 days
+        // Add more MIME types and cache times as needed
+    );
+    return $types[$mime] ?? null;
+}
 ?>
 </html>
