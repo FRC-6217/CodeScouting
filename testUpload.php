@@ -16,11 +16,11 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 //phpinfo(); 
 
 $file = $_FILES["fileToUpload"]["name"];
-$tmp_file = $_FILES["fileToUpload"]["tmp_name"];
-$target_file = basename($file);
+$tmpFile = $_FILES["fileToUpload"]["tmp_name"];
+$targetFile = basename($file);
 $uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-echo "File: $file, Temp File: $tmp_file, Target File: $target_file.<p></p>";
+$imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
+echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<p></p>";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
@@ -62,12 +62,12 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "1234/" . $file;
         
         echo "Calling Function storageAddFile.<p></p>";
-        storageAddFile($containerName, $tmp_file, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
     }
 }
 
 # Function to add a file to storage
-function storageAddFile($containerName, $file, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
+function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
     echo "In Function storageAddFile.<p></p>";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
@@ -80,19 +80,20 @@ function storageAddFile($containerName, $file, $fileNameOnStorage, $mime, $stora
     }
 
     # Open the file
-    $handle = fopen($file, "r");
+    $handle = fopen($tmpFile, "r");
     if ($handle) {
-        echo "Opened file '" . $file . "' for upload to storage." . "<p></p>";
+        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<p></p>";
         $options = new CreateBlockBlobOptions();
 
         # Identify MIME type
         try {
             $options->setContentType($mime);
         } catch (Exception $e) {
-            echo "Failed to read MIME from '" . $file . "': " . $e . "<p></p>";
+            echo "Failed to read MIME from '" . $tmpFile . "': " . $e . "<p></p>";
         }
 
         # Upload the blob
+/*
         try {
             if ($mime) {
                 $cacheTime = getCacheTimeByMimeType($mime);
@@ -102,16 +103,15 @@ function storageAddFile($containerName, $file, $fileNameOnStorage, $mime, $stora
             }
             $blobClient->createBlockBlob($containerName, $fileNameOnStorage, $handle, $options);
         } catch (Exception $e) {
-            echo "Failed to upload file '" . $file . "' to storage: " . $e . "<p></p>";
+            echo "Failed to upload file '" . $tmpFile . "' to storage: " . $e . "<p></p>";
         }
+*/
 
-        if ($handle) {
-            echo "Closing file '" . $file . "'." . "<p></p>";
-            fclose($handle);
-        }
+        echo "Closing file '" . $tmpFile . "'." . "<p></p>";
+        fclose($handle);
         return true;
     } else {
-        echo "Failed to open file '" . $file . "' for upload to storage." . "<p></p>";
+        echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
         return false;
     }
 }
