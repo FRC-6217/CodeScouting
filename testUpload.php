@@ -61,7 +61,7 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = $file;
         
         echo "Calling Function storageAddFile.<p></p>";
-        storageAddFile($containerName, $file, $fileNameOnStorage, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $tmp_file, $fileNameOnStorage, $storageAccountName, $accessKey);
 
 /*
 $connectionString = "DefaultEndpointsProtocol=http;AccountName=$storageAccountName;AccountKey=$accessKey";
