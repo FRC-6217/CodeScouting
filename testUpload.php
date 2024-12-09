@@ -115,7 +115,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         $blobList = $blobClient->listBlobs($containerName);
     
         foreach($blobList->getBlobs() as $key => $blob) {
-            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")\n";
+            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
         }
 
         return true;
