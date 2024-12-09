@@ -49,10 +49,11 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 
+/*
     // Compress file
     if ($uploadOk !== 0) {
         // Compress size and upload image 
-        $destinationFile = "tmp/" . $file;
+        $destinationFile = "upload/" . $file;
         $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
         if ($compressedImage) { 
             echo "Image compressed successfully.<br />"; 
@@ -62,6 +63,7 @@ if(isset($_POST["submit"])) {
         } 
 
     }
+*/
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
@@ -78,8 +80,8 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "2025/1234/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
-#        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
-        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+#        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
     }
 }
 
