@@ -113,7 +113,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
 
         #Get List of Blobs
         $key = '1234';
-        $blobListOptions = new BlobRestProxy::ListBlobsOptions();
+        $blobListOptions = new ListBlobsOptions();
         $blobListOptions->setPrefix($key);
         $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
     
