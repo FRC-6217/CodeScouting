@@ -42,17 +42,17 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 
-    // Allow certain file formats
-    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
+    // Allow certain file formats 
+    $allowTypes = array('jpg','png','jpeg','gif'); 
+    if(!in_array($imageFileType, $allowTypes)){ 
         echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<br />";
         $uploadOk = 0;
     }
 
-/*
     // Compress file
     if ($uploadOk != 0) {
         // Compress size and upload image 
-        $destinationFile = "tmp\\" . $file;
+        $destinationFile = "tmp/" . $file;
         $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
         if ($compressedImage) { 
             echo "Image compressed successfully.<br />"; 
@@ -62,7 +62,6 @@ if(isset($_POST["submit"])) {
         } 
 
     }
-*/
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
@@ -79,8 +78,8 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "2025/1234/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
-        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
-#        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+#        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
     }
 }
 
