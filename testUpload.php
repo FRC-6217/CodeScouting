@@ -60,7 +60,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
-        $fileNameOnStorage = "1234/" . $file;
+        $fileNameOnStorage = "2025/1234" . $file;
         
         echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
@@ -113,7 +113,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         */
 
         #Get List of Blobs
-        $key = '1234/s';
+        $key = '2025/1234';
         $blobListOptions = new ListBlobsOptions();
         $blobListOptions->setPrefix($key);
         $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
