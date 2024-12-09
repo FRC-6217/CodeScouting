@@ -20,76 +20,76 @@ $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
 $targetFile = basename($file);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
-echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<p></p>";
+echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     $mime = $check["mime"];
     if($check !== false) {
-        echo "File is an image - $mime.<p></p>";
+        echo "File is an image - $mime.<br />";
     }
     else {
-        echo "File is not an image.<p></p>";
+        echo "File is not an image.<br />";
         $uploadOk = 0;
     }
 
     // Check file size < 15MB
     $fileSize = $_FILES["fileToUpload"]["size"];
     if ($fileSize > 15728640) {
-        echo "Sorry, your file is too large.<p></p>";
+        echo "Sorry, your file is too large.<br />";
         $uploadOk = 0;
     }
 
     // Allow certain file formats
     if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<p></p>";
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<br />";
         $uploadOk = 0;
     }
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.<p></p>";
+        echo "Sorry, your file was not uploaded.<br />";
     }
     // if everything is ok, try to upload file
     else {
         $storageAccountName = getenv("StorageAccountName");
         $containerName = getenv("StorageContainer");
         $accessKey = getenv("StorageAccessKey");
-        echo "Account Name: $storageAccountName, Container Name: $containerName.<p></p>";
+        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
         $fileNameOnStorage = "1234/" . $file;
         
-        echo "Calling Function storageAddFile.<p></p>";
+        echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
     }
 }
 
 # Function to add a file to storage
 function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
-    echo "In Function storageAddFile.<p></p>";
+    echo "In Function storageAddFile.<br />";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
-    echo "Connection String: $connectionString.<p></p>";
+    echo "Connection String: $connectionString.<br />";
     try {
         $blobClient = BlobRestProxy::createBlobService($connectionString);
     }
     catch (Exception $e) {
-        echo "Failed create Blob Service: " . $e . "<p></p>";
+        echo "Failed create Blob Service: " . $e . "<br />";
     }
 
     # Open the file
     $handle = fopen($tmpFile, "r");
     if ($handle) {
-        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<p></p>";
+        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<br />";
         $options = new CreateBlockBlobOptions();
 
         # Identify MIME type
         try {
             $options->setContentType($mime);
         } catch (Exception $e) {
-            echo "Failed to read MIME from '" . $tmpFile . "': " . $e . "<p></p>";
+            echo "Failed to read MIME from '" . $tmpFile . "': " . $e . "<br />";
         }
 
         # Upload the blob
@@ -102,17 +102,20 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
             }
             $blobClient->createBlockBlob($containerName, $fileNameOnStorage, $handle, $options);
         } catch (Exception $e) {
-            echo "Failed to upload file '" . $tmpFile . "' to storage: " . $e . "<p></p>";
+            echo "Failed to upload file '" . $tmpFile . "' to storage: " . $e . "<br />";
         }
 
         /*
         # Remove the fClose because it returns an error. Filestream must be closed in createBlockBlob call
-        echo "Closing file '" . $tmpFile . "'." . "<p></p>";
+        echo "Closing file '" . $tmpFile . "'." . "<br />";
         fclose($handle);
         */
 
-        #List Blobs
-        $blobList = $blobClient->listBlobs($containerName);
+        #Get List of Blobs
+        $key = '1234';
+        $blobListOptions = new BlobRestProxy::ListBlobsOptions();
+        $blobListOptions->setPrefix($key);
+        $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
     
         foreach($blobList->getBlobs() as $key => $blob) {
             echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
@@ -120,7 +123,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
 
         return true;
     } else {
-        echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
+        echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<br />";
         return false;
     }
 }
