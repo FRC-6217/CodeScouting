@@ -11,6 +11,7 @@
 require_once('vendor/autoload.php');
 
 use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
 #phpinfo(); 
