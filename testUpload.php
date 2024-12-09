@@ -50,7 +50,7 @@ if(isset($_POST["submit"])) {
     }
 
     // Compress file
-    if ($uploadOk != 0) {
+    if ($uploadOk !== 0) {
         // Compress size and upload image 
         $destinationFile = "tmp/" . $file;
         $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
