@@ -49,7 +49,6 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 
-/*
     // Compress file
     if ($uploadOk !== 0) {
         // Compress size and upload image 
@@ -63,7 +62,6 @@ if(isset($_POST["submit"])) {
         } 
 
     }
-*/
 
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
