@@ -55,7 +55,7 @@ if(isset($_POST["submit"])) {
         $destinationFile = "upload/" . $file;
         $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
         if ($compressedImage) { 
-            echo "Image compressed successfully.<br />"; 
+            echo "Image compressed successfully: $compressedImage.<br />"; 
         }
         else { 
             echo "Image compressed failed!<br />"; 
