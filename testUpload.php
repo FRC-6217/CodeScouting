@@ -120,7 +120,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
     
         foreach($blobList->getBlobs() as $key => $blob) {
             echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
-            echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 50%; border-radius: 100%;"><br />'
+            echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 50%; border-radius: 100%;"><br />';
         }
 
         return true;
