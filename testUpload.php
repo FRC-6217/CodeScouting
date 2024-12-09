@@ -48,6 +48,20 @@ if(isset($_POST["submit"])) {
         $uploadOk = 0;
     }
 
+    // Compress file
+    if ($uploadOk != 0) {
+        // Compress size and upload image 
+        $destinationFile = "tmp\\" . $file;
+        $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
+        if ($compressedImage) { 
+            echo "Image compressed successfully.<br />"; 
+        }
+        else { 
+            echo "Image compressed failed!<br />"; 
+        } 
+
+    }
+
     // Check if $uploadOk is set to 0 by an error
     if ($uploadOk == 0) {
         echo "Sorry, your file was not uploaded.<br />";
@@ -63,7 +77,7 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "2025/1234/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
-        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
     }
 }
 
@@ -138,6 +152,33 @@ function getCacheTimeByMimeType($mime) {
         // Add more MIME types and cache times as needed
     );
     return $types[$mime] ?? null;
+}
+
+function compressImage($source, $destination, $quality) { 
+    // Get image info 
+    $imgInfo = getimagesize($source); 
+    $mime = $imgInfo['mime']; 
+     
+    // Create a new image from file 
+    switch($mime){ 
+        case 'image/jpeg': 
+            $image = imagecreatefromjpeg($source); 
+            break; 
+        case 'image/png': 
+            $image = imagecreatefrompng($source); 
+            break; 
+        case 'image/gif': 
+            $image = imagecreatefromgif($source); 
+            break; 
+        default: 
+            $image = imagecreatefromjpeg($source); 
+    } 
+     
+    // Save image 
+    imagejpeg($image, $destination, $quality); 
+     
+    // Return compressed image 
+    return $destination; 
 }
 ?>
 </html>
