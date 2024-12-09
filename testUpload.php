@@ -111,6 +111,17 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         fclose($handle);
         */
 
+        #List Blobs
+        $key = '1234';
+        $blobListOptions = new ListBlobsOptions();
+        $blobListOptions->setPrefix($key);
+    
+        $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
+    
+        foreach($blobList->getBlobs() as $key => $blob) {
+            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")\n";
+        }
+
         return true;
     } else {
         echo "Failed to open file '" . $tmpFile . "' for upload to storage." . "<p></p>";
