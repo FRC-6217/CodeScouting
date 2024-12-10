@@ -139,6 +139,10 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         foreach($blobList->getBlobs() as $key => $blob) {
             echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
             echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
+            # Test deleting Blob from storage
+            if ($blob->getName() == "2025/1234/6217.jpg") {
+                $blobClient->deleteBlob($containerName, $blob->getName());
+            }
         }
 
         return true;
