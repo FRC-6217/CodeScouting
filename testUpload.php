@@ -78,8 +78,10 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "2025/1234/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
-#        storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+
+        echo "Remove the temporary file from the directory.<br />";
+        unlink($compressedImage);
     }
 }
 
