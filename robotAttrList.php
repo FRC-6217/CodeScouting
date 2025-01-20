@@ -108,6 +108,11 @@
 				  , attrValue13
 				  , attrValue14
 				  , attrValue15
+				  , attrValue16
+				  , attrValue17
+				  , attrValue18
+				  , attrValue19
+				  , attrValue20
                from v_ScoutTeamHyperlinks
               where loginGUID = '$loginGUID'
 			 order by teamNumber";
