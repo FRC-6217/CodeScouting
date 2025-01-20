@@ -168,7 +168,7 @@
     <p></p>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
-		  <a id="mainpage" class="clickme danger" href="robotAttrList6217.php">Scout Robot</a></center>
+		  <a id="mainpage" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
           <p></p>
      </h2>
 	 

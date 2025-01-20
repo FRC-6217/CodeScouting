@@ -27,7 +27,7 @@
 		</body>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			<a id="buttons" class="clickme danger" href="robotAttrList.php">Scout Robot</a></center>
+			<a id="buttons" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
 		</h2>
 		
 		<form enctype="multipart/form-data" action='robotAttrConf.php' method='post'>
