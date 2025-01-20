@@ -130,5 +130,6 @@
     <Build Include="dbo\Stored Procedures\sp_upd_ClearPlayoffSelection.sql" />
     <Build Include="dbo\Tables\TeamSponsor.sql" />
     <Build Include="dbo\Views\v_SponsorHyperlinks.sql" />
+    <Build Include="dbo\Tables\TeamEventImage.sql" />
   </ItemGroup>
 </Project>

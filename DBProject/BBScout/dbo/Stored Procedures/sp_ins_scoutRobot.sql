@@ -14,7 +14,12 @@
                                    , @pv_TextValue12 varchar(4000) = null
                                    , @pv_TextValue13 varchar(4000) = null
                                    , @pv_TextValue14 varchar(4000) = null
-                                   , @pv_TextValue15 varchar(4000) = null)
+                                   , @pv_TextValue15 varchar(4000) = null
+                                   , @pv_TextValue16 varchar(4000) = null
+                                   , @pv_TextValue17 varchar(4000) = null
+                                   , @pv_TextValue18 varchar(4000) = null
+                                   , @pv_TextValue19 varchar(4000) = null
+                                   , @pv_TextValue20 varchar(4000) = null)
 AS
 declare @lv_AtributeId integer;
 declare @lv_TeamAtributeId integer;
@@ -648,6 +653,216 @@ BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
     			 , textValue = case when @pv_TextValue15 is null or @pv_TextValue15 = '' then textValue else @pv_TextValue15 end
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_AtributeId;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_TextValue16 is not null
+		BEGIN
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+			 , @lv_ScoringTypeName = max(st.name)
+		  FROM Attribute a
+		       INNER JOIN scoringType st
+			   ON st.id = a.scoringTypeId
+			   INNER JOIN v_GameEvent ge
+			   ON ge.gameId = a.gameId
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 16
+		   AND ge.loginGUID = @pv_loginGUID;
+		-- Decide if integer or text submitted
+		IF @lv_ScoringTypeName = 'Free Form'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			END
+		ELSE
+			BEGIN
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue16);
+			SET @pv_TextValue16 = NULL;
+			END
+		-- Add Team Attribute Record
+		IF @lv_TeamAtributeId is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue16;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @lv_IntegerValue
+    			 , textValue = case when @pv_TextValue16 is null or @pv_TextValue16 = '' then textValue else @pv_TextValue16 end
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_AtributeId;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_TextValue17 is not null
+		BEGIN
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+			 , @lv_ScoringTypeName = max(st.name)
+		  FROM Attribute a
+		       INNER JOIN scoringType st
+			   ON st.id = a.scoringTypeId
+			   INNER JOIN v_GameEvent ge
+			   ON ge.gameId = a.gameId
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 17
+		   AND ge.loginGUID = @pv_loginGUID;
+		-- Decide if integer or text submitted
+		IF @lv_ScoringTypeName = 'Free Form'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			END
+		ELSE
+			BEGIN
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue17);
+			SET @pv_TextValue17 = NULL;
+			END
+		-- Add Team Attribute Record
+		IF @lv_TeamAtributeId is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue17;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @lv_IntegerValue
+    			 , textValue = case when @pv_TextValue17 is null or @pv_TextValue17 = '' then textValue else @pv_TextValue17 end
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_AtributeId;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_TextValue18 is not null
+		BEGIN
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+			 , @lv_ScoringTypeName = max(st.name)
+		  FROM Attribute a
+		       INNER JOIN scoringType st
+			   ON st.id = a.scoringTypeId
+			   INNER JOIN v_GameEvent ge
+			   ON ge.gameId = a.gameId
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 18
+		   AND ge.loginGUID = @pv_loginGUID;
+		-- Decide if integer or text submitted
+		IF @lv_ScoringTypeName = 'Free Form'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			END
+		ELSE
+			BEGIN
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue18);
+			SET @pv_TextValue18 = NULL;
+			END
+		-- Add Team Attribute Record
+		IF @lv_TeamAtributeId is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue18;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @lv_IntegerValue
+    			 , textValue = case when @pv_TextValue18 is null or @pv_TextValue18 = '' then textValue else @pv_TextValue18 end
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_AtributeId;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_TextValue19 is not null
+		BEGIN
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+			 , @lv_ScoringTypeName = max(st.name)
+		  FROM Attribute a
+		       INNER JOIN scoringType st
+			   ON st.id = a.scoringTypeId
+			   INNER JOIN v_GameEvent ge
+			   ON ge.gameId = a.gameId
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 19
+		   AND ge.loginGUID = @pv_loginGUID;
+		-- Decide if integer or text submitted
+		IF @lv_ScoringTypeName = 'Free Form'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			END
+		ELSE
+			BEGIN
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue19);
+			SET @pv_TextValue19 = NULL;
+			END
+		-- Add Team Attribute Record
+		IF @lv_TeamAtributeId is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue19;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @lv_IntegerValue
+    			 , textValue = case when @pv_TextValue19 is null or @pv_TextValue19 = '' then textValue else @pv_TextValue19 end
+             WHERE teamId = @pv_TeamId
+			   AND attributeId = @lv_AtributeId;
+			END
+		END
+
+	-- Lookup Team Attribute Record
+	if @pv_TextValue20 is not null
+		BEGIN
+		SELECT @lv_AtributeId = max(a.id)
+		     , @lv_TeamAtributeId = max(ta.id)
+			 , @lv_ScoringTypeName = max(st.name)
+		  FROM Attribute a
+		       INNER JOIN scoringType st
+			   ON st.id = a.scoringTypeId
+			   INNER JOIN v_GameEvent ge
+			   ON ge.gameId = a.gameId
+			   LEFT OUTER JOIN TeamAttribute ta
+			   ON ta.attributeId = a.id
+			   AND ta.teamId = @pv_TeamId
+		 WHERE a.sortOrder = 20
+		   AND ge.loginGUID = @pv_loginGUID;
+		-- Decide if integer or text submitted
+		IF @lv_ScoringTypeName = 'Free Form'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			END
+		ELSE
+			BEGIN
+			SET @lv_IntegerValue = convert(integer, @pv_TextValue20);
+			SET @pv_TextValue20 = NULL;
+			END
+		-- Add Team Attribute Record
+		IF @lv_TeamAtributeId is null
+			BEGIN
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue20;
+			END
+		ELSE
+			BEGIN
+			UPDATE TeamAttribute
+               SET integerValue = @lv_IntegerValue
+    			 , textValue = case when @pv_TextValue20 is null or @pv_TextValue20 = '' then textValue else @pv_TextValue20 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
 			END
