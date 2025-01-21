@@ -277,10 +277,12 @@ update Scout set isActive = 'Y' where lastName = 'Zheng' and firstName = 'Willia
 
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
 
--- Sponsors
+-- Sponsors 2025
+-- delete from teamSponsor where gameid in (select g.id from game g where g.name = 'Reefscape')
 insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsors/Gemini.jpg', 'https://geminimade.com/', 50, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 20, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Gene Haas Foundation', 0, 25, 'Sponsors/GeneHaasFoundation.png', 'https://www.ghaasfoundation.org//', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Argosy Foundation', 0, 28, 'Sponsors/ArgosyFoundation_Logo_CMYK.jpg', 'https://www.argosyfnd.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'BARR', 0, 35, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
@@ -296,6 +298,7 @@ update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 80 
 update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 90 -- Caseys
 
 /*
+-- Sponsors 2024
 insert into TeamSponsor select t.id, g.id, 'CF Education Foundation', 0, 20, 'Sponsors/CF Ed Foundation.jpg', 'https://www.cannonfallsschools.com/community/education_foundation', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 40, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Oldcastle Infrastructure', 0, 50, 'Sponsors/Oldcastle_Infrastructure_Logo.jpg', 'https://oldcastleinfrastructure.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
