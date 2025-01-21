@@ -279,14 +279,16 @@ update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
 
 -- Sponsors
 insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsors/Gemini.jpg', 'https://geminimade.com/', 50, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 20, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 20, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Gene Haas Foundation', 0, 25, 'Sponsors/GeneHaasFoundation.png', 'https://www.ghaasfoundation.org//', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'BARR', 0, 35, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 50, 'Sponsors/QualityOne.png', 'https://www.qualityonewoodwork.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 70, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 80, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 80, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 30 -- Hernke
 update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 60 -- StarTech
 update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 70 -- Milwaukee
