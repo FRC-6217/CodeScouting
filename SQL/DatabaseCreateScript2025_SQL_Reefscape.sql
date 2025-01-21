@@ -291,11 +291,14 @@ insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsor
 insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 70, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 80, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 30 -- Hernke
-update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 60 -- StarTech
-update teamSponsor set maxWidthPercent = 20 where gameid = 7 and sortOrder = 70 -- Milwaukee
-update teamSponsor set maxWidthPercent = 15 where gameid = 7 and sortOrder = 80 -- RW Area Mfg
-update teamSponsor set maxWidthPercent = 10 where gameid = 7 and sortOrder = 90 -- Caseys
+update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 20 -- Aliveo
+update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 25 -- Haas
+update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 30 -- Hernke
+update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 35 -- BARR
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 60 -- StarTech
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 70 -- Milwaukee
+update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 80 -- RW Area Mfg
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 90 -- Caseys
 
 /*
 -- Sponsors 2024
