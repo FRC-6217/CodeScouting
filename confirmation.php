@@ -105,63 +105,70 @@
 	 <p></p>
 	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
 <?php
-    $tsql = "sp_ins_scoutRecord $scoutRecordId, $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
-	if (isset($value2))
-		$tsql .= ", '$value2'";
-	if (isset($value3))
-		$tsql .= ", '$value3'";
-	if (isset($value4))
-		$tsql .= ", '$value4'";
-	if (isset($value5))
-		$tsql .= ", '$value5'";
-	if (isset($value6))
-		$tsql .= ", '$value6'";
-	if (isset($value7))
-		$tsql .= ", '$value7'";
-	if (isset($value8))
-		$tsql .= ", '$value8'";
-	if (isset($value9))
-		$tsql .= ", '$value9'";
-	if (isset($value10))
-		$tsql .= ", '$value10'";
-	if (isset($value11))
-		$tsql .= ", '$value11'";
-	if (isset($value12))
-		$tsql .= ", '$value12'";
-	if (isset($value13))
-		$tsql .= ", '$value13'";
-	if (isset($value14))
-		$tsql .= ", '$value14'";
-	if (isset($value15))
-		$tsql .= ", '$value15'";
-	if (isset($value16))
-		$tsql .= ", '$value16'";
-	if (isset($value17))
-		$tsql .= ", '$value17'";
-	if (isset($value18))
-		$tsql .= ", '$value18'";
-	if (isset($value19))
-		$tsql .= ", '$value19'";
-	if (isset($value20))
-		$tsql .= ", '$value20'";
-	$results = sqlsrv_query($conn, $tsql);
-	if($results) 
-		echo "<center>Submission Succeeded!</center>";
-	
-	if(!$results) 
+	// Check all the base values are set
+	if (isset($scout) && isset($match) && isset($team) && isset($alliancePosition))
 	{
-		echo "It is not working!<br />";
-		echo $tsql."<br />";
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
+		$tsql = "sp_ins_scoutRecord $scoutRecordId, $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
+		if (isset($value2))
+			$tsql .= ", '$value2'";
+		if (isset($value3))
+			$tsql .= ", '$value3'";
+		if (isset($value4))
+			$tsql .= ", '$value4'";
+		if (isset($value5))
+			$tsql .= ", '$value5'";
+		if (isset($value6))
+			$tsql .= ", '$value6'";
+		if (isset($value7))
+			$tsql .= ", '$value7'";
+		if (isset($value8))
+			$tsql .= ", '$value8'";
+		if (isset($value9))
+			$tsql .= ", '$value9'";
+		if (isset($value10))
+			$tsql .= ", '$value10'";
+		if (isset($value11))
+			$tsql .= ", '$value11'";
+		if (isset($value12))
+			$tsql .= ", '$value12'";
+		if (isset($value13))
+			$tsql .= ", '$value13'";
+		if (isset($value14))
+			$tsql .= ", '$value14'";
+		if (isset($value15))
+			$tsql .= ", '$value15'";
+		if (isset($value16))
+			$tsql .= ", '$value16'";
+		if (isset($value17))
+			$tsql .= ", '$value17'";
+		if (isset($value18))
+			$tsql .= ", '$value18'";
+		if (isset($value19))
+			$tsql .= ", '$value19'";
+		if (isset($value20))
+			$tsql .= ", '$value20'";
+		$results = sqlsrv_query($conn, $tsql);
+		if($results) 
+			echo "<center>Submission Succeeded!</center>";
+		
+		if(!$results) 
+		{
+			echo "It is not working!<br />";
+			echo $tsql."<br />";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
 			}
-		}
-	}		
-
-    sqlsrv_free_stmt($getResults);
+		}		
+	}
+	else
+	{
+		echo "The Scout, Match, Team, and Alliance Position drop-down values must be selected to submit a Scout Record.<br />";
+	}
+	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
 </html>
