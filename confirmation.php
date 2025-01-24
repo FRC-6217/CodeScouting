@@ -62,45 +62,50 @@
 	$alliance = substr($alliancePosition, 0, 1);
 	$position = substr($alliancePosition, 1, 1);
 
-	$tsql = "select m.id matchId
-				  , m.type + ' ' + m.number matchNumber
-				  , coalesce(convert(varchar, tm.teamId), 'NA') teamId
-				  , coalesce(convert(varchar, t.teamNumber), 'NA') teamNumber
-			   from Match m
-				    left outer join TeamMatch tm
-				    on tm.matchId = m.id 
-					and tm.alliance = '$alliance'
-                    and tm.alliancePosition = $position
-				    left outer join Team t
-				    on t.id = tm.teamId
-			  where m.id =
-				    (select top 1 m2.id
-				 	   from Match m
-						    inner join Match m2
-						    on m2.gameEventId = m.gameEventId
-					  where m2.isActive = 'Y'
-					    and m2.dateTime > m.dateTime
-					    and m.id = $match
-			         order by m2.dateTime)";
-	$getResults = sqlsrv_query($conn, $tsql);
-	if ($getResults == FALSE)
+	// Ensure dropdowns are set
+	if (isset($scout) && isset($match) && isset($team) && isset($alliancePosition) &&
+		!empty($scout) && !empty($match) && !empty($team) && !empty($alliancePosition))
+	{
+		$tsql = "select m.id matchId
+					  , m.type + ' ' + m.number matchNumber
+					  , coalesce(convert(varchar, tm.teamId), 'NA') teamId
+					  , coalesce(convert(varchar, t.teamNumber), 'NA') teamNumber
+				   from Match m
+						left outer join TeamMatch tm
+						on tm.matchId = m.id 
+						and tm.alliance = '$alliance'
+						and tm.alliancePosition = $position
+						left outer join Team t
+						on t.id = tm.teamId
+					where m.id =
+						(select top 1 m2.id
+							from Match m
+								inner join Match m2
+								on m2.gameEventId = m.gameEventId
+							where m2.isActive = 'Y'
+							and m2.dateTime > m.dateTime
+							and m.id = $match
+						order by m2.dateTime)";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
+		foreach( $errors as $error ) {
+			echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+			echo "code: ".$error[ 'code']."<br />";
+			echo "message: ".$error[ 'message']."<br />";
 		}
-	$cnt = 0;
-	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		}
+		$cnt = 0;
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<center><a class='clickme danger' href='scoutRecord.php?matchId=" . $row['matchId'] . "&matchNumber=" . $row['matchNumber'] . "&teamId=" . $row['teamId'] . "&teamNumber=" . $row['teamNumber'] .  "&alliancePosition=" . $alliancePosition . "&scoutId=" . $scout . "'>Another Scout Record</a></center>";
 		$cnt += 1;
-	}
-	if ($cnt == 0) {
+		}
+		if ($cnt == 0) {
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
+		}
+		echo "<p></p>";
+		echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . "'>Match Report</a></center>";
 	}
-	echo "<p></p>";
-	echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . "'>Match Report</a></center>";
    ?>
 	 <p></p>
 	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
