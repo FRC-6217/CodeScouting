@@ -105,15 +105,9 @@
 		}
 		echo "<p></p>";
 		echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . "'>Match Report</a></center>";
-	}
-   ?>
-	 <p></p>
-	 <center><a class="clickme danger" href="index6217.php">Home</a></center>
-<?php
-	// Check all the base values are set
-	if (isset($scout) && isset($match) && isset($team) && isset($alliancePosition) &&
-		!empty($scout) && !empty($match) && !empty($team) && !empty($alliancePosition))
-	{
+		echo "<p></p>";
+		echo '<center><a class="clickme danger" href="index6217.php">Home</a></center>';
+		// Create stored procedure call
 		$tsql = "sp_ins_scoutRecord $scoutRecordId, $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
 		if (isset($value2))
 			$tsql .= ", '$value2'";
@@ -169,12 +163,15 @@
 				}
 			}
 		}		
+		sqlsrv_free_stmt($getResults);
+		sqlsrv_close($conn);
 	}
 	else
 	{
+		echo "<p></p>";
+		echo '<center><a class="clickme danger" href="index6217.php">Home</a></center>';
 		echo "The Scout, Match, Team, and Alliance Position drop-down values must be selected to submit a Scout Record.<br />";
+		echo "Click back button to try again.<br />";
 	}
-	sqlsrv_free_stmt($getResults);
-	sqlsrv_close($conn);
 ?>
 </html>
