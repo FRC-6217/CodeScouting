@@ -272,12 +272,7 @@
 				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
  					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
  					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "', ";
-				echo $tbaRPKey1 . "<br />";
-				echo $tbaRPKey2 . "<br />";
-				echo $tbaRPKey3 . "<br />";
-				echo $value["score_breakdown"]["red"]["melodyBonusAchieved"];
-				echo $value["score_breakdown"]["red"]["ensembleBonusAchieved"];
-				if (!empty($tbaRPKey1))
+				if (!empty($tbaRPKey1) && !empty($value["score_breakdown"]["red"][$tbaRPKey1]))
 				{
 					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey1] . ", ";
 				}
@@ -285,7 +280,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey2))
+				if (!empty($tbaRPKey2) && !empty($value["score_breakdown"]["red"][$tbaRPKey2]))
 				{
 					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey2] . ", ";
 				}
@@ -293,7 +288,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey3))
+				if (!empty($tbaRPKey3) && !empty($value["score_breakdown"]["red"][$tbaRPKey3]))
 				{
 					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey3] . ", ";
 				}
@@ -301,7 +296,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey1))
+				if (!empty($tbaRPKey1) && !empty($value["score_breakdown"]["blue"][$tbaRPKey1]))
 				{
 					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey1] . ", ";
 				}
@@ -309,7 +304,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey2))
+				if (!empty($tbaRPKey2) && !empty($value["score_breakdown"]["blue"][$tbaRPKey2]))
 				{
 					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey2] . ", ";
 				}
@@ -317,7 +312,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey3))
+				if (!empty($tbaRPKey3) && !empty($value["score_breakdown"]["blue"][$tbaRPKey3]))
 				{
 					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey3] . ", ";
 				}
@@ -325,7 +320,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaCoopMet))
+				if (!empty($tbaCoopMet) && !empty($value["score_breakdown"]["red"][$tbaCoopMet]))
 				{
 					$tsql .= $value["score_breakdown"]["red"][$tbaCoopMet] . ", ";
 				}
@@ -333,7 +328,7 @@
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaCoopMet))
+				if (!empty($tbaCoopMet) && !empty($value["score_breakdown"]["blue"][$tbaCoopMet]))
 				{
 					$tsql .= $value["score_breakdown"]["blue"][$tbaCoopMet] . ") ";
 				}
