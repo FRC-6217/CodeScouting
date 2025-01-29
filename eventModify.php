@@ -271,7 +271,7 @@
 				$matchComplete = 1;
 				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
  					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
- 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "'), 1, 1, null, 1, 1, null, 1, 1 ";
+ 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "', 1, 1, null, 1, 1, null, 1, 1) ";
 			}
 			$tsql .= "as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
 					            "redRP1, redRP2, redRP3, blueRP1, blueRP2, blueRP3, redCoop, blueCoop) " .
