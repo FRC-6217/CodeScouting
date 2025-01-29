@@ -272,10 +272,11 @@
 				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
  					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
  					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "', ";
-				echo $tbaRPKey1;
-				echo $tbaRPKey2;
-				echo $tbaRPKey3;
-				echo $value["score_breakdown"]["red"][$tbaRPKey1];
+				echo $tbaRPKey1 . "<br />";
+				echo $tbaRPKey2 . "<br />";
+				echo $tbaRPKey3 . "<br />";
+				echo $value["score_breakdown"]["red"]["melodyBonusAchieved"];
+				echo $value["score_breakdown"]["red"]["ensembleBonusAchieved"];
 				if (!empty($tbaRPKey1))
 				{
 					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey1] . ", ";
