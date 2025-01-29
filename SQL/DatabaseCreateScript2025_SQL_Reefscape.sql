@@ -17,7 +17,12 @@ delete from game where name = 'Reefscape';
 */
 
 -- Game
-insert into Game (name, gameYear) values ('Reefscape', 2025);
+insert into Game (name, gameYear, tbaCoopMet, tbaCoopAchieved) values ('Reefscape', 2025, 'coopertitionCriteriaMet', 'coopertitionBonusAchieved');
+
+-- Game Ranking Points
+insert into GameRankingPoint select g.id, 1, 'Auto', 'ARP', 'autoBonusAchieved', getdate() from Game g where g.name = 'Reefscape'
+insert into GameRankingPoint select g.id, 2, 'Coral', 'CRP', 'cargoBonusAchieved', getdate() from Game g where g.name = 'Reefscape'
+insert into GameRankingPoint select g.id, 3, 'Barge', 'BRP', 'bargeBonusAchieved', getdate() from Game g where g.name = 'Reefscape'
 
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N', '<Enter Name Here>' from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Free Form'

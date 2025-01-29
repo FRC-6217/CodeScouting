@@ -131,10 +131,13 @@
 			}
 
 			// Get Game Event Id
-			$tsql = "select ge.id, ge.eTag " . 
+			$tsql = "select ge.id, ge.eTag, g.tbaCoopMet, g.tbaCoopAchieved, grp1.tbaKey tbaRPKey1, grp2.tbaKey tbaRPKey2, grp3.tbaKey tbaRPKey3 " . 
 					"  from GameEvent ge " .
 					"       inner join Event e on e.id = ge.eventId " .
 					"       inner join Game g on g.id = ge.gameId " .
+					"       left outer join GameRankingPoint grp1 on grp1.gameId = ge.gameId and grp1.sortOrder = 1 " .
+					"       left outer join GameRankingPoint grp2 on grp2.gameId = ge.gameId and grp2.sortOrder = 2 " .
+					"       left outer join GameRankingPoint grp3 on grp3.gameId = ge.gameId and grp3.sortOrder = 3 " .
 					" where e.eventCode = '" . $eventCode . "' " .
 					"   and g.gameYear = " . $gameYear . ";";
 			$results = sqlsrv_query($conn, $tsql);
@@ -152,6 +155,11 @@
 				while ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
 					$gameEventId = $row['id'];
 					$eTag = $row['eTag'];
+					$tbaCoopMet = $row['tbaCoopMet'];
+					$tbaCoopAchieved = $row['tbaCoopAchieved'];
+					$tbaRPKey1 = $row['tbaRPKey1'];
+					$tbaRPKey2 = $row['tbaRPKey2'];
+					$tbaRPKey3 = $row['tbaRPKey3'];
 				}
 			}
 		}
@@ -257,29 +265,36 @@
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
 			if ($value["alliances"]["red"]["score"] == '-1') {
 				$matchComplete = 0;
-				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "') ";
+				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "', null, null, null, null, null, null, null, null) ";
 			}
 			else {
 				$matchComplete = 1;
 				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
  					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
- 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "') ";
+ 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "'), 1, 1, null, 1, 1, null, 1, 1 ";
 			}
-			$tsql .= "as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
+			$tsql .= "as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
+					            "redRP1, redRP2, redRP3, blueRP1, blueRP2, blueRP3, redCoop, blueCoop) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched AND (target.dateTime <> source.dateTime OR " .
 					                  "coalesce(target.redScore, -1) <> source.redScore OR coalesce(target.blueScore, -1) <> source.blueScore OR " .
 									  "coalesce(target.redAlliancePoints, -1) <> source.redAlliancePoints OR coalesce(target.redFoulPoints, -1) <> source.redFoulPoints OR " .
 									  "coalesce(target.blueAlliancePoints, -1) <> source.blueAlliancePoints OR coalesce(target.blueFoulPoints, -1) <> source.blueFoulPoints OR " .
-									  "coalesce(target.matchCode, 'xxx') <> source.matchCode) THEN " .
+									  "coalesce(target.matchCode, 'xxx') <> source.matchCode OR " .
+									  "coalesce(target.redRP1, -1) <> coalesce(source.redRP1, -1) OR coalesce(target.redRP2, -1) <> coalesce(source.redRP2, -1) OR " .
+									  "coalesce(target.redRP3, -1) <> coalesce(source.redRP3, -1) OR coalesce(target.blueRP1, -1) <> coalesce(source.blueRP1, -1) OR " .
+									  "coalesce(target.blueRP2, -1) <> coalesce(source.blueRP2, -1) OR coalesce(target.blueRP3, -1) <> coalesce(source.blueRP3, -1) OR " .
+									  "coalesce(target.redCoop, -1) <> coalesce(source.redCoop, -1) OR coalesce(target.blueCoop, -1) <> coalesce(source.blueCoop, -1)) THEN " .
 					"UPDATE set number = source.number, dateTime = source.dateTime, " .
 					          " redScore = source.redScore, blueScore = source.blueScore, " .
 					          " redAlliancePoints = source.redAlliancePoints, redFoulPoints = source.redFoulPoints, " .
 					          " blueAlliancePoints = source.blueAlliancePoints, blueFoulPoints = source.blueFoulPoints, " .
-					          " matchCode = source.matchCode " .
+					          " matchCode = source.matchCode, redRP1 = source.redRP1, redRP2 = source.redRP2, redRP3 = source.redRP3, " .
+					          " blueRP1 = source.blueRP1, blueRP2 = source.blueRP2, blueRP3 = source.blueRP3, redCoop = source.redCoop, blueCoop = source.blueCoop " .
 					"WHEN not matched THEN " .
-					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode) " .
-					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode);";
+					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
+							"redRP1, redRP2, redRP3, blueRP1, blueRP2, blueRP3, redCoop, blueCoop) " .
+					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode, source.redRP1, source.redRP2, source.redRP3, source.blueRP1, source.blueRP2, source.blueRP3, source.redCoop, source.blueCoop);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{

@@ -44,7 +44,11 @@ delete from game where name = 'Crescendo';
 */
 
 -- Game
-insert into Game (name, gameYear) values ('Crescendo', 2024);
+insert into Game (name, gameYear, tbaCoopMet, tbaCoopAchieved) values ('Crescendo', 2024, 'coopertitionCriteriaMet', 'coopertitionBonusAchieved');
+
+-- Game Ranking Points
+insert into GameRankingPoint select g.id, 1, 'Melody', 'MRP', 'melodyBonusAchieved', getdate() from Game g where g.name = 'Crescendo'
+insert into GameRankingPoint select g.id, 2, 'Ensemble', 'ERP', 'ensembleBonusAchieved', getdate() from Game g where g.name = 'Crescendo'
 
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N', '<Enter Name Here>' from Game g, ScoringType st where g.name = 'Crescendo' and st.name = 'Free Form'
