@@ -15,6 +15,10 @@ delete from game where name = 'Charged Up';
 -- Game
 insert into Game (name, gameYear, alliancePtsHeader) values ('Charged Up', 2023, 'Amped');
 
+-- Game Ranking Points
+insert into GameRankingPoint select g.id, 1, 'Sustainability', 'S RP', 'sustainabilityBonusAchieved', getdate() from Game g where g.name = 'Charged Up'
+insert into GameRankingPoint select g.id, 2, 'Activation', 'A RP', 'activationBonusAchieved', getdate() from Game g where g.name = 'Charged Up'
+
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N', '<Enter Name Here>' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
 insert into Attribute select g.id, 'role', 'What''s your role on the team?', st.id, null, null, 2, getdate(), 'Role', 'N', 'Drive Team' from Game g, ScoringType st where g.name = 'Charged Up' and st.name = 'Free Form'
