@@ -272,65 +272,121 @@
 				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
  					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
  					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "', ";
-				if (!empty($tbaRPKey1) && !empty($value["score_breakdown"]["red"][$tbaRPKey1]))
+				if (!empty($tbaRPKey1) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey1] . ", ";
+					if (!empty($value["score_breakdown"]["red"][$tbaRPKey1]))
+					{
+						$tsql .= $value["score_breakdown"]["red"][$tbaRPKey1] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey2) && !empty($value["score_breakdown"]["red"][$tbaRPKey2]))
+				if (!empty($tbaRPKey2) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey2] . ", ";
+					if (!empty($value["score_breakdown"]["red"][$tbaRPKey2]))
+					{
+						$tsql .= $value["score_breakdown"]["red"][$tbaRPKey2] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey3) && !empty($value["score_breakdown"]["red"][$tbaRPKey3]))
+				if (!empty($tbaRPKey3) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["red"][$tbaRPKey3] . ", ";
+					if (!empty($value["score_breakdown"]["red"][$tbaRPKey3]))
+					{
+						$tsql .= $value["score_breakdown"]["red"][$tbaRPKey3] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey1) && !empty($value["score_breakdown"]["blue"][$tbaRPKey1]))
+				if (!empty($tbaRPKey1) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey1] . ", ";
+					if (!empty($value["score_breakdown"]["blue"][$tbaRPKey1]))
+					{
+						$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey1] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey2) && !empty($value["score_breakdown"]["blue"][$tbaRPKey2]))
+				if (!empty($tbaRPKey2) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey2] . ", ";
+					if (!empty($value["score_breakdown"]["blue"][$tbaRPKey2]))
+					{
+						$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey2] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaRPKey3) && !empty($value["score_breakdown"]["blue"][$tbaRPKey3]))
+				if (!empty($tbaRPKey3) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey3] . ", ";
+					if (!empty($value["score_breakdown"]["blue"][$tbaRPKey3]))
+					{
+						$tsql .= $value["score_breakdown"]["blue"][$tbaRPKey3] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaCoopMet) && !empty($value["score_breakdown"]["red"][$tbaCoopMet]))
+				if (!empty($tbaCoopMet) && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["red"][$tbaCoopMet] . ", ";
+					if (!empty($value["score_breakdown"]["red"][$tbaCoopMet]))
+					{
+						$tsql .= $value["score_breakdown"]["red"][$tbaCoopMet] . ", ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
 					$tsql .= "null, ";
 				}
-				if (!empty($tbaCoopMet) && !empty($value["score_breakdown"]["blue"][$tbaCoopMet]))
+				if (!empty($tbaCoopMet)  && $value["comp_level"] == 'qm')
 				{
-					$tsql .= $value["score_breakdown"]["blue"][$tbaCoopMet] . ") ";
+					if (!empty($value["score_breakdown"]["blue"][$tbaCoopMet]))
+					{
+						$tsql .= $value["score_breakdown"]["blue"][$tbaCoopMet] . ") ";
+					}
+					else
+					{
+						$tsql .= "0, ";
+					}
 				}
 				else
 				{
