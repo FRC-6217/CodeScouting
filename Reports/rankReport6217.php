@@ -116,10 +116,41 @@
 				$cnt = $cnt + 1;
 			}
 			sqlsrv_free_stmt($getResults);
-			echo "<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>";
 			?>
+			<th><a href='../Reports/rankReport6217.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>
             <th>Rank<br/>Pts</th>
             <th>OPR</th>
+			<?php
+			// Display table headers for the Ranking Points/Cooperition realized
+			$tsql = "select grp.tableHeader
+   						  , grp.sortOrder
+		 			   from GameRankingPoint grp
+			  				inner join v_GameEvent ge
+			  				on ge.gameId = grp.gameId
+					  where ge.loginGUID = '$loginGUID'
+				     union
+	   				 select 'Coop' tableHeader
+						  , 99 sortOrder
+					   from Game g
+			  				inner join v_GameEvent ge
+			  				on ge.gameId = g.id
+					  where ge.loginGUID = '$loginGUID'
+		  				and g.tbaCoopMet is not null
+				     order by sortOrder";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo "<th>" . $row['tableHeader'] . "</th>";
+			}
+			sqlsrv_free_stmt($getResults);
+			?>
         </tr>
 		</thead>
 		<tbody>
