@@ -238,9 +238,9 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			echo "<td>" . $row['rankingPointAverage'] . "</td>";
 			echo "<td>" . $row['oPR'] . "</td>";
 			if (isset($row['rp1TableHeader'])) echo "<td>" . $row['rp1Total'] . "</td>";
-/*
 			if (isset($row['rp2TableHeader'])) echo "<td>" . $row['rp2Total'] . "</td>";
 			if (isset($row['rp3TableHeader'])) echo "<td>" . $row['rp3Total'] . "</td>";
+/*
 			if (isset($row['coopTableHeader'])) echo "<td>" . $row['coopTotal'] . "</td>";
 */
 			echo "</tr>";
