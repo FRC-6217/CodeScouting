@@ -164,49 +164,6 @@
 			?>
 			<th>Scr Imp</th>
 		</tr>
-	<?php
-	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
-	$getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-	$alliance = 'Red';
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-        echo "<tr>";
-		echo "<td>" . $row['alliance'] . "</td>";
-		echo "<td>" . $row['alliancePos'] . "</td>";
-		echo "<td>" . $row['teamReportUrl'] . "</td>";
-		echo "<td>" . $row['matchCnt'] . "</td>";
-		if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
-		if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
-		if (isset($row['value3'])) echo "<td>" . number_format($row['value3'], 2) . "</td>"; elseif ($cnt >= 3) echo "<td></td>";
-		if (isset($row['value4'])) echo "<td>" . number_format($row['value4'], 2) . "</td>"; elseif ($cnt >= 4) echo "<td></td>";
-		if (isset($row['value5'])) echo "<td>" . number_format($row['value5'], 2) . "</td>"; elseif ($cnt >= 5) echo "<td></td>";
-		if (isset($row['value6'])) echo "<td>" . number_format($row['value6'], 2) . "</td>"; elseif ($cnt >= 6) echo "<td></td>";
-		if (isset($row['value7'])) echo "<td>" . number_format($row['value7'], 2) . "</td>"; elseif ($cnt >= 7) echo "<td></td>";
-		if (isset($row['value8'])) echo "<td>" . number_format($row['value8'], 2) . "</td>"; elseif ($cnt >= 8) echo "<td></td>";
-		if (isset($row['value9'])) echo "<td>" . number_format($row['value9'], 2) . "</td>"; elseif ($cnt >= 9) echo "<td></td>";
-		if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
-		if (isset($row['value11'])) echo "<td>" . number_format($row['value11'], 2) . "</td>"; elseif ($cnt >= 11) echo "<td></td>";
-		if (isset($row['value12'])) echo "<td>" . number_format($row['value12'], 2) . "</td>"; elseif ($cnt >= 12) echo "<td></td>";
-		if (isset($row['value13'])) echo "<td>" . number_format($row['value13'], 2) . "</td>"; elseif ($cnt >= 13) echo "<td></td>";
-		if (isset($row['value14'])) echo "<td>" . number_format($row['value14'], 2) . "</td>"; elseif ($cnt >= 14) echo "<td></td>";
-		if (isset($row['value15'])) echo "<td>" . number_format($row['value15'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
-		if (isset($row['value16'])) echo "<td>" . number_format($row['value16'], 2) . "</td>"; elseif ($cnt >= 16) echo "<td></td>";
-		if (isset($row['value17'])) echo "<td>" . number_format($row['value17'], 2) . "</td>"; elseif ($cnt >= 17) echo "<td></td>";
-		if (isset($row['value18'])) echo "<td>" . number_format($row['value18'], 2) . "</td>"; elseif ($cnt >= 18) echo "<td></td>";
-		if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
-		if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
-		if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
-		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
-        echo "</tr>";
-    }
-	?>
     </table>
 	</center>
     <center>
