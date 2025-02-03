@@ -165,41 +165,8 @@
 			<th>Scr Imp</th>
 		</tr>
 
-		<?php
-		$tsql = "select matchNumber
-                      , matchId
-				 	  , TeamId
-				 	  , TeamNumber
-					  , alliance
-					  , case when alliancePosition = 99 then null else alliancePosition end alliancePos
-					  , teamReportUrl
-					  , matchCnt
-					  , value1
-					  , value2
-					  , value3
-					  , value4
-					  , value5
-					  , value6
-					  , value7
-					  , value8
-					  , value9
-					  , value10
-					  , value11
-					  , value12
-					  , value13
-					  , value14
-					  , value15
-					  , value16
-					  , value17
-					  , value18
-					  , value19
-					  , value20
-					  , portionOfAlliancePoints
-					  , totalScoreValue
-                   from v_MatchReport
-				  where loginGUID = '$loginGUID'
-			        and matchId = $match
-				 order by allianceSort, alliance desc, alliancePosition";
+	<?php
+	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
