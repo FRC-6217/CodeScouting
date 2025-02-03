@@ -166,7 +166,7 @@
 		</tr>
 
 	<?php
-	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
+	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 0";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
