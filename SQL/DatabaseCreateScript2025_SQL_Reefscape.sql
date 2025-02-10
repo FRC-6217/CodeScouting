@@ -298,10 +298,8 @@ insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsor
 insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 70, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 80, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
+insert into TeamSponsor select t.id, g.id, 'Swan and Bower', 0, 100, 'SwanAndBower.pnp', 'https://www.swanandbower.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Brewster''s Bar & Grill', 0, 150, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-
-insert into TeamSponsor select t.id, g.id, 'Swan and Bower', 0, 155, '', 'https://www.swanandbower.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
-
 insert into TeamSponsor select t.id, g.id, 'Chuck & Carrie Olson', 0, 180, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 190, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
 insert into TeamSponsor select t.id, g.id, 'Jack Schlicting', 0, 200, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Reefscape';
@@ -313,7 +311,7 @@ update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game 
 update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 40 -- FlexCraft
 update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 45 -- Jim ALthoff
 update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 60 -- StarTech
-
+update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Reefscape') and sortOrder = 100 -- Swan & Bower
 
 /*
 -- Sponsors 2024
