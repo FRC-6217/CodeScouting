@@ -555,6 +555,7 @@ echo $sURL;
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2019 Deep Space
+echo $gameYear . ", " . $matchId;
 			if ($gameYear == 2019 && $matchComplete == 1) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
