@@ -240,9 +240,10 @@
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 				echo "<th>" . $row['tableHeader'] . "</th>";
-				$cnt += 1;
+				if ($row['reportSortOrder'] != 999) { // Do not count Alliance Points Header
+					$cnt += 1;
+				}
 			}
-			//$cnt -= 1; // Do not count Alliance Header
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
