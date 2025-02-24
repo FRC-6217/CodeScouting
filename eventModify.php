@@ -77,7 +77,6 @@
 	// Get TBA Event information and insert/update Event in the database
 	if ($eventTBAExists) {
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
-echo $sURL;
 		$eventJSON = file_get_contents($sURL, false, $context);
 		$eventValue = json_decode($eventJSON, true);
 		// Add/Update Event Info to the database
@@ -173,7 +172,6 @@ echo $sURL;
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
-echo $sURL;
 		$aHTTP['http']['header'] .= "If-None-Match: " . $eTag . "\r\n";
 		$context2 = stream_context_create($aHTTP);
 		$matchesJSON = file_get_contents($sURL, false, $context2);
@@ -555,7 +553,6 @@ echo $sURL;
 			}
 
 			// Update TeamMatch Scout Data from TBA for 2019 Deep Space
-echo $gameYear . ", " . $matchId;
 			if ($gameYear == 2019 && $matchComplete == 1) {
 				$tsql = "merge TeamMatchObjective as Target
 							using (
@@ -1633,6 +1630,7 @@ echo $gameYear . ", " . $matchId;
 							when not matched
 							then insert (teamMatchId, objectiveId, integerValue, scoreValue)
 								 values (source.teamMatchId, source.objectiveId, source.integerValue, source.integerValue);";
+echo "SQL " . $tsql . "<br>";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
