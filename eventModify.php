@@ -1580,6 +1580,128 @@
 				}
 
 			}
+			// Update TeamMatch Scout Data from TBA for 2025 - Reefscape
+			if ($gameYear == 2025 && $matchComplete == 1) {
+				$tsql = "merge TeamMatchObjective as Target
+							using (
+							select tm.id teamMatchId
+								 , o.id objectiveId
+								 , ov.integerValue
+							  from Team t
+								   inner join TeamMatch tm
+								   on tm.teamId = t.id,
+								   GameEvent ge
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join ObjectiveValue ov
+								   on ov.objectiveId = o.id
+							 where tm.matchId = " . $matchId .
+							"  and ge.id = " . $gameEventId .
+							"  and ((t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) . 
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["autoLineRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'aLeave' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["autoLineRobot3"] . "')
+							     or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["red"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["red"]["endGameRobot3"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][0], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot1"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][1], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot2"] . "')
+								 or (t.teamNumber = " . substr($value["alliances"]["blue"]["team_keys"][2], 3) .
+							   " and o.name = 'toEnd' and ov.tbaValue = '" . $value["score_breakdown"]["blue"]["endGameRobot3"] . "')))
+							     as source (teamMatchId, objectiveId, integerValue)
+							on (target.teamMatchId = source.teamMatchId and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue, scoreValue = source.integerValue
+							when not matched
+							then insert (teamMatchId, objectiveId, integerValue, scoreValue)
+								 values (source.teamMatchId, source.objectiveId, source.integerValue, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Team Match Scout Records for Match " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+
+				// Update Match objective data not tied to a Team for 2025
+				$tsql = "merge MatchObjective as Target
+							using (
+							select m.id matchId
+							     , tba.alliance
+								 , o.id objectiveId
+								 , tba.integerValue
+							  from Match m
+							       inner join GameEvent ge
+								   on ge.id = m.gameEventId
+								   inner join Game g
+								   on g.id = ge.gameId
+								   inner join Objective o
+								   on o.gameId = g.id
+								   inner join 
+								   (select 'R' alliance, " . $value["score_breakdown"]["red"]["autoReef"]["trough"] . " integerValue, 'aL1' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["teleopReef"]["trough"] . " integerValue, 'toL1' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["wallAlgaeCount"] . " integerValue, 'toProc' objectiveName
+								    union
+									select 'R' alliance, " . $value["score_breakdown"]["red"]["netAlgaeCount"] . " integerValue, 'toNet' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["autoReef"]["trough"] . " integerValue, 'aL1' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["teleopReef"]["trough"] . " integerValue, 'toL1' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["wallAlgaeCount"] . " integerValue, 'toProc' objectiveName
+								    union
+									select 'B' alliance, " . $value["score_breakdown"]["blue"]["netAlgaeCount"] . " integerValue, 'toNet' objectiveName
+								    ) tba ";
+				$tsql .= " on tba.objectiveName = o.name
+							 where m.id = " . $matchId .
+							"  and ge.id = " . $gameEventId . ")" .
+							"     as source (matchId, alliance, objectiveId, integerValue)
+							on (target.matchId = source.matchId and target.alliance = source.alliance and target.objectiveId = source.objectiveId)
+							when matched and target.integerValue <> source.integerValue
+							then update set integerValue = source.integerValue
+							when not matched
+							then insert (matchId, alliance, objectiveId, integerValue)
+								 values (source.matchId, source.alliance, source.objectiveId, source.integerValue);";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Merge of Match Alliance Objective Records " . $matchNumber . ", Team " . substr($value["alliances"].["red"]["team_keys"][0], 3) . " failed!<br />";
+					echo "SQL " . $tsql . "<br>";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
+				}
+
+			}
 			$cnt += 1;
 		}
 		}
