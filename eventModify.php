@@ -77,6 +77,7 @@
 	// Get TBA Event information and insert/update Event in the database
 	if ($eventTBAExists) {
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
+echo $sURL;
 		$eventJSON = file_get_contents($sURL, false, $context);
 		$eventValue = json_decode($eventJSON, true);
 		// Add/Update Event Info to the database
@@ -172,6 +173,7 @@
 		$dt = new DateTime();
 		$dt->setTimezone(new DateTimeZone($timezone));
 		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/matches";
+echo $sURL;
 		$aHTTP['http']['header'] .= "If-None-Match: " . $eTag . "\r\n";
 		$context2 = stream_context_create($aHTTP);
 		$matchesJSON = file_get_contents($sURL, false, $context2);
@@ -208,7 +210,7 @@
 	    if ($status !== "200" && $status !== "304") {
     	    throw new RuntimeException("Match Update unexpected HTTP response status: {$status_line}\n" . $response);
 	    }
-		echo print_r(http_parse_headers($http_response_header));
+		//echo print_r(http_parse_headers($http_response_header));
 		$matchesArray = json_decode($matchesJSON, true);
 		$cnt = 0;
 		// Skip if no data in array (either 304 (Not Modified) or matches haven't started)
