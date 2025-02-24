@@ -242,7 +242,7 @@
 				echo "<th>" . $row['tableHeader'] . "</th>";
 				$cnt += 1;
 			}
-			$cnt -= 1; // Do not count Alliance Header
+			//$cnt -= 1; // Do not count Alliance Header
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>

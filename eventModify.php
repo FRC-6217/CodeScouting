@@ -1630,7 +1630,6 @@
 							when not matched
 							then insert (teamMatchId, objectiveId, integerValue, scoreValue)
 								 values (source.teamMatchId, source.objectiveId, source.integerValue, source.integerValue);";
-echo "SQL " . $tsql . "<br>";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
