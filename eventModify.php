@@ -1698,18 +1698,18 @@
 				if ($value["score_breakdown"]["red"]["autoReef"]["topRow"]["nodeK"] == '1') { $aL4R += 1; }
 				if ($value["score_breakdown"]["red"]["autoReef"]["topRow"]["nodeL"] == '1') { $aL4R += 1; }
 				// Total up L2 Coral for TeleOp Red
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeA"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeB"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeC"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeD"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeE"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeF"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeG"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeH"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeI"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeJ"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeK"]) { $toL2R += 1; }
-				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeL"]) { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeA"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeB"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeC"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeD"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeE"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeF"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeG"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeH"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeI"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeJ"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeK"] == '1') { $toL2R += 1; }
+				if ($value["score_breakdown"]["red"]["teleopReef"]["botRow"]["nodeL"] == '1') { $toL2R += 1; }
 				// Total up L3 Coral for TeleOp Red
 				if ($value["score_breakdown"]["red"]["teleopReef"]["midRow"]["nodeA"] == '1') { $toL3R += 1; }
 				if ($value["score_breakdown"]["red"]["teleopReef"]["midRow"]["nodeB"] == '1') { $toL3R += 1; }
@@ -1776,18 +1776,18 @@
 				if ($value["score_breakdown"]["blue"]["autoReef"]["topRow"]["nodeK"] == '1') { $aL4B += 1; }
 				if ($value["score_breakdown"]["blue"]["autoReef"]["topRow"]["nodeL"] == '1') { $aL4B += 1; }
 				// Total up L2 Coral for TeleOp Blue
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeA"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeB"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeC"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeD"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeE"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeF"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeG"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeH"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeI"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeJ"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeK"]) { $toL2B += 1; }
-				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeL"]) { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeA"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeB"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeC"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeD"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeE"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeF"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeG"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeH"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeI"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeJ"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeK"] == '1') { $toL2B += 1; }
+				if ($value["score_breakdown"]["blue"]["teleopReef"]["botRow"]["nodeL"] == '1') { $toL2B += 1; }
 				// Total up L3 Coral for TeleOp Blue
 				if ($value["score_breakdown"]["blue"]["teleopReef"]["midRow"]["nodeA"] == '1') { $toL3B += 1; }
 				if ($value["score_breakdown"]["blue"]["teleopReef"]["midRow"]["nodeB"] == '1') { $toL3B += 1; }
