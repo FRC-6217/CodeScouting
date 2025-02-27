@@ -80,6 +80,11 @@
 		<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
 			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
 	</h2>
+	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
+			Select image to upload:
+			<input type="file" name="fileToUpload" id="fileToUpload">
+			<input type="submit" value="Upload Image" name="submit">
+	</form>
 	<p></p>
 <?php
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
@@ -154,10 +159,5 @@
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
-		<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
-			Select image to upload:
-			<input type="file" name="fileToUpload" id="fileToUpload">
-			<input type="submit" value="Upload Image" name="submit">
-		</form>
     </head>
 </html>
