@@ -21,13 +21,14 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 #phpinfo(); 
 $teamId = $_POST['teamId'];
 $teamNumber = $_POST['teamNumber'];
+echo "Team Id: $teamId, Number: $teamNumber.<br />";
 
 $file = $_FILES["fileToUpload"]["name"];
 $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
 $targetFile = basename($file);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
-//echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
+echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
@@ -71,25 +72,25 @@ if(isset($_POST["submit"])) {
         $storageAccountName = getenv("StorageAccountName");
         $containerName = getenv("StorageContainer");
         $accessKey = getenv("StorageAccessKey");
-//        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
+        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
         $fileNameOnStorage = "2025/' . $teamNumber . '/" . $file;
         
-//        echo "Calling Function storageAddFile.<br />";
+        echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
 
-//        echo "Remove the temporary file from the directory.<br />";
+        echo "Remove the temporary file from the directory.<br />";
         unlink($compressedImage);
     }
 }
 
 # Function to add a file to storage
 function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
-//    echo "In Function storageAddFile.<br />";
+    echo "In Function storageAddFile.<br />";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
-//    echo "Connection String: $connectionString.<br />";
+    echo "Connection String: $connectionString.<br />";
     try {
         $blobClient = BlobRestProxy::createBlobService($connectionString);
     }
