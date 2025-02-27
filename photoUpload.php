@@ -75,7 +75,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
-        $fileNameOnStorage = "2025/" . $teamNumber . "/" . $file;
+        $fileNameOnStorage = "2025/" . $teamNumber . "/" . $teamNumber;
         
         echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber);
