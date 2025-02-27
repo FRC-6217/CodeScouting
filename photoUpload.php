@@ -78,15 +78,15 @@ if(isset($_POST["submit"])) {
         $fileNameOnStorage = "2025/" . $teamNumber . "/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
-        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
+        storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber);
 
         echo "Remove the temporary file from the directory.<br />";
         unlink($compressedImage);
     }
 }
 
-# Function to add a file to storage
-function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey) {
+# Function to add a file to storagev
+function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber) {
     echo "In Function storageAddFile.<br />";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
