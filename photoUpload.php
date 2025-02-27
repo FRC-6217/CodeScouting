@@ -21,14 +21,14 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 #phpinfo(); 
 $teamId = $_POST['teamId'];
 $teamNumber = $_POST['teamNumber'];
-echo "Team Id: $teamId, Number: $teamNumber.<br />";
+//echo "Team Id: $teamId, Number: $teamNumber.<br />";
 
 $file = $_FILES["fileToUpload"]["name"];
 $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
 $targetFile = basename($file);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
-echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
+//echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
@@ -72,25 +72,25 @@ if(isset($_POST["submit"])) {
         $storageAccountName = getenv("StorageAccountName");
         $containerName = getenv("StorageContainer");
         $accessKey = getenv("StorageAccessKey");
-        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
+//        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
         $fileNameOnStorage = "2025/" . $teamNumber . "/" . $teamNumber;
         
-        echo "Calling Function storageAddFile.<br />";
+//        echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber);
 
-        echo "Remove the temporary file from the directory.<br />";
+//        echo "Remove the temporary file from the directory.<br />";
         unlink($compressedImage);
     }
 }
 
 # Function to add a file to storagev
 function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber) {
-    echo "In Function storageAddFile.<br />";
+//    echo "In Function storageAddFile.<br />";
     # Setup Azure Storage connection
     $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
-    echo "Connection String: $connectionString.<br />";
+//    echo "Connection String: $connectionString.<br />";
     try {
         $blobClient = BlobRestProxy::createBlobService($connectionString);
     }
@@ -101,7 +101,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
     # Open the file
     $handle = fopen($tmpFile, "r");
     if ($handle) {
-        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<br />";
+//        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<br />";
         $options = new CreateBlockBlobOptions();
 
         # Identify MIME type
@@ -126,13 +126,13 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
 
         #Get List of Blobs
         $key = '2025/' . $teamNumber . '/';
-        echo "Blob ".$key.")<br />";
+//        echo "Blob ".$key.")<br />";
         $blobListOptions = new ListBlobsOptions();
         $blobListOptions->setPrefix($key);
         $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
     
         foreach($blobList->getBlobs() as $key => $blob) {
-            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
+//            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
             echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
         }
 
