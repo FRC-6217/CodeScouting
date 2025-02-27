@@ -116,12 +116,27 @@
 			}
 		}
 	}		
-    sqlsrv_free_stmt($getResults);
-	sqlsrv_close($conn);
 
-	if (isset($_FILES['robotphoto'])) {
-		$tmpName = $_FILES['robotphoto']['tmp_name'];
+	// Display current photo
+	$storageAccountName = getenv("StorageAccountName");
+	$containerName = getenv("StorageContainer");
+	$accessKey = getenv("StorageAccessKey");
+	$key = '2025/' . $teamId . '/';
+	$blobListOptions = new ListBlobsOptions();
+	$blobListOptions->setPrefix($key);
+	$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
+	foreach($blobList->getBlobs() as $key => $blob) {
+		//echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
+		echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
 	}
 
+	// Close SQL
+	sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
 ?>
+	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
+		Select image to upload:
+		<input type="file" name="fileToUpload" id="fileToUpload">
+		<input type="submit" value="Upload Image" name="submit">
+	</form>
 </html>
