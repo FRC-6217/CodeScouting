@@ -158,6 +158,14 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 	$storageAccountName = getenv("StorageAccountName");
 	$containerName = getenv("StorageContainer");
 	$accessKey = getenv("StorageAccessKey");
+    # Setup Azure Storage connection
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
+    try {
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+    }
+    catch (Exception $e) {
+        echo "Failed create Blob Service: " . $e . "<br />";
+    }
 	$key = '2025/' . $teamNumber . '/';
 	$blobListOptions = new ListBlobsOptions();
 	$blobListOptions->setPrefix($key);
