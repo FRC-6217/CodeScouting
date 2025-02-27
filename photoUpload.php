@@ -75,7 +75,7 @@ if(isset($_POST["submit"])) {
         echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
-        $fileNameOnStorage = "2025/' . $teamNumber . '/" . $file;
+        $fileNameOnStorage = "2025/" . $teamNumber . "/" . $file;
         
         echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey);
@@ -101,7 +101,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
     # Open the file
     $handle = fopen($tmpFile, "r");
     if ($handle) {
-//        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<br />";
+        echo "Opened file '" . $tmpFile . "' for upload to storage." . "<br />";
         $options = new CreateBlockBlobOptions();
 
         # Identify MIME type
@@ -131,7 +131,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
     
         foreach($blobList->getBlobs() as $key => $blob) {
-//            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
+            echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
             echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
         }
 
