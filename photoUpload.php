@@ -6,6 +6,10 @@
 		<h1><center>Bomb Botz Scouting App</center></h1>
 	</body>
 	<p></p>
+	<h2>
+		<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
+			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
+	</h2>
 <?php
 # Reference autoload (assuming you're using Composer)
 require_once('vendor/autoload.php');
@@ -23,16 +27,13 @@ $tmpFile = $_FILES["fileToUpload"]["tmp_name"];
 $targetFile = basename($file);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($targetFile,PATHINFO_EXTENSION));
-echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
+//echo "File: $file, Temp File: $tmpFile, Target File: $targetFile.<br />";
 
 // Check if image file is a actual image or fake image
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     $mime = $check["mime"];
-    if($check !== false) {
-        echo "File is an image - $mime.<br />";
-    }
-    else {
+    if($check == false) {
         echo "File is not an image.<br />";
         $uploadOk = 0;
     }
@@ -56,13 +57,9 @@ if(isset($_POST["submit"])) {
         // Compress size and upload image 
         $destinationFile = "/tmp/" . $file;
         $compressedImage = compressImage($tmpFile, $destinationFile, 75); 
-        if ($compressedImage) { 
-            echo "Image compressed successfully: $compressedImage.<br />"; 
-        }
-        else { 
+        if (!$compressedImage) { 
             echo "Image compressed failed!<br />"; 
         } 
-
     }
 
     // Check if $uploadOk is set to 0 by an error
