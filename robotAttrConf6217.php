@@ -86,10 +86,10 @@
 			<input type="file" name="fileToUpload" id="fileToUpload">
 			<input type="submit" value="Upload Image" name="submit">
 	</form>
-	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 	<p></p>
 <?php
+	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
