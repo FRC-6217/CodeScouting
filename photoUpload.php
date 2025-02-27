@@ -126,6 +126,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
 
         #Get List of Blobs
         $key = '2025/' . $teamNumber . '/';
+        echo "Blob ".$key.")<br />";
         $blobListOptions = new ListBlobsOptions();
         $blobListOptions->setPrefix($key);
         $blobList = $blobClient->listBlobs($containerName, $blobListOptions);
