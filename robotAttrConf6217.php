@@ -82,14 +82,16 @@
 			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
 	</h2>
 	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
-			Select image to upload:
-			<input type="file" name="fileToUpload" id="fileToUpload">
-			<input type="submit" value="Upload Image" name="submit">
+		Select image to upload:
+		<input type="file" name="fileToUpload" id="fileToUpload">
+		<input type="submit" value="Upload Image" name="submit">
+<?php
+		echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+		echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+		?>
 	</form>
 	<p></p>
 <?php
-	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
