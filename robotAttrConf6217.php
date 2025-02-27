@@ -41,6 +41,7 @@
 
     // Get posted variables
 	$teamId = $_POST['teamId'];
+	$teamNumber = $_POST['teamNumber'];
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -85,6 +86,8 @@
 			<input type="file" name="fileToUpload" id="fileToUpload">
 			<input type="submit" value="Upload Image" name="submit">
 	</form>
+	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 	<p></p>
 <?php
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
@@ -146,7 +149,7 @@
 	$storageAccountName = getenv("StorageAccountName");
 	$containerName = getenv("StorageContainer");
 	$accessKey = getenv("StorageAccessKey");
-	$key = '2025/' . $teamId . '/';
+	$key = '2025/' . $teamNumber . '/';
 	$blobListOptions = new ListBlobsOptions();
 	$blobListOptions->setPrefix($key);
 	$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
