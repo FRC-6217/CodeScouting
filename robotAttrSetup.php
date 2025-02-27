@@ -106,7 +106,6 @@
 					<p></p>
 					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
-            </center>
 		<?php
 			// Display current photo
 			$storageAccountName = getenv("StorageAccountName");
@@ -129,6 +128,7 @@
 				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
 			}
 		?>
+            </center>
         </form>
 	</head>
 </html>
