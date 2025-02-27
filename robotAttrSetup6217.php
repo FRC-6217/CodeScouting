@@ -32,6 +32,12 @@
 		
 		<form enctype="multipart/form-data" action='robotAttrConf6217.php' method='post'>
 <?php
+	# Reference autoload (assuming you're using Composer)
+	require_once('vendor/autoload.php');
+
+	use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+	use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+	use MicrosoftAzure\Storage\Blob\BlobRestProxy;
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
@@ -104,5 +110,27 @@
 				</div>
             </center>
         </form>
+		<?php
+			// Display current photo
+			$storageAccountName = getenv("StorageAccountName");
+			$containerName = getenv("StorageContainer");
+			$accessKey = getenv("StorageAccessKey");
+			# Setup Azure Storage connection
+			$connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
+			try {
+				$blobClient = BlobRestProxy::createBlobService($connectionString);
+			}
+			catch (Exception $e) {
+				echo "Failed create Blob Service: " . $e . "<br />";
+			}
+			$key = '2025/' . $teamNumber . '/';
+			$blobListOptions = new ListBlobsOptions();
+			$blobListOptions->setPrefix($key);
+			$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
+			foreach($blobList->getBlobs() as $key => $blob) {
+				//echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
+				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
+			}
+		?>
 	</head>
 </html>
