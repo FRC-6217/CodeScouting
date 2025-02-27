@@ -109,7 +109,6 @@
 					</center>
 				</div>
             </center>
-        </form>
 		<?php
 			// Display current photo
 			$storageAccountName = getenv("StorageAccountName");
@@ -132,5 +131,6 @@
 				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
 			}
 		?>
+        </form>
 	</head>
 </html>
