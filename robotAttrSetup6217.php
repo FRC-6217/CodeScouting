@@ -107,10 +107,7 @@
 					<center>
 						<input type="submit" value="Submit" name="submitToDatabase">
 					</center>
-				</center>
-			</div>
-			<div>
-			<center>
+				</div>
 		<?php
 			// Display current photo
 			$storageAccountName = getenv("StorageAccountName");
@@ -130,11 +127,10 @@
 			$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
 			foreach($blobList->getBlobs() as $key => $blob) {
 				//echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
-				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;transform:rotate(90deg);"><br />';
+				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;transform:rotate(90deg);padding : 20px;"><br />';
 			}
 		?>
             </center>
-			</div>
         </form>
 	</head>
 </html>
