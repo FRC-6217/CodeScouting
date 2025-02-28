@@ -127,7 +127,7 @@
 			$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
 			foreach($blobList->getBlobs() as $key => $blob) {
 				//echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
-				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
+				echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;transform:rotate(90deg);"><br />';
 			}
 		?>
             </center>
