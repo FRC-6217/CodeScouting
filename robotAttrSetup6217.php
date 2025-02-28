@@ -107,7 +107,6 @@
 					<center>
 						<input type="submit" value="Submit" name="submitToDatabase">
 					</center>
-				</div>
 		<?php
 			// Display current photo
 			$storageAccountName = getenv("StorageAccountName");
@@ -131,6 +130,7 @@
 			}
 		?>
             </center>
+			</div>
         </form>
 	</head>
 </html>
