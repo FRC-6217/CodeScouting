@@ -1,6 +1,7 @@
 ﻿
 
 
+
 -- Rank Query (as a stored procedure to improve query performance
 CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
@@ -202,28 +203,118 @@ BEGIN
 		 , subquery.selectedForPlayoff
 		 , subquery.oPR
 		 , subquery.playoffAlliance
+		 , rp.rp1TableHeader
+		 , rp.rp1Total
+		 , rp.rp2TableHeader
+		 , rp.rp2Total
+		 , rp.rp3TableHeader
+		 , rp.rp3Total
+		 , rp.coopTableHeader
+		 , rp.coopTotal
 	  from (
-	select atr.teamId
-		 , atr.gameId
-		 , atr.rankName
-		 , atr.sortOrder
-		 , atr.cntMatches
-		 , atr.value + atr.portionOfAlliancePoints value
-		 , (select count(*)
-		      from #AvgTeamRecord atr2
-			 where atr2.gameId = atr.gameId
-			   and atr2.rankName = atr.rankName
-			   and atr2.sortOrder = atr.sortOrder
-			   and coalesce(atr2.value + atr2.portionOfAlliancePoints, 0) > coalesce(atr.value + atr.portionOfAlliancePoints, 0)) + 1 rank
-		 , atr.rank eventRank
-		 , atr.rankingPointAverage
-		 , atr.teamGameEventId
-		 , atr.selectedForPlayoff
-		 , atr.oPR
-		 , atr.playoffAlliance
-      from #AvgTeamRecord atr) subquery
-	       inner join Team t
-		   on t.id = subquery.teamId
+	        select atr.teamId
+		         , atr.gameId
+		         , atr.rankName
+		         , atr.sortOrder
+		         , atr.cntMatches
+		         , atr.value + atr.portionOfAlliancePoints value
+		         , (select count(*)
+		              from #AvgTeamRecord atr2
+			         where atr2.gameId = atr.gameId
+			           and atr2.rankName = atr.rankName
+			           and atr2.sortOrder = atr.sortOrder
+			           and coalesce(atr2.value + atr2.portionOfAlliancePoints, 0) > coalesce(atr.value + atr.portionOfAlliancePoints, 0)) + 1 rank
+		         , atr.rank eventRank
+		         , atr.rankingPointAverage
+		         , atr.teamGameEventId
+		         , atr.selectedForPlayoff
+		         , atr.oPR
+		         , atr.playoffAlliance
+              from #AvgTeamRecord atr) subquery
+	               inner join Team t
+		           on t.id = subquery.teamId
+				   inner join (
+					select tm.teamId
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 1) rp1TableHeader
+						 , coalesce(
+						   sum(case when tm.alliance = 'R'
+									then m.redRP1
+									else m.blueRP1 end)
+									, 0) rp1Total
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 2) rp2TableHeader
+						 , coalesce(
+						   sum(case when tm.alliance = 'R'
+									then m.redRP2
+									else blueRP2 end)
+									, 0) rp2Total
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 3) rp3TableHeader
+						 , coalesce(
+						   sum(case when tm.alliance = 'R'
+									then m.redRP3
+									else m.blueRP3 end)
+									, 0) rp3Total
+						 , case when g.tbaCoopMet is not null
+								then 'Coop'
+								else null end coopTableHeader
+						 , coalesce(
+						   sum(case when tm.alliance = 'R'
+									then m.redCoop
+									else m.blueCoop end)
+									, 0) coopTotal
+					  from Game g
+						   inner join v_GameEvent ge
+						   on ge.gameId = g.id
+						   inner join Match m
+						   on m.gameEventId = ge.id
+						   inner join TeamMatch tm
+						   on tm.matchId = m.id
+					 where ge.loginGUID = @pv_loginGUID
+					group by g.id, g.tbaCoopMet, tm.teamId
+					union
+					select tge.teamId
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 1) rp1TableHeader
+						 , 0 rp1Total
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 2) rp2TableHeader
+						 , 0 rp2Total
+						 , (select grp.tableHeader
+							  from GameRankingPoint grp
+							 where grp.gameId = g.id
+							   and grp.sortOrder = 3) rp3TableHeader
+						 , 0 rp3Total
+						 , case when g.tbaCoopMet is not null
+								then 'Coop'
+								else null end coopHeader
+						 , 0 coopTotal
+					  from Game g
+						   inner join v_GameEvent ge
+						   on ge.gameId = g.id
+						   inner join TeamGameEvent tge
+						   on tge.gameEventId = ge.id
+					 where ge.loginGUID = @pv_loginGUID
+					   and not exists
+					       (select 1
+						      from Match  m
+								   inner join TeamMatch tm
+								   on tm.matchId = m.id
+							 where m.gameEventId = ge.id
+							   and tm.teamId = tge.teamId)
+					group by g.id, g.tbaCoopMet, tge.teamId, ge.id) rp
+           on rp.teamId = t.id
 	group by subquery.teamId
 	       , t.TeamNumber
 		   , t.TeamName
@@ -235,6 +326,14 @@ BEGIN
 		   , subquery.selectedForPlayoff
 		   , subquery.oPR
 		   , subquery.playoffAlliance
+		   , rp.rp1TableHeader
+		   , rp.rp1Total
+		   , rp.rp2TableHeader
+		   , rp.rp2Total
+		   , rp.rp3TableHeader
+		   , rp.rp3Total
+		   , rp.coopTableHeader
+		   , rp.coopTotal
 	order by subquery.selectedForPlayoff
 	       , subquery.playoffAlliance
 	       , case when @lv_SortOrder = -98 and subquery.teamId = @lv_TeamId then 0

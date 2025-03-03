@@ -4,8 +4,12 @@
     [gameYear]          INT           NOT NULL,
     [lastUpdated]       DATETIME      NULL,
     [alliancePtsHeader] VARCHAR (64)  NULL,
+    [tbaCoopMet]        VARCHAR (128) NULL,
+    [tbaCoopAchieved]   VARCHAR (128) NULL,
     PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
 
 

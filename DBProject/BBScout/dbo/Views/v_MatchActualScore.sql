@@ -550,3 +550,4 @@ group by tm.alliance
 	   , ge.loginGUID) tmo
 on tmo.alliance = mo.alliance
 and tmo.matchId = mo.matchId
+and tmo.loginGUID = mo.loginGUID

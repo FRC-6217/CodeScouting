@@ -1,0 +1,10 @@
+C:\git\CodeScouting\DBProject\BBScout\bin\Debug\BBScout.dacpac
+C:\git\CodeScouting\DBProject\BBScout\bin\Debug\BBScout.dll
+C:\git\CodeScouting\DBProject\BBScout\bin\Debug\BBScout.pdb
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\BBScout.sqlproj.AssemblyReference.cache
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\Model.xml
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\refactor.xml
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\postdeploy.sql
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\predeploy.sql
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\BBScout.dll
+C:\git\CodeScouting\DBProject\BBScout\obj\Debug\BBScout.pdb

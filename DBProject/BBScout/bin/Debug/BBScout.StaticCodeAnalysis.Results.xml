@@ -1,0 +1,675 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Problems>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_GameEvent.sql</SourceFile>
+    <Line>10</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_GameEvent.sql</SourceFile>
+    <Line>10</Line>
+    <Column>28</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_GameEvent.sql</SourceFile>
+    <Line>11</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0010</Rule>
+    <ProblemDescription>Old-style JOIN syntax is used.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_EnterScoutTeamHTML.sql</SourceFile>
+    <Line>33</Line>
+    <Column>5</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0010</Rule>
+    <ProblemDescription>Old-style JOIN syntax is used.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_UpdateScoutRecordHTML.sql</SourceFile>
+    <Line>26</Line>
+    <Column>5</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to DateTime.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_TeamReport.sql</SourceFile>
+    <Line>5</Line>
+    <Column>25</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0005</Rule>
+    <ProblemDescription>Avoid using patterns that start with "%" in LIKE predicates</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_MatchHyperlinks.sql</SourceFile>
+    <Line>55</Line>
+    <Column>36</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(29, 28).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_MatchHyperlinks.sql</SourceFile>
+    <Line>59</Line>
+    <Column>159</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(29, 28).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_PlayoffStarted.sql</SourceFile>
+    <Line>5</Line>
+    <Column>188</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0005</Rule>
+    <ProblemDescription>Avoid using patterns that start with "%" in LIKE predicates</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_MatchHyperlinks6217.sql</SourceFile>
+    <Line>97</Line>
+    <Column>36</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(29, 28).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Views\v_MatchHyperlinks6217.sql</SourceFile>
+    <Line>101</Line>
+    <Column>159</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Int to Decimal(18, 2).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Functions\calcScoreValue.sql</SourceFile>
+    <Line>10</Line>
+    <Column>110</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_upd_ClearPlayoffSelection) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_ClearPlayoffSelection.sql</SourceFile>
+    <Line>2</Line>
+    <Column>18</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_upd_TeamPlayoffSelection) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamPlayoffSelection.sql</SourceFile>
+    <Line>4</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>113</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>125</Line>
+    <Column>28</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>125</Line>
+    <Column>42</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>126</Line>
+    <Column>28</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>126</Line>
+    <Column>44</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>127</Line>
+    <Column>28</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>127</Line>
+    <Column>45</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>128</Line>
+    <Column>28</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>128</Line>
+    <Column>41</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>130</Line>
+    <Column>20</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(38, 6).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>99</Line>
+    <Column>6</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(38, 6) to Decimal(10, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>118</Line>
+    <Column>9</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_upd_TeamScoringImpact) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_TeamScoringImpact.sql</SourceFile>
+    <Line>2</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0008</Rule>
+    <ProblemDescription>Potential misuse of system function @@IDENTITY.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_teamMatches.sql</SourceFile>
+    <Line>50</Line>
+    <Column>22</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from VarChar(62) to VarChar(16).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_teamMatches.sql</SourceFile>
+    <Line>49</Line>
+    <Column>85</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from VarChar(62) to VarChar(16).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_teamMatches.sql</SourceFile>
+    <Line>56</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_ins_teamMatches) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_teamMatches.sql</SourceFile>
+    <Line>1</Line>
+    <Column>18</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>41</Line>
+    <Column>12</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>91</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>93</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>161</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>163</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>193</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>195</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>263</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>265</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>23</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>83</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>98</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(18, 0) to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>113</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(2, 1) to Decimal(18, 0).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>143</Line>
+    <Column>16</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(18, 0) to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>142</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>185</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>200</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(18, 0) to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>215</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(2, 1) to Decimal(18, 0).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>245</Line>
+    <Column>16</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Decimal(18, 0) to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>244</Line>
+    <Column>10</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_upd_portionOfAlliancePoints) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_portionOfAlliancePoints.sql</SourceFile>
+    <Line>1</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>32</Line>
+    <Column>62</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>139</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>157</Line>
+    <Column>9</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>198</Line>
+    <Column>46</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0010</Rule>
+    <ProblemDescription>Old-style JOIN syntax is used.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>79</Line>
+    <Column>6</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_upd_scoutDataFromTba) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_upd_scoutDataFromTba.sql</SourceFile>
+    <Line>1</Line>
+    <Column>18</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_ins_scoutRobot) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRobot.sql</SourceFile>
+    <Line>1</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>152</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>223</Line>
+    <Column>19</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>223</Line>
+    <Column>33</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>224</Line>
+    <Column>19</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>224</Line>
+    <Column>35</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>225</Line>
+    <Column>19</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>225</Line>
+    <Column>36</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from VarChar(128) to UniqueIdentifier.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>29</Line>
+    <Column>23</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(38, 6).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>135</Line>
+    <Column>6</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(38, 6).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>136</Line>
+    <Column>6</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_rpt_rankReport) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_rankReport.sql</SourceFile>
+    <Line>6</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0008</Rule>
+    <ProblemDescription>Potential misuse of system function @@IDENTITY.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>75</Line>
+    <Column>16</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0015</Rule>
+    <ProblemDescription>Deterministic function call (substring) might cause an unnecessary table scan.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>184</Line>
+    <Column>20</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0015</Rule>
+    <ProblemDescription>Deterministic function call (substring) might cause an unnecessary table scan.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>185</Line>
+    <Column>41</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0015</Rule>
+    <ProblemDescription>Deterministic function call (substring) might cause an unnecessary table scan.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>212</Line>
+    <Column>21</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0015</Rule>
+    <ProblemDescription>Deterministic function call (substring) might cause an unnecessary table scan.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>213</Line>
+    <Column>42</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_ins_scoutRecord) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_ins_scoutRecord.sql</SourceFile>
+    <Line>1</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0004</Rule>
+    <ProblemDescription>A column without an index that is used as an IN predicate test expression might degrade performance.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>78</Line>
+    <Column>12</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>97</Line>
+    <Column>11</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0007</Rule>
+    <ProblemDescription>Nullable columns can cause final results to be evaluated as NULL for the predicate.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>97</Line>
+    <Column>24</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from Integer to Decimal(11, 3).</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>92</Line>
+    <Column>38</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0014</Rule>
+    <ProblemDescription>Data loss might occur when casting from VarChar(128) to UniqueIdentifier.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>92</Line>
+    <Column>57</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0016</Rule>
+    <ProblemDescription>Stored procedure(sp_rpt_matchReport) includes sp_ prefix in its name.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Stored Procedures\sp_rpt_matchReport.sql</SourceFile>
+    <Line>2</Line>
+    <Column>18</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid VARCHAR of only one element.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Tables\Objective.sql</SourceFile>
+    <Line>13</Line>
+    <Column>27</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+  <Problem>
+    <Rule>Microsoft.Rules.Data.SR0009</Rule>
+    <ProblemDescription>Avoid VARCHAR of only one element.</ProblemDescription>
+    <SourceFile>C:\git\CodeScouting\DBProject\BBScout\dbo\Tables\Rank.sql</SourceFile>
+    <Line>5</Line>
+    <Column>26</Column>
+    <Severity>Warning</Severity>
+  </Problem>
+</Problems>

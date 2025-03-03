@@ -7,7 +7,7 @@
     [textValue]     VARCHAR (4000)  NULL,
     [scoreValue]    INT             NULL,
     [lastUpdated]   DATETIME        NULL,
-    PRIMARY KEY CLUSTERED ([id] ASC),
+    PRIMARY KEY NONCLUSTERED ([id] ASC),
     CONSTRAINT [fk_ScoutObjectiveRecord_Objective] FOREIGN KEY ([objectiveId]) REFERENCES [dbo].[Objective] ([id]),
     CONSTRAINT [fk_ScoutObjectiveRecord_ScoutRecord] FOREIGN KEY ([scoutRecordId]) REFERENCES [dbo].[ScoutRecord] ([id]) ON DELETE CASCADE
 );
@@ -17,9 +17,13 @@
 
 
 
+
+
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [idx_ScoutObjectiveRecord]
+CREATE UNIQUE CLUSTERED INDEX [idx_ScoutObjectiveRecord]
     ON [dbo].[ScoutObjectiveRecord]([scoutRecordId] ASC, [objectiveId] ASC);
+
+
 
 
 GO
