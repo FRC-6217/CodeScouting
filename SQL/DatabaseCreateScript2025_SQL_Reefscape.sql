@@ -96,7 +96,8 @@ insert into Objective select g.id, 'toL1', 'Coral L1:', st.id, 0, 12, 2, 5, getd
 insert into Objective select g.id, 'toL2', 'L2:', st.id, 0, 12, 3, 6, getdate(), 'toL2', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
 insert into Objective select g.id, 'toL3', '.......... L3:', st.id, 0, 12, 4, 7, getdate(), 'toL3', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
 insert into Objective select g.id, 'toL4', 'L4:', st.id, 0, 12, 5, 8, getdate(), 'toL4', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toProc', 'Algae Proc:', st.id, 0, 9, 6, 9, getdate(), 'toProc', 'I', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+-- Only count processor shot as 2 because of human player making most of the shots. Reports are adjusted for this change.
+insert into Objective select g.id, 'toProc', 'Algae Proc:', st.id, 0, 9, 2, 9, getdate(), 'toProc', 'I', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
 insert into Objective select g.id, 'toNet', 'Net:', st.id, 0, 18, 4, 10, getdate(), 'toNet', 'I', 'Y', 'N', 11 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
 insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 11, getdate(), 'Def', 'I', 'N', 'N', 13 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
 insert into Objective select g.id, 'aLeave', 'Leave:', st.id, null, null, null, 12, getdate(), 'aLeave', 'S', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'

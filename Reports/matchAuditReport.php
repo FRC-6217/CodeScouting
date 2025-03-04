@@ -52,11 +52,25 @@
 $tsql = "select m.id matchId
 		    , m.number matchNumber
 			, case tm.alliance when 'R' then 'Red' else 'Blue' end alliance
-			, sum(asor.avgScoreValue) scoutScoreValue
+			, convert(integer,
+		      round(
+			  sum(case when g.gameYear = 2025 and o.name = 'toProc'
+			           then 3 * asor.avgScoreValue
+					   when g.gameYear = 2025 and o.name = 'toNet'
+					   then (dbo.fn_Get2025AlgaeNetScoreFromHP (m.id, tm.alliance) / 3.0) +
+					        asor.avgScoreValue
+					   else asor.avgScoreValue end), 0)) scoutScoreValue
 			, case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end tbaMatchAdjustedScore
-			, sum(asor.avgScoreValue) -
-			case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+					, convert(integer,
+								round(
+								sum(case when g.gameYear = 2025 and o.name = 'toProc'
+										then 3 * asor.avgScoreValue
+										when g.gameYear = 2025 and o.name = 'toNet'
+										then (dbo.fn_Get2025AlgaeNetScoreFromHP (m.id, tm.alliance) / 3.0) +
+											asor.avgScoreValue
+										else asor.avgScoreValue end), 0)) -
+				  case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end matchScoreDelta
 			, (select count(*)
 				from scoutRecord sr
@@ -77,6 +91,11 @@ $tsql = "select m.id matchId
 			inner join v_GameEvent ge
 			on ge.id = m.gameEventId
 			and ge.loginGUID = asor.loginGUID
+			inner join Objective o
+			on o.id = asor.objectiveId
+			and o.gameId = ge.gameId
+			inner join Game g
+			on g.id = ge.gameId
 		where ge.loginGUID = '$loginGUID'
 		  and m.isActive = 'Y'
 		  and (exists
@@ -94,10 +113,17 @@ $tsql = "select m.id matchId
 			, tm.alliance
 			, case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
-		having sum(asor.avgScoreValue) <>
-			case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
+					having convert(integer,
+					       round(
+							sum(case when g.gameYear = 2025 and o.name = 'toProc'
+									then 3 * asor.avgScoreValue
+									when g.gameYear = 2025 and o.name = 'toNet'
+									then (dbo.fn_Get2025AlgaeNetScoreFromHP (m.id, tm.alliance) / 3.0) +
+										asor.avgScoreValue
+									else asor.avgScoreValue end), 0)) <>
+				 case when tm.alliance = 'R' then m.redScore - m.redFoulPoints - m.redAlliancePoints
 					else m.blueScore - m.blueFoulPoints - m.blueAlliancePoints end
-		order by 6, m.datetime, tm.alliance;";
+		order by 7 desc, 6, m.datetime, tm.alliance;";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
