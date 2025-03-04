@@ -48,6 +48,13 @@ h2 {
     text-align: center;
 }
 
+.border-trb {
+    border: 2px solid black;
+    border-width: 2px 2px 2px 0px;
+    border-collapse: collapse;
+    text-align: center;
+}
+
 table, td, th {
     border: 2px solid black;
     border-collapse: collapse;
