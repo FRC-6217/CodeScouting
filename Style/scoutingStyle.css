@@ -48,15 +48,15 @@ h2 {
     text-align: center;
 }
 
-.border-trb {
+table, td, th {
     border: 2px solid black;
-    border-width: 2px 2px 2px 0px;
     border-collapse: collapse;
     text-align: center;
 }
 
-table, td, th {
+td.border-trb {
     border: 2px solid black;
+    border-width: 2px 2px 2px 0;
     border-collapse: collapse;
     text-align: center;
 }
