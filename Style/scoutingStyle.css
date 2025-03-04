@@ -54,14 +54,14 @@ table, td, th {
     text-align: center;
 }
 
-td.border-trb {
+td.border-trbx {
     border: 2px solid black;
     border-width: 2px 2px 2px 0;
     border-collapse: collapse;
     text-align: center;
 }
 
-td.border-tlb {
+td.border-tlbx {
     border: 2px solid black;
     border-width: 2px 0 2px 2px;
     border-collapse: collapse;
