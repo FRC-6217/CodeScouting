@@ -54,7 +54,7 @@ table, td, th {
     text-align: center;
 }
 
-td.border-trb {
+table tr td.border-trb {
     border: 2px solid black;
     border-width: 2px 2px 2px 0;
     border-collapse: collapse;
