@@ -280,40 +280,44 @@
 			<?php
 			if ($row['redScore'] > $row['blueScore']) {
 				$redTdTag = "<td><b>";
+				$redTdTTag = '<td class="border-tlb"><b>';
 				$redTdSTag = '<td class="border-trb"><b>';
 				$redTdTagEnd = "</b></td>";
 			}
 			else {
 				$redTdTag = "<td>";
+				$redTdTTag = '<td class="border-tlb">';
 				$redTdSTag = '<td class="border-trb">';
 				$redTdTagEnd = "</td>";
 			}
 			if ($row['blueScore'] > $row['redScore']) {
 				$blueTdTag = "<td><b>";
+				$blueTdTTag = '<td class="border-tlb"><b>';
 				$blueTdSTag = '<td class="border-trb"><b>';
 				$blueTdTagEnd = "</b></td>";
 			}
 			else {
 				$blueTdTag = "<td>";
+				$blueTdTTag = '<td class="border-tlb">';
 				$blueTdSTag = '<td class="border-trb">';
 				$blueTdTagEnd = "</td>";
 			}
 			echo "<td>" . ($row['teamIndicator']) . "</td>";
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			if (isset($row['datetime'])) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
-            echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
             echo $redTdSTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
             echo $redTdSTag . ($row['r2TeamScoutUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
+            echo $redTdTTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
             echo $redTdSTag . ($row['r3TeamScoutUrl']) . $redTdTagEnd;
-            echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
             echo $blueTdSTag . ($row['b1TeamScoutUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
             echo $blueTdSTag . ($row['b2TeamScoutUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
+            echo $blueTdTTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
             echo $blueTdSTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
-            echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
+            echo $redTdTTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
             echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
 			echo "<td>" . $row['videos'] . "</td>";
 		   ?>

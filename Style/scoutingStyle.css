@@ -54,9 +54,16 @@ table, td, th {
     text-align: center;
 }
 
-table tr td.border-trb {
+.border-trb {
     border: 2px solid black;
     border-width: 2px 2px 2px 0;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.border-tlb {
+    border: 2px solid black;
+    border-width: 2px 0 2px 2px;
     border-collapse: collapse;
     text-align: center;
 }
