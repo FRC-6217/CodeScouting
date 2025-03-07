@@ -174,10 +174,11 @@ function compressImage($source, $destination, $quality) {
     }
     
     // Rotate Image to make it portrait
-    $rotate = imagerotate($image, 270, 0);
+    //$rotate = imagerotate($image, 270, 0);
      
     // Save image 
-    imagejpeg($rotate, $destination, $quality); 
+    //imagejpeg($rotate, $destination, $quality); 
+    imagejpeg($image, $destination, $quality); 
      
     // Return compressed image 
     return $destination; 
