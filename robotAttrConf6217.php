@@ -88,16 +88,6 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 		<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
 			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
 	</h2>
-	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
-		Select image to upload:
-		<input type="file" name="fileToUpload" id="fileToUpload">
-		<input type="submit" value="Upload Image" name="submit">
-<?php
-		echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-		echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
-		?>
-	</form>
-	<p></p>
 <?php
     $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
 	if (isset($value2))
@@ -153,7 +143,20 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 			}
 		}
 	}		
+	?>
+	<p></p>
+	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
+		Select image to upload:
+		<input type="file" name="fileToUpload" id="fileToUpload">
+		<input type="submit" value="Upload Image" name="submit">
+<?php
+		echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+		echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+?>
+	</form>
+	<p></p>
 
+<?php
 	// Display current photo
 	$storageAccountName = getenv("StorageAccountName");
 	$containerName = getenv("StorageContainer");
