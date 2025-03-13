@@ -72,8 +72,8 @@ $tsql = "select s.id, s.lastName, s.firstName, s.firstName + ' ' + s.lastName fu
 		echo "<tr>";
 			echo "<td>" . $row['fullName'] . "</td>";
 			echo "<td>" . $row['cnt'] . "</td>";
-			echo "<td>" . $row['earliest'] . "</td>";
-			echo "<td>" . $row['latest'] . "</td>";
+			echo "<td>" . ($row['earliest']->format('m/d H:i')) . "</td>";
+			echo "<td>" . ($row['latest']->format('m/d H:i')) . "</td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
@@ -115,8 +115,8 @@ $tsql = "select s.id, s.lastName, s.firstName, s.firstName + ' ' + s.lastName fu
 		echo "<tr>";
 			echo "<td>" . $row['fullName'] . "</td>";
 			echo "<td>" . $row['cnt'] . "</td>";
-			echo "<td>" . $row['earliest'] . "</td>";
-			echo "<td>" . $row['latest'] . "</td>";
+			echo "<td>" . ($row['earliest']->format('m/d H:i')) . "</td>";
+			echo "<td>" . ($row['latest']->format('m/d H:i')) . "</td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
