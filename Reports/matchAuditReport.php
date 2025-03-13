@@ -157,5 +157,6 @@ $tsql = "select m.id matchId
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
     ?>
+	</center></table>
   </body>
 </html>
