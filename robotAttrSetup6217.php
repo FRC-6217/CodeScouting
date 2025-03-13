@@ -76,7 +76,9 @@
 					echo "<p><u><b>Team " . $teamNumber . " - " . $teamName . "</b></u></p>";
 					echo "<p>From " . $location . "</p>";
 					echo "<p>Scouted By: </p>";
-					$tsql = "select max(tas.scoutId1) scoutId1, max(tas.scoutId2) scoutId2, max(tas.scoutId3) scoutId3
+					$tsql = "select coalesce(max(tas.scoutId1), 0) scoutId1
+					              , coalesce(max(tas.scoutId2), 0) scoutId2
+								  , coalesce(max(tas.scoutId3), 0) scoutId3
 							   from v_GameEvent ge
 							        inner join TeamAttributeScouts tas
 									on tas.gameId = ge.gameId
