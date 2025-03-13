@@ -75,7 +75,9 @@
 					<?php
 					echo "<p><u><b>Team " . $teamNumber . " - " . $teamName . "</b></u></p>";
 					echo "<p>From " . $location . "</p>";
-					echo "<p>Scouted By: </p>";
+					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+					echo "<br>Scouted By: <br>";
 					$tsql = "select coalesce(max(tas.scoutId1), 0) scoutId1
 					              , coalesce(max(tas.scoutId2), 0) scoutId2
 								  , coalesce(max(tas.scoutId3), 0) scoutId3
@@ -98,8 +100,8 @@
 						$scoutId2 = $row['scoutId2'];
 						$scoutId3 = $row['scoutId3'];
 					}
-					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+					sqlsrv_free_stmt($getResults);
+					echo 'S1 ' . $scoutId1 . ', S2 ' . $scoutId2 . ', S3 ' . $scoutId3 . '<br>';
 					$tsql = "select attributeName
 								  , attributeLabel
 								  , displayValue
