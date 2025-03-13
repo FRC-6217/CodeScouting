@@ -112,7 +112,14 @@
 						}
 					}
 					else {
-						echo '<p>Scouted By 1: <select style="width: 161px;" name="scoutId1"><option value=1 selected>Test</option><option value=2 selected>Test2</option></select></p>';
+						echo '<p>Scouted By: <select style="width: 161px;" name="scoutId1">';
+						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+							if ($row['id'] == $scoutId1)
+								echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+							else
+								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+						}
+						echo '</select></p>';
 					}
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select attributeName
