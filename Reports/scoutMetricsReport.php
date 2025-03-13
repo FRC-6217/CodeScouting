@@ -37,7 +37,7 @@
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 	 <center><a class="clickme danger" href="..\index6217.php">Home</a></center>
-	<center><h1>Scout Metrics Report</h1></center>
+	<center><h1>Match Scouting Metrics</h1></center>
 
 <center><table cellspacing="0" cellpadding="5">
     <tr>
@@ -71,15 +71,57 @@ $tsql = "select s.id, s.lastName, s.firstName, s.firstName + ' ' + s.lastName fu
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
 			echo "<td>" . $row['fullName'] . "</td>";
-			echo "<td>" . $row['count'] . "</td>";
+			echo "<td>" . $row['cnt'] . "</td>";
 			echo "<td>" . $row['earliest'] . "</td>";
 			echo "<td>" . $row['latest'] . "</td>";
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
+    ?>
+	</center></table>
 
+	<center><h1>Pit Scouting Metrics</h1></center>
+    <center><table cellspacing="0" cellpadding="5">
+    <tr>
+            <th>Scout</th>
+            <th>Robots</th>
+            <th>Earliest</th>
+            <th>Latest</th>
+    </tr>
+<?php
+$tsql = "select s.id, s.lastName, s.firstName, s.firstName + ' ' + s.lastName fullName, count(*) cnt, min(tas.lastUpdated) earliest, max(tas.lastUpdated) latest
+            from v_GameEvent ge
+                inner join TeamAttributeScouts tas
+                on tas.gameId = ge.gameId
+                inner join Scout s
+                on s.id in (tas.scoutId1, tas.scoutId2, tas.scoutId3)
+                inner join TeamGameEvent tge
+                on tge.teamId = tas.teamId
+                and tge.gameEventId = ge.id
+            where ge.loginGUID = '$loginGUID'
+            and s.lastName not in ('TBA', '(Choose Scout)')
+            group by s.id, s.lastName, s.firstName
+            order by count(*) desc, s.lastName, s.firstName;";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		echo "<tr>";
+			echo "<td>" . $row['fullName'] . "</td>";
+			echo "<td>" . $row['cnt'] . "</td>";
+			echo "<td>" . $row['earliest'] . "</td>";
+			echo "<td>" . $row['latest'] . "</td>";
+		echo "</tr>";
+    }
+    sqlsrv_free_stmt($getResults);
     sqlsrv_close($conn);
     ?>
 	</center></table>
-  </body>
+    </body>
 </html>
