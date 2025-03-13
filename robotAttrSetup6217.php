@@ -96,57 +96,6 @@
 						$scoutId2 = $row['scoutId2'];
 						$scoutId3 = $row['scoutId3'];
 					}
-					echo '<select style="width: 161px;" name="scoutId1">'
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
-					$getResults = sqlsrv_query($conn, $tsql);
-					if ($getResults == FALSE)
-						if( ($errors = sqlsrv_errors() ) != null) {
-							foreach( $errors as $error ) {
-								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-								echo "code: ".$error[ 'code']."<br />";
-								echo "message: ".$error[ 'message']."<br />";
-							}
-						}
-					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-						if ($row['id'] == $scoutId1)
-							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
-						else
-							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
-					}
-					echo '<select style="width: 161px;" name="scoutId2">'
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
-					$getResults = sqlsrv_query($conn, $tsql);
-					if ($getResults == FALSE)
-						if( ($errors = sqlsrv_errors() ) != null) {
-							foreach( $errors as $error ) {
-								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-								echo "code: ".$error[ 'code']."<br />";
-								echo "message: ".$error[ 'message']."<br />";
-							}
-						}
-					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-						if ($row['id'] == $scoutId2)
-							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
-						else
-							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
-					}
-					echo '<select style="width: 161px;" name="scoutId3">'
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
-					$getResults = sqlsrv_query($conn, $tsql);
-					if ($getResults == FALSE)
-						if( ($errors = sqlsrv_errors() ) != null) {
-							foreach( $errors as $error ) {
-								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-								echo "code: ".$error[ 'code']."<br />";
-								echo "message: ".$error[ 'message']."<br />";
-							}
-						}
-					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-						if ($row['id'] == $scoutId3)
-							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
-						else
-							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
-					}
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					$tsql = "select attributeName
