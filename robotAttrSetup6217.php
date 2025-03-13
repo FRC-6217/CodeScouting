@@ -110,17 +110,6 @@
 								echo "message: ".$error[ 'message']."<br />";
 							}
 						}
-					else {
-						echo "<p>Scouted By 1: ";
-						echo '<select style="width: 161px;" name="scoutId1">'
-						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-							if ($row['id'] == $scoutId1)
-								echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
-							else
-								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
-						}
-						echo '</select></p>'
-					}
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select attributeName
 								  , attributeLabel
