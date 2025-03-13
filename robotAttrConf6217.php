@@ -62,6 +62,9 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$scoutId1 = $_POST['scoutId1'];
+	$scoutId2 = $_POST['scoutId2'];
+	$scoutId3 = $_POST['scoutId3'];
 	$value1 = $_POST['value1'];
 	$value2 = $_POST['value2'];
 	$value3 = $_POST['value3'];
@@ -89,7 +92,7 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
 	</h2>
 <?php
-    $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
+    $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', $scoutId1, $scoutId2, $scoutId3, '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))
@@ -108,7 +111,7 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 		$tsql .= ", '$value9'";
 	if (isset($value10))
 		$tsql .= ", '$value10'";
-		if (isset($value11))
+	if (isset($value11))
 		$tsql .= ", '$value11'";
 	if (isset($value12))
 		$tsql .= ", '$value12'";
