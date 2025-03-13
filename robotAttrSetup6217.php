@@ -101,7 +101,63 @@
 						$scoutId3 = $row['scoutId3'];
 					}
 					sqlsrv_free_stmt($getResults);
-					echo 'S1 ' . $scoutId1 . ', S2 ' . $scoutId2 . ', S3 ' . $scoutId3 . '<br>';
+					echo '<select style="width: 161px;" name="scoutId1">'
+					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						if ($row['id'] == $scoutId1)
+							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+						else
+							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+					}
+					sqlsrv_free_stmt($getResults);
+					echo '</select><br>'
+					echo '<select style="width: 161px;" name="scoutId2">'
+					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						if ($row['id'] == $scoutId2)
+							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+						else
+							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+					}
+					sqlsrv_free_stmt($getResults);
+					echo '</select><br>'
+					echo '<select style="width: 161px;" name="scoutId3">'
+					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						if ($row['id'] == $scoutId3)
+							echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+						else
+							echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+					}
+					sqlsrv_free_stmt($getResults);
+					echo '</select><br>'
 					$tsql = "select attributeName
 								  , attributeLabel
 								  , displayValue
