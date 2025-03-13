@@ -200,7 +200,8 @@
 		<h2>
 			<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Report to Audit Matches</a></center>
 			<p></p>
-			<center><a id="scout" class="clickme danger" href="Reports/scoutMetricsReport.php">Report of Scout Metrics</a></center>
+			<p></p>
+			<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport.php">Scout Metrics Rpt</a></center>
 		</h2>
         </form>
     </head>
