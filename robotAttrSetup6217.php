@@ -111,9 +111,7 @@
 							}
 						}
 					else {
-						echo "<p>Scouted By 1: ";
-						echo '<select style="width: 161px;" name="scoutId1"><option value=1 selected>Test</option><option value=2>Test 2</option>'
-						echo '</select></p>'
+						echo '<p>Scouted By 1: <select style="width: 161px;" name="scoutId1"><option value=1 selected>Test</option><option value=2 selected>Test2</option></select></p>';
 					}
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select attributeName
