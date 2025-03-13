@@ -102,7 +102,7 @@
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
 					$getResults = sqlsrv_query($conn, $tsql);
-					if ($getResults == FALSE)
+					if ($getResults == FALSE) {
 						if( ($errors = sqlsrv_errors() ) != null) {
 							foreach( $errors as $error ) {
 								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -110,6 +110,7 @@
 								echo "message: ".$error[ 'message']."<br />";
 							}
 						}
+					}
 					else {
 						echo '<p>Scouted By 1: <select style="width: 161px;" name="scoutId1"><option value=1 selected>Test</option><option value=2 selected>Test2</option></select></p>';
 					}
