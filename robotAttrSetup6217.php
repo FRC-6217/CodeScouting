@@ -77,7 +77,6 @@
 					echo "<p>From " . $location . "</p>";
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
-					echo "<br>Scouted By: <br>";
 					$tsql = "select coalesce(max(tas.scoutId1), 0) scoutId1
 					              , coalesce(max(tas.scoutId2), 0) scoutId2
 								  , coalesce(max(tas.scoutId3), 0) scoutId3
@@ -112,6 +111,7 @@
 							}
 						}
 					else {
+						echo "<p>Scouted By 1: ";
 						echo '<select style="width: 161px;" name="scoutId1">'
 						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 							if ($row['id'] == $scoutId1)
@@ -119,7 +119,7 @@
 							else
 								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
 						}
-						echo '</select><br>'
+						echo '</select></p>'
 					}
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select attributeName
