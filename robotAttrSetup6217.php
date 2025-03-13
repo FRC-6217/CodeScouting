@@ -98,7 +98,6 @@
 						$scoutId2 = $row['scoutId2'];
 						$scoutId3 = $row['scoutId3'];
 					}
-					echo '<p>S1 ' . $scoutId1 . ', S2 ' . $scoutId2 . ', S3 ' . $scoutId3 . '</p>';
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					$tsql = "select attributeName
