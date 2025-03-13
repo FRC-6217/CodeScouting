@@ -88,24 +88,26 @@ insert into AttributeValue select a.id, 'Depends on Alliance Partners', 2, 3, ge
 insert into AttributeValue select a.id, 'Requires agreement from opponent', 3, 4, getdate(), 'N', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Reefscape' and a.name = 'coopertition';
 
 -- Objectives
-insert into Objective select g.id, 'aL1', 'Coral L1:', st.id, 0, 6, 3, 1, getdate(), 'aL1', 'I', 'N', 'N', 2 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'aL2', 'L2:', st.id, 0, 6, 4, 2, getdate(), 'aL2', 'I', 'Y', 'N', 3 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'aL3', '.......... L3:', st.id, 0, 6, 6, 3, getdate(), 'aL3', 'I', 'N', 'N', 4 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'aL4', 'L4:', st.id, 0, 6, 7, 4, getdate(), 'aL4', 'I', 'Y', 'N', 5 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toL1', 'Coral L1:', st.id, 0, 12, 2, 5, getdate(), 'toL1', 'I', 'N', 'N', 6 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toL2', 'L2:', st.id, 0, 12, 3, 6, getdate(), 'toL2', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toL3', '.......... L3:', st.id, 0, 12, 4, 7, getdate(), 'toL3', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toL4', 'L4:', st.id, 0, 12, 5, 8, getdate(), 'toL4', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'aLeave', 'Leave:', st.id, null, null, null, 1, getdate(), 'aLeave', 'S', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aL1', 'Coral L1:', st.id, 0, 6, 3, 2, getdate(), 'aL1', 'I', 'N', 'N', 2 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'aL2', 'L2:', st.id, 0, 6, 4, 3, getdate(), 'aL2', 'I', 'Y', 'N', 3 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'aL3', '.......... L3:', st.id, 0, 6, 6, 4, getdate(), 'aL3', 'I', 'N', 'N', 4 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'aL4', 'L4:', st.id, 0, 6, 7, 5, getdate(), 'aL4', 'I', 'Y', 'N', 5 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toL1', 'Coral L1:', st.id, 0, 12, 2, 6, getdate(), 'toL1', 'I', 'N', 'N', 6 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toL2', 'L2:', st.id, 0, 12, 3, 7, getdate(), 'toL2', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toL3', '.......... L3:', st.id, 0, 12, 4, 8, getdate(), 'toL3', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toL4', 'L4:', st.id, 0, 12, 5, 9, getdate(), 'toL4', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
 -- Only count processor shot as 2 because of human player making most of the shots. Reports are adjusted for this change.
-insert into Objective select g.id, 'toProc', 'Algae Proc:', st.id, 0, 9, 2, 9, getdate(), 'toProc', 'I', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toNet', 'Net:', st.id, 0, 18, 4, 10, getdate(), 'toNet', 'I', 'Y', 'N', 11 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 11, getdate(), 'Def', 'I', 'N', 'N', 13 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aLeave', 'Leave:', st.id, null, null, null, 12, getdate(), 'aLeave', 'S', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toEnd', 'Barge:', st.id, null, null, null, 13, getdate(), 'Barge', 'S', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
-insert into Objective select g.id, 'Rating', 'How would you rate the robot (0-10)? (Gracious Professionalism):', st.id, null, null, null, 14, getdate(), 'Rate', 'I', 'N', 'N', 14 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toProc', 'Algae Proc:', st.id, 0, 9, 2, 10, getdate(), 'toProc', 'I', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toNet', 'Net:', st.id, 0, 18, 4, 11, getdate(), 'toNet', 'I', 'Y', 'N', 11 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toEnd', 'Barge:', st.id, null, null, null, 12, getdate(), 'Barge', 'S', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toEGTime', 'EG Time:', st.id, 0, 45, null, 13, getdate(), 'EGTime', 'I', 'N', 'N', 13 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 14, getdate(), 'Def', 'I', 'N', 'N', 14 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
+insert into Objective select g.id, 'Rating', 'How would you rate the robot (0-10)? (Gracious Professionalism):', st.id, null, null, null, 15, getdate(), 'Rate', 'I', 'N', 'N', 15 from Game g, ScoringType st where g.name = 'Reefscape' and st.name = 'Radio Button'
 
 -- Objective Group Objectives
 --insert into ObjectiveGroup values ('Blue Alliance Data', 5, getdate(), 'Scout Match');
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aLeave' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aL1' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aL2' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aL3' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
@@ -116,10 +118,10 @@ insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g in
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toL4' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toProc' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toNet' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toEnd' and og.name = 'End Game' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toEGTime' and og.name = 'End Game' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toDefense' and og.name = 'End Game' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'Rating' and og.name = 'End Game' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aLeave' and og.name = 'Blue Alliance Data' and og.groupCode = 'Scout Match'
-insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'toEnd' and og.name = 'Blue Alliance Data' and og.groupCode = 'Scout Match'
 
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aLeave' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Reefscape' and o.name = 'aL1' and og.name = 'Autonomous' and og.groupCode = 'Report Pie Chart'
