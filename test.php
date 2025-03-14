@@ -32,8 +32,8 @@
         <script>
             $(function () {
                 var austDay = new Date();
-                austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
-                $('#defaultCountdown').countdown({until: austDay});
+                austDay = new Date(austDay.getFullYear(), 1 - 1, 26);
+                $('#noDays').countdown({until: austDay, format: 'HMS'});
                 $('#year').text(austDay.getFullYear());
             });
         </script>
