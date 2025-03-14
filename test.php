@@ -31,8 +31,7 @@
         </style>
         <script>
             $(function () {
-                var austDay = new Date();
-                austDay.setHours(today.getHours() + 4);
+                var austDay = new Date('2025-03-14 17:00:00');
                 $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
             });
         </script>
