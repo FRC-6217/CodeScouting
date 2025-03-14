@@ -33,7 +33,7 @@
         <script>
             $(function () {
                 var austDay = new Date();
-                $('#noDays').countdown({until: austDay, format: 'HMS'});
+                $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
                 $('#year').text(austDay.getFullYear());
             });
         </script>
