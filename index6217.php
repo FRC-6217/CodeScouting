@@ -127,6 +127,18 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
+        <script type="text/javascript" src="js/jquery.plugin.js"></script> 
+        <script type="text/javascript" src="js/jquery.countdown.js"></script>
+        <style type="text/css">
+            body > iframe { display: none; }
+            #defaultCountdown { width: 180px; height: 45px; }
+        </style>
+        <script>
+            $(function () {
+                var austDay = new Date('2025-03-14 17:00:00');
+                $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
+            });
+        </script>
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -200,7 +212,7 @@
           <p></p>
      </h2>
     <br>
-	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
+	<center>Our next match start in... <div id="defaultCountdown"></div></center>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
