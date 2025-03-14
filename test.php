@@ -28,6 +28,7 @@
         <style type="text/css">
             body > iframe { display: none; }
             #defaultCountdown { width: 240px; height: 45px; }
+            #noDays { width: 180px; height: 45px; }
         </style>
         <script>
             $(function () {
