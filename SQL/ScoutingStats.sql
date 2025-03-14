@@ -24,8 +24,8 @@ select s.id, s.lastName, s.firstName, s.firstName + ' ' + s.lastName fullName, c
 	   and tge.gameEventId = ge.id
  where ge.loginGUID = 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3'
    and s.lastName not in ('TBA', '(Choose Scout)')
-group by s.id, s.lastName, s.firstName, s.lastName, s.firstName
-order by count(*) desc
+group by s.id, s.lastName, s.firstName
+order by count(*) desc, s.lastName, s.firstName
 
 -- Report Query for both Scout Data records
 select coalesce(m_s.id, p_s.id) id

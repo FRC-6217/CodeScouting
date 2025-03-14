@@ -21,15 +21,34 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<body>
-			<h1><center>Bomb Botz Scouting App</center></h1>
-		</body>
-		<center><a class="clickme danger" href="index6217.php">Home</a></center>
-		
-		<form enctype="multipart/form-data" action='./testUpload.php' method='post'>
-            Select image to upload:
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload Image" name="submit">
-        </form>
-0</html>
+    </head>
+    <body>
+        <h1><center>Bomb Botz Scouting App</center></h1>
+    </body>
+    <center><a class="clickme danger" href="index6217.php">Home</a></center>
+    
+    <?php
+        $dbSessionDuration = '00:30:00';
+        list($hour,$min,$sec) = explode(':', $dbSessionDuration);
+        $dbSessionDurationTime = mktime(0,0,0,$hour,$min,$sec);
+    ?>
+
+    <script type="text/javascript">
+        var millis = <?php echo $dbSessionDurationTime; ?>
+
+        function displaytimer(){
+            var hours = Math.floor(millis / 36e5),
+                mins = Math.floor((millis % 36e5) / 6e4),
+                secs = Math.floor((millis % 6e4) / 1000);
+                //Here, the DOM that the timer will appear using jQuery
+                $('.count').html(hours+':'+mins+':'+secs);  
+        }
+
+        setInterval(function(){
+            millis -= 1000;
+            displaytimer();
+        }, 1000);
+
+    </script>
+
+</html>
