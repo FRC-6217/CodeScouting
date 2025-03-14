@@ -13,7 +13,18 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select s.scoutGUID
+				  , convert(nvarchar, 
+				    coalesce(
+				    (select top 1 (m.dateTime)
+					   from v_MatchHyperlinks6217 m
+						    inner join TeamMatch tm
+						    on tm.matchId = m.matchId
+						    and tm.teamId = s.teamId
+					  where m.loginGUID = s.scoutGUID
+				     order by m.sortOrder) + 15, getdate() - 1), 120) nextMatchDate
+			    from Scout s 
+               where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -25,6 +36,7 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$nextMatchDate = $row['nextMatchDate'];
 
 	// Build data for Line Graph
 	$rows = array();
@@ -137,7 +149,7 @@
         </style>
         <script>
             $(function () {
-                var austDay = new Date('2025-03-14 17:00:00');
+                var austDay = new Date('<?php echo $nextMatchDate; ?>');
                 $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
             });
         </script>
@@ -214,7 +226,7 @@
           <p></p>
      </h2>
     <br>
-	<center>Our next match start in... <div id="defaultCountdown"></div></center>
+	<center>Our next match start at <?php echo $nextMatchDate; ?>... <div id="defaultCountdown"></div></center>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
