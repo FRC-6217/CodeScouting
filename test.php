@@ -27,14 +27,13 @@
         <script type="text/javascript" src="js/jquery.countdown.js"></script>
         <style type="text/css">
             body > iframe { display: none; }
-            #defaultCountdown { width: 240px; height: 45px; }
-            #noDays { width: 180px; height: 45px; }
+            #defaultCountdown { width: 180px; height: 45px; }
         </style>
         <script>
             $(function () {
                 var austDay = new Date();
+                austDay.setHours(today.getHours() + 4);
                 $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
-                $('#year').text(austDay.getFullYear());
             });
         </script>
     </head>
