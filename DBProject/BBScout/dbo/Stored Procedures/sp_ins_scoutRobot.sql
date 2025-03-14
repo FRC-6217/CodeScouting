@@ -1,5 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRobot]  (@pv_TeamId integer
+﻿CREATE PROCEDURE sp_ins_scoutRobot  (@pv_TeamId integer
 								   , @pv_loginGUID varchar(128)
+								   , @pv_ScoutId1 integer
+								   , @pv_ScoutId2 integer
+								   , @pv_ScoutId3 integer
                                    , @pv_TextValue01 varchar(4000) = null
                                    , @pv_TextValue02 varchar(4000) = null
                                    , @pv_TextValue03 varchar(4000) = null
@@ -21,6 +24,8 @@
                                    , @pv_TextValue19 varchar(4000) = null
                                    , @pv_TextValue20 varchar(4000) = null)
 AS
+declare @lv_GameId integer;
+declare @lv_Count integer;
 declare @lv_AtributeId integer;
 declare @lv_TeamAtributeId integer;
 declare @lv_ScoringTypeName varchar(64);
@@ -28,6 +33,33 @@ declare @lv_IntegerValue integer;
 
 BEGIN
 	SET NOCOUNT ON
+	-- Lookup Game Id
+	SELECT @lv_GameId = ge.gameId
+      FROM v_GameEvent ge
+	 WHERE ge.loginGUID = @pv_loginGUID;
+
+	-- Lookup/Update Team Attribute Scouts
+	SELECT @lv_Count = count(*)
+      FROM TeamAttributeScouts
+	 WHERE teamId = @pv_TeamId
+	   AND gameId = @lv_GameId;
+
+	-- Insert or Update Team Attribute Scouts
+	IF @lv_Count = 0
+		BEGIN
+		INSERT INTO TeamAttributeScouts (teamId, gameId, scoutId1, scoutId2, scoutId3)
+		SELECT @pv_TeamId, @lv_GameId, @pv_ScoutId1, @pv_ScoutId2, @pv_ScoutId3;
+		END
+	ELSE
+		BEGIN
+		UPDATE TeamAttributeScouts
+           SET scoutId1 = @pv_ScoutId1
+			 , scoutId2 = @pv_ScoutId2
+			 , scoutId3 = @pv_ScoutId3
+		 WHERE teamId = @pv_TeamId
+		   AND gameId = @lv_GameId;
+		END
+
 	-- Lookup Team Attribute Record
 	if @pv_TextValue01 is not null
 		BEGIN

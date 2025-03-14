@@ -1,4 +1,5 @@
-﻿-- View for Match Final Report
+﻿
+-- View for Match Final Report
 CREATE view [dbo].[v_MatchFinalReport] as
 -- Team Scores
 select case when tm.alliance = 'R' then 'Red'
@@ -221,9 +222,45 @@ group by tm.alliance
        , ge.loginGUID
 union
 -- Total Alliance Scores from Scout Data
-select subquery.alliance
+select case when subquery2.alliance = 'R' then 'Red'
+	        when subquery2.alliance = 'B' then 'Blue'
+	        else subquery2.alliance end alliance
      , 98 alliancePosition
 	 , 'Scout' teamNumber
+	 , subquery2.allianceSort
+	 , subquery2.value1
+	 , subquery2.value2
+	 , subquery2.value3
+	 , subquery2.value4
+	 , subquery2.value5
+	 , subquery2.value6
+	 , subquery2.value7
+	 , subquery2.value8
+	 , subquery2.value9
+	 , subquery2.value10
+	 , subquery2.value11
+	 , subquery2.value12
+	 , subquery2.value13
+	 , subquery2.value14
+	 , subquery2.value15
+	 , subquery2.value16
+	 , subquery2.value17
+	 , subquery2.value18
+	 , subquery2.value19
+	 , subquery2.value20
+	 , subquery2.portionOfAlliancePoints
+	 , subquery2.totalScoreValue + case when subquery2.gameYear = 2025 then subquery2.value10 * 4 else 0 end -- Credit additional 4 points for processor in total score
+	                             + case when subquery2.gameYear = 2025 then dbo.fn_Get2025AlgaeNetScoreFromHP(subquery2.matchId, subquery2.alliance) else 0 end -- Add human player shots in net to total score
+	 , subquery2.matchFoulPoints
+	 , subquery2.matchScore
+	 , null TeamId
+	 , subquery2.matchId
+	 , subquery2.gameEventId
+	 , subquery2.matchCode
+     , subquery2.loginGUID
+	 , null scoutRecordId
+  from (
+select subquery.alliance
 	 , subquery.allianceSort
 	 , sum(subquery.value1) value1
 	 , sum(subquery.value2) value2
@@ -249,16 +286,14 @@ select subquery.alliance
 	 , sum(subquery.totalScoreValue) totalScoreValue
 	 , subquery.matchFoulPoints
 	 , subquery.matchScore
-	 , null TeamId
 	 , subquery.matchId
 	 , subquery.gameEventId
 	 , subquery.matchCode
      , subquery.loginGUID
 	 , null scoutRecordId
+	 , subquery.gameYear
   from (
-select case when tm.alliance = 'R' then 'Red'
-	        when tm.alliance = 'B' then 'Blue'
-	        else tm.alliance end alliance
+select tm.alliance
 	 , tm.alliancePosition
      , convert(varchar, t.TeamNumber) TeamNumber
 	 , case when tm.alliance = 'R' then 1
@@ -315,6 +350,7 @@ select case when tm.alliance = 'R' then 'Red'
      , asr.gameEventId
 	 , m.matchCode
 	 , asr.loginGUID
+	 , g.gameYear
  from Team t
       inner join v_Report_AvgScoutRecord asr
       on asr.TeamId = t.id
@@ -336,6 +372,7 @@ group by subquery.alliance
 	   , subquery.gameEventId
 	   , subquery.matchCode
 	   , subquery.loginGUID
+	   , subquery.gameYear) subquery2
 union
 -- Divider needed in table between alliances
 select '----' alliance

@@ -131,5 +131,8 @@
     <Build Include="dbo\Views\v_SponsorHyperlinks.sql" />
     <Build Include="dbo\Tables\GameRankingPoint.sql" />
     <Build Include="dbo\Stored Procedures\sp_rpt_matchReport.sql" />
+    <Build Include="dbo\Tables\TeamGameImage.sql" />
+    <Build Include="dbo\Tables\TeamAttributeScouts.sql" />
+    <Build Include="dbo\Functions\fn_Get2025AlgaeNetScoreFromHP.sql" />
   </ItemGroup>
 </Project>
