@@ -22,7 +22,7 @@
 						    on tm.matchId = m.matchId
 						    and tm.teamId = s.teamId
 					  where m.loginGUID = s.scoutGUID
-				     order by m.sortOrder) + 15, getdate() - 1), 120) nextMatchDate
+				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
 			    from Scout s 
                where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
