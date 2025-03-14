@@ -23,7 +23,17 @@
 						    and tm.teamId = s.teamId
 					  where m.loginGUID = s.scoutGUID
 				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
-			    from Scout s 
+				  , case when coalesce(
+					 (select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+							 inner join TeamMatch tm
+							 on tm.matchId = m.matchId
+							 and tm.teamId = s.teamId
+					   where m.loginGUID = s.scoutGUID
+					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - 0.1
+					     then 1
+						 else 0 end showCountdown
+				 from Scout s 
                where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -37,6 +47,7 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$nextMatchDate = $row['nextMatchDate'];
+	$showCountdown = $row['showCountdown'];
 
 	// Build data for Line Graph
 	$rows = array();
@@ -226,8 +237,12 @@
           <p></p>
      </h2>
     <br>
-	<center>Our next match start at <?php echo $nextMatchDate; ?>... <div id="defaultCountdown"></div></center>
-	<br>
+	<?php
+		if ($showCountdown == 1) {
+			echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
+		}
+	?>
+	
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
 	    <th> </th>
