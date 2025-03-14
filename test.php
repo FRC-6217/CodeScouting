@@ -21,34 +21,28 @@
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
+        <script type="text/javascript" src="js/jquery.plugin.js"></script> 
+        <script type="text/javascript" src="js/jquery.countdown.js"></script>
+        <style type="text/css">
+            body > iframe { display: none; }
+            #defaultCountdown { width: 240px; height: 45px; }
+        </style>
+        <script>
+            $(function () {
+                var austDay = new Date();
+                austDay = new Date(austDay.getFullYear() + 1, 1 - 1, 26);
+                $('#defaultCountdown').countdown({until: austDay});
+                $('#year').text(austDay.getFullYear());
+            });
+        </script>
     </head>
     <body>
         <h1><center>Bomb Botz Scouting App</center></h1>
     </body>
     <center><a class="clickme danger" href="index6217.php">Home</a></center>
     
-    <?php
-        $dbSessionDuration = '00:30:00';
-        list($hour,$min,$sec) = explode(':', $dbSessionDuration);
-        $dbSessionDurationTime = mktime(0,0,0,$hour,$min,$sec);
-    ?>
-
-    <script type="text/javascript">
-        var millis = <?php echo $dbSessionDurationTime; ?>
-
-        function displaytimer(){
-            var hours = Math.floor(millis / 36e5),
-                mins = Math.floor((millis % 36e5) / 6e4),
-                secs = Math.floor((millis % 6e4) / 1000);
-                //Here, the DOM that the timer will appear using jQuery
-                $('.count').html(hours+':'+mins+':'+secs);  
-        }
-
-        setInterval(function(){
-            millis -= 1000;
-            displaytimer();
-        }, 1000);
-
-    </script>
+    <div id="defaultCountdown"></div>
 
 </html>
