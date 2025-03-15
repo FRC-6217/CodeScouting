@@ -12,7 +12,28 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$match = "$_GET[matchId]";
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select s.scoutGUID
+				  , convert(nvarchar, 
+				    coalesce(
+				    (select top 1 (m.dateTime)
+					   from v_MatchHyperlinks6217 m
+						    inner join TeamMatch tm
+						    on tm.matchId = m.matchId
+						    and tm.teamId = s.teamId
+					  where m.loginGUID = s.scoutGUID
+				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
+				  , case when coalesce(
+					 (select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+							 inner join TeamMatch tm
+							 on tm.matchId = m.matchId
+							 and tm.teamId = s.teamId
+					   where m.loginGUID = s.scoutGUID
+					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - 0.1
+					     then 1
+						 else 0 end showCountdown
+				 from Scout s 
+               where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -24,6 +45,8 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$nextMatchDate = $row['nextMatchDate'];
+	$showCountdown = $row['showCountdown'];
 
 	// Build data for Pie Chart
 	$rows = array();
@@ -99,13 +122,30 @@
       chart.draw(data, options);
     }
     </script>
+	<link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
+	<script type="text/javascript" src="js/jquery.plugin.js"></script> 
+	<script type="text/javascript" src="js/jquery.countdown.js"></script>
+	<style type="text/css">
+		body > iframe { display: none; }
+		#defaultCountdown { width: 180px; height: 45px; }
+	</style>
+	<script>
+		$(function () {
+			var austDay = new Date('<?php echo $nextMatchDate; ?>');
+			$('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
+		});
+	</script>
   </head>
   <body>
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 	 <center><a class="clickme danger" href="..\index6217.php">Home</a></center>
-<?php
+	<?php
+	if ($showCountdown == 1) {
+		echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
+	}
+
 	$tsql = "select m.type + ' ' + m.number matchNumber
                from Match m
 			  where m.id = $match";
