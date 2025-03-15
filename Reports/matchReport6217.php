@@ -123,9 +123,9 @@
     }
     </script>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
-	<script type="text/javascript" src="js/jquery.plugin.js"></script> 
-	<script type="text/javascript" src="js/jquery.countdown.js"></script>
+	<link rel="stylesheet" type="text/css" href="./Style/jquery.countdown.css"> 
+	<script type="text/javascript" src="./js/jquery.plugin.js"></script> 
+	<script type="text/javascript" src="./js/jquery.countdown.js"></script>
 	<style type="text/css">
 		body > iframe { display: none; }
 		#defaultCountdown { width: 180px; height: 45px; }
