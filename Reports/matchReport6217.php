@@ -122,6 +122,7 @@
       chart.draw(data, options);
     }
     </script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
 	<script type="text/javascript" src="js/jquery.plugin.js"></script> 
 	<script type="text/javascript" src="js/jquery.countdown.js"></script>
@@ -143,7 +144,7 @@
 	 <center><a class="clickme danger" href="..\index6217.php">Home</a></center>
 	<?php
 	if ($showCountdown == 1) {
-		echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
+		echo '<br><center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
 	}
 
 	$tsql = "select m.type + ' ' + m.number matchNumber
