@@ -55,4 +55,4 @@ select sr.id, m.type, m.number, t.teamNumber, s.lastName, s.firstName, sr.id, sr
 order by m.type, m.number, t.teamNumber, sr.lastUpdated
 
 -- Remove appropriate duplicates
-delete from ScoutRecord where id in (40755, 40537, 40729, 40736, 40732)
+delete from ScoutRecord where id in (42583, 42654, 42663, 42672, 42675)

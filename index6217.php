@@ -30,7 +30,7 @@
 							 on tm.matchId = m.matchId
 							 and tm.teamId = s.teamId
 					   where m.loginGUID = s.scoutGUID
-					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - 0.1
+					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
 					     then 1
 						 else 0 end showCountdown
 				 from Scout s 

@@ -11,9 +11,9 @@ select m.number, t.teamNumber, tm.alliance, tm.alliancePosition
 	   inner join team t
 	   on t.id = tm.teamId
  where g.name = 'Reefscape'
-  and e.name = 'Lake Superior Regional'
+  and e.name = 'Minnesota 10,000 Lakes Regional'
   and m.type = 'QM'
 --  and t.teamNumber= 6217
-  and tm.alliance = 'R'
+  and tm.alliance = 'B'
   and tm.alliancePosition = 3
 order by convert(integer, m.number)
