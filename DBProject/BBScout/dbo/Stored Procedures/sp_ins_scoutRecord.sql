@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
+﻿CREATE PROCEDURE sp_ins_scoutRecord (@pv_ScoutRecordId integer
                                    , @pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
@@ -24,7 +24,8 @@
                                    , @pv_TextValue17 varchar(4000) = '0'
                                    , @pv_TextValue18 varchar(4000) = '0'
                                    , @pv_TextValue19 varchar(4000) = '0'
-                                   , @pv_TextValue20 varchar(4000) = '0')
+                                   , @pv_TextValue20 varchar(4000) = '0'
+								   , @pv_UpdateTBAScoutData int = 1)
 AS
 declare @lv_Id integer;
 
@@ -34,22 +35,27 @@ BEGIN
 	IF @pv_ScoutRecordId is null
 	BEGIN
 		RAISERROR('Scout Record Id is a Required Field.', 16, 1)
+		RETURN
 	END
 	IF @pv_ScoutId is null
 	BEGIN
 		RAISERROR('Scout needs to be selected from the dropdown list.', 16, 1)
+		RETURN
 	END
 	IF @pv_MatchId is null
 	BEGIN
 		RAISERROR('Match Number needs to be selected from the dropdown list.', 16, 1)
+		RETURN
 	END
 	IF @pv_TeamId is null
 	BEGIN
 		RAISERROR('Team Number needs to be selected from the dropdown list.', 16, 1)
+		RETURN
 	END
 	IF @pv_AlliancePosition is null
 	BEGIN
 		RAISERROR('Alliance Position needs to be selected from the dropdown list.', 16, 1)
+		RETURN
 	END
 
     -- Lookup Scout Header Record by Id
@@ -213,5 +219,8 @@ BEGIN
 		   and alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
 
     -- Resynch TBA data for all scout records
-	exec sp_upd_scoutDataFromTba @pv_loginGUID;
+	if @pv_UpdateTBAScoutData = 1
+	BEGIN
+		exec sp_upd_scoutDataFromTba @pv_loginGUID;
+	END
 END

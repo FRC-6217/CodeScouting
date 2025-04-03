@@ -1,8 +1,9 @@
-﻿-- View for Team history and average
+﻿
+-- View for Team history and average
 CREATE view [dbo].[v_TeamReport] as
 select t.TeamNumber
      , 'N/A' matchNumber
-     , max(m.datetime + 1) matchTime
+     , max(m.datetime + 3) matchTime
      , 'QM Avg Score' scoutName
      , round(avg(sr.value1),2) value1
      , round(avg(sr.value2),2) value2

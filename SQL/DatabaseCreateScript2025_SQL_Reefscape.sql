@@ -275,6 +275,8 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzWind Chill', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzWind Chill' and s.firstName = 'Scout' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzNoMythic', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzNoMythic' and s.firstName = 'Scout' and s.teamId = t.id);
 
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'a Robo', 'Raider', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'a Robo' and s.firstName = 'Raider' and s.teamId = t.id);
+
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Beck' and firstName = 'Zane' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Bray' and firstName = 'Graham' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Brokate' and firstName = 'Max' and teamId = (select id from Team where teamNumber = 6217);

@@ -346,9 +346,11 @@ select 'exec sp_ins_NM_scoutRecord ''zz' + ScoutTeam + ''', ' +
   from nm_RawMatchData nm
  where nm.matchType = 'Qualifications'
    and coalesce(skip, 0) <> 1
-   and (CorrectedMatchNumber is not null 
-     or CorrectedDriverStation is not null)
+--   and (CorrectedMatchNumber is not null or CorrectedDriverStation is not null)
 order by coalesce(CorrectedMatchNumber, MatchNumber), coalesce(CorrectedDriverStation, DriverStation)
+
+select distinct ScoutTeam from nm_RawMatchData nm
+select * from Scout where lastName like 'zz%'
 
 /*
 exec sp_ins_NM_scoutRecord 'zzNoMythic', 4, 5253, 'B2', null, 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3', 'Yes', 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 'Park', 0, 0, '5', '-99', '-99', '-99', '-99', '-99'
@@ -401,3 +403,7 @@ exec sp_upd_scoutDataFromTba 'B5671FC7-28DF-48E3-B2A7-F31F5FC509C3';
 */
 
 
+delete from ScoutRecord where lastUpdated > getdate() - 1 and MAtchId = 8268 and Id = 43955
+
+
+select * from Match where lastUpdated > getdate() - 1 and number = 32

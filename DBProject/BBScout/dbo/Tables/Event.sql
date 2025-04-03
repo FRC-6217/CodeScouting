@@ -8,9 +8,10 @@
 );
 
 
+
+
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [idx_Event]
-    ON [dbo].[Event]([name] ASC);
+
 
 
 GO
