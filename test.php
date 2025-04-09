@@ -35,6 +35,10 @@
                 $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
             });
         </script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/smoothness/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+</head>
     </head>
     <body>
         <h1><center>Bomb Botz Scouting App</center></h1>
@@ -42,5 +46,8 @@
     <center><a class="clickme danger" href="index6217.php">Home</a></center>
     
     <div id="defaultCountdown"></div>
-
+    <input id="spinner">
+    <script>
+        $( "#spinner" ).spinner();
+    </script>
 </html>
