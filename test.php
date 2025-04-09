@@ -46,10 +46,11 @@
     <center><a class="clickme danger" href="index6217.php">Home</a></center>
     
     <div id="defaultCountdown"></div>
-    <input id="spinner" type="number" name ="value1" min="0" max="6" value="1" style="width: 40px;">
-    <input id="spinner" type="number" name ="value2" min="0" max="12" value="2" style="width: 60px;">
+    <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 40px;">
+    <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 60px;">
     
     <script>
-        $( "#spinner" ).spinner();
+        $( "#spinner1" ).spinner();
+        $( "#spinner2" ).spinner();
     </script>
 </html>
