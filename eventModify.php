@@ -76,7 +76,7 @@
 	
 	// Get TBA Event information and insert/update Event in the database
 	if ($eventTBAExists) {
-		$sURL = $TBAURL. "event/" . $gameYear . $eventCode . "/simple";
+		$sURL = $TBAURL. "event/" . $gameYear . $eventCode;
 		$eventJSON = file_get_contents($sURL, false, $context);
 		$eventValue = json_decode($eventJSON, true);
 		// Add/Update Event Info to the database
@@ -160,6 +160,31 @@
 					$tbaRPKey1 = $row['tbaRPKey1'];
 					$tbaRPKey2 = $row['tbaRPKey2'];
 					$tbaRPKey3 = $row['tbaRPKey3'];
+				}
+			}
+			// Add webcasts for the GameEvent
+			for($i=0; $i<count($value['webcasts']); $i++) {
+				// If not exist, then add Event Webcast
+				$tsql = "insert into GameEventWebcast (gameEventId, webcastType, webcastChannel)
+						 select " . $gameEventId . ", '" . $value['webcasts'][$i]["type"] . "', '" . $value['webcasts'][$i]["channel"] . "'
+						  where not exists
+						        (select 1
+								   from GameEventWebcast gew
+								  where gew.gameEventId = " . $gameEventId .
+								"   and gew.webcastType = '" . $value['webcasts'][$i]["type"] . "'
+								    and gew.webcastChannel = '" . $value['webcasts'][$i]["channel"] . "');";
+				$results = sqlsrv_query($conn, $tsql);
+				if(!$results) 
+				{
+					echo "Insert for Game Event Webcast " . $value['webcasts'][$i]["type"] . ", " . $value['webcasts'][$i]["channel"] . " failed!<br />";
+					if( ($errors = sqlsrv_errors() ) != null) {
+						foreach( $errors as $error ) {
+							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+							echo "code: ".$error[ 'code']."<br />";
+							echo "message: ".$error[ 'message']."<br />";
+						}
+					}
+					break;
 				}
 			}
 		}
