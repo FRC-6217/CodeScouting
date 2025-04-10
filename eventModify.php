@@ -163,20 +163,20 @@
 				}
 			}
 			// Add webcasts for the GameEvent
-			for($i=0; $i<count($value['webcasts']); $i++) {
+			for($i=0; $i<count($eventValue['webcasts']); $i++) {
 				// If not exist, then add Event Webcast
 				$tsql = "insert into GameEventWebcast (gameEventId, webcastType, webcastChannel)
-						 select " . $gameEventId . ", '" . $value['webcasts'][$i]["type"] . "', '" . $value['webcasts'][$i]["channel"] . "'
+						 select " . $gameEventId . ", '" . $eventValue['webcasts'][$i]["type"] . "', '" . $eventValue['webcasts'][$i]["channel"] . "'
 						  where not exists
 						        (select 1
 								   from GameEventWebcast gew
 								  where gew.gameEventId = " . $gameEventId .
-								"   and gew.webcastType = '" . $value['webcasts'][$i]["type"] . "'
-								    and gew.webcastChannel = '" . $value['webcasts'][$i]["channel"] . "');";
+								"   and gew.webcastType = '" . $eventValue['webcasts'][$i]["type"] . "'
+								    and gew.webcastChannel = '" . $eventValue['webcasts'][$i]["channel"] . "');";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) 
 				{
-					echo "Insert for Game Event Webcast " . $value['webcasts'][$i]["type"] . ", " . $value['webcasts'][$i]["channel"] . " failed!<br />";
+					echo "Insert for Game Event Webcast " . $eventValue['webcasts'][$i]["type"] . ", " . $eventValue['webcasts'][$i]["channel"] . " failed!<br />";
 					if( ($errors = sqlsrv_errors() ) != null) {
 						foreach( $errors as $error ) {
 							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
