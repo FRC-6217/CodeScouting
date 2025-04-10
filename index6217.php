@@ -254,7 +254,7 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<h2><center><p></p><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a></center></h2>';
+				echo '<h2><center><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a></center></h2>';
 			}
 			sqlsrv_free_stmt($getResults);
 		// Show countdown to our next match
