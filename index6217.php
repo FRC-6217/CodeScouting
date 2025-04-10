@@ -233,10 +233,8 @@
     ?>
      </center> </h2>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
-     </h2>
-    <br>
-	<?php
+          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a>
+    <?php
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL
 				   from v_GameEvent ge
@@ -253,7 +251,7 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<h2><center><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a></center></h2>';
+				echo '<a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a>';
 			}
 			sqlsrv_free_stmt($getResults);
 		// Show countdown to our next match
@@ -261,7 +259,7 @@
 			echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
 		}
 	?>
-	
+	</h2></center>	
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
 	    <th> </th>
