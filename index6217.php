@@ -238,6 +238,27 @@
      </h2>
     <br>
 	<?php
+		// Display Webcast Links
+		$tsql = "select gew.webcastURL
+				   from v_GameEvent ge
+				        inner join GameEventWebcast gew
+				        on gew.gameEventId = ge.id
+                  where ge.loginGUID = '$loginGUID'";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo '<h2><center><p></p><a href="' . $row['webcastURL'] . '" target="_blank">Link to Event Webcast</a></center></h2>';
+			}
+			sqlsrv_free_stmt($getResults);
+			sqlsrv_close($conn);
+		// Show countdown to our next match
 		if ($showCountdown == 1) {
 			echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
 		}
@@ -373,28 +394,6 @@
 		<!--this is the div that will hold the pie chart-->
 		<div id="line_chart_div" style="width: 70%"></div>
     <p></p>
-	<?php
-		// Display Webcast Links
-		$tsql = "select gew.webcastURL
-				   from v_GameEvent ge
-				        inner join GameEventWebcast gew
-				        on gew.gameEventId = ge.id
-                  where ge.loginGUID = '$loginGUID'";
-			$getResults = sqlsrv_query($conn, $tsql);
-			if ($getResults == FALSE)
-				if( ($errors = sqlsrv_errors() ) != null) {
-					foreach( $errors as $error ) {
-						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-						echo "code: ".$error[ 'code']."<br />";
-						echo "message: ".$error[ 'message']."<br />";
-					}
-				}
-			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<p></p><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a>';
-			}
-			sqlsrv_free_stmt($getResults);
-			sqlsrv_close($conn);
-			?>
     <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
     </center>
 	<center><p></p><h1>THANK YOU! to our Amazing Bomb-Botz Sponsors</h1></center>
