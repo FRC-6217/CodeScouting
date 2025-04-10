@@ -254,10 +254,9 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<h2><center><p></p><a href="' . $row['webcastURL'] . '" target="_blank">Link to Event Webcast</a></center></h2>';
+				echo '<h2><center><p></p><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a></center></h2>';
 			}
 			sqlsrv_free_stmt($getResults);
-			sqlsrv_close($conn);
 		// Show countdown to our next match
 		if ($showCountdown == 1) {
 			echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';

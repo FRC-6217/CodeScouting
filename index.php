@@ -193,6 +193,27 @@
 	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
     ?>
     </center> </h2>
+	<?php
+		// Display Webcast Links
+		$tsql = "select gew.webcastURL
+				   from v_GameEvent ge
+				        inner join GameEventWebcast gew
+				        on gew.gameEventId = ge.id
+                  where ge.loginGUID = '$loginGUID'";
+			$getResults = sqlsrv_query($conn, $tsql);
+			if ($getResults == FALSE)
+				if( ($errors = sqlsrv_errors() ) != null) {
+					foreach( $errors as $error ) {
+						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+						echo "code: ".$error[ 'code']."<br />";
+						echo "message: ".$error[ 'message']."<br />";
+					}
+				}
+			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+				echo '<h2><center><p></p><a href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a></center></h2>';
+			}
+			sqlsrv_free_stmt($getResults);
+	?>
 	<br>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
