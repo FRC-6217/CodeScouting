@@ -234,7 +234,6 @@
      </center> </h2>
     <h2>
           <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
-          <p></p>
      </h2>
     <br>
 	<?php
