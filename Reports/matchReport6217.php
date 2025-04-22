@@ -204,6 +204,7 @@
 			sqlsrv_free_stmt($getResults);
 			?>
 			<th>Scr Imp</th>
+			<th>OPR</th>
 		</tr>
 	<?php
 	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
@@ -245,6 +246,7 @@
 		if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
 		if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
 		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
+		if (isset($row['oPR'])) echo "<td>" . number_format($row['oPR'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
         echo "</tr>";
     }
 	?>
