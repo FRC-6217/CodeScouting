@@ -101,7 +101,7 @@
 			?>
 			<th><a href='../Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>
             <th>Rank<br/>Pts</th>
-			<th><a href='../Reports/rankReport.php?sortOrder=eventRank&rankName=OPR'>OPR</a></th>
+			<th><a href='../Reports/rankReport.php?sortOrder=OPR&rankName=OPR'>OPR</a></th>
 			<?php
 			// Display table headers for the Ranking Points/Cooperition realized
 			$tsql = "select grp.tableHeader
