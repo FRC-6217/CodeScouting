@@ -63,6 +63,7 @@
                   , mr.alliance 
 	              , mr.alliancePosition
 	              , mr.totalScoreValue
+				  , mr.oPR
                from v_MatchReport mr
               where loginGUID = '$loginGUID'
 			    and matchId = $match
