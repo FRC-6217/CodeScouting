@@ -69,18 +69,6 @@
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
 	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
-
-	//create table for opr pie chart
-	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$temp = array();
-		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
-		$temp[] = array('v' => (float) $row['oPR']); 
-		$rows[] = array('c' => $temp);
-	}
-
-	$oprTable['rows'] = $rows;
-	$oprJsonTablePieChart = json_encode($oprTable);
-	$oprTableTitle = 'OPR Breakdown';
 ?>
   <head>
     <!--Load the Ajax API-->
@@ -93,7 +81,6 @@
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(drawPieChart);
-	google.setOnLoadCallback(drawOprPieChart);
 
     function drawPieChart() {
 
@@ -112,25 +99,6 @@
       var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
       chart.draw(data, options);
     }
-
-	function drawOprPieChart() {
-
-      // Create our data table out of JSON data loaded from server.
-      var data = new google.visualization.DataTable(<?=$oprJsonTablePieChart?>);
-      var options = {
-          legend: 'right',
-		  title: '<?php echo $oprTableTitle;?>',
-          is3D: 'false',
-          width: 800,
-          height: 300,
-		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
-        };
-      // Instantiate and draw our chart, passing in some options.
-      // Do not forget to check your div ID
-      var chart = new google.visualization.PieChart(document.getElementById('opr_pie_chart_div'));
-      chart.draw(data, options);
-    }
-	
     </script>
   </head>
   <body>

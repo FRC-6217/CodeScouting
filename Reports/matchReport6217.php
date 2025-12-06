@@ -103,16 +103,18 @@
 	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
 
 	//create table for opr pie chart
-	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$temp = array();
-		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
-		$temp[] = array('v' => (float) $row['oPR']); 
-		$rows[] = array('c' => $temp);
+	while ($rowOpr = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$tempOpr = array();
+		$tempOpr[] = array('v' => (string) $rowOpr['teamNumber'] . ' - ' . $rowOpr['teamName']); 
+		$tempOpr[] = array('v' => (float) $rowOpr['oPR']); 
+		$rowsOpr[] = array('c' => $tempOpr);
+		if ($rowOpr['alliance'] == 'Red') $redOpr = $redOPR + $rowOpr['oPR'];
+		if ($rowOpr['alliance'] == 'Blue') $blueOpr = $blueOpr + $rowOpr['oPR'];
 	}
 
-	$oprTable['rows'] = $rows;
+	$oprTable['rows'] = $rowsOpr;
 	$oprJsonTablePieChart = json_encode($oprTable);
-	$oprTableTitle = 'OPR Breakdown';
+	$oprTableTitle = 'OPR Breakdown: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
 ?>
   <head>
     <!--Load the Ajax API-->
