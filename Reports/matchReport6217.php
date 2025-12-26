@@ -58,6 +58,7 @@
 		array('label' => 'Avg Score', 'type' => 'number')
 	);
 
+	$rowOpr = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$oprTable = array();
 	$oprTable['cols'] = array(
 		// Labels for your chart, these represent the column titles
@@ -102,13 +103,16 @@
 	$jsonTablePieChart = json_encode($table);
 	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
 
+	// Reset the pointer to the first row
+	sqlsrv_fetch($stmt, SQLSRV_SCROLL_ABSOLUTE, -1);
+
 	//create table for opr pie chart
 	while ($rowOpr = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$tempOpr = array();
 		$tempOpr[] = array('v' => (string) $rowOpr['teamNumber'] . ' - ' . $rowOpr['teamName']); 
 		$tempOpr[] = array('v' => (float) $rowOpr['oPR']); 
 		$rowsOpr[] = array('c' => $tempOpr);
-		if ($rowOpr['alliance'] == 'Red') $redOpr = $redOPR + $rowOpr['oPR'];
+		if ($rowOpr['alliance'] == 'Red') $redOpr = $redOpr + $rowOpr['oPR'];
 		if ($rowOpr['alliance'] == 'Blue') $blueOpr = $blueOpr + $rowOpr['oPR'];
 	}
 
@@ -126,8 +130,10 @@
     google.load('visualization', '1', {'packages':['corechart']});
 
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawPieChart);
-    google.setOnLoadCallback(drawOprPieChart);
+	<div>
+    	google.setOnLoadCallback(drawPieChart);
+    	google.setOnLoadCallback(drawOprPieChart);
+	</div>
 
     function drawPieChart() {
 
