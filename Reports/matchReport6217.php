@@ -114,8 +114,8 @@
 			        , case when mr.alliance = 'Red' then mr.totalScoreValue
 					       else - mr.totalScoreValue end
                     , mr.alliancePosition";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
+    $oprResults = sqlsrv_query($conn, $tsql);
+    if ($oprResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
 				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -124,7 +124,7 @@
 			}
 		}
 	//create table for opr prediction pie chart
-	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+	while ($row = sqlsrv_fetch_array($oprResults, SQLSRV_FETCH_ASSOC)) {
 		$temp = array();
 		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
 		$temp[] = array('v' => (float) $row['oPR']); 
