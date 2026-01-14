@@ -51,20 +51,16 @@
 	// Build data for Pie Chart
 	$rows = array();
 	$table = array();
+	$oprTable = array();
 	$table['cols'] = array(
 		// Labels for your chart, these represent the column titles
 		// Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
 		array('label' => 'Team', 'type' => 'string'),
 		array('label' => 'Avg Score', 'type' => 'number')
 	);
-
-	$rowOpr = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-	$oprTable = array();
 	$oprTable['cols'] = array(
-		// Labels for your chart, these represent the column titles
-		// Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
 		array('label' => 'Team', 'type' => 'string'),
-		array('label' => 'Opr', 'type' => 'number')
+		array('label' => 'Opr Score', 'type' => 'number')
 	);
 
 	$tsql = "select mr.teamNumber
@@ -103,20 +99,40 @@
 	$jsonTablePieChart = json_encode($table);
 	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
 
-	// Reset the pointer to the first row
-	sqlsrv_fetch($stmt, SQLSRV_SCROLL_ABSOLUTE, -1);
-
-	//create table for opr pie chart
-	while ($rowOpr = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$tempOpr = array();
-		$tempOpr[] = array('v' => (string) $rowOpr['teamNumber'] . ' - ' . $rowOpr['teamName']); 
-		$tempOpr[] = array('v' => (float) $rowOpr['oPR']); 
-		$rowsOpr[] = array('c' => $tempOpr);
-		if ($rowOpr['alliance'] == 'Red') $redOpr = $redOpr + $rowOpr['oPR'];
-		if ($rowOpr['alliance'] == 'Blue') $blueOpr = $blueOpr + $rowOpr['oPR'];
+	//build data for OPR Pie Chart
+	$tsql = "select mr.teamNumber
+                  , mr.teamName
+                  , mr.alliance 
+	              , mr.alliancePosition
+	              , mr.totalScoreValue
+				  , mr.oPR
+               from v_MatchReport mr
+              where loginGUID = '$loginGUID'
+			    and matchId = $match
+                and mr.teamNumber is not null
+             order by mr.alliance desc
+			        , case when mr.alliance = 'Red' then mr.totalScoreValue
+					       else - mr.totalScoreValue end
+                    , mr.alliancePosition";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	//create table for opr prediction pie chart
+	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$temp = array();
+		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
+		$temp[] = array('v' => (float) $row['oPR']); 
+		$rows[] = array('c' => $temp);
+		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $row['oPR'];
+		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $row['oPR'];
 	}
-
-	$oprTable['rows'] = $rowsOpr;
+	$oprTable['rows'] = $rows;
 	$oprJsonTablePieChart = json_encode($oprTable);
 	$oprTableTitle = 'OPR Breakdown: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
 ?>
@@ -130,13 +146,10 @@
     google.load('visualization', '1', {'packages':['corechart']});
 
     // Set a callback to run when the Google Visualization API is loaded.
-	<div>
-    	google.setOnLoadCallback(drawPieChart);
-    	google.setOnLoadCallback(drawOprPieChart);
-	</div>
+    google.setOnLoadCallback(drawPieChart);
+    google.setOnLoadCallback(drawOprPieChart);
 
     function drawPieChart() {
-
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
@@ -154,7 +167,6 @@
     }
 
 	function drawOprPieChart() {
-
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$oprJsonTablePieChart?>);
       var options = {
