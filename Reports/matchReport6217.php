@@ -124,15 +124,15 @@
 			}
 		}
 	//create table for opr prediction pie chart
-	while ($row = sqlsrv_fetch_array($oprResults, SQLSRV_FETCH_ASSOC)) {
-		$temp = array();
-		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
-		$temp[] = array('v' => (float) $row['oPR']); 
-		$rows[] = array('c' => $temp);
-		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $row['oPR'];
-		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $row['oPR'];
+	while ($oprRow = sqlsrv_fetch_array($oprResults, SQLSRV_FETCH_ASSOC)) {
+		$oprTemp = array();
+		$oprTemp[] = array('v' => (string) $oprRow['teamNumber'] . ' - ' . $oprRow['teamName']); 
+		$oprTemp[] = array('v' => (float) $oprRow['oPR']); 
+		$oprRows[] = array('c' => $oprTemp);
+		if ($oprRow['alliance'] == 'Red') $redOpr = $redOpr + $oprRow['oPR'];
+		if ($oprRow['alliance'] == 'Blue') $blueOpr = $blueOpr + $oprRow['oPR'];
 	}
-	$oprTable['rows'] = $rows;
+	$oprTable['rows'] = $oprRows;
 	$oprJsonTablePieChart = json_encode($oprTable);
 	$oprTableTitle = 'OPR Breakdown: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
 ?>
