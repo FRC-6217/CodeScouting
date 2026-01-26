@@ -78,8 +78,8 @@
 		$oprTemp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
 		$oprTemp[] = array('v' => (float) $row['oPR']); 
 		$oprRows[] = array('c' => $oprTemp);
-		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $oprRow['oPR'];
-		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $oprRow['oPR'];
+		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $row['oPR'];
+		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $row['oPR'];
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
@@ -107,10 +107,10 @@
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-          legend: 'none',
+          legend: 'left',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
-          width: 280,
+          width: 400,
           height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
