@@ -48,4 +48,12 @@
     <div id="defaultCountdown"></div>
     <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 30px;"><script>$( "#spinner1" ).spinner();</script>
     <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 30px;"><script>$( "#spinner2" ).spinner();</script>
-</html>
+
+    <a href="/.auth/login/google">Log in with Google</a>
+
+</html>  
+
+
+
+
+<script src="https://accounts.google.com/gsi/client" async></script>
