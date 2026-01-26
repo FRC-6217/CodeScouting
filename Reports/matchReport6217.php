@@ -86,55 +86,31 @@
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
-	//create table for score prediction pie chart
+	//create table for pie charts
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		// Score Prediction 
 		$temp = array();
 		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
 		$temp[] = array('v' => (float) $row['totalScoreValue']); 
 		$rows[] = array('c' => $temp);
 		if ($row['alliance'] == 'Red') $redScore = $redScore + $row['totalScoreValue'];
 		if ($row['alliance'] == 'Blue') $blueScore = $blueScore + $row['totalScoreValue'];
+		
+		// oPR
+		$oprTemp = array();
+		$oprTemp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
+		$oprTemp[] = array('v' => (float) $row['oPR']); 
+		$oprRows[] = array('c' => $oprTemp);
+		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $oprRow['oPR'];
+		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $oprRow['oPR'];
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
-	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
+	$tableTitle = 'Scr Imp: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
 
-	//build data for OPR Pie Chart
-	$tsql = "select mr.teamNumber
-                  , mr.teamName
-                  , mr.alliance 
-	              , mr.alliancePosition
-	              , mr.totalScoreValue
-				  , mr.oPR
-               from v_MatchReport mr
-              where loginGUID = '$loginGUID'
-			    and matchId = $match
-                and mr.teamNumber is not null
-             order by mr.alliance desc
-			        , case when mr.alliance = 'Red' then mr.totalScoreValue
-					       else - mr.totalScoreValue end
-                    , mr.alliancePosition";
-    $oprResults = sqlsrv_query($conn, $tsql);
-    if ($oprResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-	//create table for opr prediction pie chart
-	while ($oprRow = sqlsrv_fetch_array($oprResults, SQLSRV_FETCH_ASSOC)) {
-		$oprTemp = array();
-		$oprTemp[] = array('v' => (string) $oprRow['teamNumber'] . ' - ' . $oprRow['teamName']); 
-		$oprTemp[] = array('v' => (float) $oprRow['oPR']); 
-		$oprRows[] = array('c' => $oprTemp);
-		if ($oprRow['alliance'] == 'Red') $redOpr = $redOpr + $oprRow['oPR'];
-		if ($oprRow['alliance'] == 'Blue') $blueOpr = $blueOpr + $oprRow['oPR'];
-	}
 	$oprTable['rows'] = $oprRows;
 	$oprJsonTablePieChart = json_encode($oprTable);
-	$oprTableTitle = 'OPR Breakdown: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
+	$oprTableTitle = 'OPR: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
 ?>
   <head>
     <!--Load the Ajax API-->
@@ -156,7 +132,7 @@
           legend: 'none',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
-          width: 400,
+          width: 280,
           height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
