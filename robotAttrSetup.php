@@ -52,7 +52,16 @@
 
     // Get Query String Parameters
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select s.scoutGUID
+	              , g.gameYear
+	           from Scout s
+					inner join Team t
+					on t.id = s.teamId
+					inner join GameEvent ge
+					on ge.id = t.gameEventId
+					inner join Game g
+					on g.id = ge.gameId
+			  where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -64,6 +73,7 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$gameYear = $row['gameYear'];
 
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
@@ -119,7 +129,7 @@
 			catch (Exception $e) {
 				echo "Failed create Blob Service: " . $e . "<br />";
 			}
-			$key = '2025/' . $teamNumber . '/';
+			$key = $gameYear . '/' . $teamNumber . '/';
 			$blobListOptions = new ListBlobsOptions();
 			$blobListOptions->setPrefix($key);
 			$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
