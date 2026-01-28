@@ -107,6 +107,7 @@
 						echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
 						echo "code: ".$error[ 'code']."<br />";
 						echo "message: ".$error[ 'message']."<br />";
+						echo "SQL:".$tsql."<br />";
 					}
 				}
 			$cnt = 0;
