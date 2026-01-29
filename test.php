@@ -49,11 +49,22 @@
     <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 30px;"><script>$( "#spinner1" ).spinner();</script>
     <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 30px;"><script>$( "#spinner2" ).spinner();</script>
 
-    <a href="/.auth/login/google">Log in with Google</a>
+    <a href="/.auth/login/google?post_login_redirect_uri=/index6217.php">Log in with Google</a>
+
+<?php
+    $loginURL = '/.auth/me';
+    $data = json_decode(file_get_contents($loginURL), true);
+
+    if ($data != null && json_last_error() !== JSON_ERROR_NONE) {
+        echo "Error decoding JSON: " . json_last_error_msg();
+    } else {
+        echo "Hello " . $data[0]["user_claims"][7]["val"];
+        echo "<br>Your email is " . $data[0]["user_claims"][4]["val"];
+    }
+?>
 
 </html>  
 
 
 
 
-<script src="https://accounts.google.com/gsi/client" async></script>
