@@ -124,7 +124,7 @@
 										  where (isActive = 'Y'
 										    and teamId in (select s2.teamId
 											                 from Scout s2
-															where s2.scoutGUID = '" . $loginGUID . "') 
+															where s2.scoutGUID = '" . $loginGUID . "')) 
 										     or id = " . $scoutId . " order by lastName, firstName";
 							}
 							else {
@@ -133,7 +133,7 @@
 										  where isActive = 'Y'
 										    and teamId in (select s2.teamId
 											                 from Scout s2
-															where s2.scoutGUID = '" . $loginGUID . "'  
+															where s2.scoutGUID = '" . $loginGUID . "') 
 										 order by lastName, firstName";
 							}
 							$getResults = sqlsrv_query($conn, $tsql);
