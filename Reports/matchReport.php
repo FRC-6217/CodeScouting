@@ -28,11 +28,16 @@
 	// Build data for Pie Chart
 	$rows = array();
 	$table = array();
+	$oprTable = array();
 	$table['cols'] = array(
 		// Labels for your chart, these represent the column titles
 		// Note that one column is in "string" format and another one is in "number" format as pie chart only required "numbers" for calculating percentage and string will be used for column title
 		array('label' => 'Team', 'type' => 'string'),
 		array('label' => 'Avg Score', 'type' => 'number')
+	);
+	$oprTable['cols'] = array(
+		array('label' => 'Team', 'type' => 'string'),
+		array('label' => 'Opr Score', 'type' => 'number')
 	);
 
 	$tsql = "select mr.teamNumber
@@ -58,17 +63,31 @@
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
+	//create table for pie charts
 	while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		// Score Prediction 
 		$temp = array();
 		$temp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
 		$temp[] = array('v' => (float) $row['totalScoreValue']); 
 		$rows[] = array('c' => $temp);
 		if ($row['alliance'] == 'Red') $redScore = $redScore + $row['totalScoreValue'];
 		if ($row['alliance'] == 'Blue') $blueScore = $blueScore + $row['totalScoreValue'];
+		
+		// oPR
+		$oprTemp = array();
+		$oprTemp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
+		$oprTemp[] = array('v' => (float) $row['oPR']); 
+		$oprRows[] = array('c' => $oprTemp);
+		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $row['oPR'];
+		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $row['oPR'];
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);
-	$tableTitle = 'Match Score Prediction: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
+	$tableTitle = 'Scr Imp: Red = ' . number_format($redScore, 2) . ', Blue = ' . number_format($blueScore, 2);
+
+	$oprTable['rows'] = $oprRows;
+	$oprJsonTablePieChart = json_encode($oprTable);
+	$oprTableTitle = 'OPR: Red = ' . number_format($redOpr, 2) . ', Blue = ' . number_format($blueOpr, 2);
 ?>
   <head>
     <!--Load the Ajax API-->
@@ -81,22 +100,40 @@
 
     // Set a callback to run when the Google Visualization API is loaded.
     google.setOnLoadCallback(drawPieChart);
+    google.setOnLoadCallback(drawOprPieChart);
 
     function drawPieChart() {
 
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-          legend: 'right',
+          legend: 'left',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
-          width: 800,
+          width: 400,
           height: 300,
 		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
         };
       // Instantiate and draw our chart, passing in some options.
       // Do not forget to check your div ID
       var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+      chart.draw(data, options);
+    }
+
+	function drawOprPieChart() {
+      // Create our data table out of JSON data loaded from server.
+      var data = new google.visualization.DataTable(<?=$oprJsonTablePieChart?>);
+      var options = {
+          legend: 'right',
+		  title: '<?php echo $oprTableTitle;?>',
+          is3D: 'false',
+          width: 400,
+          height: 300,
+		  colors: ['#f53b3b', '#ff0000', '#b50000', '#0449c2', '#035efc', '#367cf5']
+        };
+      // Instantiate and draw our chart, passing in some options.
+      // Do not forget to check your div ID
+      var chart = new google.visualization.PieChart(document.getElementById('opr_pie_chart_div'));
       chart.draw(data, options);
     }
     </script>
@@ -214,8 +251,11 @@
     </table>
 	</center>
     <center>
-		<!--this is the div that will hold the pie chart-->
-		<div id="pie_chart_div"></div>
+		<!--this is the div that will hold the pie charts-->
+		<div style="display: flex;  justify-content: center;">
+			<div id="pie_chart_div"></div>
+			<div id="opr_pie_chart_div"></div>
+		</div>
     </center>
 	<center><h1>Robot Attributes</h1></center>
 	<center><table cellspacing="0" cellpadding="5">

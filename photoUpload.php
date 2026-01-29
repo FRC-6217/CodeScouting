@@ -18,6 +18,43 @@ use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
 use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 
+$serverName = getenv("ScoutAppDatabaseServerName");
+$database = getenv("Database");
+$userName = getenv("DatabaseUserName");
+$password = getenv("DatabasePassword");
+$connectionOptions = array(
+    "Database" => "$database",
+    "Uid" => "$userName",
+    "PWD" => "$password"
+);
+//Establishes the connection
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Get Query String Parameters
+$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+$tsql = "select s.scoutGUID
+                , g.gameYear
+            from Scout s
+                inner join Team t
+                on t.id = s.teamId
+                inner join GameEvent ge
+                on ge.id = t.gameEventId
+                inner join Game g
+                on g.id = ge.gameId
+            where s.emailAddress = '$loginEmailAddress'";
+$getResults = sqlsrv_query($conn, $tsql);
+if ($getResults == FALSE)
+    if( ($errors = sqlsrv_errors() ) != null) {
+        foreach( $errors as $error ) {
+            echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+            echo "code: ".$error[ 'code']."<br />";
+            echo "message: ".$error[ 'message']."<br />";
+        }
+    }
+$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+$loginGUID = $row['scoutGUID'];
+$gameYear = $row['gameYear'];
+
 #phpinfo(); 
 $teamId = $_POST['teamId'];
 $teamNumber = $_POST['teamNumber'];
@@ -75,8 +112,8 @@ if(isset($_POST["submit"])) {
 //        echo "Account Name: $storageAccountName, Container Name: $containerName.<br />";
         
         # Use functions to upload file
-        $fileNameOnStorage = "2025/" . $teamNumber . "/" . $teamNumber;
-        
+        $fileNameOnStorage = $gameYear . "/" . $teamNumber . "/" . $teamNumber;
+
 //        echo "Calling Function storageAddFile.<br />";
         storageAddFile($containerName, $compressedImage, $fileNameOnStorage, $mime, $storageAccountName, $accessKey, $teamNumber);
 
@@ -125,7 +162,7 @@ function storageAddFile($containerName, $tmpFile, $fileNameOnStorage, $mime, $st
         }
 
         #Get List of Blobs
-        $key = '2025/' . $teamNumber . '/';
+        $key = $gameYear . '/' . $teamNumber . '/';
 //        echo "Blob ".$key.")<br />";
         $blobListOptions = new ListBlobsOptions();
         $blobListOptions->setPrefix($key);
