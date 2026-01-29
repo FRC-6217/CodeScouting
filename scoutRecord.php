@@ -119,10 +119,22 @@
 						<select style="width: 161px;" name="scout">
 							<?php
 							if ($scoutId <> "") {
-								$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' or id = " . $scoutId . " order by lastName, firstName";
+								$tsql = "select id, lastName + ', ' + firstName fullName
+								           from Scout
+										  where (isActive = 'Y'
+										    and teamId in (select s2.teamId
+											                 from Scout s2
+															where s2.scoutGUID = '" . $loginGUID . "') 
+										     or id = " . $scoutId . " order by lastName, firstName";
 							}
 							else {
-								$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+								$tsql = "select id, lastName + ', ' + firstName fullName
+								           from Scout
+										  where isActive = 'Y'
+										    and teamId in (select s2.teamId
+											                 from Scout s2
+															where s2.scoutGUID = '" . $loginGUID . "'  
+										 order by lastName, firstName";
 							}
 							$getResults = sqlsrv_query($conn, $tsql);
 							if ($getResults == FALSE)
