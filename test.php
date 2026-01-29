@@ -56,13 +56,11 @@
             $data = json_decode(file_get_contents($loginURL), true);
 
 
-            echo "User Information";
             if ($data != null && json_last_error() !== JSON_ERROR_NONE) {
                 echo "<p>Error decoding JSON: " . json_last_error_msg() . "</p>";
             } else {
-                echo "<p>test</p>";
                 echo "<p>Hello " . $data[0]["user_claims"][7]["val"] . " </p>";
-                echo "<p>Your email is " . $data[0]["user_claims"][4]["val"] . " </p>";
+                echo "<p>Your email is " . $data . " </p>";
             }
         ?>
     </div>
