@@ -52,7 +52,7 @@
     <a href="/.auth/login/google?post_login_redirect_uri=/index6217.php">Log in with Google</a>
     <div>
         <?php
-            $loginURL = '/.auth/me';
+            $loginURL = 'https://bbscout.azurewebsites.net/.auth/me';
             $data = json_decode(file_get_contents($loginURL), true);
 
 
