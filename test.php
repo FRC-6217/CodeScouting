@@ -55,6 +55,9 @@
             $loginURL = 'https://bbscout.azurewebsites.net/.auth/me';
             $data = json_decode(file_get_contents($loginURL), true);
 
+            echo "Is Json valid: " . json_validate(file_get_contents($loginURL)) . "<br>";
+            echo "File contents: " . file_get_contents($loginURL) . "<br>";
+
 
             if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
                 echo "<p>Error decoding JSON: " . json_last_error_msg() . "</p>";
