@@ -52,20 +52,11 @@
     <a href="/.auth/login/google?post_login_redirect_uri=/index6217.php">Log in with Google</a>
     <div>
         <?php
-            $loginURL = 'https://bbscout.azurewebsites.net/.auth/me';
-            $data = json_decode(file_get_contents($loginURL), true);
+            $email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
+            $user = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL'] ?? null;
 
-            echo "Is Json valid: " . json_validate(file_get_contents($loginURL)) . "<br>";
-            echo "File contents: " . file_get_contents($loginURL) . "<br>";
-
-
-            if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-                echo "<p>Error decoding JSON: " . json_last_error_msg() . "</p>";
-            } else {
-                echo "<p>Hello " . $data[0]["user_claims"][7]["val"] . " </p>";
-                echo "<p>Your email is " . $data[0]["user_id"] . " </p>";
-            }
-            var_dump($data);
+            echo "Hello " . $user . "<br>";
+            echo "Your email is " . $email . "<br>";
         ?>
     </div>
 
