@@ -110,7 +110,13 @@
 						$scoutId3 = $row['scoutId3'];
 					}
 					sqlsrv_free_stmt($getResults);
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE) {
 						if( ($errors = sqlsrv_errors() ) != null) {
@@ -132,7 +138,13 @@
 						echo '</select><br>';
 					}
 					sqlsrv_free_stmt($getResults);
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE) {
 						if( ($errors = sqlsrv_errors() ) != null) {
@@ -154,7 +166,13 @@
 						echo '</select><br>';
 					}
 					sqlsrv_free_stmt($getResults);
-					$tsql = "select id, lastName + ', ' + firstName fullName from Scout where isActive = 'Y' order by lastName, firstName";
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
 					$getResults = sqlsrv_query($conn, $tsql);
 					if ($getResults == FALSE) {
 						if( ($errors = sqlsrv_errors() ) != null) {

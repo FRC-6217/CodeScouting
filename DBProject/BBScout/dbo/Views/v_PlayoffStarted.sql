@@ -16,6 +16,7 @@ select s.scoutGUID
 	   on ge.id = t.gameEventId
 	   left outer join match m
 	   on m.gameEventId = ge.id
+       and m.type = 'QM'
 group by s.scoutGUID
        , s.emailAddress
 	   , ge.id;
