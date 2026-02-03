@@ -49,7 +49,9 @@
     <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 30px;"><script>$( "#spinner1" ).spinner();</script>
     <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 30px;"><script>$( "#spinner2" ).spinner();</script>
 
+    <!--
     <a id="login" class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/test.php">Google Signin</a>
+    -->
 
 <div>
         <?php
