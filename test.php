@@ -20,6 +20,16 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
+        <meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
+		<script>
+			function start() {
+			gapi.load('auth2', function() {
+				auth2 = gapi.auth2.init({
+				client_id: '521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com',
+				});
+			});
+			}
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
@@ -49,8 +59,15 @@
     <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 30px;"><script>$( "#spinner1" ).spinner();</script>
     <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 30px;"><script>$( "#spinner2" ).spinner();</script>
 
-    <a href="/.auth/login/google?post_login_redirect_uri=/index6217.php">Log in with Google</a>
-    <div>
+	<button id="signinButton">Sign in with Google</button>
+	<script>
+	$('#signinButton').click(function() {
+		// signInCallback defined in step 6.
+		auth2.grantOfflineAccess().then(signInCallback);
+	});
+	</script>
+
+<div>
         <?php
             $email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
             $user = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL'] ?? null;
@@ -60,6 +77,34 @@
         ?>
     </div>
 
+	<script>
+		function signInCallback(authResult) {
+			if (authResult['code']) {
+
+				// Hide the sign-in button now that the user is authorized, for example:
+				$('#signinButton').attr('style', 'display: none');
+				// Send the code to the server
+				$.ajax({
+				type: 'POST',
+				url: 'http://example.com/storeauthcode',
+				// Always include an `X-Requested-With` header in every AJAX request,
+				// to protect against CSRF attacks.
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest'
+				},
+				contentType: 'application/octet-stream; charset=utf-8',
+				success: function(result) {
+					// Handle or verify the server response.
+				},
+				processData: false,
+				data: authResult['code']
+				});
+			}
+			else {
+				// There was an error.
+			}
+		}
+	</script>
 </html>  
 
 

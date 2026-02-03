@@ -195,6 +195,13 @@
     </center> </h2>
 	<center><h2>
 	<?php
+		$email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
+		$user = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL'] ?? null;
+
+		echo "Hello " . $user . "<br>";
+		echo "Your email is " . $email . "<br>";
+	?>
+	<?php
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL
 				   from v_GameEvent ge
