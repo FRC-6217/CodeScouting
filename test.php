@@ -54,10 +54,12 @@
 <div>
         <?php
             $email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
-            $user = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL'] ?? null;
+            $user = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_ID'] ?? null;
+            $idp = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_IDP'] ?? null;
 
             echo "Hello " . $user . "<br>";
             echo "Your email is " . $email . "<br>";
+            echo "Your idp is " . $idp . "<br>";
         ?>
     </div>
 </html>  
