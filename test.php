@@ -49,9 +49,9 @@
     <input id="spinner1" name ="value1" min="0" max="6" value="1" style="width: 30px;"><script>$( "#spinner1" ).spinner();</script>
     <input id="spinner2" name ="value2" min="0" max="12" value="2" style="width: 30px;"><script>$( "#spinner2" ).spinner();</script>
 
-    <br>
+    <p></p>
     <a class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/test.php">Google Signin</a>
-    <br>
+    <p></p>
     <?php
         $email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
         echo "Email: " . $email . "<br>";
