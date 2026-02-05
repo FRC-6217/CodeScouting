@@ -1,5 +1,7 @@
 ﻿
 
+
+
 -- View to get HTML for update of Scout Record
 CREATE view [dbo].[v_UpdateScoutRecordHTML] as
 select distinct
@@ -53,8 +55,20 @@ select distinct
 		                                and og2.id = og.id)
 								then '<br>'
 								else '<br><br>' end end +
-				 o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) +
-				 '" value=' + case when sor.integerValue is null then '-99' else convert(varchar, coalesce(sor.integerValue, 0)) end + ' style="width: 40px;">'
+				 o.label + '<input id="spinner' + convert(varchar, o.sortOrder) + '"' +
+				 ' name ="value' + convert(varchar, o.sortOrder) + '"' +
+				 ' min="' + convert(varchar, coalesce(o.lowRangeValue, 0)) + '"' +
+				 ' max="' + convert(varchar, coalesce(o.highRangeValue, 999)) + '" step="1" ' +
+				 ' value="' + case when sor.integerValue is null then '-99' else convert(varchar, coalesce(sor.integerValue, 0)) end + '"' +
+				 ' style="width: 30px;">' +
+				 ' <script>$( "#spinner' + convert(varchar, o.sortOrder) + '" ).spinner();</script>'
+/* commented out to test jQuery Spinner buttons
+                 o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '"' +
+				 ' min="' + convert(varchar, coalesce(o.lowRangeValue, 0)) + '"' +
+				 ' max="' + convert(varchar, coalesce(o.highRangeValue, 999)) + '" step="1" ' +
+				 ' value="' + case when sor.integerValue is null then '-99' else convert(varchar, coalesce(sor.integerValue, 0)) end + '"' +
+				 ' style="width: 40px;">'
+*/
 			when ov.sortOrder = 1
 	        then case when o.sortOrder = 
 					      (select min(o2.sortOrder)

@@ -1,4 +1,5 @@
-﻿-- View for match averages
+﻿
+-- View for match averages
 CREATE view [dbo].[v_MatchReport6217] as
 -- Team Average Scores
 select m.type + ' ' + m.number matchNumber
@@ -57,6 +58,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue19,0) +
 	             coalesce(asr.scoreValue20,0) +
 				 coalesce(asr.portionOfAlliancePoints,0)), 2) totalScoreValue
+     , tge.oPR
 	 , ge.loginGUID
 	 , (select max(sr.id)
 	      from scoutRecord sr
@@ -69,6 +71,9 @@ select m.type + ' ' + m.number matchNumber
        on tm.matchId = m.id
        inner join Team t
        on t.id = tm.teamId
+	   inner join TeamGameEvent tge
+	   on tge.gameEventId = ge.id
+	   and tge.teamId = t.id
        left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
@@ -85,6 +90,7 @@ group by m.type + ' ' + m.number
        , t.teamName
 	   , tm.alliance
        , tm.alliancePosition
+       , tge.oPR
 	   , ge.loginGUID
 union
 -- Alliance Average Scores
@@ -120,6 +126,7 @@ select subquery.matchNumber
 	 , sum(subquery.value20) value20
 	 , sum(subquery.portionOfAlliancePoints) portionOfAlliancePoints
 	 , sum(subquery.totalScoreValue) totalScoreValue
+     , sum(subquery.oPR) oPR
 	 , subquery.loginGUID
 	 , null scoutRecordId
   from (
@@ -179,6 +186,7 @@ select m.type + ' ' + m.number matchNumber
 	             coalesce(asr.scoreValue19,0) +
 	             coalesce(asr.scoreValue20,0) +
 				 coalesce(asr.portionOfAlliancePoints,0)), 2) totalScoreValue
+     , tge.oPR
 	 , ge.loginGUID
   from Match m
 	   inner join v_GameEvent ge
@@ -187,6 +195,9 @@ select m.type + ' ' + m.number matchNumber
        on tm.matchId = m.id
        inner join Team t
        on t.id = tm.teamId
+	   inner join TeamGameEvent tge
+	   on tge.gameEventId = ge.id
+	   and tge.teamId = t.id
        left outer join v_Report_AvgScoutRecord asr
        on asr.TeamId = tm.teamId
 	   and asr.loginGUID = ge.loginGUID
@@ -203,6 +214,7 @@ group by m.type + ' ' + m.number
        , t.teamName
        , tm.alliance
        , tm.alliancePosition
+       , tge.oPR
        , ge.loginGUID) subquery
 group by subquery.matchNumber
        , subquery.matchId
@@ -243,6 +255,7 @@ select m.type + ' ' + m.number matchNumber
      , null value20
 	 , null portionOfAlliancePoints
 	 , null totalScoreValue
+	 , null oPR
 	 , ge.loginGUID
 	 , null scoutRecordId
   from Match m

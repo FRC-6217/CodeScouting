@@ -95,7 +95,8 @@ select '<a href="Reports/matchReport6217.php?matchId=' + convert(varchar, subque
   from (
 select case when m.redScore is null and m.blueScore is null
              and m.number not like '%-3'
-            then 0
+             and m.type <> 'PR'
+            then 0 
 			when m.redScore is not null and m.blueScore is not null
 			then 1
             when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (15.0 / 24.0 / 60.0) < 0

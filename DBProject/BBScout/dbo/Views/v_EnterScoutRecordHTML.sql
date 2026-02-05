@@ -1,5 +1,6 @@
 ﻿
 
+
 -- View to get HTML for entry of Scout Record
 CREATE view [dbo].[v_EnterScoutRecordHTML] as
 select distinct
@@ -49,7 +50,16 @@ select distinct
 									    and o2.gameId = o.gameId
 		                                and og2.id = og.id)
 								then '<br>'
-								else '<br><br>' end end + o.label + '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;">'
+								else '<br><br>' end end + o.label +
+								 '<input id="spinner' + convert(varchar, o.sortOrder) + '"' +
+								 ' name ="value' + convert(varchar, o.sortOrder) + '"' +
+								 ' min="' + convert(varchar, coalesce(o.lowRangeValue, 0)) + '"' +
+								 ' max="' + convert(varchar, coalesce(o.highRangeValue, 999)) + '"' +
+								 ' step="1" value="0" style="width: 30px;">' +
+								 ' <script>$( "#spinner' + convert(varchar, o.sortOrder) + '" ).spinner();</script>'
+/* commented out to test jQuery Spinner buttons
+                                 '<input type="number" name ="value' + convert(varchar, o.sortOrder) + '" value=0 style="width: 40px;">'
+*/
 			when ov.sortOrder = 1
 	        then case when o.sortOrder = 
 					      (select min(o2.sortOrder)

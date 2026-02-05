@@ -134,8 +134,7 @@
     <Build Include="dbo\Tables\TeamGameImage.sql" />
     <Build Include="dbo\Tables\TeamAttributeScouts.sql" />
     <Build Include="dbo\Functions\fn_Get2025AlgaeNetScoreFromHP.sql" />
-    <Build Include="dbo\Tables\nm_RawMatchData_2025_NorthernLights.sql" />
-    <Build Include="dbo\Tables\nm_RawMatchData.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_NM_scoutRecord.sql" />
+    <Build Include="dbo\Tables\GameEventWebcast.sql" />
   </ItemGroup>
 </Project>
