@@ -13,7 +13,7 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select scoutGUID, isAdmin from Scout where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -25,6 +25,24 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select scoutGUID, isAdmin from Scout where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
 
 	// Build data for Line Graph
 	$rows = array();
@@ -133,10 +151,10 @@
 	    <h2><center>
 		<h2>
           <center><a id="mainpage" class="clickme danger" href="sponsors.php">All Sponsors</a>
-		  <a class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/test.php">Google Signin</a>
+		  <a class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/index.php">Google Signin</a>
 		  <?php
 			$email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
-        	echo $email . "<br>";
+        	echo $email . ", Scout: " . $isAdmin . "<br>";
 			?>
 			<p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 18%"></a>
 		</center>
