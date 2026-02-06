@@ -288,7 +288,7 @@
 	<center> <h2>
 	<?php
 		if ($isAdmin = "Y") {
-			echo '<a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a>';
+			echo '<a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a> ';
 		}
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL
