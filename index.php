@@ -13,7 +13,29 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID, isAdmin from Scout where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				  , convert(nvarchar, 
+				    coalesce(
+				    (select top 1 (m.dateTime)
+					   from v_MatchHyperlinks6217 m
+						    inner join TeamMatch tm
+						    on tm.matchId = m.matchId
+						    and tm.teamId = s.teamId
+					  where m.loginGUID = s.scoutGUID
+				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
+				  , case when coalesce(
+					 (select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+							 inner join TeamMatch tm
+							 on tm.matchId = m.matchId
+							 and tm.teamId = s.teamId
+					   where m.loginGUID = s.scoutGUID
+					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
+					     then 1
+						 else 0 end showCountdown
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -26,10 +48,34 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+	$nextMatchDate = $row['nextMatchDate'];
+	$showCountdown = $row['showCountdown'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-		$tsql = "select scoutGUID, isAdmin from Scout where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$tsql = "select s.scoutGUID
+					, isAdmin
+					, convert(nvarchar, 
+						coalesce(
+						(select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+								inner join TeamMatch tm
+								on tm.matchId = m.matchId
+								and tm.teamId = s.teamId
+						where m.loginGUID = s.scoutGUID
+						order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
+					, case when coalesce(
+						(select top 1 (m.dateTime)
+							from v_MatchHyperlinks6217 m
+								inner join TeamMatch tm
+								on tm.matchId = m.matchId
+								and tm.teamId = s.teamId
+						where m.loginGUID = s.scoutGUID
+						order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
+							then 1
+							else 0 end showCountdown
+					from Scout s
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -42,6 +88,8 @@
 		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = "N";
+		$nextMatchDate = $row['nextMatchDate'];
+		$showCountdown = $row['showCountdown'];
 	}
 
 	// Build data for Line Graph
@@ -61,9 +109,9 @@
 				  , redScore + blueScore totalScore
 			   from v_MatchHyperlinks
 			  where loginGUID = '$loginGUID'
-			  and matchNumber like 'QM%'
-			  and coalesce(redScore, 0) + coalesce(blueScore, 0) <> 0
-			  order by datetime, matchNumber";
+			    and matchNumber like 'QM%'
+			    and coalesce(redScore, 0) + coalesce(blueScore, 0) <> 0
+			 order by datetime, matchNumber";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -144,6 +192,21 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
+		<meta name="google-signin-client_id" content="521347466058-vnmcclmps4a1galclba7jq6rpkj813ca.apps.googleusercontent.com">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="Style/jquery.countdown.css"> 
+        <script type="text/javascript" src="js/jquery.plugin.js"></script> 
+        <script type="text/javascript" src="js/jquery.countdown.js"></script>
+        <style type="text/css">
+            body > iframe { display: none; }
+            #defaultCountdown { width: 180px; height: 45px; }
+        </style>
+        <script>
+            $(function () {
+                var austDay = new Date('<?php echo $nextMatchDate; ?>');
+                $('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
+            });
+        </script>
     </head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -154,7 +217,7 @@
 		  <a class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/index.php">Google Signin</a>
 		  <?php
 			$email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
-        	echo $email . ", Scout: " . $isAdmin . "<br>";
+        	echo $email . "<br>";
 			?>
 			<p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 18%"></a>
 		</center>
@@ -189,7 +252,12 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
+          <center>
+			<?php
+			   if (isAdmin = "Y") {
+				echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
+			?>
+			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
           <p></p>
      </h2>
 	 
@@ -218,9 +286,6 @@
     </center> </h2>
 	<center><h2>
 	<?php
-		$email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
-		echo "Email: " . $email . "<br>";
-
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL
 				   from v_GameEvent ge
