@@ -12,7 +12,7 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -133,9 +133,14 @@
 	    <h2><center>
 		<h2>
           <center><a id="mainpage" class="clickme danger" href="sponsors.php">All Sponsors</a>
-		  <p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 18%"></a>
+		  <a class="clickme danger" href="/.auth/login/google?post_login_redirect_uri=/test.php">Google Signin</a>
+		  <?php
+			$email = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? null;
+        	echo $email . "<br>";
+			?>
+			<p></p><a href="https://geminimade.com/" target="_blank"><img class="image10" src="Sponsors/Gemini.jpg" style="max-width: 18%"></a>
 		</center>
-          <p></p>
+        <p></p>
      </h2>
 		<?php
 		$tsql = "select g.name game_name
