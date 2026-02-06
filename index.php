@@ -255,7 +255,8 @@
           <center>
 			<?php
 			   if ($isAdmin = "Y") {
-				echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
+					echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
+			   }
 			?>
 			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
           <p></p>
