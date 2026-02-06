@@ -13,6 +13,7 @@ delete from ObjectiveGroupObjective where objectiveId in (select o.id from Objec
 delete from ObjectiveValue where objectiveId in (select o.id from Objective o inner join Game g on g.id = o.gameId where g.name = 'Rebuilt');
 delete from Objective where gameId in (select g.id from Game g where g.name = 'Rebuilt');
 
+delete from GameRankingPoint where gameId in (select g.id from Game g where g.name = 'Rebuilt');
 delete from game where name = 'Rebuilt';
 */
 
@@ -35,12 +36,15 @@ insert into Attribute select g.id, 'hopperSize', 'How many fuel can your hopper 
 insert into Attribute select g.id, 'intakeType', 'What type of Intake?', st.id, null, null, 8, getdate(), 'Intake', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'passing', 'Does your robot pass fuel?', st.id, null, null, 9, getdate(), 'Pass', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'autoNow', 'Describe current autonomous program movement?', st.id, null, null, 10, getdate(), 'Auto Now', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Free Form'
-insert into Attribute select g.id, 'preferredStart', 'Do you have a preferred starting location for your robot?', st.id, null, null, 11, getdate(), 'PreffStart', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'preferredStart', 'Preferred starting location for your robot?', st.id, null, null, 11, getdate(), 'PreffStart', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Attribute select g.id, 'flexibleStart', 'Does autonomous program allow for flexible start location?', st.id, null, null, 12, getdate(), 'Flex Start', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'autoClimb', 'Do you have an autonomous program to climb the tower?', st.id, null, null, 13, getdate(), 'Auto Climb', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'endGamePlan', 'What is your end game plan?', st.id, null, null, 14, getdate(), 'End Game', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'climbLoc', 'Where can you climb on the Tower?', st.id, null, null, 15, getdate(), 'Climb Loc', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Attribute select g.id, 'climbTime', 'Expected climb time (seconds)?', st.id, null, null, 16, getdate(), 'Climb Time', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Attribute select g.id, 'inactiveHub', 'Primary plan when Hub is inactive?', st.id, null, null, 13, getdate(), 'Inact Hub', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'hopperTime', 'Time to fill your robot hopper (seconds)?', st.id, null, null, 14, getdate(), 'Hopper Time', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Attribute select g.id, 'autoClimb', 'Do you have an autonomous program to climb the tower?', st.id, null, null, 15, getdate(), 'Auto Climb', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'endGamePlan', 'What is your end game plan?', st.id, null, null, 16, getdate(), 'End Game', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'climbLoc', 'Where can you climb on the Tower?', st.id, null, null, 17, getdate(), 'Climb Loc', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Attribute select g.id, 'climbTime', 'Expected climb time (seconds)?', st.id, null, null, 18, getdate(), 'Climb Time', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Attribute select g.id, 'needHelp', 'Do you need help to get your robot operational / competitive?', st.id, null, null, 19, getdate(), 'Help?', 'N', null from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 
 -- Attribute Values
 insert into AttributeValue select a.id, 'Tank', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'driveTrain';
@@ -65,6 +69,10 @@ insert into AttributeValue select a.id, 'Left of Hub', 2, 3, getdate(), 'N', 'N'
 insert into AttributeValue select a.id, 'Right of Hub', 3, 4, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'preferredStart';
 insert into AttributeValue select a.id, 'No', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'flexibleStart';
 insert into AttributeValue select a.id, 'Yes', 1, 2, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'flexibleStart';
+insert into AttributeValue select a.id, 'Not Sure', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'inactiveHub';
+insert into AttributeValue select a.id, 'Load', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'inactiveHub';
+insert into AttributeValue select a.id, 'Load and Pass', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'inactiveHub';
+insert into AttributeValue select a.id, 'Defense', 3, 4, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'inactiveHub';
 insert into AttributeValue select a.id, 'No', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'autoClimb';
 insert into AttributeValue select a.id, 'Yes', 1, 2, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'autoClimb';
 insert into AttributeValue select a.id, 'Continue Scoring', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
@@ -75,16 +83,23 @@ insert into AttributeValue select a.id, 'No Preference', 0, 1, getdate(), 'N', '
 insert into AttributeValue select a.id, 'Mid of Tower', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
 insert into AttributeValue select a.id, 'Left of Tower', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
 insert into AttributeValue select a.id, 'Right of Tower', 3, 4, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
+insert into AttributeValue select a.id, 'No', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'needHelp';
+insert into AttributeValue select a.id, 'Yes', 1, 2, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'needHelp';
 
 -- Objectives
 insert into Objective select g.id, 'aFuel', 'Fuel:', st.id, 0, 100, 1, 1, getdate(), 'aFuel', 'I', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'aClimb', 'Climb:', st.id, null, null, null, 2, getdate(), 'aClimb', 'S', 'N', 'N', 2 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Objective select g.id, 'aWin', 'Win Auto:', st.id, null, null, null, 3, getdate(), 'aWin', 'I', 'N', 'N', 3 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toFuel', 'Fuel:', st.id, 0, 300, 1, 4, getdate(), 'toFuel', 'I', 'N', 'N', 4 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'toClimb', 'Climb:', st.id, null, null, null, 5, getdate(), 'toClimb', 'S', 'N', 'N', 5 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Objective select g.id, 'toEGTime', 'Climb Time:', st.id, 0, 45, null, 6, getdate(), 'EGTime', 'I', 'N', 'N', 6 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 7, getdate(), 'Def', 'I', 'N', 'N', 7 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
-insert into Objective select g.id, 'Rating', 'How would you rate the robot (0-10)? (Gracious Professionalism):', st.id, null, null, null, 8, getdate(), 'Rate', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aHpS', 'HP Shots:', st.id, 0, 20, 0, 2, getdate(), 'aHpS', 'I', 'N', 'N', 2 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'aHpM', 'Made:', st.id, 0, 20, 1, 3, getdate(), 'aHpM', 'I', 'Y', 'N', 3 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'aClimb', 'Climb:', st.id, null, null, null, 4, getdate(), 'aClimb', 'S', 'N', 'N', 4 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Objective select g.id, 'aWin', 'Win Auto:', st.id, null, null, null, 5, getdate(), 'aWin', 'I', 'N', 'N', 5 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toFuel', 'Fuel:', st.id, 0, 300, 1, 6, getdate(), 'toFuel', 'I', 'N', 'N', 6 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toPass', 'Pass:', st.id, 0, 300, 0, 7, getdate(), 'toPass', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toHpS', 'HP Shots:', st.id, 0, 50, 0, 8, getdate(), 'toHpS', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toHpM', 'Made:', st.id, 0, 50, 1, 9, getdate(), 'toHpM', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toClimb', 'Climb:', st.id, null, null, null, 10, getdate(), 'toClimb', 'S', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Objective select g.id, 'toEGTime', 'Climb Time:', st.id, 0, 45, null, 11, getdate(), 'EGTime', 'I', 'N', 'N', 11 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 12, getdate(), 'Def', 'I', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
+insert into Objective select g.id, 'Rating', 'How would you rate the robot (0-10)? (Gracious Professionalism):', st.id, null, null, null, 13, getdate(), 'Rate', 'I', 'N', 'N', 13 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 
 -- Objective Value
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aClimb'
@@ -114,9 +129,14 @@ insert into ObjectiveValue select o.id, 'SuperBot 10', 10, 11, 0, getdate(), 'N'
 
 -- Objective Group Objectives
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'aFuel' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'aHpS' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'aHpM' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'aClimb' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'aWin' and og.name = 'Autonomous' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toFuel' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toPass' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toHpS' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
+insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toHpM' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toClimb' and og.name = 'Tele Op' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toEGTime' and og.name = 'End Game' and og.groupCode = 'Scout Match'
 insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id, ObjectiveGroup og where g.name = 'Rebuilt' and o.name = 'toDefense' and og.name = 'End Game' and og.groupCode = 'Scout Match'
@@ -136,8 +156,9 @@ insert into ObjectiveGroupObjective select og.id, o.id, getdate() from Game g in
 insert into Rank select 'Auto', 'rankAuto', 'S', 1, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
 insert into Rank select 'Fuel', 'rankFuel', 'S', 2, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
 insert into Rank select 'Tower', 'rankTower', 'S', 3, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
-insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 4, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
-insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 5, getdate(), g.id, 'Y' from Game g where g.name = 'Rebuilt'
+insert into Rank select 'HP', 'rankHP', 'S', 4, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
+insert into Rank select 'Defense', 'rankPlayedDefense', 'V', 5, getdate(), g.id, 'N' from Game g where g.name = 'Rebuilt'
+insert into Rank select 'Scr Imp', 'rankScoreImpact', 'S', 6, getdate(), g.id, 'Y' from Game g where g.name = 'Rebuilt'
 
 -- Rank Objective
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aFuel' and r.name = 'Auto'
@@ -149,6 +170,9 @@ insert into RankObjective select r.id, o.id, getdate() from Game g inner join Ob
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aClimb' and r.name = 'Tower'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb' and r.name = 'Tower'
 
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aHpM' and r.name = 'HP'
+insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toHpM' and r.name = 'HP'
+
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toDefense' and r.name = 'Defense'
 
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aFuel' and r.name = 'Scr Imp'
@@ -156,29 +180,27 @@ insert into RankObjective select r.id, o.id, getdate() from Game g inner join Ob
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toFuel' and r.name = 'Scr Imp'
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb' and r.name = 'Scr Imp'
 
-select * from scout
-
 -- Scout
 update Scout set isActive = 'N' where teamId in (select id from Team where teamNumber = 6217) and isActive <> 'N' and lastname + firstname not in ('CoyleJoe', 'EngebretsenDave', 'StarkCharlie','TBA', '(Choose Scout)','zzBomb BotzScout');
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Bray', 'Graham', t.id, 'Y', '26gb01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Bray' and s.firstName = 'Graham' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Conway', 'Mackston', t.id, 'Y', '29mc01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Conway' and s.firstName = 'Mackston' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Dettmann', 'Madison', t.id, 'Y', '26md01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Dettmann' and s.firstName = 'Madison' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Endres', 'Matthew', t.id, 'Y', '29me01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Endres' and s.firstName = 'Matthew' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Flodeen', 'Henry', t.id, 'Y', '29hf01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Flodeen' and s.firstName = 'Henry' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Gibbs', 'Gus', t.id, 'Y', '29ag01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Gibbs' and s.firstName = 'Gus' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hall', 'Kaidan', t.id, 'Y', '29kh01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hall' and s.firstName = 'Kaidan' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hernke', 'Ava', t.id, 'Y', '27ah02@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hernke' and s.firstName = 'Ava' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Iverson', 'Riley', t.id, 'Y', '27ri01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Iverson' and s.firstName = 'Riley' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Kammerude', 'Hades', t.id, 'Y', '28lk01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Kammerude' and s.firstName = 'Hades' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Lindquist', 'Rylan', t.id, 'Y', '26rl01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Lindquist' and s.firstName = 'Rylan' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Maki', 'Gunnar', t.id, 'Y', '27gm01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Maki' and s.firstName = 'Gunnar' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Medcraft', 'Makenzie', t.id, 'Y', '27mm03@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Medcraft' and s.firstName = 'Makenzie' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Medcraft', 'Sebastian', t.id, 'Y', '29sm01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Medcraft' and s.firstName = 'Sebastian' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Otterness', 'Edmon', t.id, 'Y', '29eo01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Otterness' and s.firstName = 'Edmon' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Propst', 'Addy', t.id, 'Y', '28ap04@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Propst' and s.firstName = 'Addy' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rezac', 'Kaeda', t.id, 'Y', '27kr01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rezac' and s.firstName = 'Kaeda' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Stark', 'Avery', t.id, 'Y', '27as02@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Stark' and s.firstName = 'Avery' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Zheng', 'William', t.id, 'Y', '27wz01@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Zheng' and s.firstName = 'William' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Bray', 'Graham', t.id, 'Y', '26gb01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Bray' and s.firstName = 'Graham' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Conway', 'Mackston', t.id, 'Y', '29mc01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Conway' and s.firstName = 'Mackston' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Dettmann', 'Madison', t.id, 'Y', '26md01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Dettmann' and s.firstName = 'Madison' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Endres', 'Matthew', t.id, 'Y', '29me01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Endres' and s.firstName = 'Matthew' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Flodeen', 'Henry', t.id, 'Y', '29hf01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Flodeen' and s.firstName = 'Henry' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Gibbs', 'Gus', t.id, 'Y', '29ag01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Gibbs' and s.firstName = 'Gus' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hall', 'Kaidan', t.id, 'Y', '29kh01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hall' and s.firstName = 'Kaidan' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hernke', 'Ava', t.id, 'Y', '27ah02@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hernke' and s.firstName = 'Ava' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Iverson', 'Riley', t.id, 'Y', '27ri01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Iverson' and s.firstName = 'Riley' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Kammerude', 'Hades', t.id, 'Y', '28lk01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Kammerude' and s.firstName = 'Hades' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Lindquist', 'Rylan', t.id, 'Y', '26rl01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Lindquist' and s.firstName = 'Rylan' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Maki', 'Gunnar', t.id, 'Y', '27gm01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Maki' and s.firstName = 'Gunnar' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Medcraft', 'Makenzie', t.id, 'Y', '27mm03@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Medcraft' and s.firstName = 'Makenzie' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Medcraft', 'Sebastian', t.id, 'Y', '29sm01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Medcraft' and s.firstName = 'Sebastian' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Otterness', 'Edmon', t.id, 'Y', '29eo01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Otterness' and s.firstName = 'Edmon' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Propst', 'Addy', t.id, 'Y', '28ap04@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Propst' and s.firstName = 'Addy' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rezac', 'Kaeda', t.id, 'Y', '27kr01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rezac' and s.firstName = 'Kaeda' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Stark', 'Avery', t.id, 'Y', '27as02@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Stark' and s.firstName = 'Avery' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Zheng', 'William', t.id, 'Y', '27wz01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Zheng' and s.firstName = 'William' and s.teamId = t.id);
 
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Campus', 'El', t.id, 'Y', 'ecampus2026@gmail.com', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Campus' and s.firstName = 'El' and s.teamId = t.id);
 
@@ -210,17 +232,19 @@ update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Stark' and
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Zheng' and firstName = 'William' and teamId = (select id from Team where teamNumber = 6217);
 
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
+update Scout set isAdmin = 'Y' where isactive = 'Y' and isadmin = 'N' and lastname + firstname not in ('TBA', '(Choose Scout)','zzBomb BotzScout')
 
 -- Sponsors 2026
 -- delete from teamSponsor where gameid in (select g.id from game g where g.name = 'Rebuilt')
 insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsors/Gemini.jpg', 'https://geminimade.com/', 50, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 13, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 13, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'American Legion Post 142', 0, 15, 'Sponsors/AmericanLegion.png', 'https://www.facebook.com/CannonFallsAmericanLegionPost142/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 20, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Gene Haas Foundation', 0, 25, 'Sponsors/GeneHaasFoundation.png', 'https://www.ghaasfoundation.org//', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 26, 'Sponsors/CF Fire Department.jpg', 'https://www.cannonfallsmn.gov/fire', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 --insert into TeamSponsor select t.id, g.id, 'Argosy Foundation', 0, 28, 'Sponsors/ArgosyFoundation_Logo_CMYK.jpg', 'https://www.argosyfnd.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'BTD Manufacturing', 0, 29, 'Sponsors/btd-mfg-logo.png', 'https://btdmfg.com/', 80, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 --insert into TeamSponsor select t.id, g.id, 'BARR', 0, 35, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Jim Althoff Real Estate', 0, 45, 'Sponsors/JimAlthoffRealEstate.jpeg', 'https://www.facebook.com/JimAlthoffRealtor/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
@@ -235,18 +259,20 @@ insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.pn
 --insert into TeamSponsor select t.id, g.id, 'Chuck & Carrie Olson', 0, 180, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 190, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 --insert into TeamSponsor select t.id, g.id, 'Jack Schlicting', 0, 200, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+update teamSponsor set maxWidthPercent = 100, width = 395, height = 173, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 13 -- VFW
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 15 -- American Legion
 update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 20 -- Aliveo
 update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 25 -- Haas
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 26 -- CFFD
-update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- Hernke
+update teamSponsor set maxWidthPercent = 100, width = 468, height = 150, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 29 -- BTD
+update teamSponsor set maxWidthPercent = 15, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- Hernke
 update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 35 -- BARR
-update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
-update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 45 -- Jim ALthoff
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 45 -- Jim ALthoff
 update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 60 -- StarTech
 update teamSponsor set maxWidthPercent = 12 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 85 -- Auto Value
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 70 -- Milwaukee
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 90 -- Caseys
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 100 -- Swan & Bower
 
 /*
 -- Sponsors 2024
