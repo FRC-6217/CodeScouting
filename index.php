@@ -285,8 +285,12 @@
 	echo '<div id="reportsby"><a class="clickme danger" href="Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points">Rank by Ranking Pts</a></div>';
     ?>
     </center> </h2>
-	<center><h2>
+	<center>
 	<?php
+		if ($isAdmin = "Y") {
+			echo '<a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a>';
+		}
+		echo "<h2>";
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL
 				   from v_GameEvent ge
