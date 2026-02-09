@@ -306,9 +306,13 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<a id="mainpage" class="clickme danger" href="' . $row['webcastURL'] . '" target="_blank">Event Webcast</a>';
+				echo '<a id="mainpage" class="clickme danger" href="' . $row['webcastURL'] . '" target="_blank">Webcast</a>';
 			}
 			sqlsrv_free_stmt($getResults);
+		// Show countdown to our next match
+		if ($showCountdown == 1) {
+			echo '<center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
+		}
 	?>
 	</h2></center>
 	<center><table cellspacing="0" cellpadding="5">
@@ -316,13 +320,31 @@
         <th> </th>
         <th>Match </th>
         <th>Time</th>
-        <th>Red 1</th>
-        <th>Red 2</th>
-        <th>Red 3</th>
-        <th>Blu 1</th>
-        <th>Blu 2</th>
-        <th>Blu 3</th>
-        <th>Red Sc</th>
+	<?php
+		if ($isAdmin = "Y") {
+			echo "<th>Red 1</th>";
+			echo "<th>S</th>";
+			echo "<th>Red 2</th>";
+			echo "<th>S</th>";
+			echo "<th>Red 3</th>";
+			echo "<th>S</th>";
+			echo "<th>Blu 1</th>";
+			echo "<th>S</th>";
+			echo "<th>Blu 2</th>";
+			echo "<th>S</th>";
+			echo "<th>Blu 3</th>";
+			echo "<th>S</th>";
+		}
+		else {
+			echo "<th>Red 1</th>";
+			echo "<th>Red 2</th>";
+			echo "<th>Red 3</th>";
+			echo "<th>Blu 1</th>";
+			echo "<th>Blu 2</th>";
+			echo "<th>Blu 3</th>";
+		}
+	?>
+		<th>Red Sc</th>
         <th>Blu Sc</th>
         <th>Links</th>
      </tr>
@@ -383,31 +405,57 @@
 			<?php
 			if ($row['redScore'] > $row['blueScore']) {
 				$redTdTag = "<td><b>";
+				$redTdTTag = '<td class="border-tlb"><b>';
+				$redTdSTag = '<td class="border-trb"><b>';
 				$redTdTagEnd = "</b></td>";
 			}
 			else {
 				$redTdTag = "<td>";
+				$redTdTTag = '<td class="border-tlb">';
+				$redTdSTag = '<td class="border-trb">';
 				$redTdTagEnd = "</td>";
 			}
 			if ($row['blueScore'] > $row['redScore']) {
 				$blueTdTag = "<td><b>";
+				$blueTdTTag = '<td class="border-tlb"><b>';
+				$blueTdSTag = '<td class="border-trb"><b>';
 				$blueTdTagEnd = "</b></td>";
 			}
 			else {
 				$blueTdTag = "<td>";
+				$blueTdTTag = '<td class="border-tlb">';
+				$blueTdSTag = '<td class="border-trb">';
 				$blueTdTagEnd = "</td>";
 			}
 			echo "<td>" . ($row['teamIndicator']) . "</td>";
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			if (isset($row['datetime'])) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
-            echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
-            echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
-            echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
-            echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
-            echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
-            echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
+			if ($isAdmin = "Y") {
+				echo $redTdTTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
+				echo $redTdSTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
+				echo $redTdTTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
+				echo $redTdSTag . ($row['r2TeamScoutUrl']) . $redTdTagEnd;
+				echo $redTdTTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
+				echo $redTdSTag . ($row['r3TeamScoutUrl']) . $redTdTagEnd;
+				echo $blueTdTTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
+				echo $blueTdSTag . ($row['b1TeamScoutUrl']) . $blueTdTagEnd;
+				echo $blueTdTTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
+				echo $blueTdSTag . ($row['b2TeamScoutUrl']) . $blueTdTagEnd;
+				echo $blueTdTTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
+				echo $blueTdSTag . ($row['b3TeamScoutUrl']) . $blueTdTagEnd;
+				echo $redTdTTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
+				echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
+			}
+			else {
+				echo $redTdTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
+				echo $redTdTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;
+				echo $redTdTag . ($row['r3TeamReportUrl']) . $redTdTagEnd;
+				echo $blueTdTag . ($row['b1TeamReportUrl']) . $blueTdTagEnd;
+				echo $blueTdTag . ($row['b2TeamReportUrl']) . $blueTdTagEnd;
+				echo $blueTdTag . ($row['b3TeamReportUrl']) . $blueTdTagEnd;
+				echo $redTdTag . "<center>" . ($row['redScore']) . "</center>" . $redTdTagEnd;
+				echo $blueTdTag . "<center>" . ($row['blueScore']) . "</center>" . $blueTdTagEnd;
+			}
 			echo "<td>" . $row['videos'] . "</td>";
 		   ?>
         </tr>
