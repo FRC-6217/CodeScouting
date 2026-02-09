@@ -254,7 +254,7 @@
     <h2>
           <center>
 			<?php
-			   if ($isAdmin = "Y") {
+			   if ($isAdmin == "Y") {
 					echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
 			   }
 			?>
@@ -287,7 +287,7 @@
     </center> </h2>
 	<center> <h2>
 	<?php
-		if ($isAdmin = "Y") {
+		if ($isAdmin == "Y") {
 			echo '<a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a> ';
 		}
 		// Display Webcast Links
@@ -321,7 +321,7 @@
         <th>Match </th>
         <th>Time</th>
 	<?php
-		if ($isAdmin = "Y") {
+		if ($isAdmin == "Y") {
 			echo "<th>Red 1</th>";
 			echo "<th>S</th>";
 			echo "<th>Red 2</th>";
@@ -430,7 +430,7 @@
 			echo "<td>" . ($row['teamIndicator']) . "</td>";
 			echo "<td>" . ($row['matchReportUrl']) . "</td>";
 			if (isset($row['datetime'])) echo "<td>" . ($row['datetime']->format('m/d H:i')) . "</td>";else echo "<td></td>";
-			if ($isAdmin = "Y") {
+			if ($isAdmin == "Y") {
 				echo $redTdTTag . ($row['r1TeamReportUrl']) . $redTdTagEnd;
 				echo $redTdSTag . ($row['r1TeamScoutUrl']) . $redTdTagEnd;
 				echo $redTdTTag . ($row['r2TeamReportUrl']) . $redTdTagEnd;

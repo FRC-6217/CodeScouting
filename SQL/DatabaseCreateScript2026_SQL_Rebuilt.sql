@@ -203,6 +203,7 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Zheng', 'William', t.id, 'Y', '27wz01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Zheng' and s.firstName = 'William' and s.teamId = t.id);
 
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Campus', 'El', t.id, 'Y', 'ecampus2026@gmail.com', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Campus' and s.firstName = 'El' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Test', 'Joe', t.id, 'Y', 'cfrobotics@gcf.k12.mn.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Test' and s.firstName = 'Joe' and s.teamId = t.id);
 
 /*
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzRobettes', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzRobettes' and s.firstName = 'Scout' and s.teamId = t.id);
