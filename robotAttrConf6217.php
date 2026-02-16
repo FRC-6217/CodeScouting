@@ -159,7 +159,7 @@ use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 	}		
 	?>
 	<p></p>
-	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
+	<form enctype="multipart/form-data" action='./photoUpload6217.php' method='post'>
 		Select image to upload:
 		<input type="file" name="fileToUpload" id="fileToUpload">
 		<input type="submit" value="Upload Image" name="submit">

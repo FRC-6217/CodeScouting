@@ -244,7 +244,7 @@
 			<th>OPR</th>
 		</tr>
 	<?php
-	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
+	$tsql = "execute sp_rpt_matchReport6217 $match, '$loginGUID', 1";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -494,7 +494,7 @@
 			}
 			else if (isset($row['scoutRecordId'])) {
 				echo "<td>" . $row['alliancePos'] . "</td>";
-				echo '<td><a href="../scoutRecord.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
+				echo '<td><a href="../scoutRecord6217.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			else {
 				echo "<td>" . $row['alliancePos'] . "</td>";
@@ -555,7 +555,7 @@
 	</center>
 	<p></p>
 	<h2>
-		<center><a id="audit" class="clickme danger" href="matchAuditReport.php">Report to Audit Matches</a></center>
+		<center><a id="audit" class="clickme danger" href="matchAuditReport6217.php">Report to Audit Matches</a></center>
 	</h2>
 </body>
 </html>

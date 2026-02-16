@@ -104,9 +104,9 @@
 		echo "<center><a class='clickme danger' href='scoutRecord.php'>Another Scout Record</a></center>";
 		}
 		echo "<p></p>";
-		echo "<center><a class='clickme danger' href='Reports/matchReport6217.php?matchId=" . $match . "'>Match Report</a></center>";
+		echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $match . "'>Match Report</a></center>";
 		echo "<p></p>";
-		echo '<center><a class="clickme danger" href="index6217.php">Home</a></center>';
+		echo '<center><a class="clickme danger" href="index.php">Home</a></center>';
 		// Create stored procedure call
 		$tsql = "sp_ins_scoutRecord $scoutRecordId, $scout, $match, $team, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
 		if (isset($value2))
@@ -169,7 +169,7 @@
 	else
 	{
 		echo "<p></p>";
-		echo '<center><a class="clickme danger" href="index6217.php">Home</a></center>';
+		echo '<center><a class="clickme danger" href="index.php">Home</a></center>';
 		echo "The Scout, Match, Team, and Alliance Position drop-down values must be selected to submit a Scout Record.<br />";
 		echo "Click back button to try again.<br />";
 	}

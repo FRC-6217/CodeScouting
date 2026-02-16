@@ -1,7 +1,5 @@
-﻿
-
--- Match Report (as a stored procedure to improve query performance
-CREATE PROCEDURE [dbo].[sp_rpt_matchReport] (@pv_matchId int
+﻿-- Match Report (as a stored procedure to improve query performance
+CREATE PROCEDURE sp_rpt_matchReport (@pv_matchId int
                                      ,@pv_loginGUID varchar(128)
 									 ,@pv_is6217 int)
 AS
@@ -110,7 +108,7 @@ BEGIN
 		, tm.alliancePosition alliancePos
 		-- Handle query for returning 6217 or non-6217 hyperlinks
 		, case when @pv_is6217 = 1
-			then '<a href="../Reports/robotReport6217.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
+			then '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
 			else '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
 			end teamReportUrl
 		, asr.matchCnt
@@ -209,7 +207,7 @@ BEGIN
 			else tm.alliance end alliance
 		, tm.alliancePosition
 		, case when @pv_is6217 = 1
-			then '<a href="../Reports/robotReport6217.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
+			then '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
 			else '<a href="../Reports/robotReport.php?TeamId=' + convert(varchar, tm.teamId) + '"> ' + convert(varchar, t.teamNumber) + '</a> '
 			end teamReportUrl
 		, asr.matchCnt

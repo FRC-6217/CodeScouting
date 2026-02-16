@@ -323,7 +323,7 @@ $tsql = "select TeamNumber
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
 			if (isset($row['scoutRecordId']))
-				echo "<td><a href='/scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+				echo "<td><a href='/scoutRecord6217.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			else
 				echo "<td>" . $row['TeamNumber'] . "</td>";
 			echo "<td><a href='/Reports/matchReport6217.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";

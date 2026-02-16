@@ -204,7 +204,7 @@
     <img class="image2" src="Flag/Brazil.png" style="max-width: 10%; float: right; border-radius: 100%;">
     <p></p>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>
+          <center><a id="mainpage" class="clickme danger" href="scoutRecord6217.php">Scout Match</a>
 		  <a id="mainpage" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
           <p></p>
      </h2>
@@ -233,7 +233,7 @@
     ?>
      </center> </h2>
     <h2>
-          <center><a id="mainpage" class="clickme danger" href="eventSetup.php">Event Setup</a>
+          <center><a id="mainpage" class="clickme danger" href="eventSetup6217.php">Event Setup</a>
     <?php
 		// Display Webcast Links
 		$tsql = "select gew.webcastURL

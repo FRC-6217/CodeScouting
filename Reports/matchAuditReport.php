@@ -36,7 +36,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
-	 <center><a class="clickme danger" href="..\index6217.php">Home</a></center>
+	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
 	<center><h1>Match Audit Report</h1></center>
 
 <center><table cellspacing="0" cellpadding="5">
@@ -146,7 +146,7 @@ $tsql = "select m.id matchId
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td><a href='/Reports/matchReport6217.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
+			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['alliance'] . "</td>";
 			echo "<td>" . $row['scoutScoreValue'] . "</td>";
 			echo "<td>" . $row['tbaMatchAdjustedScore'] . "</td>";

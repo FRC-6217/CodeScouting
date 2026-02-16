@@ -7,8 +7,8 @@
 	</body>
 	<p></p>
 	<h2>
-		<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
-			    <a id="buttons" class="clickme danger" href="robotAttrList6217.php">Pit Scout</a></center>
+		<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
+			    <a id="buttons" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
 	</h2>
 <?php
 # Reference autoload (assuming you're using Composer)

@@ -1,24 +1,66 @@
 ﻿-- View for Match Teams
-CREATE view [dbo].[v_MatchHyperlinks] as
+CREATE view v_MatchHyperlinks as
 select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.matchId) + '"> ' + subquery.matchNumber + '</a>' matchReportUrl
      , subquery.r1TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r1TeamId) + '"> ' + convert(varchar, subquery.r1TeamNumber) + '</a>' r1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r1TeamNumber), 'NA') + '&alliancePosition=R1"> ' + subquery.r1ScoutIndicator + ' </a>' r1TeamScoutUrl
+	 , case when subquery.r1ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r1TeamNumber), 'NA') + '&alliancePosition=R1"> ' + subquery.r1ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.r1TeamId)) + '"> ' + subquery.r1ScoutIndicator + ' </a>'
+			end r1TeamScoutUrl
      , subquery.r2TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r2TeamId) + '"> ' + convert(varchar, subquery.r2TeamNumber) + '</a>' r2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r2TeamNumber), 'NA') + '&alliancePosition=R2"> ' + subquery.r2ScoutIndicator + ' </a>' r2TeamScoutUrl
+	 , case when subquery.r2ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r2TeamNumber), 'NA') + '&alliancePosition=R2"> ' + subquery.r2ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.r2TeamId)) + '"> ' + subquery.r2ScoutIndicator + ' </a>'
+			end r2TeamScoutUrl
      , subquery.r3TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.r3TeamId) + '"> ' + convert(varchar, subquery.r3TeamNumber) + '</a>' r3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r3TeamNumber), 'NA') + '&alliancePosition=R3"> ' + subquery.r3ScoutIndicator + ' </a>' r3TeamScoutUrl
+	 , case when subquery.r3ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.r3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.r3TeamNumber), 'NA') + '&alliancePosition=R3"> ' + subquery.r3ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.r3TeamId)) + '"> ' + subquery.r3ScoutIndicator + ' </a>'
+			end r3TeamScoutUrl
      , subquery.b1TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b1TeamId) + '"> ' + convert(varchar, subquery.b1TeamNumber) +  '</a>' b1TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b1TeamNumber), 'NA') + '&alliancePosition=B1"> ' + subquery.b1ScoutIndicator + ' </a>' b1TeamScoutUrl
+	 , case when subquery.b1ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b1TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b1TeamNumber), 'NA') + '&alliancePosition=B1"> ' + subquery.b1ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.b1TeamId)) + '"> ' + subquery.b1ScoutIndicator + ' </a>'
+			end b1TeamScoutUrl
      , subquery.b2TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b2TeamId) + '"> ' + convert(varchar, subquery.b2TeamNumber) +  '</a>' b2TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b2TeamNumber), 'NA') + '&alliancePosition=B2"> ' + subquery.b2ScoutIndicator + ' </a>' b2TeamScoutUrl
+	 , case when subquery.b2ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b2TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b2TeamNumber), 'NA') + '&alliancePosition=B2"> ' + subquery.b2ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.b2TeamId)) + '"> ' + subquery.b2ScoutIndicator + ' </a>'
+			end b2TeamScoutUrl
      , subquery.b3TeamNumber
      , '<a href="Reports/robotReport.php?TeamId=' + convert(varchar, subquery.b3TeamId) + '"> ' + convert(varchar, subquery.b3TeamNumber) +  '</a>' b3TeamReportUrl
-     , '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b3TeamNumber), 'NA') + '&alliancePosition=B3"> ' + subquery.b3ScoutIndicator + ' </a>' b3TeamScoutUrl
+	 , case when subquery.b3ScoutIndicator = 'S'
+            then '<a href="scoutRecord.php?matchId=' + convert(varchar, subquery.matchId) + '&matchNumber=' + subquery.matchNumber + '&teamId=' + coalesce(convert(varchar, subquery.b3TeamId), 'NA') + '&teamNumber=' + coalesce(convert(varchar, subquery.b3TeamNumber), 'NA') + '&alliancePosition=B3"> ' + subquery.b3ScoutIndicator + ' </a>'
+            else '<a href="scoutRecord.php?scoutRecordId=' +
+			      convert(varchar, (select coalesce(max(sr2.id), -1)
+	                                  from ScoutRecord sr2
+		                             where sr2.matchId = subquery.matchId
+                                       and sr2.teamId = subquery.b3TeamId)) + '"> ' + subquery.b3ScoutIndicator + ' </a>'
+			end b3TeamScoutUrl
      , subquery.sortOrder
      , subquery.matchNumber
      , subquery.matchId
@@ -53,7 +95,8 @@ select '<a href="Reports/matchReport.php?matchId=' + convert(varchar, subquery.m
   from (
 select case when m.redScore is null and m.blueScore is null
              and m.number not like '%-3'
-            then 0
+             and m.type <> 'PR'
+            then 0 
 			when m.redScore is not null and m.blueScore is not null
 			then 1
             when convert(decimal(18,10), (m.datetime - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) + (15.0 / 24.0 / 60.0) < 0
