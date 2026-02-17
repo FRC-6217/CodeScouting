@@ -92,7 +92,11 @@
 	}
 	// Non-Admin should nor be on this page
 	if ($isAdmin != "Y") {
-		echo $loginEmailAddress . ' not authorized on this page.';
+		echo '<center>';				
+		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
+		echo '</center>';
+		exit(0);
+		echo 'After exit.';
 	}
 	else {
 		echo '<center>';				
