@@ -54,8 +54,11 @@
 	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
 	$context = stream_context_create($aHTTP);
 
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -67,142 +70,165 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					, isAdmin
+					from Scout s
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
+	// Non-Admin should nor be on this page
+	if ($isAdmin != "Y") {
+		echo $loginEmailAddress . ' not authorized on this page.';
+	}
+	else {
+		echo '<center>';				
+		echo '<div class="container" id="event">';
+		echo '<p><u><b>Event Setup / Configuration</b></u></p>';
+		echo '<p>Game:';
+		$tsql = "select g.id
+						, g.name
+						, g.gameYear
+						, (select ge.isActive
+							from v_GameEvent ge
+							where ge.gameId = g.id
+							and ge.loginGUID = '$loginGUID') isActive
+					from game g
+					group by g.id, g.name, g.gameYear
+					order by isActive desc, g.gameYear desc";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		echo '<select style="width: 161px;" name="gameYear">';
+		$first = TRUE;
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+			if ($first) {
+				echo '<option value="' . $row["gameYear"] . '" selected>' . $row["name"] . '</option>';
+				$gameYear = $row["gameYear"];
+				$first = FALSE;
+			}
+			else
+				echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
+		}
+		sqlsrv_free_stmt($getResults);
+		echo '</select>';
+		echo '</p>';
+		echo '<p></p>';
+		echo '<p>Event:';
+		$tsql = "select e.eventCode
+					from event e
+						inner join v_GameEvent ge on ge.eventId = e.id
+					where ge.loginGUID = '$loginGUID' ";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		echo '<select style="width: 157px" name="eventCode">';
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		if (empty($row))
+			echo '<option value="" selected></option>';
+		else
+			$eventCode = $row["eventCode"];
+		sqlsrv_free_stmt($getResults);
+
+		// Add Event from database to the select list
+		$tsql = "select e.name, e.eventCode from event e order by e.name ";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+			if ($row["eventCode"] == $eventCode)
+				echo '<option value="' . $row["eventCode"] . '" selected>' . $row["name"] . '</option>';
+			else
+				echo '<option value="' . $row["eventCode"] . '">' . $row["name"] . '</option>';
+		}
+		sqlsrv_free_stmt($getResults);
+
+		// Events from Blue Alliance
+		$sURL = $TBAURL . "events/" . $gameYear . "/simple";
+		$eventsJSON = file_get_contents($sURL, false, $context);
+		// Sort by name
+		$eventsArray = json_decode($eventsJSON, true);
+		usort($eventsArray, function($a, $b) { //Sort the array using a user defined function
+			return $a["name"] < $b["name"] ? -1 : 1;
+		});
+		// Add Event Info to the select list
+		foreach($eventsArray as $key => $value) {
+			if ($value["event_code"] == $eventCode)
+				echo '<option value="' . $value["event_code"] . '" selected>' . $value["name"] . '</option>';
+			else
+				echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
+		}
+		echo '</select>';
+		echo '</p>';
+		echo '<p></p>';
+		echo '<p>Change?';
+			echo '<select style="width: 161px;" name="option">';
+				echo '<option value="M" selected>Update Match Schedule</option>';
+				echo '<option value="P">Create Practice Matches</option>';
+				echo '<option value="Q">Activate Qualifying Matches</option>';
+				echo '<option value="L">Activate Playoff Matches</option>';
+				echo '<option value="A">Activate Game Event</option>';
+				echo '<option value="T">Update Team List</option>';
+				echo '<option value="C">Clear Playoff Alliances</option>';
+				echo '<option value="E">Clear eTag</option>';
+				echo '<option value="I">Import Match CSV File</option>';
+			echo '</select>';
+		echo '</p>';
+		echo '<p></p>';
+		echo '<center>';
+		echo '<input type="hidden" name="MAX_FILE_SIZE" value="30000" />';
+		echo '<input name="userfile" type="file" />';
+		echo '<p></p>';
+		echo '<input type="submit" value="Submit" name="submitToDatabase">';
+		echo '</center>';
+		echo '</div>';
+		echo '</center>';
+	}
+	sqlsrv_close($conn);
+	?>
+	<p></p>
+	<p></p>
+<?php 
+	if ($isAdmin == "Y") {
+	echo '<h2>';
+			echo '<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Report to Audit Matches</a></center>';
+			echo '<p></p>';
+			echo '<p></p>';
+			echo '<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport.php">Scout Metrics Rpt</a></center>';
+	echo '</h2>';
+	}
 ?>
-			<center>				
-				<div class="container" id="event">
-					<p><u><b>Event Setup / Configuration</b></u></p>
-					<p>Game:
-							<?php
-							$tsql = "select g.id
-                                          , g.name
-                                          , g.gameYear
-                                     	  , (select ge.isActive
-                                     	       from v_GameEvent ge
-                                     		  where ge.gameId = g.id
-                                     		    and ge.loginGUID = '$loginGUID') isActive
-                                       from game g
-                                     group by g.id, g.name, g.gameYear
-                                     order by isActive desc, g.gameYear desc";
-							$getResults = sqlsrv_query($conn, $tsql);
-							if ($getResults == FALSE)
-								if( ($errors = sqlsrv_errors() ) != null) {
-									foreach( $errors as $error ) {
-										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-										echo "code: ".$error[ 'code']."<br />";
-										echo "message: ".$error[ 'message']."<br />";
-									}
-								}
-						    echo '<select style="width: 161px;" name="gameYear">';
-							$first = TRUE;
-							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($first) {
-									echo '<option value="' . $row["gameYear"] . '" selected>' . $row["name"] . '</option>';
-									$gameYear = $row["gameYear"];
-									$first = FALSE;
-								}
-								else
-									echo '<option value="' . $row["gameYear"] . '">' . $row["name"] . '</option>';
-							}
-							sqlsrv_free_stmt($getResults);
-							?>
-						</select>
-						</p>
-					<p></p>
-					
-					<p>Event:
-							<?php
-							$tsql = "select e.eventCode
-                                       from event e
-                                            inner join v_GameEvent ge on ge.eventId = e.id
-                                      where ge.loginGUID = '$loginGUID' ";
-							$getResults = sqlsrv_query($conn, $tsql);
-							if ($getResults == FALSE)
-								if( ($errors = sqlsrv_errors() ) != null) {
-									foreach( $errors as $error ) {
-										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-										echo "code: ".$error[ 'code']."<br />";
-										echo "message: ".$error[ 'message']."<br />";
-									}
-								}
-							echo '<select style="width: 157px" name="eventCode">';
-							$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-							if (empty($row))
-								echo '<option value="" selected></option>';
-							else
-								$eventCode = $row["eventCode"];
-							sqlsrv_free_stmt($getResults);
-
-							// Add Event from database to the select list
-							$tsql = "select e.name, e.eventCode from event e order by e.name ";
-							$getResults = sqlsrv_query($conn, $tsql);
-							if ($getResults == FALSE)
-								if( ($errors = sqlsrv_errors() ) != null) {
-									foreach( $errors as $error ) {
-										echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-										echo "code: ".$error[ 'code']."<br />";
-										echo "message: ".$error[ 'message']."<br />";
-									}
-								}
-							while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-								if ($row["eventCode"] == $eventCode)
-									echo '<option value="' . $row["eventCode"] . '" selected>' . $row["name"] . '</option>';
-								else
-									echo '<option value="' . $row["eventCode"] . '">' . $row["name"] . '</option>';
-							}
-							sqlsrv_free_stmt($getResults);
-
-							// Events from Blue Alliance
-							$sURL = $TBAURL . "events/" . $gameYear . "/simple";
-							$eventsJSON = file_get_contents($sURL, false, $context);
-							// Sort by name
-							$eventsArray = json_decode($eventsJSON, true);
-							usort($eventsArray, function($a, $b) { //Sort the array using a user defined function
-								return $a["name"] < $b["name"] ? -1 : 1;
-							});
-							// Add Event Info to the select list
-							foreach($eventsArray as $key => $value) {
-								if ($value["event_code"] == $eventCode)
-									echo '<option value="' . $value["event_code"] . '" selected>' . $value["name"] . '</option>';
-								else
-									echo '<option value="' . $value["event_code"] . '">' . $value["name"] . '</option>';
-							}
-							?>
-						</select>
-					</p>
-					<p></p>
-					<p>Change?
-						<select style="width: 161px;" name="option">
-							<option value="M" selected>Update Match Schedule</option>';
-							<option value="P">Create Practice Matches</option>';
-							<option value="Q">Activate Qualifying Matches</option>';
-							<option value="L">Activate Playoff Matches</option>';
-							<option value="A">Activate Game Event</option>';
-							<option value="T">Update Team List</option>';
-							<option value="C">Clear Playoff Alliances</option>';
-							<option value="E">Clear eTag</option>';
-							<option value="I">Import Match CSV File</option>';
-						</select>
-					</p>
-					<p></p>
-					<center>
-						<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
-						<input name="userfile" type="file" />
-						<p></p>
-						<input type="submit" value="Submit" name="submitToDatabase">
-					</center>
-				</div>
-            </center>
-			<?php
-			sqlsrv_close($conn);
-			?>
-		<p></p>
-		<p></p>
-		<h2>
-			<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Report to Audit Matches</a></center>
-			<p></p>
-			<p></p>
-			<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport.php">Scout Metrics Rpt</a></center>
-		</h2>
         </form>
     </head>
 </html> 
