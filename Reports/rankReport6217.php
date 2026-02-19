@@ -179,7 +179,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			}
 			$first = 0;
 			$playoffAlliancePrev = $row['playoffAlliance'];
-			}
+		}
 
 		echo "<tr>";
 		// Filtered by all teams or just playoff teams

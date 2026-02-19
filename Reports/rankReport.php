@@ -209,7 +209,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			}
 			$first = 0;
 			$playoffAlliancePrev = $row['playoffAlliance'];
-			}
+		}
 
 		echo "<tr>";
 		// Filtered by all teams or just playoff teams
@@ -245,8 +245,10 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 				else {
 					if ($row['playoffAlliance'] =='0') {
 						echo "<td></td>";
-					else
+					}
+					else {
 						echo "<td>" . $row['playoffAlliance'] . "</td>";
+					}
 				}
 			}
 			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
