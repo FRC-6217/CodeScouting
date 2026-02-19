@@ -18,6 +18,11 @@
 	<body>
  	<center><a class="clickme danger" href="..\index.php">Home</a></center>
 <?php
+		echo 'On this page.';
+		echo '</body>'; 
+		echo '</html>'; 
+		exit(0);
+
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
