@@ -31,13 +31,7 @@
 		</h2>
 		
 		<form enctype="multipart/form-data" action='robotAttrConf.php' method='post'>
-	<?php
-	# Reference autoload (assuming you're using Composer)
-	require_once('vendor/autoload.php');
-
-	use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
-	use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-	use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+<?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
@@ -50,20 +44,21 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    // Get Query String Parameters
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+	// Get Login info
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , g.gameYear
-	           from Scout s
-					inner join Team t
-					on t.id = s.teamId
-					inner join GameEvent ge
-					on ge.id = t.gameEventId
-					inner join Game g
-					on g.id = ge.gameId
-			  where s.emailAddress = '$loginEmailAddress'";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
+					, s.isAdmin
+					, g.gameYear
+					from Scout s
+						inner join Team t
+						on t.id = s.teamId
+						inner join GameEvent ge
+						on ge.id = t.gameEventId
+						inner join Game g
+						on g.id = ge.gameId
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+	$getResults = sqlsrv_query($conn, $tsql);
+	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
 				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -74,7 +69,43 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$gameYear = $row['gameYear'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+						, s.isAdmin
+						, g.gameYear
+					from Scout s
+						inner join Team t
+						on t.id = s.teamId
+						inner join GameEvent ge
+						on ge.id = t.gameEventId
+						inner join Game g
+						on g.id = ge.gameId
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$gameYear = $row['gameYear'];
+		$isAdmin = "N";
+	}
 
+	# Reference autoload (assuming you're using Composer)
+	require_once('vendor/autoload.php');
+
+	use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+	use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+	use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+
+    // Get Query String Parameters
 	$teamId = "$_GET[teamId]";
 	$teamNumber = "$_GET[teamNumber]";
 	$teamName = "$_GET[teamName]";
@@ -87,6 +118,113 @@
 					echo "<p>From " . $location . "</p>";
 					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
 					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+					$tsql = "select coalesce(max(tas.scoutId1), 0) scoutId1
+					              , coalesce(max(tas.scoutId2), 0) scoutId2
+								  , coalesce(max(tas.scoutId3), 0) scoutId3
+							   from v_GameEvent ge
+							        inner join TeamAttributeScouts tas
+									on tas.gameId = ge.gameId
+							  where ge.loginGUID = '$loginGUID'
+							    and tas.teamId = $teamId";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE)
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+						$scoutId1 = $row['scoutId1'];
+						$scoutId2 = $row['scoutId2'];
+						$scoutId3 = $row['scoutId3'];
+					}
+					sqlsrv_free_stmt($getResults);
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE) {
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					}
+					else {
+						echo '<p>Scouted By:<br><select style="width: 161px;" name="scoutId1">';
+						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+							if ($row['id'] == $scoutId1)
+								echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+							else
+								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+						}
+						echo '</select><br>';
+					}
+					sqlsrv_free_stmt($getResults);
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE) {
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					}
+					else {
+						echo '<select style="width: 161px;" name="scoutId2">';
+						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+							if ($row['id'] == $scoutId2)
+								echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+							else
+								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+						}
+						echo '</select><br>';
+					}
+					sqlsrv_free_stmt($getResults);
+					$tsql = "select id, lastName + ', ' + firstName fullName
+					           from Scout
+							  where isActive = 'Y'
+								and teamId in (select s2.teamId
+													from Scout s2
+												where s2.scoutGUID = '" . $loginGUID . "') 
+						     order by lastName, firstName";
+					$getResults = sqlsrv_query($conn, $tsql);
+					if ($getResults == FALSE) {
+						if( ($errors = sqlsrv_errors() ) != null) {
+							foreach( $errors as $error ) {
+								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+								echo "code: ".$error[ 'code']."<br />";
+								echo "message: ".$error[ 'message']."<br />";
+							}
+						}
+					}
+					else {
+						echo '<select style="width: 161px;" name="scoutId3">';
+						while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+							if ($row['id'] == $scoutId3)
+								echo "<option value=" . $row['id'] . " selected>" . $row['fullName'] . "</option>";
+							else
+								echo "<option value=" . $row['id'] . ">" . $row['fullName'] . "</option>";
+						}
+						echo '</select></p>';
+					}
+					sqlsrv_free_stmt($getResults);
 					$tsql = "select attributeName
 								  , attributeLabel
 								  , displayValue
@@ -112,9 +250,15 @@
 					}
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
+
+					// Only show form submit button when Admin
+					if ($isAdmin == "Y") {
+						echo '<p></p>';
+						echo '<center>';
+							echo '<input type="submit" value="Submit" name="submitToDatabase">';
+						echo '</center>';
+					}
 					?>
-					<p></p>
-					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
 		<?php
 			// Display current photo

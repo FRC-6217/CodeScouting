@@ -62,7 +62,7 @@
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = "N";
 	}
-	// Non-Admin should nor be on this page
+	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
 		echo "<p></p>";
 		echo '<center><a class="clickme danger" href="index.php">Home</a></center>';

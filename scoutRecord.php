@@ -43,8 +43,11 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -56,6 +59,26 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					  , isAdmin
+				   from Scout s
+				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
 
 	// Get values for page from database
 	$cntSR = 0;
@@ -305,9 +328,15 @@
 						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" value="' . $scoutComment . '" style="width: 320px"><br>';
 					else
 						echo '<br><br>Match Comment<br><input type="text" name ="scoutComment" style="width: 320px"><br>';
+
+					// Only show form submit button when Admin
+					if ($isAdmin == "Y") {
+						echo '<p></p>';
+						echo '<center>';
+							echo '<input type="submit" value="Submit" name="submitToDatabase">';
+						echo '</center>';
+					}
 					?>
-					<p></p>
-					<center><input type="submit" value="Submit" name="submitToDatabase"></center>
 				</div>
 				<?php
 				if (isset($matchId) && !empty($matchId)) {

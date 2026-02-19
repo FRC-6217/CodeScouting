@@ -9,9 +9,6 @@
 	<h2>
 		<center><a id="home" class="clickme danger" href="index.php">Home</a></center>
 		<p></p>
-		<center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
-		<p></p>
-	</h2>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -27,17 +24,12 @@
     // Establishes the DB connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-	// Setup Blue Alliance API calls
-	$TBAAuthKey = getenv("TheBlueAllianceAuthKey");
-	$TBAURL = getenv("TheBlueAllianceAPIURL");
-	$aHTTP['http']['method']  = "GET";
-	$aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
-	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
-	$context = stream_context_create($aHTTP);
-
-    // Get posted variables
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	// Get Login info
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -49,6 +41,50 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					  , isAdmin
+				   from Scout s
+				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
+	// Non-Admin should not be on this page
+	if ($isAdmin != "Y") {
+		echo '<center>';				
+		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
+		echo '</center>';
+		sqlsrv_close($conn);
+		echo '</h2>';
+		echo '</html>'; 
+		exit(0);
+	}
+?>
+		<center><a id="eventSetup" class="clickme danger" href="eventSetup.php">Event Setup</a></center>
+		<p></p>
+	</h2>
+<?php
+	// Setup Blue Alliance API calls
+	$TBAAuthKey = getenv("TheBlueAllianceAuthKey");
+	$TBAURL = getenv("TheBlueAllianceAPIURL");
+	$aHTTP['http']['method']  = "GET";
+	$aHTTP['http']['header']  = "X-TBA-Auth-Key: " . $TBAAuthKey. "\r\n";
+	$aHTTP['http']['header'] .= "Accept: application/json\r\n";
+	$context = stream_context_create($aHTTP);
+
+	// Get posted variables
 	$gameYear = $_POST['gameYear'];
 	$eventCode = $_POST['eventCode'];
 	$option = $_POST['option'];

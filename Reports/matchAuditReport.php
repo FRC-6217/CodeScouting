@@ -62,7 +62,7 @@
 	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
 	<center><h1>Match Audit Report</h1></center>
 <?php
-	// Non-Admin should nor be on this page
+	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
 		echo '<center>';				
 		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';

@@ -15,8 +15,11 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -28,7 +31,27 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					, isAdmin
+					from Scout s
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
 ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
@@ -127,7 +150,12 @@
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
-			echo "<td>" . $row['teamNumber'] . "</td>";
+	   		if ($isAdmin == "Y") {
+				echo "<td>" . $row['teamUrl'] . "</td>";
+			}
+			else {
+				echo "<td>" . $row['teamNumber'] . "</td>";
+			}
 			echo '<td align="left">' . $row["teamName"] . '</td>';
 			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
 			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";

@@ -11,13 +11,6 @@
 			    <a id="buttons" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
 	</h2>
 <?php
-# Reference autoload (assuming you're using Composer)
-require_once('vendor/autoload.php');
-
-use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
-use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-
 $serverName = getenv("ScoutAppDatabaseServerName");
 $database = getenv("Database");
 $userName = getenv("DatabaseUserName");
@@ -30,18 +23,19 @@ $connectionOptions = array(
 //Establishes the connection
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-// Get Query String Parameters
-$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+// Get Login info
+$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 $tsql = "select s.scoutGUID
+                , s.isAdmin
                 , g.gameYear
-            from Scout s
-                inner join Team t
-                on t.id = s.teamId
-                inner join GameEvent ge
-                on ge.id = t.gameEventId
-                inner join Game g
-                on g.id = ge.gameId
-            where s.emailAddress = '$loginEmailAddress'";
+                from Scout s
+                    inner join Team t
+                    on t.id = s.teamId
+                    inner join GameEvent ge
+                    on ge.id = t.gameEventId
+                    inner join Game g
+                    on g.id = ge.gameId
+            where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
 $getResults = sqlsrv_query($conn, $tsql);
 if ($getResults == FALSE)
     if( ($errors = sqlsrv_errors() ) != null) {
@@ -54,8 +48,52 @@ if ($getResults == FALSE)
 $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 $loginGUID = $row['scoutGUID'];
 $gameYear = $row['gameYear'];
+$isAdmin = $row['isAdmin'];
+// Handle if logged in user is not active/configured in Scout table
+if (empty($loginGUID)) {
+    $loginEmailAddress = getenv("DefaultLoginEmailAddress");
+    $tsql = "select s.scoutGUID
+                    , s.isAdmin
+                    , g.gameYear
+                from Scout s
+                    inner join Team t
+                    on t.id = s.teamId
+                    inner join GameEvent ge
+                    on ge.id = t.gameEventId
+                    inner join Game g
+                    on g.id = ge.gameId
+                where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+        if( ($errors = sqlsrv_errors() ) != null) {
+            foreach( $errors as $error ) {
+                echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+                echo "code: ".$error[ 'code']."<br />";
+                echo "message: ".$error[ 'message']."<br />";
+            }
+        }
+    $loginGUID = $row['scoutGUID'];
+    $gameYear = $row['gameYear'];
+    $isAdmin = "N";
+}
+// Non-Admin should not be on this page
+if ($isAdmin != "Y") {
+    echo '<center>';				
+    echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
+    echo '</center>';
+    sqlsrv_close($conn);
+    echo '</html>'; 
+    exit(0);
+}
 
-#phpinfo(); 
+# Reference autoload (assuming you're using Composer)
+require_once('vendor/autoload.php');
+
+use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+
+// Get Query String Parameters
 $teamId = $_POST['teamId'];
 $teamNumber = $_POST['teamNumber'];
 //echo "Team Id: $teamId, Number: $teamNumber.<br />";

@@ -2,10 +2,35 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-	 <body>
-		<h1><center>Bomb Botz Scouting App</center></h1>
-	</body>
-	<p></p>
+	 <head>
+		<link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/Logo/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/Logo/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/Logo/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/Logo/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/Logo/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/Logo/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/Logo/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/Logo/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/Logo/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/Logo/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/Logo/favicon-16x16.png">
+        <link rel="manifest" href="/Logo/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<body>
+			<h1><center>Bomb Botz Scouting App</center></h1>
+		</body>
+		<p></p>
+		<p></p>
+		<h2>
+			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
+					<a id="buttons" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
+		</h2>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -19,12 +44,21 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    // Get posted variables
-	$teamId = $_POST['teamId'];
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
+	// Get Login info
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+					, s.isAdmin
+					, g.gameYear
+					from Scout s
+						inner join Team t
+						on t.id = s.teamId
+						inner join GameEvent ge
+						on ge.id = t.gameEventId
+						inner join Game g
+						on g.id = ge.gameId
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+	$getResults = sqlsrv_query($conn, $tsql);
+	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
 				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -34,6 +68,61 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$gameYear = $row['gameYear'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+						, s.isAdmin
+						, g.gameYear
+					from Scout s
+						inner join Team t
+						on t.id = s.teamId
+						inner join GameEvent ge
+						on ge.id = t.gameEventId
+						inner join Game g
+						on g.id = ge.gameId
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$gameYear = $row['gameYear'];
+		$isAdmin = "N";
+	}
+	// Non-Admin should not be on this page
+	if ($isAdmin != "Y") {
+		echo '<center>';				
+		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
+		echo '</center>';
+		sqlsrv_close($conn);
+		echo '</head>'; 
+		echo '</html>'; 
+		exit(0);
+	}
+
+	# Reference autoload (assuming you're using Composer)
+	require_once('vendor/autoload.php');
+
+	use MicrosoftAzure\Storage\Blob\Models\CreateBlockBlobOptions;
+	use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+	use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+
+    // Get posted variables
+	$teamId = $_POST['teamId'];
+	$teamNumber = $_POST['teamNumber'];
+
+	// Get Query String Parameters
+	$scoutId1 = $_POST['scoutId1'];
+	$scoutId2 = $_POST['scoutId2'];
+	$scoutId3 = $_POST['scoutId3'];
 	$value1 = $_POST['value1'];
 	$value2 = $_POST['value2'];
 	$value3 = $_POST['value3'];
@@ -54,15 +143,8 @@
 	$value18 = $_POST['value18'];
 	$value19 = $_POST['value19'];
 	$value20 = $_POST['value20'];
-?>
-	<p></p>
-	<h2>
-		<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			    <a id="buttons" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
-	</h2>
-	<p></p>
-<?php
-    $tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', '$value1'";
+
+	$tsql = "sp_ins_scoutRobot $teamId, '$loginGUID', $scoutId1, $scoutId2, $scoutId3, '$value1'";
 	if (isset($value2))
 		$tsql .= ", '$value2'";
 	if (isset($value3))
@@ -116,8 +198,44 @@
 			}
 		}
 	}		
+	?>
+	<p></p>
+	<form enctype="multipart/form-data" action='./photoUpload.php' method='post'>
+		Select image to upload:
+		<input type="file" name="fileToUpload" id="fileToUpload">
+		<input type="submit" value="Upload Image" name="submit">
+<?php
+		echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+		echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
+?>
+	</form>
+	<p></p>
 
-    sqlsrv_free_stmt($getResults);
+<?php
+	// Display current photo
+	$storageAccountName = getenv("StorageAccountName");
+	$containerName = getenv("StorageContainer");
+	$accessKey = getenv("StorageAccessKey");
+    # Setup Azure Storage connection
+    $connectionString = "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$accessKey";
+    try {
+        $blobClient = BlobRestProxy::createBlobService($connectionString);
+    }
+    catch (Exception $e) {
+        echo "Failed create Blob Service: " . $e . "<br />";
+    }
+	$key = $gameYear . '/' . $teamNumber . '/';
+	$blobListOptions = new ListBlobsOptions();
+	$blobListOptions->setPrefix($key);
+	$blobList = $blobClient->listBlobs($containerName, $blobListOptions);
+	foreach($blobList->getBlobs() as $key => $blob) {
+		//echo "Blob ".$key.": \t".$blob->getName()."\t(".$blob->getUrl().")<br />";
+		echo '<img class="image'.$key.'" src="'.$blob->getUrl().'" style="max-width: 75%;"><br />';
+	}
+
+	// Close SQL
+	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
+    </head>
 </html>
