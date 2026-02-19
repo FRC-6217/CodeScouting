@@ -11,8 +11,30 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$match = "$_GET[matchId]";
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				  , convert(nvarchar, 
+				    coalesce(
+				    (select top 1 (m.dateTime)
+					   from v_MatchHyperlinks6217 m
+						    inner join TeamMatch tm
+						    on tm.matchId = m.matchId
+						    and tm.teamId = s.teamId
+					  where m.loginGUID = s.scoutGUID
+				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
+				  , case when coalesce(
+					 (select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+							 inner join TeamMatch tm
+							 on tm.matchId = m.matchId
+							 and tm.teamId = s.teamId
+					   where m.loginGUID = s.scoutGUID
+					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
+					     then 1
+						 else 0 end showCountdown
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -24,6 +46,50 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	$nextMatchDate = $row['nextMatchDate'];
+	$showCountdown = $row['showCountdown'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					, isAdmin
+					, convert(nvarchar, 
+						coalesce(
+						(select top 1 (m.dateTime)
+						from v_MatchHyperlinks6217 m
+								inner join TeamMatch tm
+								on tm.matchId = m.matchId
+								and tm.teamId = s.teamId
+						where m.loginGUID = s.scoutGUID
+						order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
+					, case when coalesce(
+						(select top 1 (m.dateTime)
+							from v_MatchHyperlinks6217 m
+								inner join TeamMatch tm
+								on tm.matchId = m.matchId
+								and tm.teamId = s.teamId
+						where m.loginGUID = s.scoutGUID
+						order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
+							then 1
+							else 0 end showCountdown
+					from Scout s
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+		$nextMatchDate = $row['nextMatchDate'];
+		$showCountdown = $row['showCountdown'];
+	}
 
 	// Build data for Pie Chart
 	$rows = array();
@@ -103,7 +169,6 @@
     google.setOnLoadCallback(drawOprPieChart);
 
     function drawPieChart() {
-
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
@@ -137,13 +202,31 @@
       chart.draw(data, options);
     }
     </script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/Style/jquery.countdown.css"> 
+	<script type="text/javascript" src="/js/jquery.plugin.js"></script> 
+	<script type="text/javascript" src="/js/jquery.countdown.js"></script>
+	<style type="text/css">
+		body > iframe { display: none; }
+		#defaultCountdown { width: 180px; height: 45px; }
+	</style>
+	<script>
+		$(function () {
+			var austDay = new Date('<?php echo $nextMatchDate; ?>');
+			$('#defaultCountdown').countdown({until: austDay, format: 'HMS'});
+		});
+	</script>
   </head>
   <body>
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="/Style/scoutingStyle.css">
 	 <center><a class="clickme danger" href="..\index.php">Home</a></center>
-<?php
+	<?php
+	if ($showCountdown == 1 && $isAdmin == "Y") {
+		echo '<br><center>Our next match start at ' . $nextMatchDate . '... <div id="defaultCountdown"></div></center><br>';
+	}
+
 	$tsql = "select m.type + ' ' + m.number matchNumber
                from Match m
 			  where m.id = $match";
@@ -173,15 +256,15 @@
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-					  where ge.loginGUID = '$loginGUID'
-						and st.name <> 'Free Form'
+                      where ge.loginGUID = '$loginGUID'
+					    and st.name <> 'Free Form'
 					 union
 					 select g.alliancePtsHeader, 999 reportSortOrder
 					   from v_GameEvent ge
-							inner join game g
-							on g.id = ge.gameId
+					        inner join game g
+					        on g.id = ge.gameId
 					  where ge.loginGUID = '$loginGUID'
-						and g.alliancePtsHeader is not null
+					    and g.alliancePtsHeader is not null
 					 order by reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
@@ -203,9 +286,8 @@
 			<th>Scr Imp</th>
 			<th>OPR</th>
 		</tr>
-
 	<?php
-	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 0";
+	$tsql = "execute sp_rpt_matchReport $match, '$loginGUID', 1";
 	$getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -243,7 +325,7 @@
 		if (isset($row['value19'])) echo "<td>" . number_format($row['value19'], 2) . "</td>"; elseif ($cnt >= 19) echo "<td></td>";
 		if (isset($row['value20'])) echo "<td>" . number_format($row['value20'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
 		if (isset($row['portionOfAlliancePoints'])) echo "<td>" . number_format($row['portionOfAlliancePoints'], 2) . "</td>";
-		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
+		if (isset($row['totalScoreValue'])) echo "<td>" . number_format($row['totalScoreValue'], 2) . "</td>"; elseif ($cnt >= 20) echo "<td></td>";
 		if (isset($row['oPR'])) echo "<td>" . number_format($row['oPR'], 2) . "</td>"; elseif ($cnt >= 15) echo "<td></td>";
         echo "</tr>";
     }
@@ -251,7 +333,7 @@
     </table>
 	</center>
     <center>
-		<!--this is the div that will hold the pie charts-->
+		<!--this is the div that will hold the pie chart-->
 		<div style="display: flex;  justify-content: center;">
 			<div id="pie_chart_div"></div>
 			<div id="opr_pie_chart_div"></div>
@@ -366,16 +448,16 @@
 							on ge.gameId = o.gameId
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
-					  where ge.loginGUID = '$loginGUID'
-						and st.name <> 'Free Form'
+                      where ge.loginGUID = '$loginGUID'
+					    and st.name <> 'Free Form'
 					 union
 					 select g.alliancePtsHeader, 999 reportSortOrder
 					   from v_GameEvent ge
 							inner join game g
 							on g.id = ge.gameId
 					  where ge.loginGUID = '$loginGUID'
-						and g.alliancePtsHeader is not null
-					order by o.reportSortOrder";
+					    and g.alliancePtsHeader is not null
+					 order by o.reportSortOrder";
 			$getResults = sqlsrv_query($conn, $tsql);
 			if ($getResults == FALSE)
 				if( ($errors = sqlsrv_errors() ) != null) {
@@ -428,6 +510,7 @@
 					  , matchScore
 					  , teamId
 					  , matchCode
+					  , scoutRecordId
                    from v_MatchFinalReport
 				  where loginGUID = '$loginGUID'
 					and matchId = $match
@@ -451,6 +534,10 @@
 			else if ($row['alliancePos'] == 99) {
 				echo "<td></td>";
 				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '" target="_blank"> ' . $row['teamNumber'] . '</a></td>';
+			}
+			else if (isset($row['scoutRecordId'])) {
+				echo "<td>" . $row['alliancePos'] . "</td>";
+				echo '<td><a href="../scoutRecord.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			else {
 				echo "<td>" . $row['alliancePos'] . "</td>";
@@ -509,5 +596,13 @@
 	sqlsrv_close($conn);
 	?>
 	</center>
+	<p></p>
+	<?php
+		if ($isAdmin == "Y") {
+			echo '<h2>';
+				echo '<center><a id="audit" class="clickme danger" href="matchAuditReport.php">Report to Audit Matches</a></center>';
+			echo '</h2>';
+		}
+	?>
 </body>
 </html>

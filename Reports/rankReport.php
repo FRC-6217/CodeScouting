@@ -30,14 +30,36 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
+	//Update playoff selected for team if passed to the page
+	if (isset($_GET['toggleSelectedForPlayoff'])) {
+		$teamGameEventId = $_GET['toggleSelectedForPlayoff'];
+		$playoffAlliance = $_GET['playoffAlliance'];
+		$tsql = "execute sp_upd_TeamPlayoffSelection $teamGameEventId, $playoffAlliance";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+	}
+
 	//Filter by all teams or playoff only
 	$teams = 'A';
 	if (isset($_GET['teams']))
 		$teams = $_GET['teams'];
 
+	// Display report page header
 	$rankName = "$_GET[rankName]";
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID, playoffStarted, cntPlayoffSelected from v_PlayoffStarted where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select scoutGUID
+	              , isAdmin
+	              , playoffStarted
+				  , cntPlayoffSelected
+			   from v_PlayoffStarted
+			  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -49,8 +71,33 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
 	$playoffStarted = $row['playoffStarted'];
 	$cntPlayoffSelected = $row['cntPlayoffSelected'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select scoutGUID
+					  , isAdmin
+					  , playoffStarted
+					  , cntPlayoffSelected
+				   from v_PlayoffStarted
+				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+		$playoffStarted = $row['playoffStarted'];
+		$cntPlayoffSelected = $row['cntPlayoffSelected'];
+	}
 	echo "<center><h1>Rank Report by " . $rankName . "</h1></center>";
 	if ($playoffStarted == 1) {
 		echo "<center><h2>Note: " . $cntPlayoffSelected . " Teams already selected for Playoffs are moved to the bottom of the list.</h2></center>";
@@ -59,16 +106,17 @@
 		else
 			echo "<center><a class='clickme danger' href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&teams=A'>All Teams</a></center>";
 	}
+
 ?>
-	<br>
-	<div class="fixTableHead">
-	<center>
+<br>
+<div class="fixTableHead">
+<center>
     <table cellspacing="0" cellpadding="5">
 		<thead>
         <tr>
 <?php
-			if ($playoffStarted == 1)
-				echo "<th>Playoff<br/>Alliance</th>";
+		if ($playoffStarted == 1)
+			echo "<th>Playoff<br/>Alliance</th>";
 ?>
 			<th><a href='../Reports/rankReport.php?sortOrder=Team&rankName=Team'>Team</a></th>
 			<th>Scouted<br/>Matches</th>
@@ -161,18 +209,45 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			}
 			$first = 0;
 			$playoffAlliancePrev = $row['playoffAlliance'];
-		}
+			}
 
 		echo "<tr>";
+		// Filtered by all teams or just playoff teams
 		if ($playoffStarted != 1 or
 		    $teams == 'A' or
 			$row['playoffAlliance'] != '0') {
-
 			if ($playoffStarted == 1) {
-				if ($row['playoffAlliance'] =='0') 
-					echo "<td></td>";
-				else
-					echo "<td>" . $row['playoffAlliance'] . "</td>";
+				if ($isAdmin == 'Y') {
+					if ($row['playoffAlliance'] =='0') {
+						echo "<td>";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=1'>1</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=2'>2</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=3'>3</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=4'>4</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=5'>5</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=6'>6</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=7'>7</a>";
+						echo " ";
+						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=8'>8</a>";
+						echo "</td>";
+					}
+					else {
+						echo "<td><a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=0";
+						echo "'>" . $row['playoffAlliance'] . "</a></td>";
+					}
+				}
+				else {
+					if ($row['playoffAlliance'] =='0') {
+						echo "<td></td>";
+					else
+						echo "<td>" . $row['playoffAlliance'] . "</td>";
+				}
 			}
 			echo "<td><a href='../Reports/robotReport.php?TeamId=" . $row['teamId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 			echo "<td>" . $row['cntMatches'] . "</td>";

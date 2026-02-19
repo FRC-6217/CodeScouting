@@ -30,7 +30,6 @@
           <center><a id="home" class="clickme danger" href="index.php">Home</a></center>
           <p></p>
 		</h2>
-		<form enctype="multipart/form-data" action='eventModify.php' method='post'>
 <?php
 	// Initial setup of Database Connection
 	ini_set('display_errors', '1');
@@ -96,12 +95,12 @@
 		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
 		echo '</center>';
 		sqlsrv_close($conn);
-        echo '</form>';
 	    echo '</head>';
 		echo '</html>'; 
 		exit(0);
 	}
 ?>
+		<form enctype="multipart/form-data" action='eventModify.php' method='post'>
 			<center>				
 				<div class="container" id="event">
 					<p><u><b>Event Setup / Configuration</b></u></p>

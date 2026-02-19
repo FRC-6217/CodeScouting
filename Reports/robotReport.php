@@ -11,8 +11,11 @@
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
-	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -24,6 +27,26 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					  , isAdmin
+				   from Scout s
+				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = "N";
+	}
 
 	// Build data for Line Graph
 	$rows = array();
@@ -220,7 +243,8 @@
 							inner join ScoringType st
 							on st.id = o.scoringTypeId
                       where ge.loginGUID = '$loginGUID'
-					 union
+					    and st.name <> 'Free Form'
+					  union
 					 select g.alliancePtsHeader, 999 reportSortOrder
 					   from v_GameEvent ge
 					        inner join game g
@@ -321,7 +345,10 @@ $tsql = "select TeamNumber
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			echo "<td>" . $row['TeamNumber'] . "</td>";
+			if (isset($row['scoutRecordId']) && $isAdmin == "Y")
+				echo "<td><a href='/scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			else
+				echo "<td>" . $row['TeamNumber'] . "</td>";
 			echo "<td><a href='/Reports/matchReport.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
 			echo "<td>" . $row['matchTimeOnly'] . "</td>";
 			echo "<td>" . $row['scoutName'] . "</td>";
