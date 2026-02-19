@@ -251,7 +251,9 @@
 					}
 				}
 			while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-				echo '<a id="mainpage" class="clickme danger" href="' . $row['webcastURL'] . '" target="_blank">Webcast</a>';
+				if (!empty($row['webcastURL'])) {
+					echo '<a id="mainpage" class="clickme danger" href="' . $row['webcastURL'] . '" target="_blank">Webcast</a>';
+				}
 			}
 			sqlsrv_free_stmt($getResults);
 		// Show countdown to our next match
