@@ -217,7 +217,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 		    $teams == 'A' or
 			$row['playoffAlliance'] != '0') {
 			if ($playoffStarted == 1) {
-				if ($isAdmin == 'Y') {
+				if ($isAdmin == "Y") {
 					if ($row['playoffAlliance'] =='0') {
 						echo "<td>";
 						echo "<a href='../Reports/rankReport.php?sortOrder=" . $sortOrder . "&rankName=" . $rankName . "&toggleSelectedForPlayoff=" . $row['teamGameEventId'] . "&playoffAlliance=1'>1</a>";
