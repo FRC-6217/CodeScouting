@@ -123,7 +123,7 @@
 	$wantBBScout = $_POST['wantBBScout'];
 	$overviewOfBBScout = $_POST['overviewOfBBScout'];
 
-	$tsql = "sp_ins_scoutSurvey $teamId, '$loginGUID', '$scoutMatch', '$scoutRobot', '$scoutingDesc', '$scoutingDataStored', '$collaborate', '$tbaForMatches', '$tbaForMatches', '$tbaForAllianceSelection', '$wantBBScout', '$overviewOfBBScout'";
+	$tsql = "sp_ins_scoutSurvey $teamId, '$loginGUID', '$scoutMatch', '$scoutRobot', '$scoutingDesc', '$scoutingDataStored', '$collaborate', '$tbaForMatches', '$tbaForAllianceSelection', '$wantBBScout', '$overviewOfBBScout'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
