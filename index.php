@@ -258,12 +258,13 @@
 					echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
 			   }
 			?>
-			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
+			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a>
 			<?php
 			   if ($isAdmin == "Y") {
 					echo '<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
 			   }
 			?>
+		  </center>
           <p></p>
      </h2>
 	 
