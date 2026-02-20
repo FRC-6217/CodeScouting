@@ -1,4 +1,5 @@
 /* Clear data
+delete from TeamScoutSurvey where gameId in (select g.id from Game g where g.name = 'Rebuilt');
 delete from teamAttribute where attributeId in (select a.id from Attribute a inner join Game g on g.id = a.gameId where g.name = 'Rebuilt');
 delete from teamMatch where matchId in (select m.id from Game g inner join gameEvent ge on g.id = ge.gameId inner join match m on m.gameEventId = ge.id where g.name = 'Rebuilt');
 delete from ScoutRecord where matchId in (select m.id from Game g inner join gameEvent ge on g.id = ge.gameId inner join match m on m.gameEventId = ge.id where g.name = 'Rebuilt');
