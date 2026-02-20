@@ -259,6 +259,11 @@
 			   }
 			?>
 			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></center>
+			<?php
+			   if ($isAdmin == "Y") {
+					echo '<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
+			   }
+			?>
           <p></p>
      </h2>
 	 

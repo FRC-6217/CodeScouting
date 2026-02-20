@@ -2,7 +2,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1">
      <title>Scouting App</title>
      <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
-	<head>
+	 <head>
 		<link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/Logo/apple-icon-72x72.png">
@@ -25,12 +25,12 @@
 		<body>
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
+		<p></p>
+		<p></p>
 		<h2>
-			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
+			<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
+					<a id="buttons" class="clickme danger" href="scoutSurveyList6217.php">Scouting Survey</a></center>
 		</h2>
-		
-		<form enctype="multipart/form-data" action='scoutSurveyConf.php' method='post'>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -45,9 +45,8 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 	// Get Login info
-	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-					, s.isAdmin
 					, g.gameYear
 					from Scout s
 						inner join Team t
@@ -69,79 +68,49 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$gameYear = $row['gameYear'];
-	$isAdmin = $row['isAdmin'];
-	// Handle if logged in user is not active/configured in Scout table
-	if (empty($loginGUID)) {
-		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-		$tsql = "select s.scoutGUID
-						, s.isAdmin
-						, g.gameYear
-					from Scout s
-						inner join Team t
-						on t.id = s.teamId
-						inner join GameEvent ge
-						on ge.id = t.gameEventId
-						inner join Game g
-						on g.id = ge.gameId
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
-		$getResults = sqlsrv_query($conn, $tsql);
-		if ($getResults == FALSE)
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
+
+    // Get posted variables
+	$teamId = $_POST['teamId'];
+	$teamNumber = $_POST['teamNumber'];
+
+	// Get Query String Parameters
+	$scoutMatch = $_POST['scoutMatch'];
+	$scoutRobot = $_POST['scoutRobot'];
+	$scoutingDesc = $_POST['scoutingDesc'];
+	$scoutingDataStored = $_POST['scoutingDataStored'];
+	$collaborate = $_POST['collaborate'];
+	$tbaForMatches = $_POST['tbaForMatches'];
+	$tbaForAllianceSelection = $_POST['tbaForAllianceSelection'];
+	$wantBBScout = $_POST['wantBBScout'];
+	$overviewOfBBScout = $_POST['overviewOfBBScout'];
+
+	$tsql = "sp_ins_scoutSurvey $teamId, '$loginGUID', '$scoutMatch', '$scoutRobot', '$scoutingDesc', '$scoutingDataStored', '$collaborate', '$tbaForMatches', '$tbaForAllianceSelection', '$wantBBScout', '$overviewOfBBScout'";
+	$results = sqlsrv_query($conn, $tsql);
+	if($results) 
+		echo "<p></p><center>Submission Succeeded!</center>";
+	
+	if(!$results) 
+	{
+		echo "It is not working!<br />";
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
 			}
-		$loginGUID = $row['scoutGUID'];
-		$gameYear = $row['gameYear'];
-		$isAdmin = "N";
-	}
+		}
+	}		
 
-    // Get Query String Parameters
-	$teamId = "$_GET[teamId]";
-	$teamNumber = "$_GET[teamNumber]";
-	$teamName = "$_GET[teamName]";
+	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
+	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 ?>
-			<center>				
-				<div class="container" id="scout">
-					<?php
-					echo "<p><u><b>Team " . $teamNumber . " - " . $teamName . "</b></u></p>";
-					echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
-					$tsql = "select qName
-								  , qLabel
-								  , qSort
-								  , qTeamHtml
-							   from v_enterScoutSurveyTeamHTML
-							  where loginGUID = '$loginGUID'
-							    and teamId = $teamId
-							 order by qsort";
-					$getResults = sqlsrv_query($conn, $tsql);
-					if ($getResults == FALSE)
-						if( ($errors = sqlsrv_errors() ) != null) {
-							foreach( $errors as $error ) {
-								echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-								echo "code: ".$error[ 'code']."<br />";
-								echo "message: ".$error[ 'message']."<br />";
-							}
-						}
-					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-						echo $row['qTeamHtml'];
-					}
-					sqlsrv_free_stmt($getResults);
-					sqlsrv_close($conn);
+	</form>
+	<p></p>
 
-					// Only show form submit button when Admin
-					if ($isAdmin == "Y") {
-						echo '<p></p>';
-						echo '<center>';
-							echo '<input type="submit" value="Submit" name="submitToDatabase">';
-						echo '</center>';
-					}
-					?>
-				</div>
-            </center>
-        </form>
-	</head>
+<?php
+	// Close SQL
+	sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
+?>
+    </head>
 </html>

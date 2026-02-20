@@ -26,11 +26,11 @@
 			<h1><center>Bomb Botz Scouting App</center></h1>
 		</body>
 		<h2>
-			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
+			<center><a id="buttons" class="clickme danger" href="index6217.php">Home</a>
+			<a id="buttons" class="clickme danger" href="scoutSurveyList6217.php">Scouting Survey</a></center>
 		</h2>
 		
-		<form enctype="multipart/form-data" action='scoutSurveyConf.php' method='post'>
+		<form enctype="multipart/form-data" action='scoutSurveyConf6217.php' method='post'>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
@@ -45,9 +45,8 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 	// Get Login info
-	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-					, s.isAdmin
 					, g.gameYear
 					from Scout s
 						inner join Team t
@@ -69,34 +68,6 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$gameYear = $row['gameYear'];
-	$isAdmin = $row['isAdmin'];
-	// Handle if logged in user is not active/configured in Scout table
-	if (empty($loginGUID)) {
-		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-		$tsql = "select s.scoutGUID
-						, s.isAdmin
-						, g.gameYear
-					from Scout s
-						inner join Team t
-						on t.id = s.teamId
-						inner join GameEvent ge
-						on ge.id = t.gameEventId
-						inner join Game g
-						on g.id = ge.gameId
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
-		$getResults = sqlsrv_query($conn, $tsql);
-		if ($getResults == FALSE)
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
-			}
-		$loginGUID = $row['scoutGUID'];
-		$gameYear = $row['gameYear'];
-		$isAdmin = "N";
-	}
 
     // Get Query String Parameters
 	$teamId = "$_GET[teamId]";
@@ -131,15 +102,12 @@
 					}
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
-
-					// Only show form submit button when Admin
-					if ($isAdmin == "Y") {
-						echo '<p></p>';
-						echo '<center>';
-							echo '<input type="submit" value="Submit" name="submitToDatabase">';
-						echo '</center>';
-					}
 					?>
+
+					<p></p>
+					<center>
+						<input type="submit" value="Submit" name="submitToDatabase">
+					</center>
 				</div>
             </center>
         </form>

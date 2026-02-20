@@ -29,7 +29,7 @@
 		<p></p>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-					<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scout Survey</a></center>
+					<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
 		</h2>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");

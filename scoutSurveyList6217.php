@@ -15,9 +15,8 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
 				 from Scout s
 				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -31,27 +30,6 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$isAdmin = $row['isAdmin'];
-	// Handle if logged in user is not active/configured in Scout table
-	if (empty($loginGUID)) {
-		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-		$tsql = "select s.scoutGUID
-					, isAdmin
-					from Scout s
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
-		$getResults = sqlsrv_query($conn, $tsql);
-		if ($getResults == FALSE)
-			if( ($errors = sqlsrv_errors() ) != null) {
-				foreach( $errors as $error ) {
-					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-					echo "code: ".$error[ 'code']."<br />";
-					echo "message: ".$error[ 'message']."<br />";
-				}
-			}
-		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-		$loginGUID = $row['scoutGUID'];
-		$isAdmin = "N";
-	}
 ?>
     <head>
         <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
@@ -73,22 +51,11 @@
     </head>
 
     <h2>
-          <center><a class="clickme danger" href="index.php">Home</a></center>
+          <center><a class="clickme danger" href="index6217.php">Home</a></center>
           <p></p>
      </h2>
 	 
 <center><h1>Scouting Surveys</h1></center>
-<?php
-	// Non-Admin should not be on this page
-	if ($isAdmin != "Y") {
-		echo '<center>';				
-		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
-		echo '</center>';
-		sqlsrv_close($conn);
-		echo '</html>'; 
-		exit(0);
-	}
-?>
 <center>
 
     <br>
@@ -123,7 +90,7 @@
 	              , overviewOfBBScout
 	              , scoutingDesc
 	              , scoutingDataStored
-               from v_ScoutSurveyTeamHyperlinks
+               from v_ScoutSurveyTeamHyperlinks6217
               where loginGUID = '$loginGUID'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
