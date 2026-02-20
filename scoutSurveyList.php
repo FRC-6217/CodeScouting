@@ -123,7 +123,7 @@
 	              , overviewOfBBScout
 	              , scoutingDesc
 	              , scoutingDataStored
-               from v_ScoutSurveyTeamHyperlinksv_ScoutTeamHyperlinks
+               from v_ScoutSurveyTeamHyperlinks
               where loginGUID = '$loginGUID'
 			 order by teamNumber";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -139,15 +139,24 @@
        echo "<tr>";
 			echo "<td>" . $row['teamUrl'] . "</td>";
 			echo '<td align="left">' . $row["teamName"] . '</td>';
-			if (isset($row['scoutMatch'])) echo "<td>" . $row['scoutMatch'] . "</td>";
-			if (isset($row['scoutRobot'])) echo "<td>" . $row['scoutRobot'] . "</td>";
-			if (isset($row['colaborate'])) echo "<td>" . $row['colaborate'] . "</td>";
-			if (isset($row['tbaForMatches'])) echo "<td>" . $row['tbaForMatches'] . "</td>";
-			if (isset($row['tbaForAllianceSelection'])) echo "<td>" . $row['tbaForAllianceSelection'] . "</td>";
-			if (isset($row['wantBBScout'])) echo "<td>" . $row['wantBBScout'] . "</td>";
-			if (isset($row['overviewOfBBScout'])) echo "<td>" . $row['overviewOfBBScout'] . "</td>";
-			if (isset($row['scoutingDesc'])) echo "<td>" . $row['scoutingDesc'] . "</td>";
-			if (isset($row['scoutingDataStored'])) echo "<td>" . $row['scoutingDataStored'] . "</td>";
+			if (isset($row['scoutMatch'])) { echo "<td>" . $row['scoutMatch'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['scoutRobot'])) { echo "<td>" . $row['scoutRobot'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['colaborate'])) { echo "<td>" . $row['colaborate'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['tbaForMatches'])) { echo "<td>" . $row['tbaForMatches'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['tbaForAllianceSelection'])) { echo "<td>" . $row['tbaForAllianceSelection'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['wantBBScout'])) { echo "<td>" . $row['wantBBScout'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['overviewOfBBScout'])) { echo "<td>" . $row['overviewOfBBScout'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['scoutingDesc'])) { echo "<td>" . $row['scoutingDesc'] . "</td>"; }
+			else { echo "<td></td>"; }
+			if (isset($row['scoutingDataStored'])) { echo "<td>" . $row['scoutingDataStored'] . "</td>"; }
+			else { echo "<td></td>"; }
        echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
