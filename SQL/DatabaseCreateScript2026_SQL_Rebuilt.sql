@@ -22,9 +22,9 @@ delete from game where name = 'Rebuilt';
 insert into Game (name, gameYear, alliancePtsHeader, tbaCoopMet, tbaCoopAchieved) values ('Rebuilt', 2026, null, null, null);
 
 -- Game Ranking Points
-insert into GameRankingPoint select g.id, 1, 'Energized', 'ERP', 'energizedBonusAchieved', getdate() from Game g where g.name = 'Rebuilt'
-insert into GameRankingPoint select g.id, 2, 'Supercharged', 'SRP', 'superchargedBonusAchieved', getdate() from Game g where g.name = 'Rebuilt'
-insert into GameRankingPoint select g.id, 3, 'Traversal', 'TRP', 'traversalBonusAchieved', getdate() from Game g where g.name = 'Rebuilt'
+insert into GameRankingPoint select g.id, 1, 'Energized', 'ERP', 'energizedAchieved', getdate() from Game g where g.name = 'Rebuilt'
+insert into GameRankingPoint select g.id, 2, 'Supercharged', 'SRP', 'superchargedAchieved', getdate() from Game g where g.name = 'Rebuilt'
+insert into GameRankingPoint select g.id, 3, 'Traversal', 'TRP', 'traversalAchieved', getdate() from Game g where g.name = 'Rebuilt'
 
 -- Attributes
 insert into Attribute select g.id, 'name', 'What''s your name?', st.id, null, null, 1, getdate(), 'Name', 'N', '<Enter Name Here>' from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Free Form'
@@ -77,9 +77,9 @@ insert into AttributeValue select a.id, 'Defense', 3, 4, getdate(), 'Y', 'Y' fro
 insert into AttributeValue select a.id, 'No', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'autoClimb';
 insert into AttributeValue select a.id, 'Yes', 1, 2, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'autoClimb';
 insert into AttributeValue select a.id, 'Continue Scoring', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
-insert into AttributeValue select a.id, 'Climb R1', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
-insert into AttributeValue select a.id, 'Climb R2', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
-insert into AttributeValue select a.id, 'Climb R3', 3, 4, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
+insert into AttributeValue select a.id, 'Climb L1', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
+insert into AttributeValue select a.id, 'Climb L2', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
+insert into AttributeValue select a.id, 'Climb L3', 3, 4, getdate(), 'Y', 'Y' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'endGamePlan';
 insert into AttributeValue select a.id, 'No Preference', 0, 1, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
 insert into AttributeValue select a.id, 'Mid of Tower', 1, 2, getdate(), 'Y', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
 insert into AttributeValue select a.id, 'Left of Tower', 2, 3, getdate(), 'N', 'N' from Game g inner join Attribute a on a.gameId = g.id where g.name = 'Rebuilt' and a.name = 'climbLoc';
@@ -104,13 +104,13 @@ insert into Objective select g.id, 'Rating', 'How would you rate the robot (0-10
 
 -- Objective Value
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aClimb'
-insert into ObjectiveValue select o.id, 'R1', 1, 2, 15, getdate(), 'Y', 'R1', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aClimb'
-insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', 'No', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aWin'
-insert into ObjectiveValue select o.id, 'Yes', 1, 2, 0, getdate(), 'Y', 'Yes', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aWin'
+insert into ObjectiveValue select o.id, 'L1', 1, 2, 15, getdate(), 'Y', 'Level1', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aClimb'
+insert into ObjectiveValue select o.id, 'No', 0, 1, 0, getdate(), 'N', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aWin'
+insert into ObjectiveValue select o.id, 'Yes', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'aWin'
 insert into ObjectiveValue select o.id, 'None', 0, 1, 0, getdate(), 'N', 'None', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
-insert into ObjectiveValue select o.id, 'R1', 1, 2, 10, getdate(), 'Y', 'R1', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
-insert into ObjectiveValue select o.id, 'R2', 2, 3, 20, getdate(), 'N', 'R2', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
-insert into ObjectiveValue select o.id, 'R3', 3, 4, 30, getdate(), 'Y', 'R3', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
+insert into ObjectiveValue select o.id, 'L1', 1, 2, 10, getdate(), 'Y', 'Level1', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
+insert into ObjectiveValue select o.id, 'L2', 2, 3, 20, getdate(), 'N', 'Level2', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
+insert into ObjectiveValue select o.id, 'L3', 3, 4, 30, getdate(), 'Y', 'Level3', null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb'
 insert into ObjectiveValue select o.id, '0', null, 1, null, getdate(), 'N', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, '1', 1, 2, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toDefense'
 insert into ObjectiveValue select o.id, '2', 2, 3, 0, getdate(), 'Y', null, null, null, null, null, null, 'Y' from Game g inner join Objective o on o.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toDefense'
