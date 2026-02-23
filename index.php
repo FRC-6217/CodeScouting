@@ -34,7 +34,10 @@
 					  order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
 					     then 1
 						 else 0 end showCountdown
+				  , t.teamNumber
 				 from Scout s
+				      inner join Team t
+					  on t.id = s.teamId
 				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -50,6 +53,7 @@
 	$isAdmin = $row['isAdmin'];
 	$nextMatchDate = $row['nextMatchDate'];
 	$showCountdown = $row['showCountdown'];
+	$teamNumber = $row['teamNumber'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
@@ -74,7 +78,10 @@
 						order by m.sortOrder, datetime, matchNumber), getdate() - 1) > getdate() - (5.1 / 24.0)
 							then 1
 							else 0 end showCountdown
+					, t.teamNumber
 					from Scout s
+						inner join Team t
+						on t.id = s.teamId
 					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
@@ -90,6 +97,7 @@
 		$isAdmin = "N";
 		$nextMatchDate = $row['nextMatchDate'];
 		$showCountdown = $row['showCountdown'];
+		$teamNumber = $row['teamNumber'];
 	}
 
 	// Build data for Line Graph
@@ -260,7 +268,7 @@
 			?>
 			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a>
 			<?php
-			   if ($isAdmin == "Y") {
+			   if ($isAdmin == "Y" && $teamNumber == "6217") {
 					echo '<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
 			   }
 			?>
