@@ -30,7 +30,7 @@ declare @lv_AtributeId integer;
 declare @lv_TeamAtributeId integer;
 declare @lv_ScoringTypeName varchar(64);
 declare @lv_IntegerValue integer;
-declare @lv_DecimalValue decimal;
+declare @lv_DecimalValue decimal(10,2);
 
 BEGIN
 	SET NOCOUNT ON
@@ -86,7 +86,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue01);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue01);
 			SET @pv_TextValue01 = NULL;
 			END
 		ELSE
@@ -137,7 +137,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue02);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue02);
 			SET @pv_TextValue02 = NULL;
 			END
 		ELSE
@@ -188,7 +188,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue03);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue03);
 			SET @pv_TextValue03 = NULL;
 			END
 		ELSE
@@ -239,7 +239,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue04);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue04);
 			SET @pv_TextValue04 = NULL;
 			END
 		ELSE
@@ -290,7 +290,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue05);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue05);
 			SET @pv_TextValue05 = NULL;
 			END
 		ELSE
@@ -341,7 +341,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue06);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue06);
 			SET @pv_TextValue06 = NULL;
 			END
 		ELSE
@@ -392,7 +392,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue07);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue07);
 			SET @pv_TextValue07 = NULL;
 			END
 		ELSE
@@ -443,7 +443,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue08);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue08);
 			SET @pv_TextValue08 = NULL;
 			END
 		ELSE
@@ -494,7 +494,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue09);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue09);
 			SET @pv_TextValue09 = NULL;
 			END
 		ELSE
@@ -545,7 +545,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue10);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue10);
 			SET @pv_TextValue10 = NULL;
 			END
 		ELSE
@@ -596,7 +596,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue11);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue11);
 			SET @pv_TextValue11 = NULL;
 			END
 		ELSE
@@ -647,7 +647,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue12);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue12);
 			SET @pv_TextValue12 = NULL;
 			END
 		ELSE
@@ -698,7 +698,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue13);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue13);
 			SET @pv_TextValue13 = NULL;
 			END
 		ELSE
@@ -749,7 +749,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue14);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue14);
 			SET @pv_TextValue14 = NULL;
 			END
 		ELSE
@@ -800,7 +800,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue15);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue15);
 			SET @pv_TextValue15 = NULL;
 			END
 		ELSE
@@ -851,7 +851,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue16);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue16);
 			SET @pv_TextValue16 = NULL;
 			END
 		ELSE
@@ -902,7 +902,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue17);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue17);
 			SET @pv_TextValue17 = NULL;
 			END
 		ELSE
@@ -953,7 +953,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue18);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue18);
 			SET @pv_TextValue18 = NULL;
 			END
 		ELSE
@@ -1004,7 +1004,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue19);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue19);
 			SET @pv_TextValue19 = NULL;
 			END
 		ELSE
@@ -1055,7 +1055,7 @@ BEGIN
 		ELSE IF @lv_ScoringTypeName = 'Decimal'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
-			SET @lv_DecimalValue = convert(decimal, @pv_TextValue20);
+			SET @lv_DecimalValue = convert(decimal(10, 2), @pv_TextValue20);
 			SET @pv_TextValue20 = NULL;
 			END
 		ELSE

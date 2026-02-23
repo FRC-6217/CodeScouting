@@ -9,7 +9,9 @@ select a.name attributeName
 	        then '<br>' + a.label + '<br><input type="text" name ="value' + convert(varchar, a.sortOrder) +
 			case when (select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id) is not null
 			     then '" value="' + (select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id)
-				 else '" placeholder="' + a.defaultText end +
+				 when a.defaultText is not null
+				 then '" placeholder="' + a.defaultText
+				 else '' end +
 			'" style="width: 320px"><br>'
 			when st.hasValueList = 'N' and st.name = 'Integer'
 	        then case when a.sameLineAsPrevious = 'Y'
