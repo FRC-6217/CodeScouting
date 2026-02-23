@@ -137,5 +137,10 @@
     <Build Include="dbo\Stored Procedures\sp_ins_NM_scoutRecord.sql" />
     <Build Include="dbo\Tables\GameEventWebcast.sql" />
     <Build Include="dbo\Stored Procedures\sp_rpt_matchReport6217.sql" />
+    <Build Include="dbo\Tables\TeamScoutSurvey.sql" />
+    <Build Include="dbo\Views\v_ScoutSurveyTeamHyperlinks6217.sql" />
+    <Build Include="dbo\Views\v_ScoutSurveyTeamHyperlinks.sql" />
+    <Build Include="dbo\Views\v_EnterScoutSurveyTeamHTML.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_scoutSurvey.sql" />
   </ItemGroup>
 </Project>

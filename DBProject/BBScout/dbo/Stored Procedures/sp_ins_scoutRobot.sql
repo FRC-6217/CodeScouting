@@ -30,6 +30,7 @@ declare @lv_AtributeId integer;
 declare @lv_TeamAtributeId integer;
 declare @lv_ScoringTypeName varchar(64);
 declare @lv_IntegerValue integer;
+declare @lv_DecimalValue decimal;
 
 BEGIN
 	SET NOCOUNT ON
@@ -80,22 +81,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue01);
+			SET @pv_TextValue01 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue01);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue01 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue01;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue01;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue01 is null or @pv_TextValue01 = '' then textValue else @pv_TextValue01 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -122,22 +132,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue02);
+			SET @pv_TextValue02 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue02);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue02 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue02;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue02;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue02 is null or @pv_TextValue02 = '' then textValue else @pv_TextValue02 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -164,22 +183,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue03);
+			SET @pv_TextValue03 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue03);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue03 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue03;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue03;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue03 is null or @pv_TextValue03 = '' then textValue else @pv_TextValue03 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -206,22 +234,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue04);
+			SET @pv_TextValue04 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue04);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue04 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue04;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue04;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue04 is null or @pv_TextValue04 = '' then textValue else @pv_TextValue04 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -248,22 +285,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue05);
+			SET @pv_TextValue05 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue05);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue05 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue05;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue05;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue05 is null or @pv_TextValue05 = '' then textValue else @pv_TextValue05 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -290,22 +336,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue06);
+			SET @pv_TextValue06 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue06);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue06 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue06;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue06;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue06 is null or @pv_TextValue06 = '' then textValue else @pv_TextValue06 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -332,22 +387,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue07);
+			SET @pv_TextValue07 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue07);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue07 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue07;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue07;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue07 is null or @pv_TextValue07 = '' then textValue else @pv_TextValue07 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -374,22 +438,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue08);
+			SET @pv_TextValue08 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue08);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue08 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue08;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue08;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue08 is null or @pv_TextValue08 = '' then textValue else @pv_TextValue08 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -416,22 +489,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue09);
+			SET @pv_TextValue09 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue09);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue09 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue09;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue09;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue09 is null or @pv_TextValue09 = '' then textValue else @pv_TextValue09 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -458,22 +540,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue10);
+			SET @pv_TextValue10 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue10);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue10 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue10;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue10;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue10 is null or @pv_TextValue10 = '' then textValue else @pv_TextValue10 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -500,22 +591,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue11);
+			SET @pv_TextValue11 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue11);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue11 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue11;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue11;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue11 is null or @pv_TextValue11 = '' then textValue else @pv_TextValue11 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -542,22 +642,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue12);
+			SET @pv_TextValue12 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue12);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue12 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue12;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue12;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue12 is null or @pv_TextValue12 = '' then textValue else @pv_TextValue12 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -584,22 +693,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue13);
+			SET @pv_TextValue13 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue13);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue13 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue13;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue13;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue13 is null or @pv_TextValue13 = '' then textValue else @pv_TextValue13 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -626,22 +744,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue14);
+			SET @pv_TextValue14 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue14);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue14 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue14;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue14;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue14 is null or @pv_TextValue14 = '' then textValue else @pv_TextValue14 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -668,22 +795,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue15);
+			SET @pv_TextValue15 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue15);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue15 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue15;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue15;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue15 is null or @pv_TextValue15 = '' then textValue else @pv_TextValue15 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -710,22 +846,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue16);
+			SET @pv_TextValue16 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue16);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue16 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue16;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue16;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue16 is null or @pv_TextValue16 = '' then textValue else @pv_TextValue16 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -752,22 +897,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue17);
+			SET @pv_TextValue17 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue17);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue17 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue17;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue17;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue17 is null or @pv_TextValue17 = '' then textValue else @pv_TextValue17 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -794,22 +948,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue18);
+			SET @pv_TextValue18 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue18);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue18 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue18;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue18;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue18 is null or @pv_TextValue18 = '' then textValue else @pv_TextValue18 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -836,22 +999,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue19);
+			SET @pv_TextValue19 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue19);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue19 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue19;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue19;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue19 is null or @pv_TextValue19 = '' then textValue else @pv_TextValue19 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;
@@ -878,22 +1050,31 @@ BEGIN
 		IF @lv_ScoringTypeName = 'Free Form'
 			BEGIN
 			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = NULL;
+			END
+		ELSE IF @lv_ScoringTypeName = 'Decimal'
+			BEGIN
+			SET @lv_IntegerValue = NULL;
+			SET @lv_DecimalValue = convert(decimal, @pv_TextValue20);
+			SET @pv_TextValue20 = NULL;
 			END
 		ELSE
 			BEGIN
 			SET @lv_IntegerValue = convert(integer, @pv_TextValue20);
+			SET @lv_DecimalValue = NULL;
 			SET @pv_TextValue20 = NULL;
 			END
 		-- Add Team Attribute Record
 		IF @lv_TeamAtributeId is null
 			BEGIN
-			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, textValue)
-			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @pv_TextValue20;
+			INSERT INTO TeamAttribute (teamId, attributeId, integerValue, decimalValue, textValue)
+			SELECT @pv_TeamId, @lv_AtributeId, @lv_IntegerValue, @lv_DecimalValue, @pv_TextValue20;
 			END
 		ELSE
 			BEGIN
 			UPDATE TeamAttribute
                SET integerValue = @lv_IntegerValue
+			     , decimalValue = @lv_DecimalValue
     			 , textValue = case when @pv_TextValue20 is null or @pv_TextValue20 = '' then textValue else @pv_TextValue20 end
              WHERE teamId = @pv_TeamId
 			   AND attributeId = @lv_AtributeId;

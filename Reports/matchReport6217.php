@@ -97,12 +97,15 @@
 		if ($row['alliance'] == 'Blue') $blueScore = $blueScore + $row['totalScoreValue'];
 		
 		// oPR
+		$oPR = (float) $row['oPR'];
+		// Pie charts can't handle negative values
+		if ($oPR < 0) $oPR = 0;
 		$oprTemp = array();
 		$oprTemp[] = array('v' => (string) $row['teamNumber'] . ' - ' . $row['teamName']); 
-		$oprTemp[] = array('v' => (float) $row['oPR']); 
+		$oprTemp[] = array('v' => $oPR); 
 		$oprRows[] = array('c' => $oprTemp);
-		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $row['oPR'];
-		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $row['oPR'];
+		if ($row['alliance'] == 'Red') $redOpr = $redOpr + $oPR;
+		if ($row['alliance'] == 'Blue') $blueOpr = $blueOpr + $oPR;
 	}
 	$table['rows'] = $rows;
 	$jsonTablePieChart = json_encode($table);

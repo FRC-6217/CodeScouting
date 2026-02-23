@@ -1,7 +1,12 @@
-﻿-- View for Rank Report with Playoff Started indicator
+﻿
+
+
+-- View for Rank Report with Playoff Started indicator
 CREATE view [dbo].[v_PlayoffStarted] as
 select s.scoutGUID
      , s.emailAddress
+	 , s.isAdmin
+	 , s.isActive
      , case when convert(decimal(18,10), (coalesce(max(m.dateTime), '12/31/2099') - convert(datetime, SYSDATETIMEOFFSET() AT TIME ZONE 'Central Standard Time'))) - (15.0 / 24.0 / 60.0) < 0
 	        then 1
 			else 0 end playoffStarted
@@ -19,4 +24,6 @@ select s.scoutGUID
        and m.type = 'QM'
 group by s.scoutGUID
        , s.emailAddress
+       , s.isAdmin
+       , s.isActive
 	   , ge.id;

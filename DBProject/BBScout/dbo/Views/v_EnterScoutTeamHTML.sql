@@ -1,4 +1,4 @@
-﻿CREATE view [dbo].[v_EnterScoutTeamHTML] as
+﻿CREATE view v_EnterScoutTeamHTML as
 select a.name attributeName
 	 , a.label attributeLabel
 	 , av.displayValue
@@ -11,10 +11,20 @@ select a.name attributeName
 			     then '" value="' + (select ta.textValue from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id)
 				 else '" placeholder="' + a.defaultText end +
 			'" style="width: 320px"><br>'
-			when st.hasValueList = 'N'
-	        then case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end + a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
-			coalesce((select convert(varchar, ta.integerValue) from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '0') +
-			' style="width: 50px;">' + case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end
+			when st.hasValueList = 'N' and st.name = 'Integer'
+	        then case when a.sameLineAsPrevious = 'Y'
+			          then ''
+					  else '<br>' end +
+				 a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
+                 coalesce((select convert(varchar, ta.integerValue) from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '0') +
+			     ' step="1" style="width: 50px;">' + case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end
+			when st.hasValueList = 'N' and st.name = 'Decimal'
+	        then case when a.sameLineAsPrevious = 'Y'
+			          then ''
+					  else '<br>' end +
+				 a.label + '<input type="number" name ="value' + convert(varchar, a.sortOrder) + '" value=' +
+                 coalesce((select convert(varchar, coalesce(ta.decimalValue, ta.integerValue)) from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), '0') +
+			     ' step="0.01" style="width: 65px;">' + case when a.sameLineAsPrevious = 'Y' then '' else '<br>' end
 			when av.sortOrder = 1
 	        then '<br>' + a.label + '<br>&nbsp;&nbsp;&nbsp;&nbsp;' + av.displayValue + '<input type="radio" ' +
 			coalesce((select case when ta.integerValue = av.integerValue then 'checked="checked"' else '' end from teamAttribute ta where ta.teamId = t.id and ta.attributeId = a.id), 'checked="checked"') +

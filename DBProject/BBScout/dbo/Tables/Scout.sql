@@ -13,14 +13,18 @@
 );
 
 
+
+
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idx_scout]
     ON [dbo].[Scout]([lastName] ASC, [firstName] ASC);
 
 
 GO
-CREATE NONCLUSTERED INDEX [idx2_scout]
+CREATE UNIQUE NONCLUSTERED INDEX [idx2_scout]
     ON [dbo].[Scout]([emailAddress] ASC);
+
+
 
 
 GO

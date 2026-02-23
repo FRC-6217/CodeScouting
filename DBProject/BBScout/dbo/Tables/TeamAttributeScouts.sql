@@ -10,8 +10,11 @@
     CONSTRAINT [fk_TeamAttributeScouts_Game] FOREIGN KEY ([gameId]) REFERENCES [dbo].[Game] ([id]),
     CONSTRAINT [fk_TeamAttributeScouts_Scout1] FOREIGN KEY ([scoutId1]) REFERENCES [dbo].[Scout] ([id]),
     CONSTRAINT [fk_TeamAttributeScouts_Scout2] FOREIGN KEY ([scoutId2]) REFERENCES [dbo].[Scout] ([id]),
+    CONSTRAINT [fk_TeamAttributeScouts_Scout3] FOREIGN KEY ([scoutId3]) REFERENCES [dbo].[Scout] ([id]),
     CONSTRAINT [fk_TeamAttributeScouts_Team] FOREIGN KEY ([teamId]) REFERENCES [dbo].[Team] ([id])
 );
+
+
 
 
 GO
