@@ -250,7 +250,8 @@ insert into TeamSponsor select t.id, g.id, 'Donaldson Foundation', 0, 27, 'Spons
 insert into TeamSponsor select t.id, g.id, 'BTD Manufacturing', 0, 29, 'Sponsors/btd-mfg-logo.png', 'https://btdmfg.com/', 80, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 --insert into TeamSponsor select t.id, g.id, 'BARR', 0, 35, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'River Town Games', 0, 42, 'Sponsors/RiverTownGames.jpg', 'https://www.rivertowngames.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Jim Althoff Real Estate', 0, 45, 'Sponsors/JimAlthoffRealEstate.jpeg', 'https://www.facebook.com/JimAlthoffRealtor/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 50, 'Sponsors/QualityOne.png', 'https://www.qualityonewoodwork.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
@@ -263,6 +264,8 @@ insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.pn
 --insert into TeamSponsor select t.id, g.id, 'Chuck & Carrie Olson', 0, 180, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 190, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 --insert into TeamSponsor select t.id, g.id, 'Jack Schlicting', 0, 200, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+
+
 update teamSponsor set maxWidthPercent = 100, width = 395, height = 173, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 13 -- VFW
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 15 -- American Legion
 update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 20 -- Aliveo
@@ -271,7 +274,7 @@ update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game 
 update teamSponsor set maxWidthPercent = 100, width = 468, height = 150, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 29 -- BTD
 update teamSponsor set maxWidthPercent = 15, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- Hernke
 update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 35 -- BARR
-update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
+update teamSponsor set maxWidthPercent = 20, sameLineAsPrevious = 'Y' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 45 -- Jim ALthoff
 update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 60 -- StarTech
 update teamSponsor set maxWidthPercent = 12 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 85 -- Auto Value
