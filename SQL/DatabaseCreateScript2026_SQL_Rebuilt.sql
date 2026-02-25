@@ -204,8 +204,27 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Stark', 'Avery', t.id, 'Y', '27as02@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Stark' and s.firstName = 'Avery' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Zheng', 'William', t.id, 'Y', '27wz01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Zheng' and s.firstName = 'William' and s.teamId = t.id);
 
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Campus', 'El', t.id, 'Y', 'ecampus2026@gmail.com', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Campus' and s.firstName = 'El' and s.teamId = t.id);
+-- Read only user as default email
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'xOnly', 'Read', t.id, 'Y', 'cfrobotics@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'xOnly' and s.firstName = 'Read' and s.teamId = t.id);
+-- 9149 RoboCats
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Campus', 'El', t.id, 'Y', 'ecampus2026@gmail.com', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Campus' and s.firstName = 'El' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Kaeder', 'Nole', t.id, 'Y', 'nkaeder.2026@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Kaeder' and s.firstName = 'Nole' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Berner', 'Cam', t.id, 'Y', 'cberner.2026@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Berner' and s.firstName = 'Cam' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hecker', 'Trey', t.id, 'Y', 'thecker2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Hecker' and s.firstName = 'Trey' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rawlings', 'John', t.id, 'Y', 'jrawling2026@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Rawlings' and s.firstName = 'John' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Olle-LaJoie', 'Oscar', t.id, 'Y', 'oollelajoie.2027@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Olle-LaJoie' and s.firstName = 'Oscar' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Bremer', 'Alex', t.id, 'Y', 'abremer.2026@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Bremer' and s.firstName = 'Alex' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Nelson', 'Hugo', t.id, 'Y', 'nelson.2029@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Nelson' and s.firstName = 'Hugo' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Behr', 'Declan', t.id, 'Y', 'dbehr.2029@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Behr' and s.firstName = 'Declan' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Swanson', 'Addie', t.id, 'Y', 'sswanson.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Swanson' and s.firstName = 'Addie' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Plank', 'Ethan', t.id, 'Y', 'eplank.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Plank' and s.firstName = 'Ethan' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Knolmayer', 'Vincent', t.id, 'Y', 'nknolmayer.2027@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Knolmayer' and s.firstName = 'Vincent' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Baker', 'Frank', t.id, 'Y', 'fbaker.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Baker' and s.firstName = 'Frank' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Everson', 'Will', t.id, 'Y', 'weverson.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Everson' and s.firstName = 'Will' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Mitchell', 'Connor', t.id, 'Y', 'cmitchell.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Mitchell' and s.firstName = 'Connor' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select '(Choose Scout)', '9149', t.id, 'Y', '9149@x.com', 'N' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = '(Choose Scout)' and s.firstName = '9149' and s.teamId = t.id);
+
+select * from scout where isactive = 'Y'
 
 /*
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzRobettes', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzRobettes' and s.firstName = 'Scout' and s.teamId = t.id);
@@ -233,6 +252,7 @@ update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Propst' an
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Rezac' and firstName = 'Kaeda' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Stark' and firstName = 'Avery' and teamId = (select id from Team where teamNumber = 6217);
 update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Zheng' and firstName = 'William' and teamId = (select id from Team where teamNumber = 6217);
+
 
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
 update Scout set isAdmin = 'Y' where isactive = 'Y' and isadmin = 'N' and lastname + firstname not in ('TBA', '(Choose Scout)','zzBomb BotzScout')
@@ -266,15 +286,16 @@ insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 190, null, null
 --insert into TeamSponsor select t.id, g.id, 'Jack Schlicting', 0, 200, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 
 
-update teamSponsor set maxWidthPercent = 100, width = 395, height = 173, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 13 -- VFW
+update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 13 -- VFW
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 15 -- American Legion
 update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 20 -- Aliveo
 update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 25 -- Haas
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 26 -- CFFD
-update teamSponsor set maxWidthPercent = 100, width = 468, height = 150, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 29 -- BTD
+update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 29 -- BTD
 update teamSponsor set maxWidthPercent = 15, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- Hernke
 update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 35 -- BARR
 update teamSponsor set maxWidthPercent = 20, sameLineAsPrevious = 'Y' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 42 -- River Town Games
 update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 45 -- Jim ALthoff
 update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 60 -- StarTech
 update teamSponsor set maxWidthPercent = 12 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 85 -- Auto Value

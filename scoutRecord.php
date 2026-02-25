@@ -45,7 +45,8 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
+	              , s.isAdmin
+				  , s.id
 				 from Scout s
 				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
@@ -60,11 +61,13 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+	$loginScoutId = $row['id'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-					  , isAdmin
+					  , s.isAdmin
+					  , s.id
 				   from Scout s
 				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
@@ -78,6 +81,7 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
+		$loginScoutId = $row['id'];
 	}
 
 	// Get values for page from database
@@ -130,7 +134,8 @@
 		$scoutId = "$_GET[scoutId]";
 		$scoutRecordId = "0";
 	}
-	
+	// If scout id not set, then try the logged in Scout Id
+	if (empty($scoutId)) $scoutId = $loginScoutId;
 ?>
 			<center>				
 				<div class="container" id="scout">

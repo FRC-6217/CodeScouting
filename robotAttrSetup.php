@@ -48,6 +48,7 @@
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
 					, s.isAdmin
+					, s.id
 					, g.gameYear
 					from Scout s
 						inner join Team t
@@ -68,13 +69,15 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$gameYear = $row['gameYear'];
 	$isAdmin = $row['isAdmin'];
+	$loginScoutId = $row['id'];
+	$gameYear = $row['gameYear'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
 						, s.isAdmin
+					    , s.id
 						, g.gameYear
 					from Scout s
 						inner join Team t
@@ -94,8 +97,9 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$gameYear = $row['gameYear'];
 		$isAdmin = $row['isAdmin'];
+		$loginScoutId = $row['id'];
+		$gameYear = $row['gameYear'];
 	}
 
 	# Reference autoload (assuming you're using Composer)
@@ -140,6 +144,8 @@
 						$scoutId2 = $row['scoutId2'];
 						$scoutId3 = $row['scoutId3'];
 					}
+					// If scout id not set, then try the logged in Scout Id
+					if (empty($scoutId1) && empty($scoutId2) && empty($scoutId3)) $scoutId1 = $loginScoutId;
 					sqlsrv_free_stmt($getResults);
 					$tsql = "select id, lastName + ', ' + firstName fullName
 					           from Scout
