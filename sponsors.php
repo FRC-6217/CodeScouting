@@ -49,7 +49,7 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 	}
 
 ?>

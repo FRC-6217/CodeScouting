@@ -95,7 +95,7 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$gameYear = $row['gameYear'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 	}
 
 	# Reference autoload (assuming you're using Composer)

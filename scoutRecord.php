@@ -77,7 +77,7 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 	}
 
 	// Get values for page from database

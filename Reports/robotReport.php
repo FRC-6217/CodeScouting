@@ -45,7 +45,7 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 	}
 
 	// Build data for Line Graph

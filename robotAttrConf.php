@@ -95,7 +95,7 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$gameYear = $row['gameYear'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 	}
 	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {

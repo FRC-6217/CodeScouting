@@ -86,7 +86,7 @@
 			}
 		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 		$loginGUID = $row['scoutGUID'];
-		$isAdmin = "N";
+		$isAdmin = $row['isAdmin'];
 		$nextMatchDate = $row['nextMatchDate'];
 		$showCountdown = $row['showCountdown'];
 	}
