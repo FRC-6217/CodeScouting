@@ -270,6 +270,7 @@
 			<?php
 			   if ($isAdmin == "Y" && $teamNumber == "6217") {
 					echo '<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
+					echo '<a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a>';
 			   }
 			?>
 		  </center>
