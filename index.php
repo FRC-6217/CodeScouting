@@ -269,7 +269,7 @@
 			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a>
 			<?php
 			   if ($isAdmin == "Y" && $teamNumber == "6217") {
-					echo '<p></p><a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
+					echo '<p></p><a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>	';
 					echo '<a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a>';
 			   }
 			?>
