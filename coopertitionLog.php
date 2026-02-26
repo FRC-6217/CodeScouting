@@ -27,10 +27,10 @@
 		</body>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
+			<a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a></center>
 		</h2>
 		
-		<form enctype="multipart/form-data" action='scoutSurveyConf.php' method='post'>
+		<form enctype="multipart/form-data" action='coopertitionLogConf.php' method='post'>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");

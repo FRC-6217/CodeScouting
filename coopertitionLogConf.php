@@ -29,7 +29,7 @@
 		<p></p>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-					<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
+					<a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a></center>
 		</h2>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
@@ -122,6 +122,7 @@
 
 	$tsql = "sp_ins_coopertitionLog $coopertitionLogId, $scoutId, '$logDate', $teamId, '$logNotes', '$logType', $eventId, '$logLocation'";
 	$results = sqlsrv_query($conn, $tsql);
+	echo "<p></p>" . $tsql;
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
 	
