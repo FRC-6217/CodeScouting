@@ -109,7 +109,7 @@
 								  , fLabel
 								  , fSort
 								  , fLogHtml
-							   from v_EnterScoutSurveyTeamHTML
+							   from v_EnterCoopertitionLogHTML
 							  where loginGUID = '$loginGUID'
 							    and coopertitionLogId = $coopertitionLogId
 							 order by fSort";

@@ -99,8 +99,8 @@
         <th>Date</th>
         <th>Entered By</th>
         <th>Team</th>
-        <th>Cooperition Description</th>
         <th>Type</th>
+        <th>Cooperition Description</th>
         <th>Event</th>
         <th>Location</th>
      </tr>
@@ -129,10 +129,10 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
 			echo "<td>" . $row['logUrl'] . "</td>";
-			echo '<td">' . $row["scoutName"] . '</td>';
-			echo '<td">' . $row["teamNumber"] . '</td>';
-			echo '<td">' . $row["logNotes"] . '</td>';
-			echo '<td">' . $row["logType"] . '</td>';
+			echo '<td>' . $row["scoutName"] . '</td>';
+			echo '<td>' . $row["teamNumber"] . '</td>';
+			echo '<td>' . $row["logType"] . '</td>';
+			echo '<td>' . $row["logNotes"] . '</td>';
 			if (isset($row['eventName'])) { echo "<td>" . $row['eventName'] . "</td>"; }
 			else { echo "<td></td>"; }
 			if (isset($row['logLocation'])) { echo "<td>" . $row['logLocation'] . "</td>"; }
