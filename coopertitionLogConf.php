@@ -112,7 +112,7 @@
 	$coopertitionLogId = $_POST['coopertitionLogId'];
 
 	// Get Query String Parameters
-	$scoutId = $_POST['scoutMatchscoutId'];
+	$scoutId = $_POST['scoutId'];
 	$logDate = $_POST['logDate'];
 	$teamId = $_POST['teamId'];
 	$logNotes = $_POST['logNotes'];
@@ -122,13 +122,12 @@
 
 	$tsql = "sp_ins_coopertitionLog $coopertitionLogId, $scoutId, '$logDate', $teamId, '$logNotes', '$logType', $eventId, '$logLocation'";
 	$results = sqlsrv_query($conn, $tsql);
-	echo "<p></p>" . $tsql;
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
-	
 	if(!$results) 
 	{
 		echo "It is not working!<br />";
+		echo $tsql . "<br />";
 		if( ($errors = sqlsrv_errors() ) != null) {
 			foreach( $errors as $error ) {
 				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";

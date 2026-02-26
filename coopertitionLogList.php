@@ -72,12 +72,16 @@
         <meta name="theme-color" content="#ffffff">
     </head>
 
+	<center><h1>Coopertition Log</h1></center>
     <h2>
-          <center><a class="clickme danger" href="index.php">Home</a></center>
-          <p></p>
+        <p></p>
+        <center>
+			<a class="clickme danger" href="index.php">Home</a>
+          	<a class="clickme danger" href="coopertitionLog.php?coopertitionLogId=0">New Log Entry</a>
+		</center>
+        <p></p>
      </h2>
 	 
-<center><h1>Coopertition Log</h1></center>
 <?php
 	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
