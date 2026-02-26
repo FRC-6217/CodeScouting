@@ -263,14 +263,14 @@
           <center>
 			<?php
 			   if ($isAdmin == "Y") {
-					echo '<div id="link"><a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a></div>';
+					echo '<a id="mainpage" class="clickme danger" href="scoutRecord.php">Scout Match</a>';
 			   }
 			?>
-			<div id="link"><a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a></div>
+			<a id="mainpage" class="clickme danger" href="robotAttrList.php">Pit Scout</a>
 			<?php
 			   if ($isAdmin == "Y" && $teamNumber == "6217") {
-					echo '<div id="link"><a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></div>';
-					echo '<div id="link"><a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a></div>';
+					echo '<p></p><a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a>';
+					echo '<a id="buttons" class="clickme danger" href="coopertitionLogList.php">Coopertition Log</a>';
 			   }
 			?>
 		  </center>
