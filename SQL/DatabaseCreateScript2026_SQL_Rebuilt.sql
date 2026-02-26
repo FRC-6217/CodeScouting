@@ -183,17 +183,16 @@ insert into RankObjective select r.id, o.id, getdate() from Game g inner join Ob
 insert into RankObjective select r.id, o.id, getdate() from Game g inner join Objective o on o.gameId = g.id inner join Rank r on r.gameId = g.id where g.name = 'Rebuilt' and o.name = 'toClimb' and r.name = 'Scr Imp'
 
 -- Scout
-update Scout set isActive = 'N' where teamId in (select id from Team where teamNumber = 6217) and isActive <> 'N' and lastname + firstname not in ('CoyleJoe', 'EngebretsenDave', 'StarkCharlie','TBA', '(Choose Scout)','zzBomb BotzScout');
+--select * from scout where teamId = 101 and isactive = 'Y' order by emailaddress, lastName, firstName
+update Scout set isActive = 'N' where teamId in (select id from Team where teamNumber = 6217) and isActive <> 'N' and emailaddress not in ('cfrobotics@cf.k12.mn.us', 'golfrat7@gmail.com', 'engebret@engebret.org', 'Charlie.Stark@cf.k12.mn.us','tba@tba.com', '9149@x.com', 'thomasc31415@gmail.com', 'brandon.mcdonnell41@gmail.com', '16.jasmine.s@gmail.com', 'ghost2droid@gmail.com') and emailAddress is not null;
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Bray', 'Graham', t.id, 'Y', '26gb01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Bray' and s.firstName = 'Graham' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Conway', 'Mackston', t.id, 'Y', '29mc01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Conway' and s.firstName = 'Mackston' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Dettmann', 'Madison', t.id, 'Y', '26md01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Dettmann' and s.firstName = 'Madison' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Endres', 'Matthew', t.id, 'Y', '29me01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Endres' and s.firstName = 'Matthew' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Flodeen', 'Henry', t.id, 'Y', '29hf01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Flodeen' and s.firstName = 'Henry' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Gibbs', 'Gus', t.id, 'Y', '29ag01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Gibbs' and s.firstName = 'Gus' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hall', 'Kaidan', t.id, 'Y', '29kh01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hall' and s.firstName = 'Kaidan' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Hernke', 'Ava', t.id, 'Y', '27ah02@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Hernke' and s.firstName = 'Ava' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Iverson', 'Riley', t.id, 'Y', '27ri01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Iverson' and s.firstName = 'Riley' and s.teamId = t.id);
-insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Kammerude', 'Hades', t.id, 'Y', '28lk01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Kammerude' and s.firstName = 'Hades' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Lindquist', 'Rylan', t.id, 'Y', '26rl01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Lindquist' and s.firstName = 'Rylan' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Maki', 'Gunnar', t.id, 'Y', '27gm01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Maki' and s.firstName = 'Gunnar' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Medcraft', 'Makenzie', t.id, 'Y', '27mm03@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Medcraft' and s.firstName = 'Makenzie' and s.teamId = t.id);
@@ -203,6 +202,23 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Rezac', 'Kaeda', t.id, 'Y', '27kr01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Rezac' and s.firstName = 'Kaeda' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Stark', 'Avery', t.id, 'Y', '27as02@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Stark' and s.firstName = 'Avery' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Zheng', 'William', t.id, 'Y', '27wz01@cf.k12.mn.us', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'Zheng' and s.firstName = 'William' and s.teamId = t.id);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Bray' and firstName = 'Graham' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Conway' and firstName = 'Mackston' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Dettmann' and firstName = 'Madison' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Endres' and firstName = 'Matthew' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Flodeen' and firstName = 'Henry' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Gibbs' and firstName = 'Gus' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Hernke' and firstName = 'Ava' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Iverson' and firstName = 'Riley' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Lindquist' and firstName = 'Rylan' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Maki' and firstName = 'Gunnar' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Medcraft' and firstName = 'Makenzie' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Medcraft' and firstName = 'Sebastian' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Otterness' and firstName = 'Edmon' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Propst' and firstName = 'Addy' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Rezac' and firstName = 'Kaeda' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Stark' and firstName = 'Avery' and teamId = (select id from Team where teamNumber = 6217);
+update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Zheng' and firstName = 'William' and teamId = (select id from Team where teamNumber = 6217);
 
 -- Read only user as default email
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'xOnly', 'Read', t.id, 'Y', 'cfrobotics@cf.k12.mn.us', 'N' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'xOnly' and s.firstName = 'Read' and s.teamId = t.id);
@@ -224,8 +240,6 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'Mitchell', 'Connor', t.id, 'Y', 'cmitchell.2028@students.rfsd.k12.wi.us', 'Y' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = 'Mitchell' and s.firstName = 'Connor' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select '(Choose Scout)', '9149', t.id, 'Y', '9149@x.com', 'N' from Team t where t.teamNumber = 9149 and not exists (select 1 from Scout s where s.lastName = '(Choose Scout)' and s.firstName = '9149' and s.teamId = t.id);
 
-select * from scout where isactive = 'Y'
-
 /*
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzRobettes', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzRobettes' and s.firstName = 'Scout' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzWind Chill', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzWind Chill' and s.firstName = 'Scout' and s.teamId = t.id);
@@ -233,29 +247,8 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'a Robo', 'Raider', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'a Robo' and s.firstName = 'Raider' and s.teamId = t.id);
 */
 
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Bray' and firstName = 'Graham' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Conway' and firstName = 'Mackston' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Dettmann' and firstName = 'Madison' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Endres' and firstName = 'Matthew' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Flodeen' and firstName = 'Henry' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Gibbs' and firstName = 'Gus' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Hall' and firstName = 'Kaidan' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Hernke' and firstName = 'Ava' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Iverson' and firstName = 'Riley' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Kammerude' and firstName = 'Hades' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Lindquist' and firstName = 'Rylan' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Maki' and firstName = 'Gunnar' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Medcraft' and firstName = 'Makenzie' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Medcraft' and firstName = 'Sebastian' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Otterness' and firstName = 'Edmon' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Propst' and firstName = 'Addy' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Rezac' and firstName = 'Kaeda' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Stark' and firstName = 'Avery' and teamId = (select id from Team where teamNumber = 6217);
-update Scout set isActive = 'Y' where isActive <> 'Y' and lastName = 'Zheng' and firstName = 'William' and teamId = (select id from Team where teamNumber = 6217);
-
-
 update Scout set isAdmin = 'N' where isActive = 'N' and isAdmin = 'Y';
-update Scout set isAdmin = 'Y' where isactive = 'Y' and isadmin = 'N' and lastname + firstname not in ('TBA', '(Choose Scout)','zzBomb BotzScout')
+update Scout set isAdmin = 'Y' where isactive = 'Y' and isadmin = 'N' and emailaddress not in ('tba@tba.com', 'cfrobotics@cf.k12.mn.us', '9149@x.com') and emailaddress is not null;
 
 -- Sponsors 2026
 -- delete from teamSponsor where gameid in (select g.id from game g where g.name = 'Rebuilt')
