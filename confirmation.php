@@ -101,6 +101,7 @@
 	if (isset($scout) && isset($match) && isset($team) && isset($alliancePosition) &&
 		!empty($scout) && !empty($match) && !empty($team) && !empty($alliancePosition))
 	{
+		// Get team information for the next match in this alliance position
 		$tsql = "select m.id matchId
 					  , m.type + ' ' + m.number matchNumber
 					  , coalesce(convert(varchar, tm.teamId), 'NA') teamId
@@ -123,12 +124,12 @@
 						order by m2.dateTime)";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-		foreach( $errors as $error ) {
-			echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-			echo "code: ".$error[ 'code']."<br />";
-			echo "message: ".$error[ 'message']."<br />";
-		}
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+			}
 		}
 		$cnt = 0;
 		while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
