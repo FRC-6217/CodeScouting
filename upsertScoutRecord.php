@@ -192,12 +192,6 @@
 
 	// Run DB Stored procedure call
 	$results = sqlsrv_query($conn, $tsql);
-	if($results) 
-		echo "<p></p>";
-		echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $matchId . "'>Match Report</a></center>";
-		echo "<p></p>";
-		echo "<center>Submission Succeeded!</center>";
-	
 	if(!$results) 
 	{
 		echo "It is not working!<br />";
@@ -209,7 +203,13 @@
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
-	}		
+	}
+	else {
+		echo "<p></p>";
+		echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $matchId . "'>Match Report</a></center>";
+		echo "<p></p>";
+		echo "<center>Submission Succeeded!</center>";
+	}
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
