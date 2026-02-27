@@ -62,6 +62,13 @@
 	// Lookup Scout Record
 	$tsql = "select s.scoutGUID
 	              , isAdmin
+				  , (select count(*)
+                       from team t
+                            inner join GameEvent ge
+	                        on ge.id = t.gameEventId
+	                        inner join Objective o
+	                        on o.gameId = ge.gameId
+                      where t.id = s.teamId) cntObjectives
 				 from Scout s
 				where isActive = 'Y'
 				  and id = '$scoutId'";
@@ -77,6 +84,7 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+	$cntObjectives = $row['cntObjectives'];
 
 	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
@@ -91,45 +99,100 @@
 	echo "<p></p>";
 	echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $matchId . "'>Match Report</a></center>";
 	// Create stored procedure call
-	$tsql = "sp_ins_scoutRecord 0, $scoutId, $matchId, $teamId, $alliancePosition, '$scoutComment', '$loginGUID', '$value1'";
-	if (isset($value2))
+	$tsql = "sp_ins_scoutRecord 0, $scoutId, $matchId, $teamId, $alliancePosition, '$scoutComment', '$loginGUID'";
+	$cnt = 0;
+	if (isset($value1)) {
+		$tsql .= ", '$value1'";
+		$cnt += 1;
+	}
+	if (isset($value2)) {
 		$tsql .= ", '$value2'";
-	if (isset($value3))
+		$cnt += 1;
+	}
+	if (isset($value3)) {
 		$tsql .= ", '$value3'";
-	if (isset($value4))
+		$cnt += 1;
+	}
+	if (isset($value4)) {
 		$tsql .= ", '$value4'";
-	if (isset($value5))
+		$cnt += 1;
+	}
+	if (isset($value5)) {
 		$tsql .= ", '$value5'";
-	if (isset($value6))
+		$cnt += 1;
+	}
+	if (isset($value6)) {
 		$tsql .= ", '$value6'";
-	if (isset($value7))
+		$cnt += 1;
+	}
+	if (isset($value7)) {
 		$tsql .= ", '$value7'";
-	if (isset($value8))
+		$cnt += 1;
+	}
+	if (isset($value8)) {
 		$tsql .= ", '$value8'";
-	if (isset($value9))
+		$cnt += 1;
+	}
+	if (isset($value9)) {
 		$tsql .= ", '$value9'";
-	if (isset($value10))
+		$cnt += 1;
+	}
+	if (isset($value10)) {
 		$tsql .= ", '$value10'";
-	if (isset($value11))
+		$cnt += 1;
+	}
+	if (isset($value11)) {
 		$tsql .= ", '$value11'";
-	if (isset($value12))
+		$cnt += 1;
+	}
+	if (isset($value12)) {
 		$tsql .= ", '$value12'";
-	if (isset($value13))
+		$cnt += 1;
+	}
+	if (isset($value13)) {
 		$tsql .= ", '$value13'";
-	if (isset($value14))
+		$cnt += 1;
+	}
+	if (isset($value14)) {
 		$tsql .= ", '$value14'";
-	if (isset($value15))
+		$cnt += 1;
+	}
+	if (isset($value15)) {
 		$tsql .= ", '$value15'";
-	if (isset($value16))
+		$cnt += 1;
+	}
+	if (isset($value16)) {
 		$tsql .= ", '$value16'";
-	if (isset($value17))
+		$cnt += 1;
+	}
+	if (isset($value17)) {
 		$tsql .= ", '$value17'";
-	if (isset($value18))
+		$cnt += 1;
+	}
+	if (isset($value18)) {
 		$tsql .= ", '$value18'";
-	if (isset($value19))
+		$cnt += 1;
+	}
+	if (isset($value19)) {
 		$tsql .= ", '$value19'";
-	if (isset($value20))
+		$cnt += 1;
+	}
+	if (isset($value20)) {
 		$tsql .= ", '$value20'";
+		$cnt += 1;
+	}
+
+	// Not enough objectives provided
+	if ($cnt < $cntObjectives) {
+		echo '<center>';				
+		echo 'Scout Record requires ' . $cntObjectives . ' values.';
+		echo '</center>';
+		sqlsrv_close($conn);
+		echo '</html>'; 
+		exit(0);
+	}
+
+	// Run DB Stored procedure call
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<center>Submission Succeeded!</center>";
