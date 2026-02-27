@@ -96,8 +96,6 @@
 		exit(0);
 	}
 
-	echo "<p></p>";
-	echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $matchId . "'>Match Report</a></center>";
 	// Create stored procedure call
 	$tsql = "sp_ins_scoutRecord 0, $scoutId, $matchId, $teamId, $alliancePosition, '$scoutComment', '$loginGUID'";
 	$cnt = 0;
@@ -195,6 +193,9 @@
 	// Run DB Stored procedure call
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
+		echo "<p></p>";
+		echo "<center><a class='clickme danger' href='Reports/matchReport.php?matchId=" . $matchId . "'>Match Report</a></center>";
+		echo "<p></p>";
 		echo "<center>Submission Succeeded!</center>";
 	
 	if(!$results) 
