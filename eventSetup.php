@@ -231,10 +231,10 @@
 		<p></p>
 		<p></p>
 		<h2>
-			<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport6217.php">Report to Audit Matches</a></center>
+			<center><a id="audit" class="clickme danger" href="Reports/matchAuditReport.php">Report to Audit Matches</a></center>
 			<p></p>
 			<p></p>
-			<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport6217.php">Scout Metrics Rpt</a></center>
+			<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport.php">Scout Metrics Rpt</a></center>
 		</h2>
         </form>
     </head>

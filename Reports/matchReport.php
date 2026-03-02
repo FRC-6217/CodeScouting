@@ -17,7 +17,7 @@
 				  , convert(nvarchar, 
 				    coalesce(
 				    (select top 1 (m.dateTime)
-					   from v_MatchHyperlinks6217 m
+					   from v_MatchHyperlinks m
 						    inner join TeamMatch tm
 						    on tm.matchId = m.matchId
 						    and tm.teamId = s.teamId
@@ -25,7 +25,7 @@
 				     order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
 				  , case when coalesce(
 					 (select top 1 (m.dateTime)
-						from v_MatchHyperlinks6217 m
+						from v_MatchHyperlinks m
 							 inner join TeamMatch tm
 							 on tm.matchId = m.matchId
 							 and tm.teamId = s.teamId
@@ -57,7 +57,7 @@
 					, convert(nvarchar, 
 						coalesce(
 						(select top 1 (m.dateTime)
-						from v_MatchHyperlinks6217 m
+						from v_MatchHyperlinks m
 								inner join TeamMatch tm
 								on tm.matchId = m.matchId
 								and tm.teamId = s.teamId
@@ -65,7 +65,7 @@
 						order by m.sortOrder, datetime, matchNumber), getdate() - 1), 120) nextMatchDate
 					, case when coalesce(
 						(select top 1 (m.dateTime)
-							from v_MatchHyperlinks6217 m
+							from v_MatchHyperlinks m
 								inner join TeamMatch tm
 								on tm.matchId = m.matchId
 								and tm.teamId = s.teamId
