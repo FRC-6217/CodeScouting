@@ -12,7 +12,16 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$team = "$_GET[TeamId]";
 	$loginEmailAddress = getenv("DefaultLoginEmailAddress");
-	$tsql = "select scoutGUID from Scout where emailAddress = '$loginEmailAddress'";
+	$tsql = "select s.scoutGUID
+				  , g.autoAuditFunction
+				 from Scout s
+				      inner join Team t
+					  on t.id = s.teamId
+					  inner join GameEvent ge
+					  on ge.id = t.gameEventId
+					  inner join Game g
+					  on g.id = ge.gameId
+				where s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -24,6 +33,7 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
+	$autoAuditFunction = $row['autoAuditFunction'];
 ?>
 
 <html>
@@ -47,6 +57,11 @@
             <th>TBA Adj Score</th>
             <th>Delta Score</th>
             <th>Nbr Scout Recs</th>
+<?php
+			if ($autoAuditFunction == "Y") {
+				echo "<th>Auto Audit</th>";
+			}
+?>
     </tr>
 <?php
 $tsql = "select m.id matchId
@@ -152,6 +167,11 @@ $tsql = "select m.id matchId
 			echo "<td>" . $row['tbaMatchAdjustedScore'] . "</td>";
 			echo "<td>" . $row['matchScoreDelta'] . "</td>";
 			echo "<td>" . $row['nbrSRs'] . "</td>";
+			if ($autoAuditFunction == "Y") {
+				if ($row['nbrSRs'] == 3) {
+					echo "<td><a href='/Reports/matchAuditReport6217.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 1, 1) . "&matchNumber=" . $row['matchNumber'] . ">Submit</a></td>";
+				}
+			}
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);

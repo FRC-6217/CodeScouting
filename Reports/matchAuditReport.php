@@ -13,9 +13,16 @@
 	$team = "$_GET[TeamId]";
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
+	              , s.isAdmin
+				  , g.autoAuditFunction
 				 from Scout s
-				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+				      inner join Team t
+					  on t.id = s.teamId
+					  inner join GameEvent ge
+					  on ge.id = t.gameEventId
+					  inner join Game g
+					  on g.id = ge.gameId
+				where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -28,13 +35,21 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+	$autoAuditFunction = $row['autoAuditFunction'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-					  , isAdmin
-				   from Scout s
-				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+					  , s.isAdmin
+ 				      , g.autoAuditFunction
+				 from Scout s
+				      inner join Team t
+					  on t.id = s.teamId
+					  inner join GameEvent ge
+					  on ge.id = t.gameEventId
+					  inner join Game g
+					  on g.id = ge.gameId
+				  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -46,6 +61,7 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
+		$autoAuditFunction = $row['autoAuditFunction'];
 	}
 ?>
 
@@ -81,6 +97,11 @@
             <th>TBA Adj Score</th>
             <th>Delta Score</th>
             <th>Nbr Scout Recs</th>
+<?php
+			if ($autoAuditFunction == "Y") {
+				echo "<th>Auto Audit</th>";
+			}
+?>
     </tr>
 <?php
 $tsql = "select m.id matchId
@@ -186,6 +207,11 @@ $tsql = "select m.id matchId
 			echo "<td>" . $row['tbaMatchAdjustedScore'] . "</td>";
 			echo "<td>" . $row['matchScoreDelta'] . "</td>";
 			echo "<td>" . $row['nbrSRs'] . "</td>";
+			if ($autoAuditFunction == "Y") {
+				if ($row['nbrSRs'] == 3) {
+					echo "<td><a href='/Reports/matchAuditReport.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 1, 1) . "&matchNumber=" . $row['matchNumber'] . ">Submit</a></td>";
+				}
+			}
 		echo "</tr>";
     }
     sqlsrv_free_stmt($getResults);
