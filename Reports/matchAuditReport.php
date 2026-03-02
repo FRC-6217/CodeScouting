@@ -209,7 +209,10 @@ $tsql = "select m.id matchId
 			echo "<td>" . $row['nbrSRs'] . "</td>";
 			if ($autoAuditFunction == "Y") {
 				if ($row['nbrSRs'] == 3) {
-					echo "<td><a href='/Reports/matchAuditReport.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 1, 1) . "&matchNumber=" . $row['matchNumber'] . "'>Submit</a></td>";
+					echo "<td><a href='/Reports/matchAuditReport.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 0, 1) . "&matchNumber=" . $row['matchNumber'] . "'>Submit</a></td>";
+				}
+				else {
+					echo "<td></td>";
 				}
 			}
 		echo "</tr>";
