@@ -169,7 +169,7 @@ $tsql = "select m.id matchId
 			echo "<td>" . $row['nbrSRs'] . "</td>";
 			if ($autoAuditFunction == "Y") {
 				if ($row['nbrSRs'] == 3) {
-					echo "<td><a href='/Reports/matchAuditReport6217.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 1, 1) . "&matchNumber=" . $row['matchNumber'] . ">Submit</a></td>";
+					echo "<td><a href='/Reports/matchAuditReport6217.php?matchId=" . $row['matchId'] . "&alliance=" . substr($row['alliance'], 1, 1) . "&matchNumber=" . $row['matchNumber'] . "'>Submit</a></td>";
 				}
 			}
 		echo "</tr>";
