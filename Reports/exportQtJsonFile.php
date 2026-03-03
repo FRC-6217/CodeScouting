@@ -113,14 +113,19 @@ try {
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
+	$rootInfo = [];
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$rootinfo = [
+		$rootInfo = [
 			"gameId" => $row['gameId'],
 			"gameYear" => $row['gameYear'],
 			"gameName" => $row['gameName'],
 			"eventName" => $row['eventName'],
 			"teamNumber" => $row['teamNumber'],
-			"teamName" => $row['teamName']
+			"teamName" => $row['teamName'],
+			"Scouts" => [],
+			"Objectives" => [],
+			"Teams" => [],
+			"Matches" => []
 		];
 		echo $row['gameId'] . "<p></p>";
 		echo $row['gameYear'] . "<p></p>";
@@ -137,7 +142,6 @@ try {
 	echo "<p></p>JSON_Encode<p></p>";
 	echo json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-/*
 	// Re-index arrays for clean JSON
     $final = array_values(array_map(function ($game) {
         $game['Scouts'] = array_values($game['Scouts']);
@@ -146,7 +150,6 @@ try {
 
     // Output JSON
     echo json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-*/
 }
 catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
