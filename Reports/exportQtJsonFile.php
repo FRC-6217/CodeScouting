@@ -113,17 +113,15 @@ try {
 				echo "message: ".$error[ 'message']."<br />";
 			}
 		}
-	$rootInfo = [];
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$rootinfo = [
-			'gameId' => $row['gameId'],
-			'gameYear' => $row['gameYear'],
-			'gameName' => $row['gameName'],
-			'eventName' => $row['eventName'],
-			'teamNumber' => $row['teamNumber'],
-			'teamName' => $row['teamName']
+			"gameId" => $row['gameId'],
+			"gameYear" => $row['gameYear'],
+			"gameName" => $row['gameName'],
+			"eventName" => $row['eventName'],
+			"teamNumber" => $row['teamNumber'],
+			"teamName" => $row['teamName']
 		];
-		echo $gameId . "<p></p>";
 		echo $row['gameId'] . "<p></p>";
 		echo $row['gameYear'] . "<p></p>";
 		echo $row['gameName'] . "<p></p>";
