@@ -128,6 +128,9 @@ try {
 			'Teams' => [],
 			'Matches' => []
 		];
+		echo $gameId . "<p></p>";
+		echo $gameYear . "<p></p>";
+		echo $gameName . "<p></p>";
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
