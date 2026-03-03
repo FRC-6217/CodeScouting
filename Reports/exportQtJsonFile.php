@@ -127,14 +127,19 @@ try {
 			'Objectives' => [],
 			'Teams' => [],
 			'Matches' => []
-			
 		];
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 
+	// Re-index arrays for clean JSON
+    $final = array_values(array_map(function ($game) {
+        $game['Scouts'] = array_values($game['Scouts']);
+        return $game;
+    }, $rootInfo));
+
     // Output JSON
-    echo json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    echo json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }
 catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
