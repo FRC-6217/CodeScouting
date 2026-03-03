@@ -136,7 +136,7 @@
 			echo '<td>' . $row["scoutName"] . '</td>';
 			echo '<td>' . $row["teamNumber"] . '</td>';
 			echo '<td>' . $row["logType"] . '</td>';
-			echo '<td>' . $row["logNotes"] . '</td>';
+			echo '<td style="max-width: 480px;">' . $row["logNotes"] . '</td>';
 			if (isset($row['eventName'])) { echo "<td>" . $row['eventName'] . "</td>"; }
 			else { echo "<td></td>"; }
 			if (isset($row['logLocation'])) { echo "<td>" . $row['logLocation'] . "</td>"; }

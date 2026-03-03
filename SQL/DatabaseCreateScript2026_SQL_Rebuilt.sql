@@ -90,14 +90,14 @@ insert into AttributeValue select a.id, 'Yes', 1, 2, getdate(), 'Y', 'Y' from Ga
 
 -- Objectives
 insert into Objective select g.id, 'aFuel', 'Fuel:', st.id, 0, 100, 1, 1, getdate(), 'aFuel', 'I', 'N', 'N', 1 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'aHpS', 'HP Shots:', st.id, 0, 20, 0, 2, getdate(), 'aHpS', 'I', 'N', 'N', 2 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'aHpM', 'Made:', st.id, 0, 20, 1, 3, getdate(), 'aHpM', 'I', 'Y', 'N', 3 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'aHpS', 'HP Shots:', st.id, 0, 20, 0, 2, getdate(), 'aHpS', 'I', 'N', 'N', 3 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'aHpM', 'Made:', st.id, 0, 20, 1, 3, getdate(), 'aHpM', 'I', 'Y', 'N', 2 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
 insert into Objective select g.id, 'aClimb', 'Climb:', st.id, null, null, null, 4, getdate(), 'aClimb', 'S', 'N', 'N', 4 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Objective select g.id, 'aWin', 'Win Auto:', st.id, null, null, null, 5, getdate(), 'aWin', 'I', 'N', 'N', 5 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Objective select g.id, 'toFuel', 'Fuel:', st.id, 0, 300, 1, 6, getdate(), 'toFuel', 'I', 'N', 'N', 6 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'toPass', 'Pass:', st.id, 0, 300, 0, 7, getdate(), 'toPass', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toPass', 'Pass:', st.id, 0, 300, 0, 7, getdate(), 'toPass', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
 insert into Objective select g.id, 'toHpS', 'HP Shots:', st.id, 0, 50, 0, 8, getdate(), 'toHpS', 'I', 'N', 'N', 8 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
-insert into Objective select g.id, 'toHpM', 'Made:', st.id, 0, 50, 1, 9, getdate(), 'toHpM', 'I', 'Y', 'N', 9 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
+insert into Objective select g.id, 'toHpM', 'Made:', st.id, 0, 50, 1, 9, getdate(), 'toHpM', 'I', 'Y', 'N', 7 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
 insert into Objective select g.id, 'toClimb', 'Climb:', st.id, null, null, null, 10, getdate(), 'toClimb', 'S', 'N', 'N', 10 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'
 insert into Objective select g.id, 'toEGTime', 'Climb Time:', st.id, 0, 45, null, 11, getdate(), 'EGTime', 'I', 'N', 'N', 11 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Integer'
 insert into Objective select g.id, 'toDefense', 'Defense (0=None, 1=Poor to 4=Great):', st.id, null, null, null, 12, getdate(), 'Def', 'I', 'N', 'N', 12 from Game g, ScoringType st where g.name = 'Rebuilt' and st.name = 'Radio Button'

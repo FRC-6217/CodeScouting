@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE sp_ins_scoutRecord (@pv_ScoutRecordId integer
+﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
                                    , @pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
@@ -28,10 +28,11 @@
 								   , @pv_UpdateTBAScoutData int = 1)
 AS
 declare @lv_Id integer;
+declare @lv_Cnt integer;
 
 BEGIN
 	SET NOCOUNT ON
-	-- Verify parameters
+	-- Verify Scout parameter
 	IF @pv_ScoutRecordId is null
 	BEGIN
 		RAISERROR('Scout Record Id is a Required Field.', 16, 1)
@@ -42,17 +43,53 @@ BEGIN
 		RAISERROR('Scout needs to be selected from the dropdown list.', 16, 1)
 		RETURN
 	END
+	SELECT @lv_Cnt = count(*)
+	  FROM Scout
+	 WHERE id = @pv_ScoutId
+	   AND isActive = 'Y'
+	   AND isAdmin = 'Y';
+	IF @lv_Cnt <> 1
+	BEGIN
+		RAISERROR('Scout does not exist or is not authorized to add scout records.', 16, 1)
+		RETURN
+	END
+	-- Verify Match parameter
 	IF @pv_MatchId is null
 	BEGIN
 		RAISERROR('Match Number needs to be selected from the dropdown list.', 16, 1)
 		RETURN
 	END
+	SELECT @lv_Cnt = count(*)
+	  FROM v_GameEvent ge
+	       INNER JOIN Match m
+		   ON m.gameEventId = ge.id
+	 WHERE ge.loginGUID = @pv_loginGUID
+	   AND m.id = @pv_MatchId;
+	IF @lv_Cnt <> 1
+	BEGIN
+		RAISERROR('Match Id does not exist for this Event.', 16, 1)
+		RETURN
+	END
+	-- Verify Team parameter
 	IF @pv_TeamId is null
 	BEGIN
 		RAISERROR('Team Number needs to be selected from the dropdown list.', 16, 1)
 		RETURN
 	END
-	IF @pv_AlliancePosition is null
+	SELECT @lv_Cnt = count(*)
+	  FROM v_GameEvent ge
+	       INNER JOIN TeamGameEvent tge
+		   ON tge.gameEventId = ge.id
+	 WHERE ge.loginGUID = @pv_loginGUID
+	   AND tge.teamId = @pv_TeamId;
+	IF @lv_Cnt <> 1
+	BEGIN
+		RAISERROR('Team Id is not in this Event.', 16, 1)
+		RETURN
+	END
+	-- Verify Team parameter
+	IF @pv_AlliancePosition is null OR
+	   @pv_AlliancePosition not in ('B1', 'B2', 'B3', 'R1', 'R2', 'R3')
 	BEGIN
 		RAISERROR('Alliance Position needs to be selected from the dropdown list.', 16, 1)
 		RETURN
@@ -182,6 +219,50 @@ BEGIN
     THEN UPDATE SET TARGET.integerValue = SOURCE.integerValue, TARGET.decimalValue = SOURCE.decimalValue, TARGET.textValue = SOURCE.textValue
 	WHEN NOT MATCHED
 	THEN INSERT (scoutRecordId, objectiveId, integerValue, decimalValue, textValue) VALUES (SOURCE.scoutRecordId, SOURCE.objectiveId, SOURCE.integerValue, SOURCE.decimalValue, SOURCE.textValue);
+
+    -- Update any Game Year specific cross-objective values 
+	-- 2026 - Auto Human Player shots attempted should not be less than shots made
+	UPDATE sor
+	   SET integerValue = sor2.integerValue
+	     , decimalValue = sor2.decimalValue
+		 , scoreValue = sor2.scoreValue
+	  FROM ScoutRecord sr
+		   inner join scoutObjectiveRecord sor
+		   on sor.scoutRecordId = sr.id
+		   inner join Objective o
+		   on o.id = sor.objectiveId
+		   inner join ScoutObjectiveRecord sor2
+		   on sor2.scoutRecordId = sr.id
+		   inner join Objective o2
+		   on o2.id = sor2.objectiveId
+		   inner join Game g
+		   on g.id = o.gameId
+	 where g.gameYear = 2026
+	   and o.name = 'aHpS'
+	   and o2.name = 'aHpM'
+	   and sr.id = @lv_id
+	   and sor.integerValue < sor2.integerValue;
+	-- 2026 - Tele-Op Human Player shots attempted should not be less than shots made
+	UPDATE sor
+	   SET integerValue = sor2.integerValue
+	     , decimalValue = sor2.decimalValue
+		 , scoreValue = sor2.scoreValue
+	  FROM ScoutRecord sr
+		   inner join scoutObjectiveRecord sor
+		   on sor.scoutRecordId = sr.id
+		   inner join Objective o
+		   on o.id = sor.objectiveId
+		   inner join ScoutObjectiveRecord sor2
+		   on sor2.scoutRecordId = sr.id
+		   inner join Objective o2
+		   on o2.id = sor2.objectiveId
+		   inner join Game g
+		   on g.id = o.gameId
+	 where g.gameYear = 2026
+	   and o.name = 'toHpS'
+	   and o2.name = 'toHpM'
+	   and sr.id = @lv_id
+	   and sor.integerValue < sor2.integerValue;
 
 	-- Lookup Team Match Record by Alliance/Position
 	SELECT @lv_id = max(id)

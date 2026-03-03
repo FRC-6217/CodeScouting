@@ -142,5 +142,13 @@
     <Build Include="dbo\Views\v_ScoutSurveyTeamHyperlinks.sql" />
     <Build Include="dbo\Views\v_EnterScoutSurveyTeamHTML.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_scoutSurvey.sql" />
+    <Build Include="dbo\Tables\CoopertitionLog.sql" />
+    <Build Include="dbo\Views\v_EnterCoopertitionLogHTML.sql" />
+    <Build Include="dbo\Views\v_CoopertitionLogHyperlinks6217.sql" />
+    <Build Include="dbo\Views\v_CoopertitionLogHyperlinks.sql" />
+    <Build Include="dbo\Functions\fn_TeamDropdownOptions.sql" />
+    <Build Include="dbo\Functions\fn_ScoutDropdownOptions.sql" />
+    <Build Include="dbo\Functions\fn_EventDropdownOptions.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_coopertitionLog.sql" />
   </ItemGroup>
 </Project>

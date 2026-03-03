@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE sp_upd_scoutDataFromTba (@pv_loginGUID varchar(128))
 as
+DECLARE @lv_GameYear int;
 begin
 	-- Update scout record objectives for data specific to a team from TBA
 	update ScoutObjectiveRecord
@@ -117,31 +118,33 @@ begin
 			   and sor.objectiveId = tmo.objectiveId);
 
 	-- If alliance objective data from TBA is zero, then set all teams in alliance objective to zero
-	update ScoutObjectiveRecord
-	   set integerValue = 0
-	 where id in (
-			select sor.id
-			  from MatchObjective mo
-				   inner join Match m
-				   on m.id = mo.matchId
-				   inner join v_GameEvent ge
-				   on ge.id = m.gameEventId
-				   inner join TeamMatch tm
-				   on tm.matchId = mo.matchId
-				   and tm.alliance = mo.alliance
-				   inner join ScoutRecord sr
-				   on sr.matchId = tm.matchId
-				   and sr.teamId = tm.teamId
-				   inner join ScoutObjectiveRecord sor
-				   on sor.scoutRecordId = sr.id
-				   and sor.objectiveId = mo.objectiveId
-			 where ge.loginGUID = @pv_loginGUID
-			   and mo.integerValue = 0
-			   and coalesce(sor.integerValue, -999) <> 0);
-	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue)
+	update sor
+	   set integerValue = mo.integerValue
+	     , decimalValue = coalesce(mo.decimalValue, mo.integerValue, 0.0)
+	     , scoreValue = mo.scoreValue
+	  from MatchObjective mo
+		   inner join Match m
+		   on m.id = mo.matchId
+		   inner join v_GameEvent ge
+		   on ge.id = m.gameEventId
+		   inner join TeamMatch tm
+		   on tm.matchId = mo.matchId
+		   and tm.alliance = mo.alliance
+		   inner join ScoutRecord sr
+		   on sr.matchId = tm.matchId
+		   and sr.teamId = tm.teamId
+		   inner join ScoutObjectiveRecord sor
+		   on sor.scoutRecordId = sr.id
+		   and sor.objectiveId = mo.objectiveId
+	 where ge.loginGUID = @pv_loginGUID
+	   and mo.integerValue = 0
+	   and coalesce(sor.integerValue, -999) <> 0;
+	insert into ScoutObjectiveRecord (scoutRecordId, objectiveId, integerValue, decimalValue, scoreValue)
 	select sr.id scoutRecordId
 		 , mo.objectiveId
 		 , mo.integerValue
+		 , coalesce(mo.decimalValue, 0.0)
+		 , mo.scoreValue
 	  from ScoutRecord sr
 		   inner join Match m
 		   on m.id = sr.matchId
@@ -162,38 +165,165 @@ begin
 			   and sor.objectiveId = mo.objectiveId);
 
 	-- If alliance objective data from TBA is lower than any one team's objective value, then lower the team's objective value to TBA
-	update ScoutObjectiveRecord
-	   set integerValue =
-		  (select mo.integerValue
-			  from MatchObjective mo
-				   inner join Match m
-				   on m.id = mo.matchId
-				   inner join GameEvent ge
-				   on ge.id = m.gameEventId
-				   inner join TeamMatch tm
-				   on tm.matchId = mo.matchId
-				   and tm.alliance = mo.alliance
-				   inner join ScoutRecord sr
-				   on sr.matchId = tm.matchId
-				   and sr.teamId = tm.teamId
-			 where sr.id = ScoutObjectiveRecord.scoutRecordId
-			   and mo.objectiveId = ScoutObjectiveRecord.objectiveId)
-     where id in (
-			select sor.id
-			  from MatchObjective mo
-				   inner join Match m
-				   on m.id = mo.matchId
-				   inner join v_GameEvent ge
-				   on ge.id = m.gameEventId
-				   inner join TeamMatch tm
-				   on tm.matchId = mo.matchId
-				   and tm.alliance = mo.alliance
-				   inner join ScoutRecord sr
-				   on sr.matchId = tm.matchId
-				   and sr.teamId = tm.teamId
-				   inner join ScoutObjectiveRecord sor
-				   on sor.scoutRecordId = sr.id
-				   and sor.objectiveId = mo.objectiveId
-			 where ge.loginGUID = @pv_loginGUID
-			   and coalesce(sor.integerValue, -999) > mo.integerValue);
+	update sor
+	   set integerValue = mo.integerValue
+	     , decimalValue = coalesce(mo.decimalValue, mo.integerValue, 0.0)
+	     , scoreValue = coalesce(mo.scoreValue, 0.0)
+	  from ScoutObjectiveRecord sor
+	       inner join MatchObjective mo
+		   on mo.objectiveId = sor.objectiveId
+           inner join Match m
+           on m.id = mo.matchId
+           inner join v_GameEvent ge
+           on ge.id = m.gameEventId
+           inner join TeamMatch tm
+           on tm.matchId = mo.matchId
+           and tm.alliance = mo.alliance
+           inner join ScoutRecord sr
+           on sr.matchId = tm.matchId
+           and sr.teamId = tm.teamId
+		   and sr.id = sor.scoutRecordId
+	 where ge.loginGUID = @pv_loginGUID
+	   and coalesce(sor.integerValue, -999) > mo.integerValue;
+
+    -- Update any Game Year specific cross-objective values 
+	select @lv_GameYear = g.GameYear
+	  from Game g
+	       inner join v_GameEvent ge
+		   on ge.gameId = g.id
+	 where ge.loginGUID = @pv_loginGUID;
+
+	-- 2026 Adjustments
+	if (@lv_GameYear = 2026)
+	begin
+		-- 2026 - Reduce Auto Human Player shots attempted based on Alliance Shots Made/Team Shots Made
+		update sor3
+		   set integerValue = sor3.integerValue - sor2.integerValue + mo.integerValue
+			 , decimalValue = sor3.decimalValue - sor2.decimalValue + coalesce(mo.decimalValue, mo.integerValue, 0.0)
+			 , scoreValue = sor3.scoreValue - sor2.scoreValue + mo.scoreValue
+		  from v_GameEvent ge
+			   inner join Game g
+			   on g.id = ge.gameId
+			   inner join Match m
+			   on m.gameEventId = ge.id
+			   inner join matchObjective mo
+			   on mo.matchId = m.id
+			   inner join Objective o
+			   on o.id = mo.objectiveId
+			   inner join TeamMatch tm
+			   on tm.matchId = mo.matchid
+			   and tm.alliance = mo.alliance
+			   inner join ScoutRecord sr
+			   on sr.matchId = mo.matchId
+			   and sr.teamId = tm.teamId
+			   inner join ScoutObjectiveRecord sor2
+			   on sor2.scoutRecordId = sr.id
+			   inner join Objective o2
+			   on o2.id = sor2.objectiveId
+			   inner join ScoutObjectiveRecord sor3
+			   on sor3.scoutRecordId = sr.id
+			   inner join Objective o3
+			   on o3.id = sor3.objectiveId
+		 where g.gameYear = 2026
+		   and ge.loginGUID = @pv_loginGUID
+		   and o.name = 'aFuel'
+		   and o2.name = 'aHpM'
+		   and o3.name = 'aHpS'
+		   and mo.integerValue < sor2.integerValue;
+
+		-- 2026 - Auto Human Player shots made can't be higher than Alliance Shots Made
+		update sor2
+		   set integerValue = mo.integerValue
+			 , decimalValue = coalesce(mo.decimalValue, mo.integerValue, 0.0)
+			 , scoreValue = mo.scoreValue
+		  from v_GameEvent ge
+			   inner join Game g
+			   on g.id = ge.gameId
+			   inner join Match m
+			   on m.gameEventId = ge.id
+			   inner join matchObjective mo
+			   on mo.matchId = m.id
+			   inner join Objective o
+			   on o.id = mo.objectiveId
+			   inner join TeamMatch tm
+			   on tm.matchId = mo.matchid
+			   and tm.alliance = mo.alliance
+			   inner join ScoutRecord sr
+			   on sr.matchId = mo.matchId
+			   and sr.teamId = tm.teamId
+			   inner join ScoutObjectiveRecord sor2
+			   on sor2.scoutRecordId = sr.id
+			   inner join Objective o2
+			   on o2.id = sor2.objectiveId
+		 where g.gameYear = 2026
+		   and ge.loginGUID = @pv_loginGUID
+		   and o.name = 'aFuel'
+		   and o2.name = 'aHpM'
+		   and mo.integerValue < sor2.integerValue;
+
+		-- 2026 - Reduce TeleOp Human Player shots attempted based on Alliance Shots Made/Team Shots Made
+		update sor3
+		   set integerValue = sor3.integerValue - sor2.integerValue + mo.integerValue
+			 , decimalValue = sor3.decimalValue - sor2.decimalValue + coalesce(mo.decimalValue, mo.integerValue, 0.0)
+			 , scoreValue = sor3.scoreValue - sor2.scoreValue + mo.scoreValue
+		  from v_GameEvent ge
+			   inner join Game g
+			   on g.id = ge.gameId
+			   inner join Match m
+			   on m.gameEventId = ge.id
+			   inner join matchObjective mo
+			   on mo.matchId = m.id
+			   inner join Objective o
+			   on o.id = mo.objectiveId
+			   inner join TeamMatch tm
+			   on tm.matchId = mo.matchid
+			   and tm.alliance = mo.alliance
+			   inner join ScoutRecord sr
+			   on sr.matchId = mo.matchId
+			   and sr.teamId = tm.teamId
+			   inner join ScoutObjectiveRecord sor2
+			   on sor2.scoutRecordId = sr.id
+			   inner join Objective o2
+			   on o2.id = sor2.objectiveId
+			   inner join ScoutObjectiveRecord sor3
+			   on sor3.scoutRecordId = sr.id
+			   inner join Objective o3
+			   on o3.id = sor3.objectiveId
+		 where g.gameYear = 2026
+		   and ge.loginGUID = @pv_loginGUID
+		   and o.name = 'toFuel'
+		   and o2.name = 'toHpM'
+		   and o3.name = 'toHpS'
+		   and mo.integerValue < sor2.integerValue;
+
+		-- 2026 - TeleOp Human Player shots made can't be higher than Alliance Shots Made
+		update sor2
+		   set integerValue = mo.integerValue
+			 , decimalValue = coalesce(mo.decimalValue, mo.integerValue, 0.0)
+			 , scoreValue = mo.scoreValue
+		  from v_GameEvent ge
+			   inner join Game g
+			   on g.id = ge.gameId
+			   inner join Match m
+			   on m.gameEventId = ge.id
+			   inner join matchObjective mo
+			   on mo.matchId = m.id
+			   inner join Objective o
+			   on o.id = mo.objectiveId
+			   inner join TeamMatch tm
+			   on tm.matchId = mo.matchid
+			   and tm.alliance = mo.alliance
+			   inner join ScoutRecord sr
+			   on sr.matchId = mo.matchId
+			   and sr.teamId = tm.teamId
+			   inner join ScoutObjectiveRecord sor2
+			   on sor2.scoutRecordId = sr.id
+			   inner join Objective o2
+			   on o2.id = sor2.objectiveId
+		 where g.gameYear = 2026
+		   and ge.loginGUID = @pv_loginGUID
+		   and o.name = 'toFuel'
+		   and o2.name = 'toHpM'
+		   and mo.integerValue < sor2.integerValue;
+   end
 end
