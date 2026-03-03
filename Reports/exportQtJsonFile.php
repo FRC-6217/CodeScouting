@@ -115,20 +115,17 @@ try {
 		}
 	$rootInfo = [];
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$gameId = $row['gameId'];
+		$gameId = 0;
 		$rootinfo[$gameId] = [
-			'gameId' => $gameId,
+			'gameId' => $row['gameId'],
 			'gameYear' => $row['gameYear'],
 			'gameName' => $row['gameName'],
 			'eventName' => $row['eventName'],
 			'teamNumber' => $row['teamNumber'],
-			'teamName' => $row['teamName'],
-			'Scouts' => [],
-			'Objectives' => [],
-			'Teams' => [],
-			'Matches' => []
+			'teamName' => $row['teamName']
 		];
 		echo $gameId . "<p></p>";
+		echo $row['gameId'] . "<p></p>";
 		echo $row['gameYear'] . "<p></p>";
 		echo $row['gameName'] . "<p></p>";
     }
