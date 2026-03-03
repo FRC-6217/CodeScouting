@@ -115,8 +115,7 @@ try {
 		}
 	$rootInfo = [];
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$gameId = 0;
-		$rootinfo[$gameId] = [
+		$rootinfo = [
 			'gameId' => $row['gameId'],
 			'gameYear' => $row['gameYear'],
 			'gameName' => $row['gameName'],
@@ -138,8 +137,9 @@ try {
 	echo "<p></p>Print_r<p></p>";
 	echo print_r($rootInfo);
 	echo "<p></p>JSON_Encode<p></p>";
-	echo jason_encode($rootInfo);
+	echo json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
+/*
 	// Re-index arrays for clean JSON
     $final = array_values(array_map(function ($game) {
         $game['Scouts'] = array_values($game['Scouts']);
@@ -148,6 +148,7 @@ try {
 
     // Output JSON
     echo json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+*/
 }
 catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
