@@ -100,13 +100,13 @@
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
 			echo "<td>" . $row['logUrl'] . "</td>";
-			echo '<td max-width: 180px;>' . $row["scoutName"] . '</td>';
-			echo '<td style="max-width: 180px;">' . $row["teamNumber"] . '</td>';
+			echo '<td max-width: 150px;>' . $row["scoutName"] . '</td>';
+			echo '<td style="max-width: 150px;">' . $row["teamNumber"] . '</td>';
 			echo '<td>' . $row["logType"] . '</td>';
 			echo '<td style="max-width: 360px;">' . $row["logNotes"] . '</td>';
-			if (isset($row['eventName'])) { echo "<td max-width: 180px;>" . $row['eventName'] . "</td>"; }
+			if (isset($row['eventName'])) { echo "<td max-width: 150px;>" . $row['eventName'] . "</td>"; }
 			else { echo "<td></td>"; }
-			if (isset($row['logLocation'])) { echo "<td max-width: 180px;>" . $row['logLocation'] . "</td>"; }
+			if (isset($row['logLocation'])) { echo "<td max-width: 150px;>" . $row['logLocation'] . "</td>"; }
 			else { echo "<td></td>"; }
        echo "</tr>";
     }
