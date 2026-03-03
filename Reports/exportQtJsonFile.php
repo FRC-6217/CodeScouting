@@ -129,11 +129,19 @@ try {
 			'Matches' => []
 		];
 		echo $gameId . "<p></p>";
-		echo $gameYear . "<p></p>";
-		echo $gameName . "<p></p>";
+		echo $row['gameYear'] . "<p></p>";
+		echo $row['gameName'] . "<p></p>";
     }
     sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
+
+	// Output debug
+	echo "<p></p>Implode<p></p>";
+	echo implode(" | ", $rootInfo);
+	echo "<p></p>Print_r<p></p>";
+	echo print_r($rootInfo);
+	echo "<p></p>JSON_Encode<p></p>";
+	echo jason_encode($rootInfo);
 
 	// Re-index arrays for clean JSON
     $final = array_values(array_map(function ($game) {
