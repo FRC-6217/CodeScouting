@@ -1,4 +1,5 @@
 <?php
+	header('Content-Type: application/json');
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
