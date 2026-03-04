@@ -1,5 +1,4 @@
 <?php
-	header('Content-Type: application/json');
     $serverName = getenv("ScoutAppDatabaseServerName");
 	$database = getenv("Database");
 	$userName = getenv("DatabaseUserName");
@@ -106,7 +105,7 @@
 	sqlsrv_close($conn);
 
 	echo "<p></p>JSON_Encode<p></p>";
-	echo json_encode($jsonFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+	echo json_encode($jsonFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT);
 
 ?>
   </body>
