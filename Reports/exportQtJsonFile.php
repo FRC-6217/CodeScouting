@@ -86,69 +86,9 @@
 		exit(0);
 	}
 
-try {
-	$tsql = "select g.id gameId
-	              , g.gameYear
-				  , g.name gameName
-				  , e.name eventName
-				  , t.teamNumber
-				  , t.teamName
-			   from Scout s
-					inner join v_GameEvent ge
-					on ge.loginGUID = s.scoutGUID
-					inner join Game g
-					on g.id = ge.gameId
-					inner join Event e
-					on e.id = ge.eventId
-					inner join Team t
-					on t.id = s.teamId
-			  where ge.loginGUID = '$loginGUID'
-			 order by g.id;";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-	$rootInfo = [];
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$rootInfo = [
-			"gameId" => $row['gameId'],
-			"gameYear" => $row['gameYear'],
-			"gameName" => $row['gameName'],
-			"eventName" => $row['eventName'],
-			"teamNumber" => $row['teamNumber'],
-			"teamName" => $row['teamName'],
-			"Scouts" => [],
-			"Objectives" => [],
-			"Teams" => [],
-			"Matches" => []
-		];
-    }
-	sqlsrv_free_stmt($getResults);
-
-	// Add Scout Data
-	$tsql = "select ts.id scoutId
-				  , ts.lastName
-				  , ts.firstName
-			   from Scout s
-					inner join v_GameEvent ge
-					on ge.loginGUID = s.scoutGUID
-					inner join Game g
-					on g.id = ge.gameId
-					inner join Event e
-					on e.id = ge.eventId
-					inner join Team t
-					on t.id = s.teamId
-					inner join Scout ts
-					on ts.teamId = t.id
-					and ts.isActive = 'Y'
-					and ts.isAdmin = 'Y'
-			  where ge.loginGUID = '$loginGUID'
-			 order by ts.lastName, ts.firstName";
+	$tsql = "select js.JsonFile
+               from v_JsonSetupFile js
+              where loginGUID = '$loginGUID';";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -159,72 +99,14 @@ try {
 			}
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$scoutId = $row['scoutId'];
-		$rootInfo[]['Scouts'][] = [
-                'scoutId' => $scoutId,
-                'lastName' => $row['lastName'],
-                'firstName' => $row['firstName']
-            ];
+		$jsonFile = $row['JsonFile'];
     }
 	sqlsrv_free_stmt($getResults);
-
-	// Add Objective Data
-	$tsql = "select o.id objectiveId
-				  , o.name objectiveName
-				  , o.label objectiveLabel
-				  , st.name scoringType
-				  , o.lowRangeValue
-				  , o.highRangeValue
-				  , o.sortOrder objectiveSortOrder
-				  , o.sameLineAsPrevious objectiveSameLineAsPrevious
-				  , ov.id objectiveValueId
-				  , ov.integerValue
-				  , ov.displayValue
-				  , ov.sortOrder objectiveValueSortOrder
-				  , ov.sameLineAsPrevious objectiveValueSameLineAsPrevious
-			   from v_GameEvent ge
-					inner join Game g
-					on g.id = ge.gameId
-					inner join Objective o
-					on o.gameId = g.id
-					inner join ScoringType st
-					on st.id = o.scoringTypeId
-					left outer join ObjectiveValue ov
-					on ov.objectiveId = o.id
-			  where ge.loginGUID = '$loginGUID'
-			 order by o.sortOrder, ov.sortOrder";
-    $getResults = sqlsrv_query($conn, $tsql);
-    if ($getResults == FALSE)
-		if( ($errors = sqlsrv_errors() ) != null) {
-			foreach( $errors as $error ) {
-				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-				echo "code: ".$error[ 'code']."<br />";
-				echo "message: ".$error[ 'message']."<br />";
-			}
-		}
-    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
-		$objectiveId = $row['objectiveId'];
-		$rootInfo[]['Objectives'][] = [
-                'objectiveId' => $objectiveId,
-                'name' => $row['objectiveName'],
-                'label' => $row['objectiveLabel'],
-				'scoringType' => $row['scoringType'],
-				'lowRangeValue' => $row['lowRangeValue'],
-				'highRangeValue' => $row['highRangeValue'],
-				'sortOrder' => $row['objectiveSortOrder'],
-				'sameAsPreviousLine' => $row['objectiveSameAsPreviousLine']
-            ];
-    }
-	sqlsrv_free_stmt($getResults);
-
 	sqlsrv_close($conn);
 
 	echo "<p></p>JSON_Encode<p></p>";
-	echo "[" . json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "]";
-}
-catch (PDOException $e) {
-    echo json_encode(['error' => $e->getMessage()]);
-}
-    ?>
+	echo json_encode($jsonFile, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+?>
   </body>
 </html>
