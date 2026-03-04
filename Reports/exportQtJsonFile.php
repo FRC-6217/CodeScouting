@@ -127,29 +127,50 @@ try {
 			"Teams" => [],
 			"Matches" => []
 		];
-		echo $row['gameId'] . "<p></p>";
-		echo $row['gameYear'] . "<p></p>";
-		echo $row['gameName'] . "<p></p>";
     }
-    sqlsrv_free_stmt($getResults);
+	sqlsrv_free_stmt($getResults);
+	// Add Scout Data
+	$tsql = "select ts.id scoutId
+				  , ts.lastName
+				  , ts.firstName
+			   from Scout s
+					inner join v_GameEvent ge
+					on ge.loginGUID = s.scoutGUID
+					inner join Game g
+					on g.id = ge.gameId
+					inner join Event e
+					on e.id = ge.eventId
+					inner join Team t
+					on t.id = s.teamId
+					inner join Scout ts
+					on ts.teamId = t.id
+					and ts.isActive = 'Y'
+					and ts.isAdmin = 'Y'
+			  where ge.loginGUID = '$loginGUID'
+			 order by ts.id";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$scoutId = $row['scoutId'];
+		$rootInfo[0]['Scouts'][$scoutId] = [
+                'scoutId' => $scoutId,
+                'lastName' => $row['lastName'],
+                'firstName' => $row['firstName']
+            ];
+    }
+	sqlsrv_free_stmt($getResults);
+
 	sqlsrv_close($conn);
 
-	// Output debug
-	echo "<p></p>Implode<p></p>";
-	echo implode(" | ", $rootInfo);
-	echo "<p></p>Print_r<p></p>";
-	echo print_r($rootInfo);
 	echo "<p></p>JSON_Encode<p></p>";
-	echo json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-	// Re-index arrays for clean JSON
-    $final = array_values(array_map(function ($game) {
-        $game['Scouts'] = array_values($game['Scouts']);
-        return $game;
-    }, $rootInfo));
-
-    // Output JSON
-    echo json_encode($final, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+	echo "[" . json_encode($rootInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . "]";
 }
 catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);

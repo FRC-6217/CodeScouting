@@ -143,5 +143,9 @@
 				</div>
             </center>
         </form>
+    <center>
+    <p></p>
+    <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
+    </center>
 	</head>
 </html>

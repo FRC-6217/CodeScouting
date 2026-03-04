@@ -144,12 +144,14 @@
 	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 ?>
 	</form>
-	<p></p>
-
 <?php
 	// Close SQL
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
+    <center>
+    <p></p>
+    <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
+    </center>
     </head>
 </html>
