@@ -290,6 +290,10 @@ insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin)
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select '(Choose Scout)', '2526', t.id, 'Y', '2526@x.com', 'N' from Team t where t.teamNumber = 2526 and not exists (select 1 from Scout s where s.lastName = '(Choose Scout)' and s.firstName = '2526' and s.teamId = t.id);
 update team set gameEventId = (select gameEventId from team where teamNumber = 6217) where teamNumber = 2526 and gameEventId is null
 
+-- 6217 scouts from alliance partners, If needed.
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select '2526', 'Crimson Robotics', t.id, 'Y', '2526@y.com', 'Y' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = '2526' and s.firstName = 'Crimson Robotics' and s.teamId = t.id);
+insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select '3926', 'MPArors', t.id, 'Y', '3926@y.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = '3926' and s.firstName = 'MPArors' and s.teamId = t.id);
+
 /*
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzRobettes', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzRobettes' and s.firstName = 'Scout' and s.teamId = t.id);
 insert into Scout (lastName, firstName, teamId, isActive, emailAddress, isAdmin) select 'zzWind Chill', 'Scout', t.id, 'Y', 'xx@xx.com', 'N' from Team t where t.teamNumber = 6217 and not exists (select 1 from Scout s where s.lastName = 'zzWind Chill' and s.firstName = 'Scout' and s.teamId = t.id);

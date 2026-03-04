@@ -129,6 +129,7 @@ try {
 		];
     }
 	sqlsrv_free_stmt($getResults);
+
 	// Add Scout Data
 	$tsql = "select ts.id scoutId
 				  , ts.lastName
@@ -147,7 +148,7 @@ try {
 					and ts.isActive = 'Y'
 					and ts.isAdmin = 'Y'
 			  where ge.loginGUID = '$loginGUID'
-			 order by ts.id";
+			 order by ts.lastName, ts.firstName";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -159,10 +160,59 @@ try {
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		$scoutId = $row['scoutId'];
-		$rootInfo[0]['Scouts'][$scoutId] = [
+		$rootInfo[]['Scouts'][] = [
                 'scoutId' => $scoutId,
                 'lastName' => $row['lastName'],
                 'firstName' => $row['firstName']
+            ];
+    }
+	sqlsrv_free_stmt($getResults);
+
+	// Add Objective Data
+	$tsql = "select o.id objectiveId
+				  , o.name objectiveName
+				  , o.label objectiveLabel
+				  , st.name scoringType
+				  , o.lowRangeValue
+				  , o.highRangeValue
+				  , o.sortOrder objectiveSortOrder
+				  , o.sameLineAsPrevious objectiveSameLineAsPrevious
+				  , ov.id objectiveValueId
+				  , ov.integerValue
+				  , ov.displayValue
+				  , ov.sortOrder objectiveValueSortOrder
+				  , ov.sameLineAsPrevious objectiveValueSameLineAsPrevious
+			   from v_GameEvent ge
+					inner join Game g
+					on g.id = ge.gameId
+					inner join Objective o
+					on o.gameId = g.id
+					inner join ScoringType st
+					on st.id = o.scoringTypeId
+					left outer join ObjectiveValue ov
+					on ov.objectiveId = o.id
+			  where ge.loginGUID = '$loginGUID'
+			 order by o.sortOrder, ov.sortOrder";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+		$objectiveId = $row['objectiveId'];
+		$rootInfo[]['Objectives'][] = [
+                'objectiveId' => $objectiveId,
+                'name' => $row['objectiveName'],
+                'label' => $row['objectiveLabel'],
+				'scoringType' => $row['scoringType'],
+				'lowRangeValue' => $row['lowRangeValue'],
+				'highRangeValue' => $row['highRangeValue'],
+				'sortOrder' => $row['objectiveSortOrder'],
+				'sameAsPreviousLine' => $row['objectiveSameAsPreviousLine']
             ];
     }
 	sqlsrv_free_stmt($getResults);
