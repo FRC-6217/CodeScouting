@@ -10,8 +10,8 @@ select m.number, t.teamNumber, tm.alliance, tm.alliancePosition
 	   on tm.matchId = m.id
 	   inner join team t
 	   on t.id = tm.teamId
- where g.name = 'Reefscape'
-  and e.name = 'Minnesota 10,000 Lakes Regional'
+ where g.name = 'Rebuilt'
+  and e.name = 'Lake Superior Regional'
   and m.type = 'QM'
 --  and t.teamNumber= 6217
   and tm.alliance = 'B'

@@ -10,7 +10,9 @@
     );
     //Establishes the connection
     $conn = sqlsrv_connect($serverName, $connectionOptions);
-	$team = "$_GET[TeamId]";
+	$matchId = "$_GET[matchId]";
+	$alliance = "$_GET[alliance]";
+	$matchNumber = "$_GET[matchNumber]";
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
 	              , s.isAdmin
@@ -87,6 +89,27 @@
 	    echo '</body>';
 		echo '</html>'; 
 		exit(0);
+	}
+    // Call stored procedure to auto audit scout data
+	if (!empty($matchId) && !empty($alliance)) {
+		$tsql = "exec sp_upd_scoutDataAutoAudit $matchId, '$alliance', 0.0, '$loginGUID'";
+		$results = sqlsrv_query($conn, $tsql);
+		if(!$results) 
+		{
+			echo "Auto Audit of Scout Data failed!<br />";
+			echo "SQL " . $tsql . "<br>";
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		}
+
+		if ($cnt > 0) {
+			sqlsrv_free_stmt($results);
+		}
 	}
 ?>
 	<center><table cellspacing="0" cellpadding="5">
