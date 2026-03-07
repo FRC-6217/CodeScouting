@@ -337,7 +337,7 @@
     <center>
 		<!--this is the div that will hold the pie chart-->
 		<div style="display: flex;  justify-content: center;">
-			<div id="pie_chart_div"></div>
+			<div id="pie_chart_div"></div><p></p>
 			<div id="opr_pie_chart_div"></div>
 		</div>
     </center>
