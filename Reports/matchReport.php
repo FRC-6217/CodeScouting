@@ -336,10 +336,8 @@
 	</center>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<!--<div style="display: flex;  justify-content: center;">-->
-			<div id="pie_chart_div"></div><p></p>
-			<div id="opr_pie_chart_div"></div>
-		<!--</div>-->
+		<div id="pie_chart_div"></div>
+		<div id="opr_pie_chart_div"></div>
     </center>
 	<center><h1>Robot Attributes</h1></center>
 	<center><table cellspacing="0" cellpadding="5">

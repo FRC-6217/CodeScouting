@@ -149,7 +149,8 @@
 			?>
 			<th><a href='../Reports/rankReport.php?sortOrder=eventRank&rankName=Ranking Points'>Event<br/>Rank</a></th>
             <th>Rank<br/>Pts</th>
-			<th><a href='../Reports/rankReport.php?sortOrder=OPR&rankName=OPR'>OPR</a></th>
+			<th><a href='../Reports/rankReport.php?sortOrder=OPR&rankName=OPR'>OPR<br/>Rank</a></th>
+			<th>OPR</th>
 			<?php
 			// Display table headers for the Ranking Points/Cooperition realized
 			$tsql = "select grp.tableHeader
@@ -276,6 +277,7 @@ $tsql = "execute sp_rpt_rankReport '$sortOrder', '$loginGUID'";
 			if (isset($row['value10'])) echo "<td>" . number_format($row['value10'], 2) . "</td>"; elseif ($cnt >= 10) echo "<td></td>";
 			echo "<td>" . $row['eventRank'] . "</td>";
 			echo "<td>" . $row['rankingPointAverage'] . "</td>";
+			echo "<td>" . $row['oprRank'] . "</td>";
 			echo "<td>" . $row['oPR'] . "</td>";
 			if (isset($row['rp1TableHeader'])) echo "<td>" . $row['rp1Total'] . "</td>";
 			if (isset($row['rp2TableHeader'])) echo "<td>" . $row['rp2Total'] . "</td>";
