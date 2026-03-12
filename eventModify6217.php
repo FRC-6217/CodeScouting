@@ -294,9 +294,25 @@
 			}
 			else {
 				$matchComplete = 1;
-				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " .
- 					     $redAlliancePoints . ", " . $value["score_breakdown"]["red"]["foulPoints"] . ", " .
- 					     $blueAlliancePoints . ", " . $value["score_breakdown"]["blue"]["foulPoints"] . ", '" . $value["key"] . "', ";
+				$tsql .= $value["alliances"]["red"]["score"] . ", " . $value["alliances"]["blue"]["score"] . ", " . $redAlliancePoints . ", ";
+				if (!empty($value["score_breakdown"]["red"]["foulPoints"]))
+					{
+						$tsql .= $value["score_breakdown"]["red"]["foulPoints"] . ", ";
+					}
+				else
+					{
+						$tsql .= "0, ";
+					}
+				$tsql .= $blueAlliancePoints . ", ";
+				if (!empty($value["score_breakdown"]["blue"]["foulPoints"]))
+					{
+						$tsql .= $value["score_breakdown"]["blue"]["foulPoints"] . ", ";
+					}
+				else
+					{
+						$tsql .= "0, ";
+					}
+				$tsql .= "'" . $value["key"] . "', ";
 				if (!empty($tbaRPKey1) && $value["comp_level"] == 'qm')
 				{
 					if (!empty($value["score_breakdown"]["red"][$tbaRPKey1]))
