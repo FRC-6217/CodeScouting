@@ -175,7 +175,7 @@
       // Create our data table out of JSON data loaded from server.
       var data = new google.visualization.DataTable(<?=$jsonTablePieChart?>);
       var options = {
-          legend: 'left',
+          legend: 'right',
 		  title: '<?php echo $tableTitle;?>',
           is3D: 'false',
           width: 400,
@@ -336,10 +336,10 @@
 	</center>
     <center>
 		<!--this is the div that will hold the pie chart-->
-		<div style="display: flex;  justify-content: center;">
+		<!--<div style="display: flex;  justify-content: center;">-->
 			<div id="pie_chart_div"></div><p></p>
 			<div id="opr_pie_chart_div"></div>
-		</div>
+		<!--</div>-->
     </center>
 	<center><h1>Robot Attributes</h1></center>
 	<center><table cellspacing="0" cellpadding="5">
