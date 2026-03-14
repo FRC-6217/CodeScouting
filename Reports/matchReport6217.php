@@ -501,7 +501,7 @@
 			}
 			else {
 				echo "<td>" . $row['alliancePos'] . "</td>";
-				echo '<td><a href="../scoutRecord6217.php?matchId=' . $match . '&matchNumber=' . $row['matchType'] . ' ' . $row['matchNumber'] . '&teamId=' . $row['teamId'] . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . substr($row['alliance'], 1, 1) . $row['alliancePos']'"> ' . $row['teamNumber'] . '</a></td>';
+				echo '<td><a href="../scoutRecord6217.php?matchId=' . $match . '&matchNumber=' . $row['matchType'] . ' ' . $row['matchNumber'] . '&teamId=' . $row['teamId'] . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . substr($row['alliance'], 1, 1) . $row['alliancePosition']'"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
