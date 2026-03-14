@@ -542,7 +542,7 @@
 				echo "<td>" . $row['alliancePos'] . "</td>";
 				echo '<td><a href="../scoutRecord.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
-			else if {
+			else if (isset($row['teamId'])) {
 				echo "<td>" . $row['alliancePos'] . "</td>";
 				echo '<td><a href="../scoutRecord.php?matchId=' . $match . '&matchNumber=' . $row['matchType'] . ' ' . $row['matchNumber'] . '&teamId=' . $row['teamId'] . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . substr($row['alliance'], 1, 1) . $row['alliancePosition']'"> ' . $row['teamNumber'] . '</a></td>';
 			}
