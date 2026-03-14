@@ -351,7 +351,7 @@ $tsql = "select TeamNumber
 					echo "<td><a href='../scoutRecord.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
 				}
 				else {
-					echo '<td><a href="../scoutRecord.php?matchId=' . $row['matchId'] . '&matchNumber=' . $row['matchNumber'] . '&teamId=' . $team . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . $row['robotPosition'] . '"> ' . $row['teamNumber'] . '</a></td>';
+					echo '<td><a href="../scoutRecord.php?matchId=' . $row['matchId'] . '&matchNumber=' . $row['matchNumber'] . '&teamId=' . $team . '&teamNumber=' . $row['TeamNumber'] . '&alliancePosition=' . $row['robotPosition'] . '"> ' . $row['TeamNumber'] . '</a></td>';
 				}
 			}
 			else
