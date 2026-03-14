@@ -468,6 +468,9 @@
 					  , teamId
 					  , matchCode
 					  , scoutRecordId
+					  , matchType
+					  , matchNumber
+					  , tbaScoutedCnt
                    from v_MatchFinalReport
 				  where loginGUID = '$loginGUID'
 					and matchId = $match
@@ -492,13 +495,13 @@
 				echo "<td></td>";
 				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '" target="_blank"> ' . $row['teamNumber'] . '</a></td>';
 			}
-			else if (isset($row['scoutRecordId'])) {
+			else if (isset($row['scoutRecordId']) && $row['tbaScoutedCount'] == 0) {
 				echo "<td>" . $row['alliancePos'] . "</td>";
 				echo '<td><a href="../scoutRecord6217.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			else {
 				echo "<td>" . $row['alliancePos'] . "</td>";
-				echo '<td><a href="../Reports/robotReport6217.php?TeamId=' . $row['teamId'] . '"> ' . $row['teamNumber'] . '</a></td>';
+				echo '<td><a href="../scoutRecord6217.php?matchId=' . $match . '&matchNumber=' . $row['matchType'] . ' ' . $row['matchNumber'] . '&teamId=' . $row['teamId'] . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . substr($row['alliance'], 1, 1) . $row['alliancePos']'"> ' . $row['teamNumber'] . '</a></td>';
 			}
 			if (isset($row['value1'])) echo "<td>" . number_format($row['value1'], 2) . "</td>"; elseif ($cnt >= 1) echo "<td></td>";
 			if (isset($row['value2'])) echo "<td>" . number_format($row['value2'], 2) . "</td>"; elseif ($cnt >= 2) echo "<td></td>";
