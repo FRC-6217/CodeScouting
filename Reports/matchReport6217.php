@@ -495,7 +495,7 @@
 				echo "<td></td>";
 				echo '<td><a href="https://www.thebluealliance.com/match/' . $row['matchCode'] . '" target="_blank"> ' . $row['teamNumber'] . '</a></td>';
 			}
-			else if (isset($row['scoutRecordId']) && $row['tbaScoutedCount'] == 0) {
+			else if (isset($row['scoutRecordId']) && $row['tbaScoutedCnt'] == 0) {
 				echo "<td>" . $row['alliancePos'] . "</td>";
 				echo '<td><a href="../scoutRecord6217.php?scoutRecordId=' . $row['scoutRecordId'] . '"> ' . $row['teamNumber'] . '</a></td>';
 			}
