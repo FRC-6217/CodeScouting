@@ -307,6 +307,7 @@ $tsql = "select TeamNumber
 			  , scoutComment
 			  , robotPosition
 			  , matchScore
+			  , tbaScoutedCnt
 		   from v_TeamReport
           where loginGUID = '$loginGUID'
 			and teamId = $team
@@ -322,8 +323,14 @@ $tsql = "select TeamNumber
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 		echo "<tr>";
-			if (isset($row['scoutRecordId']))
-				echo "<td><a href='/scoutRecord6217.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+			if (isset($row['scoutRecordId'])) {
+				if ($row['tbaScoutedCnt'] == 0) {
+					echo "<td><a href='../scoutRecord6217.php?scoutRecordId=" . $row['scoutRecordId'] . "'>" . $row['TeamNumber'] . "</a></td>";
+				}
+				else {
+					echo '<td><a href="../scoutRecord6217.php?matchId=' . $row['matchId'] . '&matchNumber=' . $row['matchNumber'] . '&teamId=' . $team . '&teamNumber=' . $row['teamNumber'] . '&alliancePosition=' . $row['robotPosition'] . '"> ' . $row['teamNumber'] . '</a></td>';
+				}
+			}
 			else
 				echo "<td>" . $row['TeamNumber'] . "</td>";
 			echo "<td><a href='/Reports/matchReport6217.php?matchId=" . $row['matchId'] . "'>" . $row['matchNumber'] . "</a></td>";
