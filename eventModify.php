@@ -2360,12 +2360,12 @@
 					$cnt += 1;
 				}
 			}
-		}
-		if ($results) {
-			echo "<center>Updated " . $cnt . " Alliance Teams Successfully!</center><br>";
-			sqlsrv_free_stmt($results);
-		}
+			if ($results) {
+				echo "<center>Updated " . $cnt . " Alliance Teams Successfully!</center><br>";
+				sqlsrv_free_stmt($results);
+			}
 */
+		}
 	}
 
 	// Create 40 empty practice matches and activate these matches
