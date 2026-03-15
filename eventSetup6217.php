@@ -173,6 +173,7 @@
 					<p>Change?
 						<select style="width: 161px;" name="option">
 							<option value="M" selected>Update Match Schedule</option>';
+							<option value="U">Update Playoff Alliances</option>';
 							<option value="P">Create Practice Matches</option>';
 							<option value="Q">Activate Qualifying Matches</option>';
 							<option value="L">Activate Playoff Matches</option>';
