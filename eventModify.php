@@ -2296,10 +2296,9 @@
 			$playoffAlliance = substr($value["name"], 9, 1);
 			echo $playoffAlliance . "<br />";
 			// Set team 1
-			if (isset(substr($value["picks"][0], 3))) {
+			if (isset($value["picks"][0], 3)) {
 				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][0], 3) . ", $playoffAlliance;";
 				echo $tsql . "<br />";
-/*
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) {
 					echo "Update of Alliance " . $playoffAlliance . ", Team 1 failed!<br />";
@@ -2312,7 +2311,6 @@
 					}
 				}
 				$cnt += 1;
-*/
 			}
 /*			
 			// Set team 2
