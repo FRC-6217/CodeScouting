@@ -123,14 +123,14 @@
 						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" required style="width: 320px"><br>';
 						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="' . $row['emailAddress'] . '" required tyle="width: 320px"><br>';
 						echo '<br>Active:<br>&nbsp;&nbsp;&nbsp;No<input type="radio"';
-						if ($row['isActive'] = "N") echo ' checked="checked"';
+						if ($row['isActive'] == "N") echo ' checked="checked"';
 						echo ' name ="isActive" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio"';
-						if ($row['isActive'] = "Y") echo ' checked="checked"';
+						if ($row['isActive'] == "Y") echo ' checked="checked"';
 						echo ' name ="isActive" value="Y"><br>';
 						echo '<br>Admin:<br>&nbsp;&nbsp;&nbsp;No<input type="radio"';
-						if ($row['isAdmin'] = "N") echo ' checked="checked"';
+						if ($row['isAdmin'] == "N") echo ' checked="checked"';
 						echo ' name ="isAdmin" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio"';
-						if ($row['isAdmin'] = "Y") echo ' checked="checked"';
+						if ($row['isAdmin'] == "Y") echo ' checked="checked"';
 						echo ' name ="isAdmin" value="Y"><br>';
 					}
 					else {
