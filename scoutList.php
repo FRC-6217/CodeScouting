@@ -124,7 +124,7 @@
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
-			echo '<td align="left">' . $row["scoutURL"] . '</td>';
+			echo '<td align="left">' . $row["scoutUrl"] . '</td>';
 			echo '<td align="left">' . $row["emailAddress"] . '</td>';
 			echo '<td align="center">' . $row["isActive"] . '</td>';
 			echo '<td align="center">' . $row["isAdmin"] . '</td>';

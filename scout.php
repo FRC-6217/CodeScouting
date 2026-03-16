@@ -121,7 +121,7 @@
 								echo "message: ".$error[ 'message']."<br />";
 							}
 						}
-					$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)
+					$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 					if (isset($row['emailAddress'])) {
 						echo '<br>Last Name<br><input type="text" name ="lastName" value="' . $row['lastName'] . '" style="width: 320px"><br>';
 						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" style="width: 320px"><br>';
