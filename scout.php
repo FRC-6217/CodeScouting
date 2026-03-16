@@ -27,7 +27,7 @@
 		</body>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-			<a id="buttons" class="clickme danger" href="scoutList.php">Scouts</a></center>
+			<a id="buttons" class="clickme danger" href="scoutList.php">Scout List</a></center>
 		</h2>
 		
 		<form enctype="multipart/form-data" action='scoutConf.php' method='post'>
@@ -48,7 +48,6 @@
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
 				  , s.isAdmin
-			 	  , t.id teamId
 			   from Scout s
 					inner join Team t
 					on t.id = s.teamId
@@ -69,13 +68,11 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
-	$teamId = $row['teamId'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
 						, s.isAdmin
-						, t.id teamId
 					from Scout s
 						inner join Team t
 						on t.id = s.teamId
@@ -95,7 +92,6 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
-	    $teamId = $row['teamId'];
 	}
 
     // Get Query String Parameters
@@ -123,9 +119,9 @@
 						}
 					$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 					if (isset($row['emailAddress'])) {
-						echo '<br>Last Name<br><input type="text" name ="lastName" value="' . $row['lastName'] . '" style="width: 320px"><br>';
-						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" style="width: 320px"><br>';
-						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="' . $row['emailAddress'] . '" style="width: 320px"><br>';
+						echo '<br>Last Name<br><input type="text" name ="lastName" value="' . $row['lastName'] . '" required style="width: 320px"><br>';
+						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" required style="width: 320px"><br>';
+						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="' . $row['emailAddress'] . '" required tyle="width: 320px"><br>';
 						echo '<br>Active:<br>&nbsp;&nbsp;&nbsp;No<input type="radio"';
 						if ($row['isActive'] = "N") echo ' checked="checked"';
 						echo ' name ="isActive" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio"';
@@ -138,15 +134,14 @@
 						echo ' name ="isAdmin" value="Y"><br>';
 					}
 					else {
-						echo '<br>Last Name<br><input type="text" name ="lastName" value="" style="width: 320px"><br>';
-						echo '<br>First Name<br><input type="text" name ="firstName" value="" style="width: 320px"><br>';
-						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="" style="width: 320px"><br>';
+						echo '<br>Last Name<br><input type="text" name ="lastName" value="" required style="width: 320px"><br>';
+						echo '<br>First Name<br><input type="text" name ="firstName" value="" required style="width: 320px"><br>';
+						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="" required style="width: 320px"><br>';
 						echo '<br>Active:<br>&nbsp;&nbsp;&nbsp;No<input type="radio" name ="isActive" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio" checked="checked" name ="isActive" value="Y"><br>';
 						echo '<br>Admin:<br>&nbsp;&nbsp;&nbsp;No<input type="radio" name ="isAdmin" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio" checked="checked" name ="isAdmin" value="Y"><br>';
 						$scoutId = -1;
 					}
 					echo '<input type="hidden" id="scoutId" name="scoutId" value="' . $scoutId . '">'; 
-					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
 

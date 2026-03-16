@@ -29,7 +29,7 @@
 		<p></p>
 		<h2>
 			<center><a id="buttons" class="clickme danger" href="index.php">Home</a>
-					<a id="buttons" class="clickme danger" href="scoutSurveyList.php">Scouting Survey</a></center>
+					<a id="buttons" class="clickme danger" href="scoutList.php">Scout List</a></center>
 		</h2>
 <?php
     $serverName = getenv("ScoutAppDatabaseServerName");
@@ -48,7 +48,7 @@
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
 					, s.isAdmin
-					, g.gameYear
+					, t.id teamId
 					from Scout s
 						inner join Team t
 						on t.id = s.teamId
@@ -68,14 +68,14 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$gameYear = $row['gameYear'];
 	$isAdmin = $row['isAdmin'];
+	$teamId = $row['teamId'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
 						, s.isAdmin
-						, g.gameYear
+						, t.id teamId
 					from Scout s
 						inner join Team t
 						on t.id = s.teamId
@@ -94,8 +94,8 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$gameYear = $row['gameYear'];
 		$isAdmin = $row['isAdmin'];
+	    $teamId = $row['teamId'];
 	}
 	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
@@ -109,21 +109,14 @@
 	}
 
     // Get posted variables
-	$teamId = $_POST['teamId'];
-	$teamNumber = $_POST['teamNumber'];
+	$scoutId = $_POST['scoutId'];
+	$lastName = $_POST['lastName'];
+	$firstName = $_POST['firstName'];
+	$emailAddress = $_POST['emailAddress'];
+	$isActive = $_POST['isActive'];
+	$isAdmin = $_POST['isAdmin'];
 
-	// Get Query String Parameters
-	$scoutMatch = $_POST['scoutMatch'];
-	$scoutRobot = $_POST['scoutRobot'];
-	$scoutingDesc = $_POST['scoutingDesc'];
-	$scoutingDataStored = $_POST['scoutingDataStored'];
-	$collaborate = $_POST['collaborate'];
-	$tbaForMatches = $_POST['tbaForMatches'];
-	$tbaForAllianceSelection = $_POST['tbaForAllianceSelection'];
-	$wantBBScout = $_POST['wantBBScout'];
-	$overviewOfBBScout = $_POST['overviewOfBBScout'];
-
-	$tsql = "sp_ins_scoutSurvey $teamId, '$loginGUID', '$scoutMatch', '$scoutRobot', '$scoutingDesc', '$scoutingDataStored', '$collaborate', '$tbaForMatches', '$tbaForAllianceSelection', '$wantBBScout', '$overviewOfBBScout'";
+	$tsql = "sp_ins_scout $scoutId, '$$lastName', '$firstName', $teamId, '$isActive', '$emailAddress', '$isAdmin'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
@@ -139,9 +132,6 @@
 			}
 		}
 	}		
-
-	echo '<input type="hidden" id="teamNumber" name="teamNumber" value="' . $teamNumber . '">'; 
-	echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 ?>
 	</form>
 <?php
