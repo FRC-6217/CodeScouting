@@ -69,7 +69,7 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
-	$teamId = $row['teamId']
+	$teamId = $row['teamId'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
@@ -95,7 +95,7 @@
 			}
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
-	    $teamId = $row['teamId']
+	    $teamId = $row['teamId'];
 	}
 
     // Get Query String Parameters
@@ -123,7 +123,6 @@
 						}
 					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
 						echo '<br>Last Name<br><input type="text" name ="lastName" value="' . $row['lastName'] . '" style="width: 320px"><br>';
-/*
 						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" style="width: 320px"><br>';
 						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="' . $row['emailAddress'] . '" style="width: 320px"><br>';
 						echo '<br>Active:<br>&nbsp;&nbsp;&nbsp;No<input type="radio"';
@@ -136,7 +135,6 @@
 						echo ' name ="isAdmin" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio"';
 						if ($row['isAdmin'] = "Y") echo ' checked="checked"';
 						echo ' name ="isAdmin" value="Y"><br>';
-*/
 						}
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
