@@ -2256,7 +2256,6 @@
 		// Update alliance information
 		foreach($alliancesArray as $key => $value) {
 			$playoffAlliance = substr($value["name"], 9, 1);
-			echo $playoffAlliance . "<br />";
 			// Set team 1
 			if (isset($value["picks"][0])) {
 				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][0], 3) . ", $playoffAlliance;";
