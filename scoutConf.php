@@ -116,7 +116,7 @@
 	$isActive = $_POST['isActive'];
 	$isAdmin = $_POST['isAdmin'];
 
-	$tsql = "sp_ins_scout $scoutId, '$$lastName', '$firstName', $teamId, '$isActive', '$emailAddress', '$isAdmin'";
+	$tsql = "sp_ins_scout $scoutId, '$lastName', '$firstName', $teamId, '$isActive', '$emailAddress', '$isAdmin'";
 	$results = sqlsrv_query($conn, $tsql);
 	if($results) 
 		echo "<p></p><center>Submission Succeeded!</center>";
@@ -139,9 +139,5 @@
 	sqlsrv_free_stmt($getResults);
 	sqlsrv_close($conn);
 ?>
-    <center>
-    <p></p>
-    <img class="image3" src="Logo/QRCode.png" style="max-width: 40%">
-    </center>
     </head>
 </html>
