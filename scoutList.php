@@ -1,0 +1,144 @@
+<html>
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <script src="https://apis.google.com/js/platform.js" async defer></script>
+     <title>Scouting App</title>
+     <link rel="stylesheet" type="text/css" href="Style/scoutingStyle.css">
+<?php
+    $serverName = getenv("ScoutAppDatabaseServerName");
+	$database = getenv("Database");
+	$userName = getenv("DatabaseUserName");
+	$password = getenv("DatabasePassword");
+    $connectionOptions = array(
+        "Database" => "$database",
+        "Uid" => "$userName",
+        "PWD" => "$password"
+    );
+    //Establishes the connection
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
+	$tsql = "select s.scoutGUID
+	              , isAdmin
+				 from Scout s
+				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+	$loginGUID = $row['scoutGUID'];
+	$isAdmin = $row['isAdmin'];
+	// Handle if logged in user is not active/configured in Scout table
+	if (empty($loginGUID)) {
+		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
+		$tsql = "select s.scoutGUID
+					, isAdmin
+					from Scout s
+					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+		$getResults = sqlsrv_query($conn, $tsql);
+		if ($getResults == FALSE)
+			if( ($errors = sqlsrv_errors() ) != null) {
+				foreach( $errors as $error ) {
+					echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+					echo "code: ".$error[ 'code']."<br />";
+					echo "message: ".$error[ 'message']."<br />";
+				}
+			}
+		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
+		$loginGUID = $row['scoutGUID'];
+		$isAdmin = $row['isAdmin'];
+	}
+?>
+    <head>
+        <link rel="apple-touch-icon" sizes="57x57" href="/Logo/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/Logo/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/Logo/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/Logo/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/Logo/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/Logo/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/Logo/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/Logo/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/Logo/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/Logo/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/Logo/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/Logo/favicon-16x16.png">
+        <link rel="manifest" href="/Logo/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/Logo/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+
+    <h2>
+          <center><a class="clickme danger" href="index.php">Home</a></center>
+          <p></p>
+     </h2>
+	 
+<center><h1>Scouts</h1></center>
+<?php
+	// Non-Admin should not be on this page
+	if ($isAdmin != "Y") {
+		echo '<center>';				
+		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
+		echo '</center>';
+		sqlsrv_close($conn);
+		echo '</html>'; 
+		exit(0);
+	}
+?>
+<center>
+
+    <br>
+	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
+	<br>
+    <center><a class="clickme danger" href="scout.php?scoutId=-1">Add Scout</a></center>
+	<center><table cellspacing="0" cellpadding="5">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Active?</th>
+        <th>Admin?</th>
+     </tr>
+
+    <?php
+    $tsql = "select s2.id scoutId
+                  , s2.lastName + ', ' + s2.firstName fullName
+                  , s2.emailAddress
+                  , s2.isActive
+                  , s2.isAdmin
+               from v_GameEvent ge
+                    inner join Scout s
+                    on s.scoutGUID = ge.loginGUID
+                    inner join Team t
+                    on t.id = s.teamId
+                    inner join Scout s2
+                    on s2.teamId = t.id
+              where ge.loginGUID = '$loginGUID'
+                and s2.lastName not in ('TBA', '(Choose Scout)', 'xOnly')
+           order by s2.isActive desc, s2.lastName, s2.firstName, s2.emailAddress";
+    $getResults = sqlsrv_query($conn, $tsql);
+    if ($getResults == FALSE)
+		if( ($errors = sqlsrv_errors() ) != null) {
+			foreach( $errors as $error ) {
+				echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
+				echo "code: ".$error[ 'code']."<br />";
+				echo "message: ".$error[ 'message']."<br />";
+			}
+		}
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+       echo "<tr>";
+			echo "<td><a href='scout.php?scoutId=" . $row['scoutId'] . ">" . $row['fullName'] . "</a></td>";
+			echo '<td align="left">' . $row["emailAddress"] . '</td>';
+			echo '<td align="center">' . $row["isActive"] . '</td>';
+			echo '<td align="center">' . $row["isAdmin"] . '</td>';
+       echo "</tr>";
+    }
+    sqlsrv_free_stmt($getResults);
+	sqlsrv_close($conn);
+    ?>
+    </table>
+	</center>
+</html> 
