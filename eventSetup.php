@@ -236,6 +236,9 @@
 			<p></p>
 			<p></p>
 			<center><a id="scoutRpt" class="clickme danger" href="Reports/scoutMetricsReport.php">Scout Metrics Rpt</a></center>
+			<p></p>
+			<p></p>
+			<center><a id="scoutList" class="clickme danger" href="scoutList.php">Scout List</a></center>
 		</h2>
         </form>
     </head>

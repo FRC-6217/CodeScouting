@@ -121,7 +121,8 @@
 								echo "message: ".$error[ 'message']."<br />";
 							}
 						}
-					while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+					$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)
+					if (isset($row['emailAddress'])) {
 						echo '<br>Last Name<br><input type="text" name ="lastName" value="' . $row['lastName'] . '" style="width: 320px"><br>';
 						echo '<br>First Name<br><input type="text" name ="firstName" value="' . $row['firstName'] . '" style="width: 320px"><br>';
 						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="' . $row['emailAddress'] . '" style="width: 320px"><br>';
@@ -135,7 +136,17 @@
 						echo ' name ="isAdmin" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio"';
 						if ($row['isAdmin'] = "Y") echo ' checked="checked"';
 						echo ' name ="isAdmin" value="Y"><br>';
-						}
+					}
+					else {
+						echo '<br>Last Name<br><input type="text" name ="lastName" value="" style="width: 320px"><br>';
+						echo '<br>First Name<br><input type="text" name ="firstName" value="" style="width: 320px"><br>';
+						echo '<br>Email Address<br><input type="text" name ="emailAddress" value="" style="width: 320px"><br>';
+						echo '<br>Active:<br>&nbsp;&nbsp;&nbsp;No<input type="radio" name ="isActive" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio" checked="checked" name ="isActive" value="Y"><br>';
+						echo '<br>Admin:<br>&nbsp;&nbsp;&nbsp;No<input type="radio" name ="isAdmin" value="N">&nbsp;&nbsp;&nbsp;Yes<input type="radio" checked="checked" name ="isAdmin" value="Y"><br>';
+						$scoutId = -1;
+					}
+					echo '<input type="hidden" id="scoutId" name="scoutId" value="' . $scoutId . '">'; 
+					echo '<input type="hidden" id="teamId" name="teamId" value="' . $teamId . '">'; 
 					sqlsrv_free_stmt($getResults);
 					sqlsrv_close($conn);
 

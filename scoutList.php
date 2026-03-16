@@ -104,21 +104,15 @@
      </tr>
 
     <?php
-    $tsql = "select s2.id scoutId
-                  , s2.lastName + ', ' + s2.firstName fullName
-                  , s2.emailAddress
-                  , s2.isActive
-                  , s2.isAdmin
-               from v_GameEvent ge
-                    inner join Scout s
-                    on s.scoutGUID = ge.loginGUID
-                    inner join Team t
-                    on t.id = s.teamId
-                    inner join Scout s2
-                    on s2.teamId = t.id
-              where ge.loginGUID = '$loginGUID'
-                and s2.lastName not in ('TBA', '(Choose Scout)', 'xOnly')
-           order by s2.isActive desc, s2.lastName, s2.firstName, s2.emailAddress";
+    $tsql = "select scoutId
+                  , scoutUrl
+                  , fullName
+                  , emailAddress
+                  , isActive
+                  , isAdmin
+               from v_ScoutList
+              where loginGUID = '$loginGUID'
+           order by isActive desc, lastName, firstName, emailAddress";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -130,7 +124,7 @@
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
-			echo '<td align="left"><a href="scout.php?scoutId=' . $row['scoutId'] . '">' . $row['fullName'] . '</a></td>';
+			echo '<td align="left">' . $row["scoutURL"] . '</td>';
 			echo '<td align="left">' . $row["emailAddress"] . '</td>';
 			echo '<td align="center">' . $row["isActive"] . '</td>';
 			echo '<td align="center">' . $row["isAdmin"] . '</td>';
