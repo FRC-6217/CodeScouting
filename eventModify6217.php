@@ -2254,6 +2254,7 @@
 		$alliancesArray = json_decode($alliancesJSON, true);
 		$cnt = 0;
 		// Update alliance information
+		if (isset($alliancesArray)) {
 		foreach($alliancesArray as $key => $value) {
 			$playoffAlliance = substr($value["name"], 9, 1);
 			// Set Alliance teams
@@ -2294,11 +2295,12 @@
 					}
 				}
 			}
-			if ($results) {
-				sqlsrv_free_stmt($results);
-			}
-			echo "<center>Updated " . $cnt . " Alliance Teams Successfully!</center><br>";
 		}
+		if ($results) {
+			sqlsrv_free_stmt($results);
+		}
+		}
+		echo "<center>Updated " . $cnt . " Alliance Teams Successfully!</center><br>";
 	}
 
 	// Create 40 empty practice matches and activate these matches
