@@ -94,7 +94,10 @@
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>
+    <h2>
     <center><a class="clickme danger" href="scout.php?scoutId=-1">Add Scout</a></center>
+          <p></p>
+     </h2>
 	<center><table cellspacing="0" cellpadding="5">
     <tr>
         <th>Name</th>
@@ -130,7 +133,7 @@
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
-			echo "<td><a href='scout.php?scoutId=" . $row['scoutId'] . ">" . $row['fullName'] . "</a></td>";
+			echo '<td align="left"><a href="scout.php?scoutId=' . $row['scoutId'] . '">' . $row['fullName'] . '</a></td>';
 			echo '<td align="left">' . $row["emailAddress"] . '</td>';
 			echo '<td align="center">' . $row["isActive"] . '</td>';
 			echo '<td align="center">' . $row["isAdmin"] . '</td>';
