@@ -17,8 +17,12 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
+	              , s.isAdmin
+                  , t.teamNumber
+                  , t.teamName
 				 from Scout s
+                      inner join Team t
+                      on t.id = s.teamId
 				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
@@ -32,13 +36,19 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+    $teamNumber = $row['teamNumber'];
+    $teamName = $row['teamName'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-					, isAdmin
-					from Scout s
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+					  , s.isAdmin
+                      , t.teamNumber
+                      , t.teamName
+				   from Scout s
+                        inner join Team t
+                        on t.id = s.teamId
+				  where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -51,6 +61,8 @@
 		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
+        $teamNumber = $row['teamNumber'];
+        $teamName = $row['teamName'];
 	}
 ?>
     <head>
@@ -77,8 +89,8 @@
           <p></p>
      </h2>
 	 
-<center><h1>Scouts</h1></center>
 <?php
+    echo "<center><h1>Team $teamNumber, $teamName Scouts</h1></center>";
 	// Non-Admin should not be on this page
 	if ($isAdmin != "Y") {
 		echo '<center>';				
