@@ -2294,12 +2294,35 @@
 		// Update alliance information
 		foreach($alliancesArray as $key => $value) {
 			$playoffAlliance = substr($value["name"], 9, 1);
-			// Set team 1
+			// Set Alliance teams
 			if (isset($value["picks"][0])) {
-				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][0], 3) . ", $playoffAlliance;";
+				$cnt += 1;
+				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][0], 3);
+				if (isset($value["picks"][1])) {
+					$tsql .= ", " . substr($value["picks"][1], 3);
+					$cnt += 1;
+				}
+				else {
+					$tsql .= ", -1";
+				}
+				if (isset($value["picks"][2])) {
+					$tsql .= ", " . substr($value["picks"][2], 3);
+					$cnt += 1;
+				}
+				else {
+					$tsql .= ", -1";
+				}
+				if (isset($value["picks"][3])) {
+					$tsql .= ", " . substr($value["picks"][3], 3);
+					$cnt += 1;
+				}
+				else {
+					$tsql .= ", -1";
+				}
+				$tsql .= ", $playoffAlliance;";
 				$results = sqlsrv_query($conn, $tsql);
 				if(!$results) {
-					echo "Update of Alliance " . $playoffAlliance . ", Team 1 failed!<br />";
+					echo "Update of Alliance " . $playoffAlliance . " Teams failed!<br />";
 					if (($errors = sqlsrv_errors()) != null) {
 						foreach( $errors as $error ) {
 							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
@@ -2308,60 +2331,11 @@
 						}
 					}
 				}
-				$cnt += 1;
 			}
-			// Set team 2
-			if (isset($value["picks"][1])) {
-				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][1], 3) . ", $playoffAlliance;";
-				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) {
-					echo "Update of Alliance " . $playoffAlliance . ", Team 1 failed!<br />";
-					if (($errors = sqlsrv_errors()) != null) {
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
-						}
-					}
-				}
-				$cnt += 1;
+			if ($results) {
+				sqlsrv_free_stmt($results);
 			}
-			// Set team 3
-			if (isset($value["picks"][2])) {
-				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][2], 3) . ", $playoffAlliance;";
-				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) {
-					echo "Update of Alliance " . $playoffAlliance . ", Team 1 failed!<br />";
-					if (($errors = sqlsrv_errors()) != null) {
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
-						}
-					}
-				}
-				$cnt += 1;
-			}
-			// Set team 4
-			if (isset($value["picks"][3])) {
-				$tsql = "exec sp_upd_TeamPlayoffSelectionByTeamNumber '$loginGUID', " . substr($value["picks"][3], 3) . ", $playoffAlliance;";
-				$results = sqlsrv_query($conn, $tsql);
-				if(!$results) {
-					echo "Update of Alliance " . $playoffAlliance . ", Team 1 failed!<br />";
-					if (($errors = sqlsrv_errors()) != null) {
-						foreach( $errors as $error ) {
-							echo "SQLSTATE: ".$error[ 'SQLSTATE']."<br />";
-							echo "code: ".$error[ 'code']."<br />";
-							echo "message: ".$error[ 'message']."<br />";
-						}
-					}
-				}
-				$cnt += 1;
-			}
-		}
-		if ($results) {
 			echo "<center>Updated " . $cnt . " Alliance Teams Successfully!</center><br>";
-			sqlsrv_free_stmt($results);
 		}
 	}
 
