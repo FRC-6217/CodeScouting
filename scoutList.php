@@ -91,9 +91,6 @@
 ?>
 <center>
 
-    <br>
-	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
-	<br>
     <h2>
     <center><a class="clickme danger" href="scout.php?scoutId=-1">Add Scout</a></center>
           <p></p>
