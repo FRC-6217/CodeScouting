@@ -1,7 +1,8 @@
 ﻿-- Function to return HTML for Team Dropdown options
 CREATE function [dbo].[fn_TeamDropdownOptions] ( @pv_TeamId int
 				                 	   , @pv_LoginGUID uniqueidentifier
-									   , @pv_EventId int)
+ 									   , @pv_EventId int
+									   , @pv_IncludeTeamName char)
 returns varchar(max)
 as
 begin
@@ -12,11 +13,12 @@ select @lv_Return =
        STRING_AGG(CAST(
 	   '<option value=' + convert(varchar, subquery.teamId) + 
        case when subquery.teamId = @pv_TeamId then ' selected' else '' end +
-	   '>' + convert(varchar, subquery.teamNumber) + '</option>'
+	   '>' + convert(varchar, subquery.teamNumber) + ' ' +
+	   case when @pv_IncludeTeamName = 'Y' then subquery.teamName else '' end + '</option>'
 	   as varchar(max))
-	   , '') WITHIN GROUP (ORDER BY case when subquery.teamId = @pv_TeamId then 0 else 1 end, subquery.teamNumber)
+	   , '') WITHIN GROUP (ORDER BY case when subquery.teamId = @pv_TeamId then 0 else 1 end, subquery.teamNumber, subquery.teamName)
   from (
-select distinct et.id teamId, et.teamNumber
+select distinct et.id teamId, et.teamNumber, coalesce(et.teamName, ' ') teamName
   from Scout s
        inner join Team t
 	   on t.id = s.teamId
@@ -31,16 +33,16 @@ select distinct et.id teamId, et.teamNumber
  where s.scoutGUID = @pv_LoginGUID
    and ge.eventId = coalesce(@pv_EventId, ge.eventId)
 union
-select distinct t.id teamId, t.teamNumber
+select distinct t.id teamId, t.teamNumber, coalesce(t.teamName, ' ') teamName
   from team t
  where id = @pv_TeamId
 union
-select distinct t.id teamId, t.teamNumber
+select distinct t.id teamId, t.teamNumber, coalesce(t.teamName, ' ') teamName
   from team t
  where location like '%Minnesota%'
    and @pv_EventId is null
 union
-select 0 teamId, 0 teamNumber) as subquery;
+select 0 teamId, 0 teamNumber, ' ' teamName) as subquery;
 
 return @lv_Return;
 end;

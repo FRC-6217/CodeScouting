@@ -19,6 +19,8 @@
 
 
 
+
+
 GO
 CREATE UNIQUE CLUSTERED INDEX [idx_ScoutObjectiveRecord]
     ON [dbo].[ScoutObjectiveRecord]([scoutRecordId] ASC, [objectiveId] ASC);
@@ -42,3 +44,68 @@ begin
 	 where ScoutObjectiveRecord.id in (select i.id from inserted i);
 	set nocount off
 end;
+
+GO
+CREATE TRIGGER trg_ScoutObjectiveRecord
+ON dbo.ScoutObjectiveRecord
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    --------------------------------------------------------------------
+    -- Handle INSERT operations
+    --------------------------------------------------------------------
+    INSERT INTO zaudScoutObjectiveRecord
+    SELECT i.id
+	     , i.scoutRecordId
+		 , i.objectiveId
+		 , i.integerValue
+		 , i.decimalValue
+		 , i.textValue
+		 , i.scoreValue
+		 , i.lastUpdated
+		 , 'I'
+		 , getdate()
+      FROM inserted i
+           LEFT OUTER JOIN deleted d
+		   ON d.id = i.id
+    WHERE d.id IS NULL;   -- means it's a pure INSERT
+
+    --------------------------------------------------------------------
+    -- Handle DELETE operations
+    --------------------------------------------------------------------
+    INSERT INTO zaudScoutObjectiveRecord
+    SELECT d.id
+	     , d.scoutRecordId
+		 , d.objectiveId
+		 , d.integerValue
+		 , d.decimalValue
+		 , d.textValue
+		 , d.scoreValue
+		 , d.lastUpdated
+		 , 'D'
+		 , getdate()
+      FROM deleted d
+           LEFT OUTER JOIN inserted i
+		   ON i.id = d.id
+    WHERE i.id IS NULL;   -- means it's a pure DELETE
+
+    --------------------------------------------------------------------
+    -- Handle UPDATE operations
+    --------------------------------------------------------------------
+    INSERT INTO zaudScoutObjectiveRecord
+    SELECT i.id
+	     , i.scoutRecordId
+		 , i.objectiveId
+		 , i.integerValue
+		 , i.decimalValue
+		 , i.textValue
+		 , i.scoreValue
+		 , i.lastUpdated
+		 , 'U'
+		 , getdate()
+      FROM inserted i
+           INNER JOIN deleted d
+		   ON d.id = i.id -- UPDATE always has both
+END;

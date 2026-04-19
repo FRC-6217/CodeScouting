@@ -12,7 +12,7 @@
     [redFoulPoints]      INT          NULL,
     [blueAlliancePoints] INT          NULL,
     [blueFoulPoints]     INT          NULL,
-    [matchCode]          VARCHAR (16) NULL,
+    [matchCode]          VARCHAR (24) NULL,
     [redRP1]             INT          NULL,
     [redRP2]             INT          NULL,
     [redRP3]             INT          NULL,
@@ -24,6 +24,8 @@
     PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [fk_Match_GameEvent] FOREIGN KEY ([gameEventId]) REFERENCES [dbo].[GameEvent] ([id]) ON DELETE CASCADE
 );
+
+
 
 
 

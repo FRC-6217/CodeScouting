@@ -1,10 +1,5 @@
-﻿
-
-
-
-
--- Rank Query (as a stored procedure to improve query performance
-CREATE PROCEDURE [dbo].[sp_rpt_rankReport] (@pv_QueryString varchar(64)
+﻿-- Rank Query (as a stored procedure to improve query performance
+CREATE PROCEDURE sp_rpt_rankReport (@pv_QueryString varchar(64)
                                    ,@pv_loginGUID varchar(128))
 AS
 DECLARE @lv_SortOrder int;
@@ -21,6 +16,7 @@ BEGIN
 							  , rankingPointAverage numeric(10, 3)
 							  , teamGameEventId int
 							  , selectedForPlayoff char(1)
+							  , oprRank int
 							  , oPR numeric(10, 3)
 							  , playoffAlliance int);
 	SET NOCOUNT ON
@@ -99,6 +95,11 @@ BEGIN
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
 		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
+		 , (select count(*)
+		      from TeamGameEvent tge2
+			 where tge2.id <> tge.id
+			   and tge2.gameEventId = ge.id
+			   and coalesce(tge2.oPR, 0.0) > coalesce(tge.oPR, 0.0)) + 1 oprRank
 		 , tge.oPR
 		 , coalesce(tge.playoffAlliance, 0) playoffAlliance
 	  from rank r
@@ -125,6 +126,7 @@ BEGIN
 		   , tge.rankingPointAverage
 		   , tge.id
 		   , tge.selectedForPlayoff
+		   , ge.id
 		   , tge.oPR
 		   , tge.playoffAlliance;
 
@@ -141,6 +143,11 @@ BEGIN
 		 , tge.rankingPointAverage
 		 , tge.id teamGameEventId
 		 , coalesce(tge.selectedForPlayoff, 'N') selectedForPlayoff
+		 , (select count(*)
+		      from TeamGameEvent tge2
+			 where tge2.id <> tge.id
+			   and tge2.gameEventId = ge.id
+			   and coalesce(tge2.oPR, 0.0) > coalesce(tge.oPR, 0.0)) + 1 oprRank
 		 , tge.oPR
 		 , coalesce(tge.playoffAlliance, 0) playoffAlliance
       from rank r
@@ -204,6 +211,7 @@ BEGIN
 		 , subquery.rankingPointAverage
 		 , subquery.teamGameEventId
 		 , subquery.selectedForPlayoff
+		 , subquery.oprRank
 		 , subquery.oPR
 		 , subquery.playoffAlliance
 		 , rp.rp1TableHeader
@@ -231,6 +239,7 @@ BEGIN
 		         , atr.rankingPointAverage
 		         , atr.teamGameEventId
 		         , atr.selectedForPlayoff
+		         , atr.oprRank
 		         , atr.oPR
 		         , atr.playoffAlliance
               from #AvgTeamRecord atr) subquery
@@ -327,6 +336,7 @@ BEGIN
 		   , subquery.rankingPointAverage
 		   , subquery.teamGameEventId
 		   , subquery.selectedForPlayoff
+		   , subquery.oprRank
 		   , subquery.oPR
 		   , subquery.playoffAlliance
 		   , rp.rp1TableHeader

@@ -1,4 +1,5 @@
-﻿CREATE view [dbo].[v_EnterCoopertitionLogHTML] as
+﻿
+CREATE view [dbo].[v_EnterCoopertitionLogHTML] as
 select fields.fName
      , fields.fLabel
 	 , fields.fSort
@@ -15,7 +16,7 @@ select fields.fName
 				 '" required>'
 			when fields.fSort = 3
 	        then '<select style="width: 161px;" name="' + fields.fName + '" required>' +
-				 dbo.fn_TeamDropdownOptions(t.id, slg.scoutGUID, null) + '</select>'
+				 dbo.fn_TeamDropdownOptions(t.id, slg.scoutGUID, null, 'Y') + '</select>'
 			when fields.fSort = 4
 			then '<textarea id="' + fields.fName + '" name="' + fields.fName + '" rows="4" cols="40" wrap="soft">' +
 			     case when cl.logNotes is not null
@@ -26,7 +27,8 @@ select fields.fName
 	        then '<select style="width: 160px" name="' + fields.fName + '" required>' +
 			     '<option value="G"' + case when cl.logType = 'G' then ' selected' else '' end + '>Given</option>' + 
 			     '<option value="R"' + case when cl.logType = 'R' then ' selected' else '' end + '>Received</option>' + 
-			     '<option value="C"' + case when cl.logType = 'C' then ' selected' else '' end + '>Collaborated</option>' + '</select>'
+			     '<option value="C"' + case when cl.logType = 'C' then ' selected' else '' end + '>Collaborated</option>' + 
+			     '<option value="S"' + case when cl.logType = 'S' then ' selected' else '' end + '>STEM Outreach</option>' + '</select>'
 			when fields.fSort = 6
 	        then '<select style="width: 161px;" name="' + fields.fName + '">' +
 				 dbo.fn_EventDropdownOptions(e.id, slg.scoutGUID) + '</select>'

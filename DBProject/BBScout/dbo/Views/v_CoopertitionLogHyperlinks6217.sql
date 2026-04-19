@@ -1,12 +1,12 @@
-﻿
-CREATE view [dbo].[v_CoopertitionLogHyperlinks6217] as
+﻿CREATE view [dbo].[v_CoopertitionLogHyperlinks6217] as
 select '<a href="coopertitionLog6217.php?coopertitionLogId=' + convert(varchar, cl.id) + '">' + format(cl.logDate, 'MM/dd/yy') + '</a>' logUrl
      , s.firstName + ' ' + s.lastName scoutName
-	 , t.teamNumber
+	 , convert(varchar, t.teamNumber) + ' ' + t.teamName teamNumber
 	 , cl.logNotes
 	 , case when cl.logType = 'G' then 'Given'
 	        when cl.logType = 'R' then 'Received'
 	        when cl.logType = 'C' then 'Collaborated'
+	        when cl.logType = 'S' then 'STEM Outreach'
 			else cl.logType end logType
      , e.name eventName
 	 , cl.logLocation

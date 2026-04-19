@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
+﻿
+CREATE PROCEDURE [dbo].[sp_ins_scoutRecord] (@pv_ScoutRecordId integer
                                    , @pv_ScoutId integer
                                    , @pv_MatchId integer
                                    , @pv_TeamId integer
@@ -29,6 +30,8 @@
 AS
 declare @lv_Id integer;
 declare @lv_Cnt integer;
+declare @lv_alliance char(1);
+declare @lv_alliancePosition integer;
 
 BEGIN
 	SET NOCOUNT ON
@@ -87,13 +90,15 @@ BEGIN
 		RAISERROR('Team Id is not in this Event.', 16, 1)
 		RETURN
 	END
-	-- Verify Team parameter
+	-- Verify Alliance Position parameter
 	IF @pv_AlliancePosition is null OR
 	   @pv_AlliancePosition not in ('B1', 'B2', 'B3', 'R1', 'R2', 'R3')
 	BEGIN
 		RAISERROR('Alliance Position needs to be selected from the dropdown list.', 16, 1)
 		RETURN
 	END
+	SET @lv_alliance = substring(@pv_AlliancePosition, 1, 1);
+	SET @lv_alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
 
     -- Lookup Scout Header Record by Id
 	SELECT @lv_id = max(id)
@@ -268,8 +273,8 @@ BEGIN
 	SELECT @lv_id = max(id)
 	  FROM TeamMatch
 	 WHERE matchId = @pv_MatchId
-	   AND alliance = substring(@pv_AlliancePosition, 1, 1)
-	   AND alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
+	   AND alliance = @lv_alliance
+	   AND alliancePosition = @lv_alliancePosition;
 
 	-- Lookup Team Match Record by Team Id
 	IF @lv_Id is null
@@ -282,12 +287,12 @@ BEGIN
 		-- Add Team Match Record
 		IF @lv_Id is null
 			insert into TeamMatch (matchId, teamId, alliance, alliancePosition)
-			values (@pv_MatchId, @pv_TeamId, substring(@pv_AlliancePosition, 1, 1), convert(int, substring(@pv_AlliancePosition, 2, 1)));
+			values (@pv_MatchId, @pv_TeamId, @lv_alliance, @lv_alliancePosition);
 		ELSE
 			-- Update Team Match Record
 			update TeamMatch
-			   set alliance = substring(@pv_AlliancePosition, 1, 1)
-			     , alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1))
+			   set alliance = @lv_alliance
+			     , alliancePosition = @lv_alliancePosition
 			 where matchId = @pv_MatchId
 			   and teamId = @pv_TeamId;
 	END
@@ -296,12 +301,15 @@ BEGIN
 		update TeamMatch
 		   set teamId = @pv_TeamId
 		 where matchId = @pv_MatchId
-		   and alliance = substring(@pv_AlliancePosition, 1, 1)
-		   and alliancePosition = convert(int, substring(@pv_AlliancePosition, 2, 1));
+		   and alliance = @lv_alliance
+		   and alliancePosition = @lv_alliancePosition;
 
     -- Resynch TBA data for all scout records
 	if @pv_UpdateTBAScoutData = 1
 	BEGIN
 		exec sp_upd_scoutDataFromTba @pv_loginGUID;
 	END
+
+    -- Automatically Audit data
+    exec sp_upd_scoutDataAutoAudit @pv_MatchId, @lv_alliance, 0.35, @pv_loginGUID
 END

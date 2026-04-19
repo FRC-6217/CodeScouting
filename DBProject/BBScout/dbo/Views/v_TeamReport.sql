@@ -1,6 +1,5 @@
-﻿
--- View for Team history and average
-CREATE view [dbo].[v_TeamReport] as
+﻿-- View for Team history and average
+CREATE view v_TeamReport as
 select t.TeamNumber
      , 'N/A' matchNumber
      , max(m.datetime + 3) matchTime
@@ -79,6 +78,7 @@ select t.TeamNumber
 	 , null robotPosition
 	 , null matchScore
 	 , sr.loginGUID
+	 , null tbaScoutedCnt
  from Team t
       inner join v_Report_AvgScoutRecord sr
       on sr.TeamId = t.id
@@ -205,7 +205,14 @@ select t.TeamNumber
 																						   else '' end
 			else '' end matchScore
 	 , sr.loginGUID
- from Team t
+ 	 , (select count(*)
+		  from ScoutRecord sr
+			   inner join Scout s
+			   on s.id = sr.scoutId
+		 where sr.matchId = m.id
+		   and sr.teamId = t.id
+		   and s.lastName = 'TBA') tbaScoutedCnt
+from Team t
       inner join v_Report_ScoutRecord sr
       on sr.TeamId = t.id
       inner join Match m

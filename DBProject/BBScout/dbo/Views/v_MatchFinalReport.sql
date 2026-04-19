@@ -1,6 +1,5 @@
-﻿
--- View for Match Final Report
-CREATE view [dbo].[v_MatchFinalReport] as
+﻿-- View for Match Final Report
+CREATE view v_MatchFinalReport as
 -- Team Scores
 select case when tm.alliance = 'R' then 'Red'
 	        when tm.alliance = 'B' then 'Blue'
@@ -62,6 +61,15 @@ select case when tm.alliance = 'R' then 'Red'
 	 , m.matchCode
 	 , asr.loginGUID
 	 , (select max(sr.id) from scoutRecord sr where sr.matchId = tm.matchId and sr.teamId = tm.teamId) scoutRecordId
+	 , m.type matchType
+	 , m.number matchNumber
+	 , (select count(*)
+		  from ScoutRecord sr
+			   inner join Scout s
+			   on s.id = sr.scoutId
+		 where sr.matchId = m.id
+		   and sr.teamId = t.id
+		   and s.lastName = 'TBA') tbaScoutedCnt
  from Team t
       inner join v_Report_AvgScoutRecord asr
       on asr.TeamId = t.id
@@ -195,6 +203,9 @@ select case when tm.alliance = 'R' then 'Red'
 	 , m.matchCode
 	 , ge.loginGUID
 	 , null scoutRecordId
+	 , m.type matchType
+	 , m.number matchNumber
+	 , -1 tbaScoutedCnt
   from Match m
 	   inner join TeamMatch tm
 	   on tm.matchId = m.id
@@ -220,6 +231,8 @@ group by tm.alliance
 	   , m.gameEventId
 	   , m.matchCode
        , ge.loginGUID
+       , m.type
+       , m.number
 union
 -- Total Alliance Scores from Scout Data
 select case when subquery2.alliance = 'R' then 'Red'
@@ -259,6 +272,9 @@ select case when subquery2.alliance = 'R' then 'Red'
 	 , subquery2.matchCode
      , subquery2.loginGUID
 	 , null scoutRecordId
+	 , subquery2.matchType
+	 , subquery2.matchNumber
+	 , null tbaScoutedCnt
   from (
 select subquery.alliance
 	 , subquery.allianceSort
@@ -292,6 +308,8 @@ select subquery.alliance
      , subquery.loginGUID
 	 , null scoutRecordId
 	 , subquery.gameYear
+	 , subquery.matchType
+	 , subquery.matchNumber
   from (
 select tm.alliance
 	 , tm.alliancePosition
@@ -351,6 +369,8 @@ select tm.alliance
 	 , m.matchCode
 	 , asr.loginGUID
 	 , g.gameYear
+	 , m.type matchType
+	 , m.number matchNumber
  from Team t
       inner join v_Report_AvgScoutRecord asr
       on asr.TeamId = t.id
@@ -372,7 +392,9 @@ group by subquery.alliance
 	   , subquery.gameEventId
 	   , subquery.matchCode
 	   , subquery.loginGUID
-	   , subquery.gameYear) subquery2
+	   , subquery.gameYear
+       , subquery.matchType
+       , subquery.matchNumber) subquery2
 union
 -- Divider needed in table between alliances
 select '----' alliance
@@ -409,6 +431,9 @@ select '----' alliance
 	 , m.matchCode
 	 , ge.loginGUID
 	 , null scoutRecordId
+	 , m.type matchType
+	 , m.number matchNumber
+	 , null tbaScoutedCnt
   from Match m
 	   inner join v_GameEvent ge
 	   on ge.id = m.gameEventId
@@ -475,6 +500,9 @@ select case when mas.alliance = 'R' then 'Red'
 	 , m.matchCode
 	 , mas.loginGUID
 	 , null scoutRecordId
+	 , m.type matchType
+	 , m.number matchNumber
+	 , null tbaScoutedCnt
   from v_MatchActualScore mas
        inner join Match m
 	   on m.id = mas.matchId;
