@@ -108,11 +108,6 @@
     <Build Include="dbo\Views\v_GameEvent.sql" />
     <Build Include="dbo\Views\v_TeamReportLineGraph.sql" />
     <Build Include="dbo\Views\v_MatchFinalReport.sql" />
-    <Build Include="dbo\Views\v_ScoutTeamHyperlinks6217.sql" />
-    <Build Include="dbo\Views\v_RankButtons6217.sql" />
-    <Build Include="dbo\Views\v_MatchReportAttributes6217.sql" />
-    <Build Include="dbo\Views\v_MatchHyperlinks6217.sql" />
-    <Build Include="dbo\Views\v_MatchReport6217.sql" />
     <Build Include="dbo\Functions\calcScoreValue.sql" />
     <Build Include="dbo\Stored Procedures\sp_rpt_rankReport.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_scoutRecord.sql" />
@@ -136,19 +131,23 @@
     <Build Include="dbo\Functions\fn_Get2025AlgaeNetScoreFromHP.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_NM_scoutRecord.sql" />
     <Build Include="dbo\Tables\GameEventWebcast.sql" />
-    <Build Include="dbo\Stored Procedures\sp_rpt_matchReport6217.sql" />
     <Build Include="dbo\Tables\TeamScoutSurvey.sql" />
-    <Build Include="dbo\Views\v_ScoutSurveyTeamHyperlinks6217.sql" />
     <Build Include="dbo\Views\v_ScoutSurveyTeamHyperlinks.sql" />
     <Build Include="dbo\Views\v_EnterScoutSurveyTeamHTML.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_scoutSurvey.sql" />
     <Build Include="dbo\Tables\CoopertitionLog.sql" />
     <Build Include="dbo\Views\v_EnterCoopertitionLogHTML.sql" />
-    <Build Include="dbo\Views\v_CoopertitionLogHyperlinks6217.sql" />
     <Build Include="dbo\Views\v_CoopertitionLogHyperlinks.sql" />
     <Build Include="dbo\Functions\fn_TeamDropdownOptions.sql" />
     <Build Include="dbo\Functions\fn_ScoutDropdownOptions.sql" />
     <Build Include="dbo\Functions\fn_EventDropdownOptions.sql" />
     <Build Include="dbo\Stored Procedures\sp_ins_coopertitionLog.sql" />
+    <Build Include="dbo\Tables\zaudScoutObjectiveRecord_1.sql" />
+    <Build Include="dbo\Views\v_ScoutList_1.sql" />
+    <Build Include="dbo\Views\v_JsonSetupFile_1.sql" />
+    <Build Include="dbo\Functions\fn_JsonSetupFile_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_TeamPlayoffSelectionByTeamNumber_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_upd_scoutDataAutoAudit_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ins_scout_1.sql" />
   </ItemGroup>
 </Project>
