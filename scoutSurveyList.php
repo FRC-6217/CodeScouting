@@ -17,9 +17,9 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
-				 from Scout s
-				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+	              , s.isAdmin
+			   from Scout s
+			  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -36,9 +36,9 @@
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-					, isAdmin
-					from Scout s
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+					  , s.isAdmin
+				   from Scout s
+				  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -78,19 +78,7 @@
      </h2>
 	 
 <center><h1>Scouting Surveys</h1></center>
-<?php
-	// Non-Admin should not be on this page
-	if ($isAdmin != "Y") {
-		echo '<center>';				
-		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
-		echo '</center>';
-		sqlsrv_close($conn);
-		echo '</html>'; 
-		exit(0);
-	}
-?>
 <center>
-
     <br>
 	<center><div class="g-signin2" data-onsuccess="onSignIn"></div></center>
 	<br>

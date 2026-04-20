@@ -47,16 +47,12 @@
 	// Get Login info
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-					, s.isAdmin
-					, g.gameYear
-					from Scout s
-						inner join Team t
-						on t.id = s.teamId
-						inner join GameEvent ge
-						on ge.id = t.gameEventId
-						inner join Game g
-						on g.id = ge.gameId
-				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+				  , s.isAdmin
+				  , t.teamNumber
+			   from Scout s
+					inner join Team t
+					on t.id = s.teamId
+			  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
 	$getResults = sqlsrv_query($conn, $tsql);
 	if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -68,22 +64,18 @@
 		}
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
-	$gameYear = $row['gameYear'];
 	$isAdmin = $row['isAdmin'];
+	$teamNumber = $row['teamNumber'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-						, s.isAdmin
-						, g.gameYear
-					from Scout s
+					  , s.isAdmin
+					  , t.teamNumber
+				   from Scout s
 						inner join Team t
 						on t.id = s.teamId
-						inner join GameEvent ge
-						on ge.id = t.gameEventId
-						inner join Game g
-						on g.id = ge.gameId
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+				  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -94,8 +86,8 @@
 				}
 			}
 		$loginGUID = $row['scoutGUID'];
-		$gameYear = $row['gameYear'];
 		$isAdmin = $row['isAdmin'];
+		$teamNumber = $row['teamNumber'];
 	}
 
     // Get Query String Parameters
@@ -129,7 +121,7 @@
 					sqlsrv_close($conn);
 
 					// Only show form submit button when Admin
-					if ($isAdmin == "Y") {
+					if ($isAdmin == "Y" && $teamNumber == "6217") {
 						echo '<p></p>';
 						echo '<center>';
 							echo '<input type="submit" value="Submit" name="submitToDatabase">';

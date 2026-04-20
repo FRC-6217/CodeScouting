@@ -17,9 +17,12 @@
     $conn = sqlsrv_connect($serverName, $connectionOptions);
 	$loginEmailAddress = $_SERVER['HTTP_X_MS_CLIENT_PRINCIPAL_NAME'] ?? getenv("DefaultLoginEmailAddress");
 	$tsql = "select s.scoutGUID
-	              , isAdmin
-				 from Scout s
-				where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+	              , s.isAdmin
+				  , t.teamNumber
+			   from Scout s
+				    inner join Team t
+					on t.id = s.teamId
+			  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
     $getResults = sqlsrv_query($conn, $tsql);
     if ($getResults == FALSE)
 		if( ($errors = sqlsrv_errors() ) != null) {
@@ -32,13 +35,17 @@
 	$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 	$loginGUID = $row['scoutGUID'];
 	$isAdmin = $row['isAdmin'];
+	$teamNumber = $row['teamNumber'];
 	// Handle if logged in user is not active/configured in Scout table
 	if (empty($loginGUID)) {
 		$loginEmailAddress = getenv("DefaultLoginEmailAddress");
 		$tsql = "select s.scoutGUID
-					, isAdmin
-					from Scout s
-					where isActive = 'Y' and emailAddress = '$loginEmailAddress'";
+					  , s.isAdmin
+				      , t.teamNumber
+				   from Scout s
+				    	inner join Team t
+						on t.id = s.teamId
+				  where s.isActive = 'Y' and s.emailAddress = '$loginEmailAddress'";
 		$getResults = sqlsrv_query($conn, $tsql);
 		if ($getResults == FALSE)
 			if( ($errors = sqlsrv_errors() ) != null) {
@@ -51,6 +58,7 @@
 		$row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
 		$loginGUID = $row['scoutGUID'];
 		$isAdmin = $row['isAdmin'];
+		$teamNumber = $row['teamNumber'];
 	}
 ?>
     <head>
@@ -77,22 +85,15 @@
         <p></p>
         <center>
 			<a class="clickme danger" href="index.php">Home</a>
-          	<a class="clickme danger" href="coopertitionLog.php?coopertitionLogId=0">New Log Entry</a>
+			<?php
+			   // Only show add button for Team 6217
+			   if ($isAdmin == "Y" && $teamNumber == "6217") {
+				    echo '<a class="clickme danger" href="coopertitionLog.php?coopertitionLogId=0">New Log Entry</a>';
+			   }
+			?>
 		</center>
         <p></p>
      </h2>
-	 
-<?php
-	// Non-Admin should not be on this page
-	if ($isAdmin != "Y") {
-		echo '<center>';				
-		echo 'Email: ' . $loginEmailAddress . ' is not authorized on this page.';
-		echo '</center>';
-		sqlsrv_close($conn);
-		echo '</html>'; 
-		exit(0);
-	}
-?>
 <center>
 
     <br>
