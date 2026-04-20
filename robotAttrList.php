@@ -150,12 +150,7 @@
 		}
     while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
        echo "<tr>";
-	   		if ($isAdmin == "Y") {
-				echo "<td>" . $row['teamUrl'] . "</td>";
-			}
-			else {
-				echo "<td>" . $row['teamNumber'] . "</td>";
-			}
+			echo "<td>" . $row['teamUrl'] . "</td>";
 			echo '<td align="left">' . $row["teamName"] . '</td>';
 			if (isset($row['attrValue1'])) echo "<td>" . $row['attrValue1'] . "</td>";
 			if (isset($row['attrValue2'])) echo "<td>" . $row['attrValue2'] . "</td>";
