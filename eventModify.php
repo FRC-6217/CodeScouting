@@ -324,6 +324,12 @@
 				$blueAlliancePoints = 0;
 			$tsql = "merge Match as target " . 
 		            "using (select " . $gameEventId . ", '" . $matchNumber . "', '" . $datetime . "', '" . strtoupper($value["comp_level"]) . "', ";
+			if (strtoupper($value["comp_level"]) == 'QM') {
+				$tsql .= "'N', ";
+			}
+			else {
+				$tsql .= "'Y', ";
+			}
 			if ($value["alliances"]["red"]["score"] == '-1') {
 				$matchComplete = 0;
 				$tsql .= "null, null, null, null, null, null, '" . $value["key"] . "', null, null, null, null, null, null, null, null) ";
@@ -470,7 +476,7 @@
 					$tsql .= "null) ";
 				}
 			}
-			$tsql .= "as source (gameEventId, number, dateTime, type, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
+			$tsql .= "as source (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
 					            "redRP1, redRP2, redRP3, blueRP1, blueRP2, blueRP3, redCoop, blueCoop) " .
 					"on (target.gameEventId = source.gameEventId and target.number = source.number and target.type = source.type) " .
 					"WHEN matched AND (target.dateTime <> source.dateTime OR " .
@@ -491,7 +497,7 @@
 					"WHEN not matched THEN " .
 					"INSERT (gameEventId, number, dateTime, type, isActive, redScore, blueScore, redAlliancePoints, redFoulPoints, blueAlliancePoints, blueFoulPoints, matchCode, " .
 							"redRP1, redRP2, redRP3, blueRP1, blueRP2, blueRP3, redCoop, blueCoop) " .
-					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, 'N', source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode, source.redRP1, source.redRP2, source.redRP3, source.blueRP1, source.blueRP2, source.blueRP3, source.redCoop, source.blueCoop);";
+					"VALUES (source.gameEventId, source.number, source.dateTime, source.type, source.isActive, source.redScore, source.blueScore, source.redAlliancePoints, source.redFoulPoints, source.blueAlliancePoints, source.blueFoulPoints, source.matchCode, source.redRP1, source.redRP2, source.redRP3, source.blueRP1, source.blueRP2, source.blueRP3, source.redCoop, source.blueCoop);";
 			$results = sqlsrv_query($conn, $tsql);
 			if(!$results) 
 			{
