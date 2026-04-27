@@ -327,47 +327,43 @@ update Scout set isAdmin = 'Y' where isactive = 'Y' and isadmin = 'N' and emaila
 -- Sponsors 2026
 -- delete from teamSponsor where gameid in (select g.id from game g where g.name = 'Rebuilt')
 insert into TeamSponsor select t.id, g.id, 'Gemini Signworks', 1, 10, 'Sponsors/Gemini.jpg', 'https://geminimade.com/', 50, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 13, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'American Legion Post 142', 0, 15, 'Sponsors/AmericanLegion.png', 'https://www.facebook.com/CannonFallsAmericanLegionPost142/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 20, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Gene Haas Foundation', 0, 25, 'Sponsors/GeneHaasFoundation.png', 'https://www.ghaasfoundation.org//', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 26, 'Sponsors/CF Fire Department.jpg', 'https://www.cannonfallsmn.gov/fire', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Donaldson Foundation', 0, 27, 'Sponsors/Donaldson.jpg', 'https://www.donaldson.com/en-us/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Argosy Foundation', 0, 28, 'Sponsors/ArgosyFoundation_Logo_CMYK.jpg', 'https://www.argosyfnd.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'BTD Manufacturing', 0, 29, 'Sponsors/btd-mfg-logo.png', 'https://btdmfg.com/', 80, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 30, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'BARR', 0, 35, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 40, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'River Town Games', 0, 42, 'Sponsors/RiverTownGames.jpg', 'https://www.rivertowngames.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Jim Althoff Real Estate', 0, 45, 'Sponsors/JimAlthoffRealEstate.jpeg', 'https://www.facebook.com/JimAlthoffRealtor/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 50, 'Sponsors/QualityOne.png', 'https://www.qualityonewoodwork.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 60, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 70, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 80, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Auto Value', 0, 85, 'Sponsors/autovalueps.jpg', 'https://autovaluestores.com/ellsworth/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 90, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Swan and Bower', 0, 100, 'Sponsors/SwanAndBower.png', 'https://www.swanandbower.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Brewster''s Bar & Grill', 0, 150, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Chuck & Carrie Olson', 0, 180, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
-insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 190, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
---insert into TeamSponsor select t.id, g.id, 'Jack Schlicting', 0, 200, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'VFW Post 4452', 0, 20, 'Sponsors/VFW.jpg', 'https://cannonfallsvfw.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'American Legion Post 142', 0, 30, 'Sponsors/AmericanLegion.png', 'https://www.facebook.com/CannonFallsAmericanLegionPost142/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Aliveo Military Museum', 0, 40, 'Sponsors/AliveoMilitaryMuseum.jpg', 'http://www.aliveomuseum.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Gene Haas Foundation', 0, 50, 'Sponsors/GeneHaasFoundation.png', 'https://www.ghaasfoundation.org//', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Syngenta', 0, 55, 'Sponsors/Syngenta.jpg', 'https://www.syngenta-us.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Donaldson Foundation', 0, 60, 'Sponsors/Donaldson.jpg', 'https://www.donaldson.com/en-us/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'Argosy Foundation', 0, 65, 'Sponsors/ArgosyFoundation_Logo_CMYK.jpg', 'https://www.argosyfnd.org/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'BTD Manufacturing', 0, 70, 'Sponsors/btd-mfg-logo.png', 'https://btdmfg.com/', 80, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Cannon Falls Fire Department', 0, 80, 'Sponsors/CF Fire Department.jpg', 'https://www.cannonfallsmn.gov/fire', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Hernke Heating', 0, 90, 'Sponsors/hernkes heating and cooling.png', null, 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'BARR', 0, 95, 'Sponsors/BARRblue.png', 'https://barr.com/', 50, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Flex Craft', 0, 100, 'Sponsors/flex craft logo.png', 'https://flex-craft.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'River Town Games', 0, 110, 'Sponsors/RiverTownGames.jpg', 'https://www.rivertowngames.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Jim Althoff Real Estate', 0, 120, 'Sponsors/JimAlthoffRealEstate.jpeg', 'https://www.facebook.com/JimAlthoffRealtor/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Quality One Woodworking', 0, 130, 'Sponsors/QualityOne.png', 'https://www.qualityonewoodwork.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'StarTech Computing', 0, 140, 'Sponsors/StarTech-logo.png', 'https://www.startech-comp.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Milwaukee Tool', 0, 150, 'Sponsors/Milwaukee.jpg', 'https://www.milwaukeetool.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'Red Wing Area Manufacturers Association', 0, 153, 'Sponsors/RW Area Mfg Assoc.jpg', 'https://www.facebook.com/RWAreaMfrsAssoc/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'Auto Value', 0, 157, 'Sponsors/autovalueps.jpg', 'https://autovaluestores.com/ellsworth/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Caseys', 0, 160, 'Sponsors/Casey_s.png', 'https://www.caseys.com/', 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'Swan and Bower', 0, 163, 'Sponsors/SwanAndBower.png', 'https://www.swanandbower.com/', 30, getdate(), null, null, 'Y' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+--insert into TeamSponsor select t.id, g.id, 'Brewster''s Bar & Grill', 0, 167, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
+insert into TeamSponsor select t.id, g.id, 'Twist Solutions', 0, 170, null, null, 30, getdate(), null, null, 'N' from team t, game g where t.teamNumber = 6217 and g.name = 'Rebuilt';
 
-
-update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 13 -- VFW
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 15 -- American Legion
-update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 20 -- Aliveo
-update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 25 -- Haas
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 26 -- CFFD
-update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 29 -- BTD
-update teamSponsor set maxWidthPercent = 15, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- Hernke
-update teamSponsor set maxWidthPercent = 30 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 35 -- BARR
-update teamSponsor set maxWidthPercent = 20, sameLineAsPrevious = 'Y' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- FlexCraft
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 42 -- River Town Games
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 45 -- Jim ALthoff
-update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 60 -- StarTech
-update teamSponsor set maxWidthPercent = 12 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 85 -- Auto Value
-update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 70 -- Milwaukee
-update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 90 -- Caseys
+update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 20 -- VFW
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 30 -- American Legion
+update teamSponsor set maxWidthPercent = 40 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 40 -- Aliveo
+update teamSponsor set maxWidthPercent = 15 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 50 -- Haas
+update teamSponsor set maxWidthPercent = 90, width = null, height = null, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 70 -- BTD
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 80 -- CFFD
+update teamSponsor set maxWidthPercent = 15, sameLineAsPrevious = 'N' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 90 -- Hernke
+update teamSponsor set maxWidthPercent = 20, sameLineAsPrevious = 'Y' where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 100 -- FlexCraft
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 100 -- River Town Games
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 110 -- Jim ALthoff
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 140 -- StarTech
+update teamSponsor set maxWidthPercent = 20 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 150 -- Milwaukee
+update teamSponsor set maxWidthPercent = 10 where gameid = (select id from game where name = 'Rebuilt') and sortOrder = 160 -- Caseys
 
 /*
 -- Sponsors 2024
